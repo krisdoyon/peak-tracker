@@ -1,0 +1,126 @@
+/* 
+#344E41 
+#3A5A40*
+#588157
+#A3B18A
+#DAD7CD
+
+*/
+
+:root {
+  --color-green-1: #344e41;
+  --color-green-2: #3a5a40;
+  --color-green-3: #588157;
+  --color-green-4: #a3b18a;
+  --color-green-5: #dad7cd;
+  --color-green-6: #5d7167;
+  --color-dark-1: #777;
+  --color-dark-2: #555;
+  --color-dark-3: #333;
+  --color-light-1: #f7f7f7;
+  --color-light-2: #ececec;
+  --color-light-3: #aaa;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: var(--color-green-5);
+  color: var(--color-light-2);
+  height: 100vh;
+  display: flex;
+  padding: 2.5rem;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+}
+
+.app-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+}
+
+.hidden {
+  display: none;
+}
+
+/* SIDEBAR */
+.sidebar {
+  background-color: var(--color-green-1);
+  display: flex;
+  flex-direction: column;
+  flex-basis: 50rem;
+  position: relative;
+  padding: 3rem 5rem;
+  gap: 3.6rem;
+  transition: margin-left 0.5s;
+  overflow: hidden;
+}
+
+.sidebar__btn {
+  position: absolute;
+  right: 2%;
+  height: 20%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  border-radius: 0.4rem;
+  background-color: var(--color-light-3);
+  transition: all 0.5s;
+}
+
+.sidebar__btn:hover {
+  background-color: #fff;
+}
+
+.logo-placeholder {
+  align-self: center;
+  font-size: 3.6rem;
+}
+
+.peak-log {
+  list-style: none;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  transition: all 0.5s;
+}
+
+.peak-log::-webkit-scrollbar {
+  width: 0;
+}
+
+.peak-entry {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+
+  background-color: var(--color-green-6);
+  border-radius: 0.4rem;
+  margin-bottom: 1.5rem;
+
+  padding: 1.2rem 2.4rem;
+  transition: all 0.5s;
+}
+
+.peak-entry__title {
+  grid-column: 1/-1;
+}
+
+/* MAP */
+.map {
+  height: 100%;
+  flex: 1;
+  /* width:100%; */
+  background-color: var(--color-dark-1);
+}

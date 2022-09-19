@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A web app to track mountain summits" />
+    <meta name="author" content="Kris Doyon" />
+    <title>Peak Tracker</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/queries.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+      integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+      crossorigin=""
+    />
+    <script
+      defer
+      src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+      integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+      crossorigin=""
+    ></script>
+    <script defer src="js/script.js"></script>
+  </head>
+
+  <body>
+    <div class="sidebar flex-column">
+      <ul class="main-nav__list flex-column">
+        <li>
+          <button
+            class="btn main-nav__btn m"
+            data-container="container-basecamp"
+          >
+            Basecamp<span class="material-icons main-nav__icon"> home </span>
+          </button>
+        </li>
+        <li>
+          <button
+            class="btn main-nav__btn main-nav__btn--active"
+            data-container="map"
+          >
+            Map<span class="material-icons main-nav__icon"> map </span>
+          </button>
+        </li>
+
+        <li>
+          <button
+            class="btn main-nav__btn"
+            data-container="container-peak-lists"
+          >
+            Peak Lists<span class="material-icons main-nav__icon">
+              checklist
+            </span>
+          </button>
+        </li>
+
+        <li>
+          <button class="btn main-nav__btn" data-container="container-stats">
+            Stats<span class="material-icons main-nav__icon">
+              query_stats
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="btn main-nav__btn" data-container="container-history">
+            History<span class="material-icons main-nav__icon"> history </span>
+          </button>
+        </li>
+
+        <li>
+          <button
+            class="btn main-nav__btn"
+            data-container="container-new-entry"
+          >
+            New Entry<span class="material-icons main-nav__icon"
+              >add_circle</span
+            >
+          </button>
+        </li>
+      </ul>
+      <button class="btn sidebar__btn">
+        <span class="material-icons main-nav__icon sidebar__btn--icon">
+          chevron_left
+        </span>
+      </button>
+      <div class="container-main">
+        <button class="btn btn-close-modal">&times;</button>
+        <div class="container container-basecamp hidden">
+          <div class="wrapper-main-heading">
+            <h2 class="container__heading">Basecamp</h2>
+          </div>
+        </div>
+        <div class="container container-peak-lists">
+          <div class="wrapper-main-heading">
+            <h2 class="container__heading">Peak Lists</h2>
+          </div>
+          <ul class="peak-lists">
+            <li class="peak-list">
+              <button class="btn btn--icon btn-add-peak">
+                <span class="material-icons"> post_add </span>
+              </button>
+
+              <div class="peak-list__info">
+                <h2 class="peak-list__label-title">
+                  New Hampshire 4,000 Footers
+                </h2>
+                <span class="peak-list__label-number">48 Mountains</span>
+              </div>
+            </li>
+            <li class="peak-list"></li>
+          </ul>
+        </div>
+        <div class="container container-stats hidden">
+          <div class="wrapper-main-heading">
+            <h2 class="container__heading">Statistics</h2>
+          </div>
+        </div>
+        <div class="container container-history hidden">
+          <div class="wrapper-main-heading">
+            <h2 class="container__heading">Trip History</h2>
+          </div>
+        </div>
+
+        <div class="container container-new-entry hidden">
+          <div class="wrapper-main-heading flex">
+            <h2 class="container__heading">New Log Entry</h2>
+          </div>
+
+          <form class="form-new-entry flex-column">
+            <div class="form__row">
+              <div class="wrapper-sub-heading flex">
+                <span class="material-icons"> calendar_month </span>
+
+                <label for="date" class="form__label--primary"
+                  >When did you go?</label
+                >
+              </div>
+              <div class="grid grid--3-cols grid-date">
+                <input id="date" type="date" required />
+                <button class="btn btn--dark btn-date btn-today">Today</button>
+                <button class="btn btn--dark btn-date btn-yesterday">
+                  Yesterday
+                </button>
+              </div>
+            </div>
+            <div class="form__row">
+              <div class="wrapper-sub-heading flex">
+                <span class="material-icons"> landscape </span>
+
+                <label for="title" class="form__label--primary"
+                  >Add peaks</label
+                >
+              </div>
+
+              <div class="grid grid-peaks">
+                <label class="form__label--secondary">Search by name:</label>
+                <input
+                  id="search-name"
+                  type="text"
+                  placeholder="Mt. Washington"
+                  required
+                />
+                <span>OR</span>
+                <label class="form__label--secondary"
+                  >Choose a peak list:</label
+                >
+
+                <select id="choose-list">
+                  <option value="" disabled selected>Choose a list</option>
+                  <option value="neHigh">All State Highpoints</option>
+                  <option value="co14">Colorado 14ers</option>
+                  <option value="me4k">Maine 4,000 footers</option>
+                  <option value="ne4k">New England 4,000 footers</option>
+                  <option value="ne100">New England 100 Highest</option>
+                  <option value="neHigh">New England State Highpoints</option>
+                  <option value="nh4k">New Hampshire 4,000 footers</option>
+                  <option value="ne100">New Hampshire 100 Highest</option>
+                  <option value="nh52">New Hampshire 52 With a View</option>
+                  <option value="vt4k">Vermont 4,000 footers</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form__row">
+              <div class="wrapper-sub-heading flex">
+                <span class="material-icons main-nav__icon"> query_stats </span>
+                <label class="form__label--primary">Add stats</label>
+              </div>
+              <div class="grid-stats">
+                <label class="form__label--secondary">Elevation:</label>
+                <button class="btn btn-add-stat" data-stat="elevation">
+                  <span class="material-icons stat-row__icon">
+                    add_circle
+                  </span>
+                </button>
+                <div class="stat-row invisible" data-stat="elevation">
+                  <input
+                    id="elevation"
+                    min="0"
+                    max="99999"
+                    type="number"
+                    required
+                  />
+                  <label class="form__label--units">ft</label>
+                </div>
+                <label class="form__label--secondary">Distance:</label>
+                <button class="btn btn-add-stat" data-stat="distance">
+                  <span class="material-icons stat-row__icon">
+                    add_circle
+                  </span>
+                </button>
+                <div class="stat-row invisible" data-stat="distance">
+                  <input id="distance" type="text" d required />
+                  <label class="form__label--units">mi</label>
+                </div>
+                <label class="form__label--secondary">Time:</label>
+                <button class="btn btn-add-stat" data-stat="time">
+                  <span class="material-icons stat-row__icon">
+                    add_circle
+                  </span>
+                </button>
+                <div class="stat-row invisible" data-stat="time">
+                  <input id="hours" min="0" max="99" type="number" required />
+                  <label class="form__label--units">hrs</label>
+                  <input id="minutes" min="0" max="59" type="number" required />
+                  <label class="form__label--units">min</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form__row">
+              <div class="wrapper-sub-heading flex">
+                <span class="material-icons"> create</span>
+                <label class="form__label--primary">Notes</label>
+              </div>
+
+              <textarea
+                id="notes"
+                placeholder="Record details about the weather, wildlife, trail conditions or anything else!"
+              ></textarea>
+            </div>
+
+            <div class="form__row form__row--rating">
+              <div class="wrapper-sub-heading flex">
+                <span class="material-icons"> star</span>
+                <label class="form__label--primary">Rating</label>
+              </div>
+              <div class="wrapper-stars">
+                <button class="btn btn-star" data-num="1">
+                  <span
+                    class="material-icons star-icon"
+                    data-num="1"
+                    data-clicked="false"
+                  >
+                    star_border</span
+                  >
+                </button>
+                <button class="btn btn-star" data-num="2">
+                  <span
+                    class="material-icons star-icon"
+                    data-num="2"
+                    data-clicked="false"
+                  >
+                    star_border</span
+                  >
+                </button>
+                <button class="btn btn-star" data-num="3">
+                  <span
+                    class="material-icons star-icon"
+                    data-num="3"
+                    data-clicked="false"
+                  >
+                    star_border</span
+                  >
+                </button>
+                <button class="btn btn-star" data-num="4">
+                  <span
+                    class="material-icons star-icon"
+                    data-num="4"
+                    data-clicked="false"
+                  >
+                    star_border</span
+                  >
+                </button>
+                <button class="btn btn-star" data-num="5">
+                  <span
+                    class="material-icons star-icon"
+                    data-num="5"
+                    data-clicked="false"
+                  >
+                    star_border</span
+                  >
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div class="footer-new-entry">
+            <button class="btn btn-clear-form">CLEAR FORM</button>
+            <button class="btn btn--dark btn-add-entry">
+              <span>Add</span>
+              <span class="material-icons"> add </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="map"></div>
+  </body>
+</html>
