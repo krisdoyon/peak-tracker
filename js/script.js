@@ -3,9 +3,9 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // GLOBAL VARIABLES
 let openContainer;
-let currentUser;
 let newEntry;
 let sidebarHidden = false;
+let map;
 
 // DATE
 const options = {
@@ -36,6 +36,7 @@ const containers = document.querySelectorAll(".container");
 const btnCloseModal = document.querySelector(".btn-close-modal");
 
 // PEAK LISTS CONTAINER
+const peakListsEl = document.querySelector(".peak-lists");
 
 // NEW ENTRY CONTAINER
 const formNewEntry = document.querySelector(".form-new-entry");
@@ -59,14 +60,37 @@ const btnAddEntry = document.querySelector(".btn-add-entry");
 // CLASSES
 
 class PeakList {
-  constructor(title, data) {
+  markers = [];
+  constructor(title, id, data, center, zoom) {
     this.title = title;
+    this.id = id;
     // An array of Mountan objects
     this.data = data;
+    this.peakCount = data.length;
+    this.center = center;
+    this.zoom = zoom;
+    this.createMarkerLayer();
+  }
+
+  createMarkerLayer() {
+    this.data.forEach((peakObj) => {
+      this.markers.push(new L.Marker([peakObj.lat, peakObj.long]));
+      this.markersLayer = L.layerGroup(this.markers);
+    });
+  }
+
+  plotPeaksOnMap() {
+    this.createMarkerLayer();
+    this.markersLayer.addTo(map);
+    map.setView(this.center, this.zoom);
+  }
+
+  clearPeaksOnMap() {
+    this.markersLayer.clearLayers();
   }
 }
 
-class Entry {
+class LogEntry {
   peaks = [];
   constructor(description, date, elevation, hours, min, notes, peaks) {
     this.description = description;
@@ -79,6 +103,56 @@ class Entry {
     peaks.forEach((peak) => this.peaks.push(peak));
   }
 }
+
+class User {
+  savedLists = [];
+  logEntires = [];
+  completedPeaks = [];
+  coords;
+  constructor(firstName, username) {
+    this.firstName = firstName;
+    this.username = username;
+    this.locale = navigator.locale;
+  }
+  getCoords() {
+    // if (!navigator.geolocation) return [44.0444, 71.6684];
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude } = position.coords;
+      const { longitude } = position.coords;
+      const coords = [latitude, longitude];
+      this.coords = coords;
+      return coords;
+    });
+  }
+}
+
+const currentUser = new User("Kris", "kristopher.doyon");
+
+// TODO TODO TODO ADD ALL LIST OBJECTS
+nh4k = new PeakList(
+  "New Hampshire 4,000 Footers",
+  "nh4k",
+  nh4k,
+  [44.20681942220478, -72.09640502929689],
+  10
+);
+
+vt4k = new PeakList(
+  "Vermont 4,000 Footers",
+  "vt4k",
+  vt4k,
+  [44.08363928284644, -74.08355712890626],
+  9
+);
+neHigh = new PeakList(
+  "New England State Highpoints",
+  "neHigh",
+  neHigh,
+  [43.739352079154706, -76.03637695312501],
+  7
+);
+
+const peakListsArr = [nh4k, vt4k, neHigh];
 
 ///////////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
@@ -110,8 +184,27 @@ const displayContainer = function (container) {
   container.classList.remove("hidden");
 };
 
+const displayAllPeakLists = function () {
+  peakListsArr.forEach((peakList) =>
+    peakListsEl.insertAdjacentHTML(
+      "beforeend",
+      `<li class="peak-list">
+      <button class="btn btn--icon btn-add-peak" data-id='${peakList.id}'>
+        <span class="material-icons"> post_add </span>
+      </button>
+      <div class="peak-list__info">
+        <h2 class="peak-list__label-title">${peakList.title}</h2>
+        <span class="peak-list__label-number">${peakList.peakCount} Mountains</span>
+      </div>
+    </li>`
+    )
+  );
+};
+
+displayAllPeakLists();
+
 ///////////////////////////////////////////////////////////////////////////////////
-// EVENT LISTENERS
+// EVENT HANDLER
 
 // SIDEBAR
 
@@ -146,7 +239,35 @@ document.addEventListener("keydown", function (e) {
     closeModal();
 });
 
-// NEW ENTRY FORM
+// PEAK LISTS CONTAINER
+
+peakListsEl.addEventListener("click", function (e) {
+  const clicked = e.target.closest(".btn-add-peak");
+  if (!clicked) return;
+  if (!currentUser.savedLists.includes(clicked.dataset.id)) {
+    currentUser.savedLists.push(clicked.dataset.id);
+    clicked.children[0].textContent = "done";
+  } else {
+    clicked.children[0].textContent = "post_add";
+    currentUser.savedLists.splice(
+      currentUser.savedLists.indexOf(clicked.dataset.id),
+      1
+    );
+  }
+});
+
+// TEMPORARY, CHANGE TO CLICKING ON TITLE OR "VIEW ON MAP" BUTTON
+peakListsEl.addEventListener("click", function (e) {
+  const clicked = e.target.closest(".btn-add-peak");
+  if (!clicked) return;
+  const obj = peakListsArr.find(
+    (peakList) => peakList.id === clicked.dataset.id
+  );
+  peakListsArr.forEach((peak) => peak.clearPeaksOnMap());
+  obj.plotPeaksOnMap();
+});
+
+// NEW ENTRY CONTAINER
 
 btnToday.addEventListener("click", function (e) {
   e.preventDefault();
@@ -183,7 +304,6 @@ const clearStar = function (star) {
 
 wrapperStars.addEventListener("mouseover", function (e) {
   const hovered = e.target.closest(".star-icon");
-  console.log(hovered);
   if (!hovered) return;
   allStars.forEach(function (star) {
     if (star.dataset.num <= hovered.dataset.num) {
@@ -237,40 +357,28 @@ btnAddEntry.addEventListener("click", function () {
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GEOLOCATION API
+// BUG BUG BUG
+// const displayMap = function (lat = 44.0444, long = -71.6684, peaksObjArr) {
+//   const coords = [lat, long];
+// };
 
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(
-    function (position) {
-      const { latitude } = position.coords;
-      const { longitude } = position.coords;
-      const coords = [latitude, longitude];
+///////////////////////////////////////////////////////////////////////////////////
+// CREATE THE MAP
 
-      const map = L.map("map", {
-        zoomControl: false,
-      }).setView(coords, 13);
+const coords = [41.7658, -72.6734];
 
-      L.tileLayer(
-        "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png",
-        {
-          maxZoom: 50,
-          attribution:
-            '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-        }
-      ).addTo(map);
+map = new L.Map("map", {
+  zoomControl: false,
+}).setView(coords, 13);
 
-      L.control
-        .zoom({
-          position: "bottomright",
-        })
-        .addTo(map);
+L.tileLayer("https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png", {
+  maxZoom: 50,
+  attribution:
+    '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+}).addTo(map);
 
-      L.marker(coords)
-        .addTo(map)
-        .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
-        .openPopup();
-    },
-    function () {
-      console.log("Could not get your position");
-    }
-  );
-}
+L.control
+  .zoom({
+    position: "bottomright",
+  })
+  .addTo(map);
