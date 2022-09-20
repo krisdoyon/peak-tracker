@@ -38,6 +38,7 @@
   </head>
 
   <body>
+    <!-- SIDEBAR -->
     <div class="sidebar flex-column">
       <ul class="main-nav__list flex-column">
         <li>
@@ -60,7 +61,7 @@
         <li>
           <button
             class="btn main-nav__btn"
-            data-container="container-peak-lists"
+            data-container="container-all-peak-lists"
           >
             Peak Lists<span class="material-icons main-nav__icon">
               checklist
@@ -97,6 +98,9 @@
           chevron_left
         </span>
       </button>
+
+      <!-- MAIN CONTAINER -->
+
       <div class="container-main">
         <button class="btn btn-close-modal">&times;</button>
         <div class="container container-basecamp hidden">
@@ -104,33 +108,65 @@
             <h2 class="container__heading">Basecamp</h2>
           </div>
         </div>
-        <div class="container container-peak-lists">
+
+        <!-- PEAK LIST CONTAINER -->
+
+        <div class="container container-all-peak-lists hidden">
           <div class="wrapper-main-heading">
             <h2 class="container__heading">Peak Lists</h2>
           </div>
           <ul class="peak-lists">
-            <li class="peak-list">
+            <!-- <li class="peak-list" data-id="#">
               <button class="btn btn--icon btn-add-peak">
                 <span class="material-icons"> post_add </span>
               </button>
 
               <div class="peak-list__info">
-                <h2 class="peak-list__label-title">Example Peaklist</h2>
-                <span class="peak-list__label-number">10 Mountains</span>
+                <h2 class="peak-list__label-title">All State Highpoints</h2>
+                <span class="peak-list__label-number">50 Mountains</span>
               </div>
-            </li>
+              <button class="btn btn--dark btn-view-list">VIEW</button>
+            </li> -->
           </ul>
         </div>
+
+        <div class="container container-single-peak-list">
+          <div class="wrapper-main-heading flex-column">
+            <h2 class="container__heading">New Hampshire 4,000 Footers</h2>
+            <span class="peak-list__label-number">48 Mountains</span>
+          </div>
+
+          <table class="peak-list__table">
+            <thead>
+              <tr>
+                <th style="width: 10%; text-align: center">#</th>
+                <th style="text-align: left">Name</th>
+                <th style="width: 10%">State</th>
+                <th style="width: 20%">Elevation (ft)</th>
+                <th style="width: 20%">Hiked On</th>
+              </tr>
+            </thead>
+            <tbody class="peak-list__table-body"></tbody>
+          </table>
+        </div>
+
+        <!-- STATS CONTAINER -->
+
         <div class="container container-stats hidden">
           <div class="wrapper-main-heading">
             <h2 class="container__heading">Statistics</h2>
           </div>
         </div>
+
+        <!-- HISTORY CONTAINER -->
+
         <div class="container container-history hidden">
           <div class="wrapper-main-heading">
             <h2 class="container__heading">Trip History</h2>
           </div>
         </div>
+
+        <!-- NEW ENTRY CONTAINER -->
 
         <div class="container container-new-entry hidden">
           <div class="wrapper-main-heading flex">

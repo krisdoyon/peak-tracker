@@ -43,6 +43,6 @@
 872086|Mt. Isolation|Summit|NH|33|Coos|007|441253N|0711833W|44.2147796|-71.3092406|||||1220|4003|Stairs Mountain|08/27/1980|12/01/2020
 872778|Mt. Tecumseh|Summit|NH|33|Grafton|009|435800N|0713324W|43.9665408|-71.5566086|||||1222|4009|Waterville Valley|08/27/1980|12/01/2020
 |Mt. Hancock (South Peak)|Summit|NH|33|Coos|007|||44.0732711|-71.4869445|||||1316|4318|||
-|Kinsman Mountain (North Peak)Mountain|Summit|NH|33|Coos|007|||44.1333547|-71.7368148|||||1309|4293|||
+|Kinsman Mountain (North Peak)|Summit|NH|33|Coos|007|||44.1333547|-71.7368148|||||1309|4293|||
 |Mt. Zealand|Summit|NH|33|Coos|007|||44.1800207|-71.5215792|||||1300|4260|||
 |Owls Head|Summit|NH|33|Coos|007|||44.1443341|-71.6051095|||||1227|4025|||

@@ -360,7 +360,7 @@ let nh4k = [
     state: "NH",
   },
   {
-    name: "Kinsman Mountain (North Peak)Mountain",
+    name: "Kinsman Mountain (North Peak)",
     lat: "44.1333547",
     long: "-71.7368148",
     elevFeet: "4293",
@@ -384,4 +384,3 @@ let nh4k = [
     state: "NH",
   },
 ];
-

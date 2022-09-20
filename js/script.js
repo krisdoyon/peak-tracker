@@ -30,6 +30,8 @@ const btnSidebarIcon = document.querySelector(".sidebar__btn--icon");
 const mainNavBtns = document.querySelectorAll(".main-nav__btn");
 const mainNavList = document.querySelector(".main-nav__list");
 
+const btnsViewList = document.getElementsByClassName("btn-view-list");
+
 // CONTAINERS
 const containerMain = document.querySelector(".container-main");
 const containers = document.querySelectorAll(".container");
@@ -80,6 +82,7 @@ class PeakList {
   }
 
   plotPeaksOnMap() {
+    peakListsArr.forEach((peak) => peak.clearPeaksOnMap());
     this.createMarkerLayer();
     this.markersLayer.addTo(map);
     map.setView(this.center, this.zoom);
@@ -157,6 +160,10 @@ const peakListsArr = [nh4k, vt4k, neHigh];
 ///////////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 
+const getPeakObjFromID = function (peakListID) {
+  return peakListsArr.find((peakList) => peakList.id === peakListID);
+};
+
 const clearNewEntryForm = function () {
   allStars.forEach((star) => {
     clearStar(star);
@@ -188,20 +195,52 @@ const displayAllPeakLists = function () {
   peakListsArr.forEach((peakList) =>
     peakListsEl.insertAdjacentHTML(
       "beforeend",
-      `<li class="peak-list">
-      <button class="btn btn--icon btn-add-peak" data-id='${peakList.id}'>
-        <span class="material-icons"> post_add </span>
+      `<li class="peak-list" data-id="${peakList.id}">
+        <button class="btn btn--icon btn-add-peak" data-id='${peakList.id}'>
+        <span class="material-icons"> ${
+          currentUser.savedLists.includes(peakList.id) ? "done" : "post_add"
+        } </span>
       </button>
       <div class="peak-list__info">
         <h2 class="peak-list__label-title">${peakList.title}</h2>
-        <span class="peak-list__label-number">${peakList.peakCount} Mountains</span>
+        <span class="peak-list__label-number">${
+          peakList.peakCount
+        } Mountains</span>
       </div>
+        <button class="btn btn--dark btn-view-list">VIEW</button>
     </li>`
     )
   );
 };
 
 displayAllPeakLists();
+
+const peakListTableBody = document.querySelector(".peak-list__table-body");
+const containerSinglePeakList = document.querySelector(
+  ".container-single-peak-list"
+);
+
+const displaySinglePeakList = function (peakListID) {
+  displayContainer(containerSinglePeakList);
+  const currentPeakObj = getPeakObjFromID(peakListID);
+  console.log(peakListID);
+  console.log(currentPeakObj);
+  currentPeakObj.plotPeaksOnMap();
+  peakListTableBody.innerHTML = "";
+  currentPeakObj.data.forEach((peakObj, i) => {
+    peakListTableBody.insertAdjacentHTML(
+      "beforeend",
+      `<tr class="peak-list__table-row">
+                <td>${i + 1}</td>
+                <td style="text-align:left">${peakObj.name}</td>
+                <td>${peakObj.state}</td>
+
+                <td>${peakObj.elevFeet.toLocaleString(undefined)}</td>
+                <td>LOG TRIP</td>
+              </tr>`
+    );
+  });
+};
 
 ///////////////////////////////////////////////////////////////////////////////////
 // EVENT HANDLER
@@ -242,29 +281,20 @@ document.addEventListener("keydown", function (e) {
 // PEAK LISTS CONTAINER
 
 peakListsEl.addEventListener("click", function (e) {
-  const clicked = e.target.closest(".btn-add-peak");
-  if (!clicked) return;
-  if (!currentUser.savedLists.includes(clicked.dataset.id)) {
-    currentUser.savedLists.push(clicked.dataset.id);
-    clicked.children[0].textContent = "done";
-  } else {
-    clicked.children[0].textContent = "post_add";
-    currentUser.savedLists.splice(
-      currentUser.savedLists.indexOf(clicked.dataset.id),
-      1
-    );
+  const { id } = e.target.closest(".peak-list").dataset;
+  console.log(id);
+  if (e.target.classList.contains("btn-view-list")) {
+    displaySinglePeakList(id);
   }
-});
-
-// TEMPORARY, CHANGE TO CLICKING ON TITLE OR "VIEW ON MAP" BUTTON
-peakListsEl.addEventListener("click", function (e) {
-  const clicked = e.target.closest(".btn-add-peak");
-  if (!clicked) return;
-  const obj = peakListsArr.find(
-    (peakList) => peakList.id === clicked.dataset.id
-  );
-  peakListsArr.forEach((peak) => peak.clearPeaksOnMap());
-  obj.plotPeaksOnMap();
+  if (e.target.closest(".btn-add-peak")) {
+    if (!currentUser.savedLists.includes(id)) {
+      currentUser.savedLists.push(id);
+      e.target.textContent = "done";
+    } else {
+      e.target.textContent = "post_add";
+      currentUser.savedLists.splice(currentUser.savedLists.indexOf(id), 1);
+    }
+  } else return;
 });
 
 // NEW ENTRY CONTAINER
