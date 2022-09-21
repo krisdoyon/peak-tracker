@@ -178,6 +178,7 @@ const adk4kNames = [];
 
 class Mountain {
   constructor(mtnArr, labels) {
+    this.id = Number(mtnArr[labels.indexOf("FEATURE_ID")]);
     this.name = mtnArr[labels.indexOf("FEATURE_NAME")];
     this.lat = Number(mtnArr[labels.indexOf("PRIM_LAT_DEC")]);
     this.long = Number(mtnArr[labels.indexOf("PRIM_LONG_DEC")]);
@@ -217,11 +218,12 @@ const createObjectsFile = function (id) {
       return new Mountain(arr, labels);
     });
   mtnsRows.splice(-1);
-  fs.writeFileSync(`./js/peak-lists/${id}.js`, JSON.stringify(mtnsRows));
+  const writeString = `let ${id} = ` + JSON.stringify(mtnsRows);
+  fs.writeFileSync(`./js/peak-lists/${id}.js`, writeString);
 };
 
 const ids = ["co14", "me4k", "neHigh", "nh4k", "vt4k"];
 
-// ids.forEach(id => createObjectsFile(id))
+ids.forEach((id) => createObjectsFile(id));
 
 // createObjectsFile("me4k");
