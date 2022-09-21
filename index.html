@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="A web app to track mountain summits" />
+    <meta
+      name="description"
+      content="A web app to track progress on peak bagging lists"
+    />
     <meta name="author" content="Kris Doyon" />
     <title>Peak Tracker</title>
     <link
@@ -44,10 +47,7 @@
     <div class="sidebar flex-column">
       <ul class="main-nav__list flex-column">
         <li>
-          <button
-            class="btn main-nav__btn m"
-            data-container="container-basecamp"
-          >
+          <button class="btn main-nav__btn m" data-container="basecamp">
             Basecamp<span class="material-icons main-nav__icon"> home </span>
           </button>
         </li>
@@ -61,10 +61,7 @@
         </li>
 
         <li>
-          <button
-            class="btn main-nav__btn"
-            data-container="container-all-peak-lists"
-          >
+          <button class="btn main-nav__btn" data-container="all-peak-lists">
             Peak Lists<span class="material-icons main-nav__icon">
               checklist
             </span>
@@ -72,23 +69,20 @@
         </li>
 
         <li>
-          <button class="btn main-nav__btn" data-container="container-stats">
+          <button class="btn main-nav__btn" data-container="stats">
             Stats<span class="material-icons main-nav__icon">
               query_stats
             </span>
           </button>
         </li>
         <li>
-          <button class="btn main-nav__btn" data-container="container-history">
+          <button class="btn main-nav__btn" data-container="history">
             History<span class="material-icons main-nav__icon"> history </span>
           </button>
         </li>
 
         <li>
-          <button
-            class="btn main-nav__btn"
-            data-container="container-new-entry"
-          >
+          <button class="btn main-nav__btn" data-container="new-entry">
             New Entry<span class="material-icons main-nav__icon"
               >add_circle</span
             >
@@ -105,7 +99,7 @@
 
       <div class="container-main">
         <button class="btn btn-close-container">&times;</button>
-        <div class="container container-basecamp hidden">
+        <div class="container container-basecamp hidden" data-nav-id="basecamp">
           <div class="wrapper-main-heading">
             <h2 class="container__heading">Basecamp</h2>
           </div>
@@ -113,7 +107,10 @@
 
         <!-- PEAK LIST CONTAINER -->
 
-        <div class="container container-all-peak-lists hidden">
+        <div
+          class="container container-all-peak-lists hidden"
+          data-nav-id="all-peak-lists"
+        >
           <div class="wrapper-main-heading">
             <h2 class="container__heading">Peak Lists</h2>
           </div>
@@ -132,11 +129,14 @@
           </ul>
         </div>
 
-        <div class="container container-single-peak-list hidden">
+        <div
+          class="container container-single-peak-list hidden"
+          data-nav-id="all-peak-lists"
+        >
           <div class="grid-peak-list-heading">
             <button
               class="btn btn--icon btn-back"
-              data-container="container-all-peak-lists"
+              data-container="all-peak-lists"
             >
               <span class="material-icons-outlined"> arrow_back </span>
             </button>
@@ -161,7 +161,7 @@
 
         <!-- STATS CONTAINER -->
 
-        <div class="container container-stats hidden">
+        <div class="container container-stats hidden" data-nav-id="stats">
           <div class="wrapper-main-heading">
             <h2 class="container__heading">Statistics</h2>
           </div>
@@ -169,7 +169,7 @@
 
         <!-- HISTORY CONTAINER -->
 
-        <div class="container container-history hidden">
+        <div class="container container-history hidden" data-nav-id="history">
           <div class="wrapper-main-heading">
             <h2 class="container__heading">Trip History</h2>
           </div>
@@ -177,7 +177,7 @@
 
         <!-- NEW ENTRY CONTAINER -->
 
-        <div class="container container-new-entry">
+        <div class="container container-new-entry" data-nav-id="new-entry">
           <div class="wrapper-main-heading flex">
             <h2 class="container__heading">New Log Entry</h2>
           </div>
@@ -223,19 +223,21 @@
 
                 <select id="choose-list">
                   <option value="" disabled selected>Choose a list</option>
-                  <option value="neHigh">Adirondack 4,000 footers</option>
-                  <option value="neHigh">All State Highpoints</option>
+                  <!-- <option value="adk4k">Adirondack 4,000 footers</option> -->
                   <option value="co14">Colorado 14ers</option>
                   <option value="me4k">Maine 4,000 footers</option>
-                  <option value="ne4k">New England 4,000 footers</option>
-                  <option value="ne100">New England 100 Highest</option>
+                  <!-- <option value="ne4k">New England 4,000 footers</option> -->
+                  <!-- <option value="ne100">New England 100 Highest</option> -->
                   <option value="neHigh">New England State Highpoints</option>
                   <option value="nh4k">New Hampshire 4,000 footers</option>
-                  <option value="ne100">New Hampshire 100 Highest</option>
-                  <option value="nh52">New Hampshire 52 With a View</option>
+                  <!-- <option value="ne100">New Hampshire 100 Highest</option> -->
+                  <!-- <option value="nh52">New Hampshire 52 With a View</option> -->
+                  <!-- <option value="usHigh">USA State Highpoints</option> -->
                   <option value="vt4k">Vermont 4,000 footers</option>
                 </select>
               </div>
+
+              <div class="grid-peak-checkboxes hidden"></div>
             </div>
 
             <div class="form__row">

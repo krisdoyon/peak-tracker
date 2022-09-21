@@ -297,6 +297,16 @@ body {
   text-align: center;
 }
 
+.peak-list__table-row--complete {
+  background-color: rgba(176, 255, 186, 0.397);
+}
+
+.btn-log-trip {
+  color: var(--color-green-1);
+  background-color: transparent;
+  font-weight: 500;
+}
+
 /*///////////////////////////////////////////////////////////////////////////////////
 // NEW ENTRY CONTAINER */
 
@@ -375,6 +385,22 @@ body {
 .grid-peaks span {
   grid-column: 1/-1;
   margin-left: 1rem;
+}
+
+.grid-peak-checkboxes {
+  display: grid;
+  grid-template-columns: 10% 1fr 10% 1fr;
+  justify-content: center;
+  /* gap: 1rem; */
+  row-gap: 0.6rem;
+  padding: 1rem 0;
+  /* text-align: left; */
+}
+
+.peak-checkbox-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
 
 /* STATS */
@@ -474,12 +500,17 @@ body {
 .peak-popup {
   font-size: 1rem;
   text-align: center;
-  /* background-color: red; */
-  /* display:flex; */
-  /* align-items: center; */
-  /* justify-content: center; */
+  display: flex;
+  flex-direction: column;
 }
 
-.peak-popup-content-wrapper {
-  background-color: red;
+.peak-popup__label-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  /* background-color: red; */
+}
+
+.peak-popup__label-elevation {
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
 }

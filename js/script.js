@@ -19,6 +19,9 @@ const yesterday = new Intl.DateTimeFormat("en-CA", options).format(
 ///////////////////////////////////////////////////////////////////////////////////
 // DOM ELEMENTS
 
+// MAP
+const peakPopups = document.getElementsByClassName("peak-popup");
+
 // SIDEBAR
 const sidebar = document.querySelector(".sidebar");
 const btnSidebar = document.querySelector(".sidebar__btn");
@@ -28,7 +31,7 @@ const mainNavList = document.querySelector(".main-nav__list");
 
 // CONTAINERS
 const containerMain = document.querySelector(".container-main");
-const containers = document.querySelectorAll(".container");
+const containers = [...document.querySelectorAll(".container")];
 const btnCloseContainer = document.querySelector(".btn-close-container");
 
 // PEAK LISTS CONTAINER
@@ -50,9 +53,13 @@ const inputHours = document.querySelector("#hours");
 const inputMinutes = document.querySelector("#minutes");
 const inputNotes = document.querySelector("#notes");
 
+const chooseListSelect = document.querySelector("#choose-list");
+
 const gridStats = document.querySelector(".grid-stats");
 const statRowIcons = [...document.querySelectorAll(".stat-row__icon")];
 const statRows = document.querySelectorAll(".stat-row");
+
+const gridPeakCheckboxes = document.querySelector(".grid-peak-checkboxes");
 
 const wrapperStars = document.querySelector(".wrapper-stars");
 const allStarIcons = [...document.querySelectorAll(".star-icon")];
@@ -82,10 +89,15 @@ class App {
   constructor() {
     this._getCoords();
     this._displayAllPeakLists();
+    // currentUser._getLocalStorage();
     // this.#sidebarHidden = false;
 
     /////////////////////////////////////////////////////////////////////////////////
     // EVENT HANDLERS
+
+    // document.addEventListener("click", function (e) {
+    //   const clicked = e.target.closest(".btn-log-trip");
+    // });
 
     // SIDEBAR
     btnSidebar.addEventListener("click", function () {
@@ -114,29 +126,56 @@ class App {
       }.bind(this)
     );
 
-    // // PEAK LISTS CONTAINER
+    // ALL PEAK LISTS CONTAINER EVENT HANDLERS
 
     peakListsEl.addEventListener("click", this._peakListClick.bind(this));
+
+    // SINGLE PEAK LISTS CONTAINER EVENT HANDLERS
 
     btnBack.addEventListener(
       "click",
       this._displayContainer.bind(
         this,
-        document.querySelector(`.${btnBack.dataset["container"]}`)
+
+        `${btnBack.dataset.container}`
       )
+    );
+
+    document.addEventListener(
+      "click",
+      function (e) {
+        const clicked = e.target.closest(".btn-log-trip");
+        if (!clicked) return;
+        this._displayContainer("new-entry");
+        this._displayPeakListCheckboxes(clicked.dataset.listId);
+        chooseListSelect.value = clicked.dataset.listId;
+        const checkbox = [...gridPeakCheckboxes.querySelectorAll("input")].find(
+          (input) => input.value === String(clicked.dataset.mtnId)
+        );
+        checkbox.checked = "true";
+      }.bind(this)
     );
 
     btnBack.addEventListener("click", this._clearMap.bind(this));
 
-    // NEW ENTRY CONTAINER
+    // NEW ENTRY CONTAINER EVENT HANDLERS
+
     btnToday.addEventListener("click", function (e) {
       e.preventDefault();
       date.value = today;
     });
+
     btnYesterday.addEventListener("click", function (e) {
       e.preventDefault();
       date.value = yesterday;
     });
+
+    chooseListSelect.addEventListener(
+      "change",
+      function (e) {
+        this._displayPeakListCheckboxes(e.target.value);
+      }.bind(this)
+    );
 
     gridStats.addEventListener("click", function (e) {
       e.preventDefault();
@@ -166,29 +205,47 @@ class App {
 
     btnClearForm.addEventListener("click", this._clearNewEntryForm.bind(this));
 
-    btnAddEntry.addEventListener("click", function (e) {
-      e.preventDefault();
-      const newEntry1 = new LogEntry(
-        inputDate.value,
-        inputElevation.value,
-        inputDistance.value,
-        inputHours.value,
-        inputMinutes.value,
-        inputNotes.value
-      );
-      console.log(newEntry1);
+    btnAddEntry.addEventListener(
+      "click",
+      function (e) {
+        e.preventDefault();
+        if (!inputDate.value) {
+          alert("Please enter a date");
+          return;
+        }
+        const peaks = this._getCheckedPeaks();
+        if (peaks.length <= 0) {
+          alert("Choose at least one peak from a list");
+          return;
+        }
 
-      const newEntry = new LogEntry(
-        date.value,
-        elevation.value,
-        distance.value,
-        hours.value,
-        minutes.value,
-        notes.value
-      );
-      console.log(newEntry);
-      currentUser.addLogEntry(newEntry);
-    });
+        const rating = allStarButtons.filter(
+          (star) => star.dataset.filled === "true"
+        ).length;
+
+        const date = new Date(inputDate.value);
+
+        const formattedDate = new Intl.DateTimeFormat("en-US", {
+          day: "numeric",
+          year: "numeric",
+          month: "numeric",
+        }).format(date);
+
+        const newEntry = new LogEntry(
+          formattedDate,
+          peaks,
+          inputElevation.value,
+          inputDistance.value,
+          inputHours.value,
+          inputMinutes.value,
+          inputNotes.value,
+          rating
+        );
+        currentUser.addLogEntry(newEntry);
+        this._plotListOnMap(chooseListSelect.value);
+        this._clearNewEntryForm();
+      }.bind(this)
+    );
   }
 
   _getCoords() {
@@ -208,14 +265,20 @@ class App {
       zoomControl: false,
     }).setView(this.#coords, 13);
 
-    L.tileLayer(
-      "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png",
-      {
-        maxZoom: 50,
-        attribution:
-          '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-      }
-    ).addTo(this.#map);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.#map);
+
+    // L.tileLayer(
+    //   "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png",
+    //   {
+    //     maxZoom: 50,
+    //     attribution:
+    //       '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+    //   }
+    // ).addTo(this.#map);
 
     L.control
       .zoom({
@@ -232,11 +295,25 @@ class App {
     peakListsArr.forEach((peakObj) => peakObj.clearPeaksOnMap());
   }
 
+  _plotListOnMap(peakID) {
+    const peakListObj = peakListsArr.find((peakObj) => peakObj.id === peakID);
+    // clear the map
+    this._clearMap();
+    // Set the view according to the object
+    this.#map.setView(peakListObj.center, peakListObj.zoom);
+    // Create marker layer to be added
+    peakListObj.createMarkerLayer();
+    // Add marker layer to map
+    this.#map.addLayer(peakListObj.markersLayer);
+  }
+
   _clearNewEntryForm() {
     for (const starIcon of allStarIcons) {
       this._clearStar(starIcon);
       starIcon.closest(".btn-star").dataset.filled = "false";
     }
+    gridPeakCheckboxes.innerHTML = "";
+    gridPeakCheckboxes.classList.add("hidden");
     statRowIcons.forEach((icon) => (icon.textContent = "add_circle"));
     statRows.forEach((row) => row.classList.add("invisible"));
     formNewEntry.reset();
@@ -260,22 +337,19 @@ class App {
     if (clicked.dataset["container"] === "map") {
       this._closeContainer();
     } else {
-      this._displayContainer(
-        document.querySelector(`.${clicked.dataset["container"]}`)
-      );
+      this._displayContainer(`${clicked.dataset["container"]}`);
+      // clicked.dataset["container"] === "new-entry" || this._clearNewEntryForm();
     }
-    mainNavBtns.forEach((link) =>
-      link.classList.remove("main-nav__btn--active")
-    );
-    clicked.classList.add("main-nav__btn--active");
     this._clearMap();
   }
 
   _peakListClick(e) {
     const { id } = e.target.closest(".peak-list").dataset;
-    if (e.target.classList.contains("btn-view-list")) {
+    if (e.target.closest(".btn-view-list")) {
       this._displaySinglePeakList(id);
     }
+
+    // Save peak button
     if (e.target.closest(".btn-add-peak")) {
       if (!currentUser.savedLists.includes(id)) {
         currentUser.savedLists.push(id);
@@ -287,10 +361,19 @@ class App {
     } else return;
   }
 
-  _displayContainer(container) {
+  _displayContainer(containerID) {
+    const containerObj = containers.find((container) =>
+      container.classList.contains(`container-${containerID}`)
+    );
     containers.forEach((container) => container.classList.add("hidden"));
     containerMain.classList.remove("hidden");
-    container.classList.remove("hidden");
+    containerObj.classList.remove("hidden");
+
+    mainNavBtns.forEach((btn) => {
+      btn.classList.remove("main-nav__btn--active");
+      btn.dataset.container === containerObj.dataset.navId &&
+        btn.classList.add("main-nav__btn--active");
+    });
   }
 
   _displayAllPeakLists() {
@@ -315,21 +398,26 @@ class App {
     );
   }
 
-  _displaySinglePeakList(peakListID, sort = "elevation") {
-    // Set the title and # of mountains labels
-    this._displayContainer(containerSinglePeakList);
-    // Get the correct peak object to display
-    const currentPeakObj = getPeakObjFromID(peakListID);
-    // Display this single peak list container
-    if (sort === "elevation") {
-      currentPeakObj.data.sort((a, b) => b.elevFeet - a.elevFeet);
+  _sortPeakList(peakListID, sortType) {
+    const currentPeakListObj = getPeakObjFromID(peakListID);
+    if (sortType === "elevation") {
+      currentPeakListObj.data.sort((a, b) => b.elevFeet - a.elevFeet);
     }
-    if (sort === "alphabetical") {
-      currentPeakObj.data.sort((currentPeakObj) => currentPeakObj.name);
-      currentPeakObj.data.sort((a, b) =>
+    if (sortType === "alphabetical") {
+      currentPeakListObj.data.sort((currentPeakObj) => currentPeakObj.name);
+      currentPeakListObj.data.sort((a, b) =>
         a.name.toLowerCase().localeCompare(b.name.toLowerCase())
       );
     }
+  }
+
+  _displaySinglePeakList(peakListID) {
+    // Set the title and # of mountains labels
+    this._displayContainer("single-peak-list");
+    // Get the correct peak object to display
+    const currentPeakObj = getPeakObjFromID(peakListID);
+    // Display this single peak list container
+
     // Set the labels
     containerSinglePeakList.querySelector(
       ".container__heading"
@@ -337,30 +425,77 @@ class App {
     containerSinglePeakList.querySelector(
       ".peak-list__label-number"
     ).textContent = `${currentPeakObj.peakCount} Mountains`;
-    // Clear the map
-    this._clearMap();
-    // Set the view according to the object
-    this.#map.setView(currentPeakObj.center, currentPeakObj.zoom);
-    // Create marker layer to be added
-    currentPeakObj.createMarkerLayer();
-    // Add marker layer to map
-    this.#map.addLayer(currentPeakObj.markersLayer);
+
+    this._plotListOnMap(peakListID);
+
     // Reset the table body
     peakListTableBody.innerHTML = "";
     // Add a row for each peak
+    this._sortPeakList(peakListID, "elevation");
     currentPeakObj.data.forEach((peakObj, i) => {
+      let logMatch;
+      if (currentUser.logEntries.length) {
+        logMatch = currentUser.logEntries.find((entry) =>
+          entry.peaks.includes(peakObj.id)
+        );
+      }
+
       peakListTableBody.insertAdjacentHTML(
         "beforeend",
-        `<tr class="peak-list__table-row">
+        `<tr class="peak-list__table-row ${
+          logMatch ? "peak-list__table-row--complete" : ""
+        }" data-mtn-id="${peakObj.id}" data-list-id="${currentPeakObj.id}">
                 <td>${i + 1}</td>
                 <td style="text-align:left">${peakObj.name}</td>
                 <td>${peakObj.state}</td>
 
                 <td>${peakObj.elevFeet.toLocaleString()}</td>
-                <td>LOG TRIP</td>
+                <td>${
+                  logMatch
+                    ? `${logMatch.date}`
+                    : `<button class='btn btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${currentPeakObj.id}'>LOG TRIP</button>`
+                }</td>
               </tr>`
       );
     });
+  }
+
+  // NEW ENTRY CONTAINER FUNCTIONS
+
+  _displayPeakListCheckboxes(peakListID) {
+    gridPeakCheckboxes.classList.remove("hidden");
+    gridPeakCheckboxes.innerHTML = "";
+    const currentPeakListObj = getPeakObjFromID(peakListID);
+    this._sortPeakList(peakListID, "alphabetical");
+    const arrCopy = currentPeakListObj.data.map((peakObj) => peakObj);
+    const arrFirstHalf = arrCopy.splice(Math.ceil(arrCopy.length / 2));
+    const displayArr = [];
+    for (const [i, _] of arrCopy.entries()) {
+      arrCopy[i] && displayArr.push(arrCopy[i]);
+      arrFirstHalf[i] && displayArr.push(arrFirstHalf[i]);
+    }
+
+    displayArr.forEach((peakObj) =>
+      gridPeakCheckboxes.insertAdjacentHTML(
+        "beforeend",
+        `<input type="checkbox" value="${peakObj.id}"/><label
+                  for="title"
+                  class="form__label--units"
+                  >${peakObj.name}</label
+                >`
+      )
+    );
+
+    this._plotListOnMap(peakListID);
+  }
+
+  _getCheckedPeaks() {
+    const checkboxes = gridPeakCheckboxes.querySelectorAll("input");
+    const checkedPeaksArr = [];
+    checkboxes.forEach(
+      (checkbox) => checkbox.checked && checkedPeaksArr.push(+checkbox.value)
+    );
+    return checkedPeaksArr;
   }
 
   _handleStarMouseOver(e) {
@@ -425,40 +560,57 @@ class PeakList {
     this.createMarkerLayer();
   }
 
+  createMarker(peakObj, color = "red") {
+    const mtnIcon = L.icon({
+      iconUrl: `mtn-icon-${color}.png`,
+      iconSize: [25, 20],
+    });
+    const marker = new L.Marker([peakObj.lat, peakObj.long], { icon: mtnIcon });
+    marker
+      .bindPopup(
+        L.popup({}).on("click", function () {
+          console.log("hi");
+        })
+      )
+      .setPopupContent(
+        `<div class='peak-popup'>
+              <span class='peak-popup__label-name'>${peakObj.name}</span>
+              <span class='peak-popup__label-elevation'>${peakObj.elevFeet} ft.</span>
+              <button class='btn btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${this.id}'>LOG TRIP</button>
+            </div>`
+      );
+    return marker;
+  }
+
   createMarkerLayer() {
     this.data.forEach((peakObj) => {
-      this.markers.push(
-        new L.Marker([peakObj.lat, peakObj.long])
-          .bindPopup(L.popup({ className: "peak-popup", minWidth: 200 }))
-          .setPopupContent(`<span>${peakObj.name}</span>`)
-      );
-      this.markersLayer = L.layerGroup(this.markers);
+      const color = `${
+        currentUser.completedPeaks.includes(peakObj.id) ? "green" : "red"
+      }`;
+      const marker = this.createMarker(peakObj, color);
+      this.markers.push(marker);
     });
+
+    this.markersLayer = L.layerGroup(this.markers);
   }
 
   clearPeaksOnMap() {
     this.markersLayer.clearLayers();
+    this.markers = [];
   }
 }
 
 class LogEntry {
   peaks = [];
-  constructor(
-    date,
-    // peaks,
-    elevation,
-    distance,
-    hours,
-    min,
-    notes
-  ) {
+  constructor(date, peaks, elevation, distance, hours, min, notes, rating) {
     this.date = date;
-    // peaks.forEach((peak) => this.peaks.push(peak));
-    this.elevation = elevation;
-    this.distance = distance;
-    this.hours = hours;
-    this.min = min;
+    peaks.forEach((peak) => this.peaks.push(peak));
+    this.elevation = +elevation;
+    this.distance = +distance;
+    this.hours = +hours;
+    this.min = +min;
     this.notes = notes;
+    this.rating = rating;
     this.init();
   }
 
@@ -471,24 +623,44 @@ class LogEntry {
 
 class User {
   savedLists = [];
-  logEntires = [];
+  logEntries = [];
   completedPeaks = [];
   coords;
   constructor(firstName, username) {
     this.firstName = firstName;
     this.username = username;
     this.locale = navigator.locale;
+
+    this._getLocalStorage();
   }
 
   addLogEntry(entry) {
-    this.logEntires.push(entry);
+    this.logEntries.unshift(entry);
+    entry.peaks.forEach((peak) => this.completedPeaks.push(peak));
+    this._setLocalStorage();
   }
   removeLogEntry(entry) {
-    this.logEntires.slice(this.logEntires.indexOf(entry), 1);
+    this.logEntries.slice(this.logEntries.indexOf(entry), 1);
+  }
+
+  // addCompletedPeaks()
+
+  _setLocalStorage() {
+    localStorage.setItem("logEntries", JSON.stringify(this.logEntries));
+    localStorage.setItem("completedPeaks", JSON.stringify(this.completedPeaks));
+  }
+
+  _getLocalStorage() {
+    if (localStorage.logEntries)
+      this.logEntries = JSON.parse(localStorage.getItem("logEntries"));
+    if (localStorage.completedPeaks)
+      this.completedPeaks = JSON.parse(localStorage.getItem("completedPeaks"));
   }
 }
 
 const currentUser = new User("Kris", "kristopher.doyon");
+
+// currentUser.addLogEntry(new LogEntry("8/12/1990", [871352, 871380]));
 
 // TODO TODO TODO ADD ALL LIST OBJECTS
 co14 = new PeakList(
