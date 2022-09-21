@@ -1,5 +1,6 @@
 let neHigh = [
   {
+    id: 871352,
     name: "Mt. Washington",
     lat: 44.2705781,
     long: -71.3033287,
@@ -8,6 +9,7 @@ let neHigh = [
     state: "NH",
   },
   {
+    id: 579940,
     name: "Mt. Katahdin",
     lat: 45.9042845,
     long: -68.9213562,
@@ -16,6 +18,7 @@ let neHigh = [
     state: "ME",
   },
   {
+    id: 1461774,
     name: "Mt. Mansfield",
     lat: 44.5436627,
     long: -72.8142903,
@@ -24,6 +27,7 @@ let neHigh = [
     state: "VT",
   },
   {
+    id: 205348,
     name: "Bear Mountain",
     lat: 42.0448138,
     long: -73.4548423,
@@ -32,6 +36,7 @@ let neHigh = [
     state: "CT",
   },
   {
+    id: 1219566,
     name: "Jerimoth Hill",
     lat: 41.8494158,
     long: -71.7788736,
@@ -40,6 +45,7 @@ let neHigh = [
     state: "RI",
   },
   {
+    id: 607448,
     name: "Mt. Greylock",
     lat: 42.6371703,
     long: -73.1659399,
