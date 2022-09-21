@@ -2,8 +2,6 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GLOBAL VARIABLES
-let sidebarHidden = false;
-// let map;
 
 // DATE
 const options = {
@@ -45,7 +43,6 @@ const btnsViewList = document.getElementsByClassName("btn-view-list");
 // NEW ENTRY CONTAINER
 const formNewEntry = document.querySelector("#form-new-entry");
 
-// USER INPUTS
 const inputDate = document.querySelector("#date");
 const inputElevation = document.querySelector("#elevation");
 const inputDistance = document.querySelector("#distance");
@@ -81,19 +78,21 @@ class App {
   #latitude;
   #longitude;
   #coords;
+  sidebarHidden;
   constructor() {
     this._getCoords();
     this._displayAllPeakLists();
+    // this.#sidebarHidden = false;
 
     /////////////////////////////////////////////////////////////////////////////////
     // EVENT HANDLERS
 
     // SIDEBAR
     btnSidebar.addEventListener("click", function () {
-      sidebarHidden = sidebarHidden ? false : true;
+      this.sidebarHidden = this.sidebarHidden ? false : true;
       // FIXME
-      sidebar.style.marginLeft = `${sidebarHidden ? "-17.8rem" : "0"}`;
-      btnSidebarIcon.innerHTML = sidebarHidden
+      sidebar.style.marginLeft = `${this.sidebarHidden ? "-17.8rem" : "0"}`;
+      btnSidebarIcon.innerHTML = this.sidebarHidden
         ? "chevron_right"
         : "chevron_left";
     });
@@ -106,11 +105,14 @@ class App {
       this._closeContainer.bind(this)
     );
 
-    document.addEventListener("keydown", function (e) {
-      e.key === "Escape" &&
-        !modalNewEntry.classList.contains("hidden") &&
-        _closeContainer();
-    });
+    document.addEventListener(
+      "keydown",
+      function (e) {
+        e.key === "Escape" &&
+          !containerMain.classList.contains("hidden") &&
+          this._closeContainer();
+      }.bind(this)
+    );
 
     // // PEAK LISTS CONTAINER
 
@@ -166,6 +168,15 @@ class App {
 
     btnAddEntry.addEventListener("click", function (e) {
       e.preventDefault();
+      const newEntry1 = new LogEntry(
+        inputDate.value,
+        inputElevation.value,
+        inputDistance.value,
+        inputHours.value,
+        inputMinutes.value,
+        inputNotes.value
+      );
+      console.log(newEntry1);
 
       const newEntry = new LogEntry(
         date.value,
@@ -173,8 +184,9 @@ class App {
         distance.value,
         hours.value,
         minutes.value,
-        "test notes"
+        notes.value
       );
+      console.log(newEntry);
       currentUser.addLogEntry(newEntry);
     });
   }
@@ -210,6 +222,10 @@ class App {
         position: "bottomright",
       })
       .addTo(this.#map);
+
+    this.#map.on("click", function (mapEvent) {
+      console.log(mapEvent);
+    });
   }
 
   _clearMap() {
@@ -217,10 +233,10 @@ class App {
   }
 
   _clearNewEntryForm() {
-    // allStars.forEach((star) => {
-    //   this._clearStar(star);
-    //   star.dataset.clicked = "false";
-    // });
+    for (const starIcon of allStarIcons) {
+      this._clearStar(starIcon);
+      starIcon.closest(".btn-star").dataset.filled = "false";
+    }
     statRowIcons.forEach((icon) => (icon.textContent = "add_circle"));
     statRows.forEach((row) => row.classList.add("invisible"));
     formNewEntry.reset();
@@ -299,42 +315,39 @@ class App {
     );
   }
 
-  _displaySinglePeakList(peakListID, sort = "alphabetical") {
+  _displaySinglePeakList(peakListID, sort = "elevation") {
     // Set the title and # of mountains labels
     this._displayContainer(containerSinglePeakList);
     // Get the correct peak object to display
     const currentPeakObj = getPeakObjFromID(peakListID);
-
     // Display this single peak list container
     if (sort === "elevation") {
       currentPeakObj.data.sort((a, b) => b.elevFeet - a.elevFeet);
     }
-
     if (sort === "alphabetical") {
       currentPeakObj.data.sort((currentPeakObj) => currentPeakObj.name);
       currentPeakObj.data.sort((a, b) =>
         a.name.toLowerCase().localeCompare(b.name.toLowerCase())
       );
     }
-
+    // Set the labels
     containerSinglePeakList.querySelector(
       ".container__heading"
     ).textContent = `${currentPeakObj.title}`;
     containerSinglePeakList.querySelector(
       ".peak-list__label-number"
     ).textContent = `${currentPeakObj.peakCount} Mountains`;
-
-    // Clear the Map
+    // Clear the map
     this._clearMap();
     // Set the view according to the object
     this.#map.setView(currentPeakObj.center, currentPeakObj.zoom);
-    // Create marker layer
+    // Create marker layer to be added
     currentPeakObj.createMarkerLayer();
+    // Add marker layer to map
     this.#map.addLayer(currentPeakObj.markersLayer);
-
-    // currentPeakObj.markersLayer.addTo(this.#map);
-
+    // Reset the table body
     peakListTableBody.innerHTML = "";
+    // Add a row for each peak
     currentPeakObj.data.forEach((peakObj, i) => {
       peakListTableBody.insertAdjacentHTML(
         "beforeend",
@@ -343,7 +356,7 @@ class App {
                 <td style="text-align:left">${peakObj.name}</td>
                 <td>${peakObj.state}</td>
 
-                <td>${peakObj.elevFeet.toLocaleString(undefined)}</td>
+                <td>${peakObj.elevFeet.toLocaleString()}</td>
                 <td>LOG TRIP</td>
               </tr>`
       );
@@ -450,7 +463,7 @@ class LogEntry {
   }
 
   init() {
-    if (this.hours && this.min) this.time = hours + min / 60;
+    if (this.hours && this.min) this.time = this.hours + this.min / 60;
     if (this.distance && this.time)
       this.avgSpeedMPH = this.distance / this.time;
   }
@@ -478,6 +491,22 @@ class User {
 const currentUser = new User("Kris", "kristopher.doyon");
 
 // TODO TODO TODO ADD ALL LIST OBJECTS
+co14 = new PeakList(
+  "Colorado 14ers",
+  "co14",
+  co14,
+  [38.76958342598271, -108.5459199218751],
+  8
+);
+
+me4k = new PeakList(
+  "Maine 4,000 Footers",
+  "me4k",
+  me4k,
+  [45.11352900692261, -72.22412109375001],
+  8
+);
+
 nh4k = new PeakList(
   "New Hampshire 4,000 Footers",
   "nh4k",
@@ -502,37 +531,6 @@ neHigh = new PeakList(
   7
 );
 
-const peakListsArr = [nh4k, vt4k, neHigh];
+const peakListsArr = [co14, me4k, nh4k, vt4k, neHigh];
 
 const app = new App();
-
-// handleStarHover(e) {
-//   const hovered = e.target.closest(".star-icon");
-//   if (!hovered) return;
-
-// }
-
-//       allStars.forEach(function (star) {
-//         if (star.dataset.num <= hovered.dataset.num) {
-//           this._fillStar(star);
-//         } else {
-//           this._clearStar(star);
-//         }
-
-// }
-
-// fillstars() {
-
-// }
-
-// wrapperStars.addEventListener("mouseover", function (e) {
-//       c
-//       });
-//     });
-
-//     _fillStars() {}
-
-//
-//
-
-//
