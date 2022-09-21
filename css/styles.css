@@ -235,6 +235,8 @@ body {
 /*///////////////////////////////////////////////////////////////////////////////////
 // PEAK LIST CONTAINER */
 
+/* ALL PEAK LISTS CONTAINER */
+
 .peak-list {
   display: grid;
   grid-template-columns: max-content 1fr max-content;
@@ -259,8 +261,23 @@ body {
   padding: 0rem 2.4rem;
 }
 
+/* SINGLE PEAK LIST CONTAINER */
+
+.btn-back {
+  grid-row: 1/-1;
+}
+
+.grid-peak-list-heading {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: auto auto;
+  padding: 0 2.4rem;
+  margin-bottom: 2rem;
+  column-gap: 1.8rem;
+  row-gap: 0.4rem;
+}
+
 .peak-list__table {
-  /* text-align: left; */
   border-collapse: collapse;
   padding: 5rem;
 }
@@ -280,12 +297,10 @@ body {
   text-align: center;
 }
 
-
-
 /*///////////////////////////////////////////////////////////////////////////////////
 // NEW ENTRY CONTAINER */
 
-.btn-close-modal {
+.btn-close-container {
   background-color: transparent;
   position: absolute;
   right: 0;
@@ -295,8 +310,8 @@ body {
   font-size: 4.8rem;
 }
 
-.form-new-entry input,
-.form-new-entry select {
+#form-new-entry input,
+#form-new-entry select {
   padding: 1.2rem;
   border-radius: 1.2rem;
   border: none;
@@ -454,4 +469,17 @@ body {
 #map {
   height: 100vh;
   z-index: 1;
+}
+
+.peak-popup {
+  font-size: 1rem;
+  text-align: center;
+  /* background-color: red; */
+  /* display:flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+}
+
+.peak-popup-content-wrapper {
+  background-color: red;
 }
