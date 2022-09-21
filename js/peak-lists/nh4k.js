@@ -1,4 +1,4 @@
-const nh4k = [
+let nh4k = [
   {
     name: "Mt. Washington",
     lat: "44.2705781",
@@ -289,8 +289,8 @@ const nh4k = [
   },
   {
     name: "Wildcat Mountain (D peak)",
-    lat: "44.2595144",
-    long: "-71.201848",
+    lat: "44.2494098",
+    long: "-71.2235995",
     elevFeet: "4062",
     elevMeters: "1238",
     state: "NH",
@@ -360,7 +360,7 @@ const nh4k = [
     state: "NH",
   },
   {
-    name: "Kinsman Mountain (North Peak)Mountain",
+    name: "Kinsman Mountain (North Peak)",
     lat: "44.1333547",
     long: "-71.7368148",
     elevFeet: "4293",

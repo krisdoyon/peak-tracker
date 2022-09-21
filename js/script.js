@@ -2,10 +2,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GLOBAL VARIABLES
-let openContainer;
-let currentUser;
-let newEntry;
 let sidebarHidden = false;
+// let map;
 
 // DATE
 const options = {
@@ -33,244 +31,508 @@ const mainNavList = document.querySelector(".main-nav__list");
 // CONTAINERS
 const containerMain = document.querySelector(".container-main");
 const containers = document.querySelectorAll(".container");
-const btnCloseModal = document.querySelector(".btn-close-modal");
+const btnCloseContainer = document.querySelector(".btn-close-container");
 
 // PEAK LISTS CONTAINER
+const peakListsEl = document.querySelector(".peak-lists");
+const peakListTableBody = document.querySelector(".peak-list__table-body");
+const containerSinglePeakList = document.querySelector(
+  ".container-single-peak-list"
+);
+const btnBack = document.querySelector(".btn-back");
+const btnsViewList = document.getElementsByClassName("btn-view-list");
 
 // NEW ENTRY CONTAINER
-const formNewEntry = document.querySelector(".form-new-entry");
-const inputTitle = document.querySelector("#title");
+const formNewEntry = document.querySelector("#form-new-entry");
+
+// USER INPUTS
 const inputDate = document.querySelector("#date");
-const btnToday = document.querySelector(".btn-today");
-const btnYesterday = document.querySelector(".btn-yesterday");
+const inputElevation = document.querySelector("#elevation");
+const inputDistance = document.querySelector("#distance");
+const inputHours = document.querySelector("#hours");
+const inputMinutes = document.querySelector("#minutes");
+const inputNotes = document.querySelector("#notes");
+
 const gridStats = document.querySelector(".grid-stats");
 const statRowIcons = [...document.querySelectorAll(".stat-row__icon")];
 const statRows = document.querySelectorAll(".stat-row");
-const inputHours = document.querySelector("#hours");
-const inputMinutes = document.querySelector("#minutes");
-const inputElevation = document.querySelector("#elevation");
-const inputDistance = document.querySelector("#distance");
+
 const wrapperStars = document.querySelector(".wrapper-stars");
-const allStars = [...document.querySelectorAll(".star-icon")];
+const allStarIcons = [...document.querySelectorAll(".star-icon")];
+const allStarButtons = [...document.querySelectorAll(".btn-star")];
+
+const btnToday = document.querySelector(".btn-today");
+const btnYesterday = document.querySelector(".btn-yesterday");
 const btnClearForm = document.querySelector(".btn-clear-form");
 const btnAddEntry = document.querySelector(".btn-add-entry");
 
 ///////////////////////////////////////////////////////////////////////////////////
+// GLOBAL FUNCTIONS
+
+const getPeakObjFromID = function (peakListID) {
+  return peakListsArr.find((peakList) => peakList.id === peakListID);
+};
+
+///////////////////////////////////////////////////////////////////////////////////
 // CLASSES
 
-class PeakList {
-  constructor(title, data) {
-    this.title = title;
-    // An array of Mountan objects
-    this.data = data;
+class App {
+  #map;
+  #latitude;
+  #longitude;
+  #coords;
+  constructor() {
+    this._getCoords();
+    this._displayAllPeakLists();
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // EVENT HANDLERS
+
+    // SIDEBAR
+    btnSidebar.addEventListener("click", function () {
+      sidebarHidden = sidebarHidden ? false : true;
+      // FIXME
+      sidebar.style.marginLeft = `${sidebarHidden ? "-17.8rem" : "0"}`;
+      btnSidebarIcon.innerHTML = sidebarHidden
+        ? "chevron_right"
+        : "chevron_left";
+    });
+
+    mainNavList.addEventListener("click", this._mainNavClick.bind(this));
+
+    // MAIN CONTAINER
+    btnCloseContainer.addEventListener(
+      "click",
+      this._closeContainer.bind(this)
+    );
+
+    document.addEventListener("keydown", function (e) {
+      e.key === "Escape" &&
+        !modalNewEntry.classList.contains("hidden") &&
+        _closeContainer();
+    });
+
+    // // PEAK LISTS CONTAINER
+
+    peakListsEl.addEventListener("click", this._peakListClick.bind(this));
+
+    btnBack.addEventListener(
+      "click",
+      this._displayContainer.bind(
+        this,
+        document.querySelector(`.${btnBack.dataset["container"]}`)
+      )
+    );
+
+    btnBack.addEventListener("click", this._clearMap.bind(this));
+
+    // NEW ENTRY CONTAINER
+    btnToday.addEventListener("click", function (e) {
+      e.preventDefault();
+      date.value = today;
+    });
+    btnYesterday.addEventListener("click", function (e) {
+      e.preventDefault();
+      date.value = yesterday;
+    });
+
+    gridStats.addEventListener("click", function (e) {
+      e.preventDefault();
+      const clicked = e.target.closest(".btn-add-stat");
+      let icon = e.target.textContent.trim();
+      if (!clicked) return;
+      statRows.forEach(
+        (row) =>
+          row.dataset.stat === clicked.dataset.stat &&
+          row.classList.toggle("invisible")
+      );
+      e.target.textContent =
+        icon === "add_circle" ? "remove_circle" : "add_circle";
+    });
+
+    wrapperStars.addEventListener(
+      "mouseover",
+      this._handleStarMouseOver.bind(this)
+    );
+
+    wrapperStars.addEventListener(
+      "mouseout",
+      this._handleStarMouseOut.bind(this)
+    );
+
+    wrapperStars.addEventListener("click", this._handleStarClick.bind(this));
+
+    btnClearForm.addEventListener("click", this._clearNewEntryForm.bind(this));
+
+    btnAddEntry.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const newEntry = new LogEntry(
+        date.value,
+        elevation.value,
+        distance.value,
+        hours.value,
+        minutes.value,
+        "test notes"
+      );
+      currentUser.addLogEntry(newEntry);
+    });
   }
-}
 
-class Entry {
-  peaks = [];
-  constructor(description, date, elevation, hours, min, notes, peaks) {
-    this.description = description;
-    this.date = date;
-    this.elevation = elevation;
-    this.hours = hours;
-    this.min = min;
-    this.time = hours + min / 60;
-    this.notes = notes;
-    peaks.forEach((peak) => this.peaks.push(peak));
+  _getCoords() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        this._loadMap.bind(this),
+        this._loadMap.bind(this)
+      );
+    }
   }
-}
 
-///////////////////////////////////////////////////////////////////////////////////
-// FUNCTIONS
+  _loadMap(position) {
+    this.#latitude = position.coords ? position.coords["latitude"] : 44.0444;
+    this.#longitude = position.coords ? position.coords["longitude"] : -71.6684;
+    this.#coords = [this.#latitude, this.#longitude];
+    this.#map = new L.Map("map", {
+      zoomControl: false,
+    }).setView(this.#coords, 13);
 
-const clearNewEntryForm = function () {
-  allStars.forEach((star) => {
-    clearStar(star);
-    star.dataset.clicked = "false";
-  });
-  statRowIcons.forEach((icon) => (icon.textContent = "add_circle"));
-  statRows.forEach((row) => row.classList.add("invisible"));
-  formNewEntry.reset();
-};
+    L.tileLayer(
+      "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png",
+      {
+        maxZoom: 50,
+        attribution:
+          '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+      }
+    ).addTo(this.#map);
 
-const closeModal = function () {
-  containers.forEach((container) => container.classList.add("hidden"));
-  containerMain.classList.add("hidden");
-  clearNewEntryForm();
-  mainNavBtns.forEach((btn) => {
-    btn.classList.remove("main-nav__btn--active");
-    btn.dataset.container === "map" &&
-      btn.classList.add("main-nav__btn--active");
-  });
-};
+    L.control
+      .zoom({
+        position: "bottomright",
+      })
+      .addTo(this.#map);
+  }
 
-const displayContainer = function (container) {
-  containers.forEach((container) => container.classList.add("hidden"));
-  containerMain.classList.remove("hidden");
-  container.classList.remove("hidden");
-};
+  _clearMap() {
+    peakListsArr.forEach((peakObj) => peakObj.clearPeaksOnMap());
+  }
 
-///////////////////////////////////////////////////////////////////////////////////
-// EVENT LISTENERS
+  _clearNewEntryForm() {
+    // allStars.forEach((star) => {
+    //   this._clearStar(star);
+    //   star.dataset.clicked = "false";
+    // });
+    statRowIcons.forEach((icon) => (icon.textContent = "add_circle"));
+    statRows.forEach((row) => row.classList.add("invisible"));
+    formNewEntry.reset();
+  }
 
-// SIDEBAR
+  _closeContainer() {
+    containers.forEach((container) => container.classList.add("hidden"));
+    containerMain.classList.add("hidden");
+    this._clearNewEntryForm();
+    mainNavBtns.forEach((btn) => {
+      btn.classList.remove("main-nav__btn--active");
+      btn.dataset.container === "map" &&
+        btn.classList.add("main-nav__btn--active");
+    });
+    this._clearMap();
+  }
 
-btnSidebar.addEventListener("click", function () {
-  sidebarHidden = sidebarHidden ? false : true;
-  // FIXME
-  sidebar.style.marginLeft = `${sidebarHidden ? "-17.8rem" : "0"}`;
-  btnSidebarIcon.innerHTML = sidebarHidden ? "chevron_right" : "chevron_left";
-});
+  _mainNavClick(e) {
+    const clicked = e.target.closest(".main-nav__btn");
+    if (!clicked) return;
+    if (clicked.dataset["container"] === "map") {
+      this._closeContainer();
+    } else {
+      this._displayContainer(
+        document.querySelector(`.${clicked.dataset["container"]}`)
+      );
+    }
+    mainNavBtns.forEach((link) =>
+      link.classList.remove("main-nav__btn--active")
+    );
+    clicked.classList.add("main-nav__btn--active");
+    this._clearMap();
+  }
 
-mainNavList.addEventListener("click", function (e) {
-  const clicked = e.target.closest(".main-nav__btn");
-  if (!clicked) return;
-  if (clicked.dataset["container"] === "map") {
-    closeModal();
-  } else {
-    displayContainer(
-      document.querySelector(`.${clicked.dataset["container"]}`)
+  _peakListClick(e) {
+    const { id } = e.target.closest(".peak-list").dataset;
+    if (e.target.classList.contains("btn-view-list")) {
+      this._displaySinglePeakList(id);
+    }
+    if (e.target.closest(".btn-add-peak")) {
+      if (!currentUser.savedLists.includes(id)) {
+        currentUser.savedLists.push(id);
+        e.target.textContent = "done";
+      } else {
+        e.target.textContent = "post_add";
+        currentUser.savedLists.splice(currentUser.savedLists.indexOf(id), 1);
+      }
+    } else return;
+  }
+
+  _displayContainer(container) {
+    containers.forEach((container) => container.classList.add("hidden"));
+    containerMain.classList.remove("hidden");
+    container.classList.remove("hidden");
+  }
+
+  _displayAllPeakLists() {
+    peakListsArr.forEach((peakList) =>
+      peakListsEl.insertAdjacentHTML(
+        "beforeend",
+        `<li class="peak-list" data-id="${peakList.id}">
+        <button class="btn btn--icon btn-add-peak" data-id='${peakList.id}'>
+        <span class="material-icons"> ${
+          currentUser.savedLists.includes(peakList.id) ? "done" : "post_add"
+        } </span>
+      </button>
+      <div class="peak-list__info">
+        <h2 class="peak-list__label-title">${peakList.title}</h2>
+        <span class="peak-list__label-number">${
+          peakList.peakCount
+        } Mountains</span>
+      </div>
+        <button class="btn btn--dark btn-view-list">VIEW</button>
+    </li>`
+      )
     );
   }
-  mainNavBtns.forEach((link) => link.classList.remove("main-nav__btn--active"));
-  clicked.classList.add("main-nav__btn--active");
-});
 
-// MAIN CONTAINER
+  _displaySinglePeakList(peakListID, sort = "alphabetical") {
+    // Set the title and # of mountains labels
+    this._displayContainer(containerSinglePeakList);
+    // Get the correct peak object to display
+    const currentPeakObj = getPeakObjFromID(peakListID);
 
-btnCloseModal.addEventListener("click", closeModal);
-
-document.addEventListener("keydown", function (e) {
-  e.key === "Escape" &&
-    !modalNewEntry.classList.contains("hidden") &&
-    closeModal();
-});
-
-// NEW ENTRY FORM
-
-btnToday.addEventListener("click", function (e) {
-  e.preventDefault();
-  date.value = today;
-});
-
-btnYesterday.addEventListener("click", function (e) {
-  e.preventDefault();
-  date.value = yesterday;
-});
-
-gridStats.addEventListener("click", function (e) {
-  e.preventDefault();
-  const clicked = e.target.closest(".btn-add-stat");
-  let icon = e.target.textContent.trim();
-  if (!clicked) return;
-  statRows.forEach(
-    (row) =>
-      row.dataset.stat === clicked.dataset.stat &&
-      row.classList.toggle("invisible")
-  );
-  e.target.textContent = icon === "add_circle" ? "remove_circle" : "add_circle";
-});
-
-const fillStar = function (star) {
-  star.textContent = "star";
-  star.classList.add("star-icon--full");
-};
-
-const clearStar = function (star) {
-  star.textContent = "star_border";
-  star.classList.remove("star-icon--full");
-};
-
-wrapperStars.addEventListener("mouseover", function (e) {
-  const hovered = e.target.closest(".star-icon");
-  console.log(hovered);
-  if (!hovered) return;
-  allStars.forEach(function (star) {
-    if (star.dataset.num <= hovered.dataset.num) {
-      fillStar(star);
-    } else {
-      clearStar(star);
+    // Display this single peak list container
+    if (sort === "elevation") {
+      currentPeakObj.data.sort((a, b) => b.elevFeet - a.elevFeet);
     }
-  });
-});
 
-wrapperStars.addEventListener("mouseout", function (e) {
-  allStars.forEach(function (star) {
-    if (star.dataset.clicked === "false") {
-      clearStar(star);
-    } else {
-      fillStar(star);
+    if (sort === "alphabetical") {
+      currentPeakObj.data.sort((currentPeakObj) => currentPeakObj.name);
+      currentPeakObj.data.sort((a, b) =>
+        a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+      );
     }
-  });
-});
 
-wrapperStars.addEventListener("click", function (e) {
-  e.preventDefault();
-  const clicked = e.target.closest(".btn-star");
-  if (!clicked) return;
-  allStars.forEach(function (star) {
-    if (star.dataset.num <= clicked.dataset.num) {
-      fillStar(star);
-      star.dataset.clicked = "true";
-    } else {
-      clearStar(star);
-      star.dataset.clicked = "false";
+    containerSinglePeakList.querySelector(
+      ".container__heading"
+    ).textContent = `${currentPeakObj.title}`;
+    containerSinglePeakList.querySelector(
+      ".peak-list__label-number"
+    ).textContent = `${currentPeakObj.peakCount} Mountains`;
+
+    // Clear the Map
+    this._clearMap();
+    // Set the view according to the object
+    this.#map.setView(currentPeakObj.center, currentPeakObj.zoom);
+    // Create marker layer
+    currentPeakObj.createMarkerLayer();
+    this.#map.addLayer(currentPeakObj.markersLayer);
+
+    // currentPeakObj.markersLayer.addTo(this.#map);
+
+    peakListTableBody.innerHTML = "";
+    currentPeakObj.data.forEach((peakObj, i) => {
+      peakListTableBody.insertAdjacentHTML(
+        "beforeend",
+        `<tr class="peak-list__table-row">
+                <td>${i + 1}</td>
+                <td style="text-align:left">${peakObj.name}</td>
+                <td>${peakObj.state}</td>
+
+                <td>${peakObj.elevFeet.toLocaleString(undefined)}</td>
+                <td>LOG TRIP</td>
+              </tr>`
+      );
+    });
+  }
+
+  _handleStarMouseOver(e) {
+    const hovered = e.target.closest(".btn-star");
+    if (!hovered) return;
+    for (const starBtn of allStarButtons) {
+      const starIcon = starBtn.querySelector(".star-icon");
+      starBtn.dataset.num <= hovered.dataset.num
+        ? this._fillStar(starIcon)
+        : this._clearStar(starIcon);
     }
-  });
-});
+  }
 
-btnClearForm.addEventListener("click", function () {
-  clearNewEntryForm();
-});
-
-btnAddEntry.addEventListener("click", function () {
-  newEntry = new Entry(
-    title.value,
-    date.value,
-    elevation.value,
-    hours.value,
-    minutes.value,
-    "test log",
-    ["Mt Washington", "Mt.Jefferson"]
-  );
-});
-
-///////////////////////////////////////////////////////////////////////////////////
-// GEOLOCATION API
-
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(
-    function (position) {
-      const { latitude } = position.coords;
-      const { longitude } = position.coords;
-      const coords = [latitude, longitude];
-
-      const map = L.map("map", {
-        zoomControl: false,
-      }).setView(coords, 13);
-
-      L.tileLayer(
-        "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png",
-        {
-          maxZoom: 50,
-          attribution:
-            '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-        }
-      ).addTo(map);
-
-      L.control
-        .zoom({
-          position: "bottomright",
-        })
-        .addTo(map);
-
-      L.marker(coords)
-        .addTo(map)
-        .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
-        .openPopup();
-    },
-    function () {
-      console.log("Could not get your position");
+  _handleStarMouseOut(e) {
+    for (const starBtn of allStarButtons) {
+      const starIcon = starBtn.querySelector(".star-icon");
+      if (starBtn.dataset.filled === "false") {
+        this._clearStar(starIcon);
+      } else {
+        this._fillStar(starIcon);
+      }
     }
-  );
+  }
+
+  _handleStarClick(e) {
+    e.preventDefault();
+    const clicked = e.target.closest(".btn-star");
+    if (!clicked) return;
+    for (const starBtn of allStarButtons) {
+      const starIcon = starBtn.querySelector(".star-icon");
+      if (starBtn.dataset.num <= clicked.dataset.num) {
+        this._fillStar(starIcon);
+        starBtn.dataset.filled = "true";
+      } else {
+        this._clearStar(starIcon);
+        starBtn.dataset.filled = "false";
+      }
+    }
+  }
+
+  _fillStar(starIcon) {
+    starIcon.textContent = "star";
+    starIcon.classList.add("star-icon--full");
+  }
+
+  _clearStar(starIcon) {
+    starIcon.textContent = "star_border";
+    starIcon.classList.remove("star-icon--full");
+  }
 }
+
+class PeakList {
+  markers = [];
+  constructor(title, id, data, center, zoom) {
+    this.title = title;
+    this.id = id;
+    // An array of Mountan objects
+    this.data = data;
+    this.peakCount = data.length;
+    this.center = center;
+    this.zoom = zoom;
+    this.createMarkerLayer();
+  }
+
+  createMarkerLayer() {
+    this.data.forEach((peakObj) => {
+      this.markers.push(
+        new L.Marker([peakObj.lat, peakObj.long])
+          .bindPopup(L.popup({ className: "peak-popup", minWidth: 200 }))
+          .setPopupContent(`<span>${peakObj.name}</span>`)
+      );
+      this.markersLayer = L.layerGroup(this.markers);
+    });
+  }
+
+  clearPeaksOnMap() {
+    this.markersLayer.clearLayers();
+  }
+}
+
+class LogEntry {
+  peaks = [];
+  constructor(
+    date,
+    // peaks,
+    elevation,
+    distance,
+    hours,
+    min,
+    notes
+  ) {
+    this.date = date;
+    // peaks.forEach((peak) => this.peaks.push(peak));
+    this.elevation = elevation;
+    this.distance = distance;
+    this.hours = hours;
+    this.min = min;
+    this.notes = notes;
+    this.init();
+  }
+
+  init() {
+    if (this.hours && this.min) this.time = hours + min / 60;
+    if (this.distance && this.time)
+      this.avgSpeedMPH = this.distance / this.time;
+  }
+}
+
+class User {
+  savedLists = [];
+  logEntires = [];
+  completedPeaks = [];
+  coords;
+  constructor(firstName, username) {
+    this.firstName = firstName;
+    this.username = username;
+    this.locale = navigator.locale;
+  }
+
+  addLogEntry(entry) {
+    this.logEntires.push(entry);
+  }
+  removeLogEntry(entry) {
+    this.logEntires.slice(this.logEntires.indexOf(entry), 1);
+  }
+}
+
+const currentUser = new User("Kris", "kristopher.doyon");
+
+// TODO TODO TODO ADD ALL LIST OBJECTS
+nh4k = new PeakList(
+  "New Hampshire 4,000 Footers",
+  "nh4k",
+  nh4k,
+  [44.20681942220478, -72.09640502929689],
+  10
+);
+
+vt4k = new PeakList(
+  "Vermont 4,000 Footers",
+  "vt4k",
+  vt4k,
+  [44.08363928284644, -74.08355712890626],
+  9
+);
+
+neHigh = new PeakList(
+  "New England State Highpoints",
+  "neHigh",
+  neHigh,
+  [43.739352079154706, -76.03637695312501],
+  7
+);
+
+const peakListsArr = [nh4k, vt4k, neHigh];
+
+const app = new App();
+
+// handleStarHover(e) {
+//   const hovered = e.target.closest(".star-icon");
+//   if (!hovered) return;
+
+// }
+
+//       allStars.forEach(function (star) {
+//         if (star.dataset.num <= hovered.dataset.num) {
+//           this._fillStar(star);
+//         } else {
+//           this._clearStar(star);
+//         }
+
+// }
+
+// fillstars() {
+
+// }
+
+// wrapperStars.addEventListener("mouseover", function (e) {
+//       c
+//       });
+//     });
+
+//     _fillStars() {}
+
+//
+//
+
+//
