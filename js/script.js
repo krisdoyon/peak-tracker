@@ -89,8 +89,6 @@ class App {
   constructor() {
     this._getCoords();
     this._displayAllPeakLists();
-    // currentUser._getLocalStorage();
-    // this.#sidebarHidden = false;
 
     /////////////////////////////////////////////////////////////////////////////////
     // EVENT HANDLERS
@@ -234,6 +232,7 @@ class App {
         const newEntry = new LogEntry(
           formattedDate,
           peaks,
+          chooseListSelect.value,
           inputElevation.value,
           inputDistance.value,
           inputHours.value,
@@ -368,6 +367,7 @@ class App {
     containers.forEach((container) => container.classList.add("hidden"));
     containerMain.classList.remove("hidden");
     containerObj.classList.remove("hidden");
+    containerID === "all-peak-lists" && this._displayAllPeakLists();
 
     mainNavBtns.forEach((btn) => {
       btn.classList.remove("main-nav__btn--active");
@@ -377,7 +377,10 @@ class App {
   }
 
   _displayAllPeakLists() {
-    peakListsArr.forEach((peakList) =>
+    peakListsEl.innerHTML = "";
+    peakListsArr.forEach((peakList) => {
+      const width =
+        (currentUser.listCounts[peakList.id] / peakList.data.length) * 100;
       peakListsEl.insertAdjacentHTML(
         "beforeend",
         `<li class="peak-list" data-id="${peakList.id}">
@@ -391,11 +394,14 @@ class App {
         <span class="peak-list__label-number">${
           peakList.peakCount
         } Mountains</span>
+        <div class='progress-bar'><div class='progress-bar__label'>${
+          Math.round(width * 10) / 10
+        }%</div><div class='progress' style="width:${width}%"></div></div>
       </div>
         <button class="btn btn--dark btn-view-list">VIEW</button>
     </li>`
-      )
-    );
+      );
+    });
   }
 
   _sortPeakList(peakListID, sortType) {
@@ -557,7 +563,7 @@ class PeakList {
     this.peakCount = data.length;
     this.center = center;
     this.zoom = zoom;
-    this.createMarkerLayer();
+    // this.createMarkerLayer();
   }
 
   createMarker(peakObj, color = "red") {
@@ -566,19 +572,13 @@ class PeakList {
       iconSize: [25, 20],
     });
     const marker = new L.Marker([peakObj.lat, peakObj.long], { icon: mtnIcon });
-    marker
-      .bindPopup(
-        L.popup({}).on("click", function () {
-          console.log("hi");
-        })
-      )
-      .setPopupContent(
-        `<div class='peak-popup'>
+    marker.bindPopup(L.popup({})).setPopupContent(
+      `<div class='peak-popup'>
               <span class='peak-popup__label-name'>${peakObj.name}</span>
               <span class='peak-popup__label-elevation'>${peakObj.elevFeet} ft.</span>
               <button class='btn btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${this.id}'>LOG TRIP</button>
             </div>`
-      );
+    );
     return marker;
   }
 
@@ -595,16 +595,27 @@ class PeakList {
   }
 
   clearPeaksOnMap() {
-    this.markersLayer.clearLayers();
+    this.markersLayer && this.markersLayer.clearLayers();
     this.markers = [];
   }
 }
 
 class LogEntry {
   peaks = [];
-  constructor(date, peaks, elevation, distance, hours, min, notes, rating) {
+  constructor(
+    date,
+    peaks,
+    listID,
+    elevation,
+    distance,
+    hours,
+    min,
+    notes,
+    rating
+  ) {
     this.date = date;
     peaks.forEach((peak) => this.peaks.push(peak));
+    this.listID = listID;
     this.elevation = +elevation;
     this.distance = +distance;
     this.hours = +hours;
@@ -625,29 +636,36 @@ class User {
   savedLists = [];
   logEntries = [];
   completedPeaks = [];
+  listCounts = {};
   coords;
   constructor(firstName, username) {
     this.firstName = firstName;
     this.username = username;
     this.locale = navigator.locale;
+    this.listCounts = {};
 
     this._getLocalStorage();
+    this._initializeListCounts();
   }
 
   addLogEntry(entry) {
     this.logEntries.unshift(entry);
-    entry.peaks.forEach((peak) => this.completedPeaks.push(peak));
+    entry.peaks.forEach((peakID) => {
+      this._updateListCounts(peakID);
+      this.completedPeaks.push(peakID);
+    });
+
+    // this.listCounts[`${entry.listID}`] += entry.peaks.length;
     this._setLocalStorage();
   }
   removeLogEntry(entry) {
     this.logEntries.slice(this.logEntries.indexOf(entry), 1);
   }
 
-  // addCompletedPeaks()
-
   _setLocalStorage() {
     localStorage.setItem("logEntries", JSON.stringify(this.logEntries));
     localStorage.setItem("completedPeaks", JSON.stringify(this.completedPeaks));
+    localStorage.setItem("listCounts", JSON.stringify(this.listCounts));
   }
 
   _getLocalStorage() {
@@ -655,12 +673,27 @@ class User {
       this.logEntries = JSON.parse(localStorage.getItem("logEntries"));
     if (localStorage.completedPeaks)
       this.completedPeaks = JSON.parse(localStorage.getItem("completedPeaks"));
+    if (localStorage.listCounts)
+      this.listCounts = JSON.parse(localStorage.getItem("listCounts"));
+  }
+
+  _initializeListCounts() {
+    peakListsArr.forEach((peakListObj) => {
+      if (!this.listCounts[`${peakListObj.id}`])
+        this.listCounts[`${peakListObj.id}`] = 0;
+    });
+  }
+
+  _updateListCounts(peakID) {
+    peakListsArr.forEach((peakListObj) => {
+      if (!this.completedPeaks.some((id) => id === peakID)) {
+        if (peakListObj.data.some((peakObj) => peakObj.id === peakID)) {
+          this.listCounts[`${peakListObj.id}`] += 1;
+        }
+      }
+    });
   }
 }
-
-const currentUser = new User("Kris", "kristopher.doyon");
-
-// currentUser.addLogEntry(new LogEntry("8/12/1990", [871352, 871380]));
 
 // TODO TODO TODO ADD ALL LIST OBJECTS
 co14 = new PeakList(
@@ -703,6 +736,32 @@ neHigh = new PeakList(
   7
 );
 
-const peakListsArr = [co14, me4k, nh4k, vt4k, neHigh];
+adk46 = new PeakList(
+  "Adirondack High Peaks",
+  "adk46",
+  adk46,
+  [44.09153051045221, -74.57519531250001],
+  10
+);
+
+let ne4k = new PeakList(
+  "New England 4,000 Footers",
+  "ne4k",
+  [...nh4k.data, ...me4k.data, ...vt4k.data],
+  [44.54350521320822, -73.39753417968751],
+  8
+);
+
+let ne100 = new PeakList(
+  "New England 100 Highest",
+  "ne100",
+  [...ne4k.data, ...ne100rest],
+  [44.54350521320822, -73.39753417968751],
+  8
+);
+
+const peakListsArr = [co14, me4k, nh4k, vt4k, neHigh, adk46, ne4k, ne100];
+
+const currentUser = new User("Kris", "kristopher.doyon");
 
 const app = new App();

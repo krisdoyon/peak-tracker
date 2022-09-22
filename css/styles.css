@@ -240,9 +240,11 @@ body {
 .peak-list {
   display: grid;
   grid-template-columns: max-content 1fr max-content;
+  /* grid-template-columns: 1fr 1fr 1fr; */
   border-top: 1px solid rgba(0, 0, 0, 0.3);
   padding: 2.4rem 2rem;
   gap: 1.8rem;
+  align-items: center;
 }
 
 .peak-list__info {
@@ -257,8 +259,29 @@ body {
   font-size: 1.2rem;
 }
 
+.progress-bar {
+  width: 100%;
+  height: 1rem;
+  border-radius: 100rem;
+  background-color: var(--color-light-3);
+  position: relative;
+}
+
+.progress-bar__label {
+  position: absolute;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.progress {
+  background-color: rgba(176, 255, 186, 0.397);
+  height: 1rem;
+  width: 50%;
+}
+
 .btn-view-list {
   padding: 0rem 2.4rem;
+  height: 60%;
 }
 
 /* SINGLE PEAK LIST CONTAINER */
