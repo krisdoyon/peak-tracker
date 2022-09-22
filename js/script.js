@@ -392,8 +392,8 @@ class App {
       <div class="peak-list__info">
         <h2 class="peak-list__label-title">${peakList.title}</h2>
         <span class="peak-list__label-number">${
-          peakList.peakCount
-        } Mountains</span>
+          currentUser.listCounts[peakList.id]
+        } of ${peakList.peakCount} Peaks</span>
         <div class='progress-bar'><div class='progress-bar__label'>${
           Math.round(width * 10) / 10
         }%</div><div class='progress' style="width:${width}%"></div></div>
