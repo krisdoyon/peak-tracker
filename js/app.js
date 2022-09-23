@@ -1,10 +1,10 @@
 "use strict";
 
+// listID = string, identifies peak list ("nh4k", "co14")
+// peakID = string, identifies  individual peak ("845952")
+
 ///////////////////////////////////////////////////////////////////////////////////
 // DOM ELEMENTS
-
-// MAP
-const peakPopups = document.getElementsByClassName("peak-popup");
 
 // SIDEBAR
 const sidebar = document.querySelector(".sidebar");
@@ -24,7 +24,7 @@ const peakListTableBody = document.querySelector(".peak-list__table-body");
 const containerSinglePeakList = document.querySelector(
   ".container-single-peak-list"
 );
-const btnBacks = [...document.querySelectorAll(".btn-back")];
+const btnBacks = [...document.getElementsByClassName("btn-back")];
 const btnsViewList = document.getElementsByClassName("btn-view-list");
 
 // HISTORY CONTAINER
@@ -62,7 +62,7 @@ const btnAddEntry = document.querySelector(".btn-add-entry");
 ///////////////////////////////////////////////////////////////////////////////////
 // GLOBAL FUNCTIONS
 
-const getPeakObjFromID = function (peakListID) {
+const getListFromID = function (peakListID) {
   return peakListsArr.find((peakList) => peakList.id === peakListID);
 };
 
@@ -71,10 +71,9 @@ class App {
   #latitude;
   #longitude;
   #coords;
-  sidebarHidden;
+  sidebarHidden = false;
   constructor() {
     this._getCoords();
-    this._displayAllHistoryList();
 
     /////////////////////////////////////////////////////////////////////////////////
     // EVENT HANDLERS
@@ -114,7 +113,7 @@ class App {
       function (e) {
         const clicked = e.target.closest(".btn--text");
         if (!clicked) return;
-        this._displayAllPeakLists(clicked.dataset.display);
+        this._displayPeakLists(clicked.dataset.display);
       }.bind(this)
     );
 
@@ -141,7 +140,7 @@ class App {
         this._displayPeakListCheckboxes(clicked.dataset.listId);
         chooseListSelect.value = clicked.dataset.listId;
         const checkbox = [...gridPeakCheckboxes.querySelectorAll("input")].find(
-          (input) => input.value === String(clicked.dataset.mtnId)
+          (input) => +input.value === +clicked.dataset.mtnId
         );
         checkbox.checked = "true";
       }.bind(this)
@@ -220,15 +219,15 @@ class App {
     btnAddEntry.addEventListener(
       "click",
       function (e) {
-        // e.preventDefault();
+        e.preventDefault();
         if (!inputDate.value) {
-          // alert("Please enter a date");
-          // return;
+          alert("Please enter a date");
+          return;
         }
         const peaks = this._getCheckedPeaks();
         if (peaks.length <= 0) {
-          // alert("Choose at least one peak from a list");
-          // return;
+          alert("Choose at least one peak from a list");
+          return;
         }
 
         const rating = allStarButtons.filter(
@@ -263,8 +262,8 @@ class App {
   }
 
   _loadMap(position) {
-    this.#latitude = position.coords ? position.coords["latitude"] : 44.0444;
-    this.#longitude = position.coords ? position.coords["longitude"] : -71.6684;
+    this.#latitude = position.coords["latitude"] || 44.0444;
+    this.#longitude = position.coords["longitude"] || -71.6684;
     this.#coords = [this.#latitude, this.#longitude];
     this.#map = new L.Map("map", {
       zoomControl: false,
@@ -282,25 +281,20 @@ class App {
       })
       .addTo(this.#map);
 
-    this.#map.on("click", function (mapEvent) {
-      console.log(mapEvent);
-    });
+    // this.#map.on("click", function (mapEvent) {
+    //   console.log(mapEvent);
+    // });
   }
 
   _clearMap() {
-    peakListsArr.forEach((peakObj) => peakObj.clearPeaksOnMap());
+    peakListsArr.forEach((list) => list.clearPeaksOnMap());
   }
 
   _plotListOnMap(peakID) {
-    const peakListObj = peakListsArr.find((peakObj) => peakObj.id === peakID);
-    // clear the map
+    const currentList = peakListsArr.find((peak) => peak.id === peakID);
     this._clearMap();
-    // Set the view according to the object
-    this.#map.setView(peakListObj.center, peakListObj.zoom);
-    // Create marker layer to be added
-    peakListObj.createMarkerLayer();
-    // Add marker layer to map
-    this.#map.addLayer(peakListObj.markersLayer);
+    this.#map.setView(currentList.center, currentList.zoom);
+    this.#map.addLayer(currentList.createMarkerLayer());
   }
 
   _clearNewEntryForm() {
@@ -334,19 +328,19 @@ class App {
       this._closeContainer();
     } else {
       this._displayContainer(`${clicked.dataset["container"]}`);
-      // clicked.dataset["container"] === "new-entry" || this._clearNewEntryForm();
     }
     this._clearMap();
   }
 
   _peakListClick(e) {
+    // View list button
     const { id } = e.target.closest(".list-entry").dataset;
     if (e.target.closest(".btn-view-list")) {
       this._displaySinglePeakList(id);
     }
 
-    // Save peak button
-    if (e.target.closest(".btn-add-peak")) {
+    // Save peak list button
+    if (e.target.closest(".btn-add-peak-list")) {
       if (!currentUser.savedLists.includes(id)) {
         currentUser.addSavedList(id);
         e.target.textContent = "done";
@@ -364,7 +358,7 @@ class App {
     containers.forEach((container) => container.classList.add("hidden"));
     containerMain.classList.remove("hidden");
     containerObj.classList.remove("hidden");
-    containerID === "all-peak-lists" && this._displayAllPeakLists();
+    containerID === "all-peak-lists" && this._displayPeakLists();
     this._displayAllHistoryList();
     containerID === "history" && this._displayAllHistoryList();
 
@@ -375,13 +369,12 @@ class App {
     });
   }
 
-  _displayAllPeakLists(type = "all") {
+  _displayPeakLists(type = "all") {
     peakListsEl.innerHTML = "";
-
     const listToDisplay =
       type === "saved"
-        ? peakListsArr.filter((peakListObj) =>
-            currentUser.savedLists.includes(peakListObj.id)
+        ? peakListsArr.filter((list) =>
+            currentUser.savedLists.includes(list.id)
           )
         : peakListsArr;
 
@@ -389,35 +382,49 @@ class App {
       a.title.toLowerCase().localeCompare(b.title.toLowerCase())
     );
     listToDisplay.forEach((peakList) => {
-      const width =
-        (currentUser.listCounts[peakList.id] / peakList.data.length) * 100;
       peakListsEl.insertAdjacentHTML(
         "beforeend",
-        `<li class="list-entry" data-id="${peakList.id}">
-        <button class="btn btn--icon btn-add-peak" data-id='${peakList.id}'>
-        <span class="material-icons"> ${
-          currentUser.savedLists.includes(peakList.id) ? "done" : "post_add"
-        } </span>
-      </button>
-      <div class="list-entry__info">
-        <h2 class="list-entry__label-primary"><strong>${
-          peakList.title
-        }</strong></h2>
-        <span class="list-entry__label-secondary">${
-          currentUser.listCounts[peakList.id]
-        } of ${peakList.peakCount} Peaks</span>
-        <div class='progress-bar'><div class='progress-bar__label'>${
-          Math.round(width * 10) / 10
-        }%</div><div class='progress' style="width:${width}%"></div></div>
-      </div>
-        <button class="btn btn--dark btn-view btn-view-list">VIEW</button>
-    </li>`
+        this._createPeakListHTML(peakList.id)
       );
     });
   }
 
-  _sortPeakList(peakListID, sortType) {
-    const currentPeakListObj = getPeakObjFromID(peakListID);
+  _createPeakListHTML(listID) {
+    const currentList = getListFromID(listID);
+    const html = `<li class="list-entry" data-id="${currentList.id}">
+        <button class="btn btn--icon btn-add-peak-list" data-id='${
+          currentList.id
+        }'>
+        <span class="material-icons"> ${
+          currentUser.savedLists.includes(currentList.id) ? "done" : "post_add"
+        } </span>
+      </button>
+      <div class="list-entry__info">
+        <h2 class="list-entry__label-primary"><strong>${
+          currentList.title
+        }</strong></h2>
+        <span class="list-entry__label-secondary">${
+          currentUser.listCounts[currentList.id]
+        } of ${currentList.peakCount} Peaks</span>
+        ${this._createProgressBarHTML(currentList.id)}
+        <button class="btn btn--dark btn-view btn-view-list">VIEW</button>
+    </li>`;
+    return html;
+  }
+
+  _createProgressBarHTML(listID) {
+    const currentList = getListFromID(listID);
+    const width =
+      (currentUser.listCounts[currentList.id] / currentList.data.length) * 100;
+    const html = `<div class='progress-bar'><div class='progress-bar__label'>${
+      Math.round(width * 10) / 10
+    }%</div><div class='progress' style="width:${width}%"></div></div>
+      </div>`;
+    return html;
+  }
+
+  _sortPeakList(listID, sortType = "elevation") {
+    const currentPeakListObj = getListFromID(listID);
     if (sortType === "elevation") {
       currentPeakListObj.data.sort((a, b) => b.elevFeet - a.elevFeet);
     }
@@ -429,14 +436,9 @@ class App {
     }
   }
 
-  _displaySinglePeakList(peakListID) {
-    // Set the title and # of mountains labels
+  _displaySinglePeakList(listID) {
     this._displayContainer("single-peak-list");
-    // Get the correct peak object to display
-    const currentPeakObj = getPeakObjFromID(peakListID);
-    // Display this single peak list container
-
-    // Set the labels
+    const currentPeakObj = getListFromID(listID);
     containerSinglePeakList.querySelector(
       ".container__heading"
     ).textContent = `${currentPeakObj.title}`;
@@ -445,39 +447,47 @@ class App {
     ).textContent = `${currentUser.listCounts[currentPeakObj.id]} of ${
       currentPeakObj.peakCount
     } Peaks`;
-
-    this._plotListOnMap(peakListID);
-
-    // Reset the table body
+    containerSinglePeakList.querySelector(".wrapper-progress").innerHTML = "";
+    containerSinglePeakList
+      .querySelector(".wrapper-progress")
+      .insertAdjacentHTML("beforeend", this._createProgressBarHTML(listID));
+    this._plotListOnMap(listID);
     peakListTableBody.innerHTML = "";
-    // Add a row for each peak
-    this._sortPeakList(peakListID, "elevation");
-    currentPeakObj.data.forEach((peakObj, i) => {
+    peakListTableBody.insertAdjacentHTML(
+      "beforeend",
+      this._createSinglePeakListHTML(listID)
+    );
+  }
+
+  _createSinglePeakListHTML(listID) {
+    const currentList = getListFromID(listID);
+    this._sortPeakList(listID, "elevation");
+    let peakListHTML = "";
+    currentList.data.forEach((peak, i) => {
       let logMatch;
       if (currentUser.logEntries.length) {
         logMatch = currentUser.logEntries.find((entry) =>
-          entry.peaks.includes(peakObj.id)
+          entry.peaks.includes(peak.id)
         );
       }
 
-      peakListTableBody.insertAdjacentHTML(
-        "beforeend",
-        `<tr class="peak-list__table-row ${
-          logMatch ? "peak-list__table-row--complete" : ""
-        }" data-mtn-id="${peakObj.id}" data-list-id="${currentPeakObj.id}">
-                <td>${i + 1}</td>
-                <td style="text-align:left">${peakObj.name}</td>
-                <td>${peakObj.state}</td>
+      const htmlRow = `<tr class="peak-list__table-row ${
+        logMatch && "peak-list__table-row--complete"
+      }" data-mtn-id="${peak.id}" data-list-id="${peak.id}">
+        <td>${i + 1}</td>
+        <td style="text-align:left">${peak.name}</td>
+        <td>${peak.state}</td>
 
-                <td>${peakObj.elevFeet.toLocaleString()}</td>
-                <td>${
-                  logMatch
-                    ? `${logMatch.shortDate}`
-                    : `<button class='btn btn--text btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${currentPeakObj.id}'>LOG TRIP</button>`
-                }</td>
-              </tr>`
-      );
+        <td>${peak.elevFeet.toLocaleString()}</td>
+        <td>${
+          logMatch
+            ? `${logMatch.shortDate}`
+            : `<button class='btn btn--text btn-log-trip' data-mtn-id='${peak.id}' data-list-id='${currentList.id}'>LOG TRIP</button>`
+        }</td>
+      </tr>`;
+      peakListHTML += htmlRow;
     });
+    return peakListHTML;
   }
 
   // HISTORY CONTAINER FUNCTIONS
@@ -602,31 +612,35 @@ class App {
 
   // NEW ENTRY CONTAINER FUNCTIONS
 
-  _displayPeakListCheckboxes(peakListID) {
+  _displayPeakListCheckboxes(listID) {
     gridPeakCheckboxes.classList.remove("hidden");
     gridPeakCheckboxes.innerHTML = "";
-    const currentPeakListObj = getPeakObjFromID(peakListID);
-    this._sortPeakList(peakListID, "alphabetical");
-    const arrCopy = currentPeakListObj.data.map((peakObj) => peakObj);
+
+    const currentPeakListObj = getListFromID(listID);
+
+    this._sortPeakList(listID, "alphabetical");
+
+    const arrCopy = currentPeakListObj.data.map((peak) => peak);
     const arrFirstHalf = arrCopy.splice(Math.ceil(arrCopy.length / 2));
     const displayArr = [];
+
     for (const [i, _] of arrCopy.entries()) {
       arrCopy[i] && displayArr.push(arrCopy[i]);
       arrFirstHalf[i] && displayArr.push(arrFirstHalf[i]);
     }
 
-    displayArr.forEach((peakObj) =>
+    displayArr.forEach((peak) =>
       gridPeakCheckboxes.insertAdjacentHTML(
         "beforeend",
-        `<input type="checkbox" value="${peakObj.id}"/><label
+        `<input type="checkbox" value="${peak.id}"/><label
                   for="title"
                   class="form__label--units"
-                  >${peakObj.name}</label
+                  >${peak.name}</label
                 >`
       )
     );
 
-    this._plotListOnMap(peakListID);
+    this._plotListOnMap(listID);
   }
 
   _getCheckedPeaks() {
