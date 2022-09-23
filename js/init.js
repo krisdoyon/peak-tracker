@@ -1,5 +1,5 @@
 "use strict";
 
-const currentUser = new User("Kris", "kristopher.doyon");
+const currentUser = new User("Test User", "test.user");
 
 const app = new App();
