@@ -172,9 +172,96 @@ const nh52wavNames = [];
 
 const allStateHighNames = [];
 
-const ne100HighestNames = [];
+const ne100HighestNamesNH = [
+  "Sandwich Mountain",
+  "The Bulge",
+  "Mount Nancy",
+  "The Horn",
+  "Mount Weeks",
+  // "South Weeks",
+  "Vose Spur",
+  "East Sleeper",
+  // "Peak Above the Nubble",
+  "Scar Ridge",
+  "The Cannon Balls",
+];
 
-const adk4kNames = [];
+const ne100HighestNamesME = [
+  "South Brother",
+  // "Snow Mountain",
+  "Goose Eye Mountain",
+  "Fort Mountain",
+  "White Cap Mountain",
+  // "Boundary Peak",
+  "The Horns",
+  "Mount Coe",
+  "East Kennebago Mountain",
+  // "Snow Mountain",
+  "Baldpate Mountain",
+  "Kennebago Divide",
+  "Elephant Mountain",
+];
+
+const ne100HighestNamesVT = [
+  "Pico Peak",
+  "Stratton Mountain",
+  "Jay Peak",
+  "Equinox Mountain",
+  "Mendon Peak",
+  "Bread Loaf Mountain",
+  "Mount Wilson",
+  "Big Jay",
+  "Dorset Mountain",
+];
+
+const adk46Names = [
+  "Mount Marcy",
+  "Algonquin Peak",
+  "Mount Haystack",
+  "Mount Skylight",
+  "Whiteface Mountain",
+  "Dix Mountain",
+  "Gray Peak",
+  "Iroquois Peak",
+  "Basin Mountain",
+  "Gothics",
+  "Mount Colden",
+  "Giant Mountain",
+  "Nippletop",
+  "Santanoni Peak",
+  "Mount Redfield",
+  "Wright Peak",
+  // "Saddleback Mountain",
+  "Panther Peak",
+  "Table Top Mountain",
+  "Rocky Peak",
+  "Macomb Mountain",
+  // "Armstrong Mountain",
+  "Hough Peak",
+  "Seward Mountain",
+  "Mount Marshall",
+  "Allen Mountain",
+  "Big Slide Mountain",
+  "Esther Mountain",
+  "Upper Wolfjaw Mountain",
+  "Lower Wolfjaw Mountain",
+  "Street Mountain",
+  "Phelps Mountain",
+  "Donaldson Mountain",
+  "Seymour Mountain",
+  "Sawteeth",
+  // "Cascade Mountain",
+  "South Dix",
+  "Porter Mountain",
+  "Mount Colvin",
+  "Mount Emmons",
+  "Grace Peak",
+  "Blake Peak",
+  "Cliff Mountain",
+  "Nye Mountain",
+  "Couchsachraga Peak",
+  "Dial Mountain",
+];
 
 class Mountain {
   constructor(mtnArr, labels) {
@@ -206,7 +293,7 @@ function writeGNISData(mtnsArr, state, id) {
   fs.writeFileSync(`./txt/${id}.txt`, fileString);
 }
 
-// writeGNISData(me4kNames, "me", "me4k");
+// writeGNISData(ne100HighestNamesVT, "vt", "ne100vt");
 
 const createObjectsFile = function (id) {
   contents = fs.readFileSync(`./txt/${id}.txt`, "utf-8");
@@ -222,8 +309,15 @@ const createObjectsFile = function (id) {
   fs.writeFileSync(`./js/peak-lists/${id}.js`, writeString);
 };
 
-const ids = ["co14", "me4k", "neHigh", "nh4k", "vt4k"];
+// const ids = [
+  // "co14",
+  // "me4k",
+  // "neHigh",
+  // "nh4k",
+  // "vt4k",
+  // "adk46",
+// ];
 
-ids.forEach((id) => createObjectsFile(id));
+// ids.forEach((id) => createObjectsFile(id));
 
-// createObjectsFile("me4k");
+createObjectsFile("ne100rest");
