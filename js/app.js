@@ -262,8 +262,8 @@ class App {
   }
 
   _loadMap(position) {
-    this.#latitude = position.coords["latitude"] || 44.0444;
-    this.#longitude = position.coords["longitude"] || -71.6684;
+    this.#latitude = position.coords ? position.coords["latitude"] : 44.0444;
+    this.#longitude = position.coords ? position.coords["longitude"] : -71.6684;
     this.#coords = [this.#latitude, this.#longitude];
     this.#map = new L.Map("map", {
       zoomControl: false,
