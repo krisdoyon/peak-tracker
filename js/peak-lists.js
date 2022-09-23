@@ -5,12 +5,10 @@ class PeakList {
   constructor(title, id, data, center, zoom) {
     this.title = title;
     this.id = id;
-    // An array of Mountan objects
     this.data = data;
     this.peakCount = data.length;
     this.center = center;
     this.zoom = zoom;
-    // this.createMarkerLayer();
   }
 
   createMarker(peakObj, color = "red") {
@@ -23,7 +21,7 @@ class PeakList {
       `<div class='peak-popup'>
               <span class='peak-popup__label-name'>${peakObj.name}</span>
               <span class='peak-popup__label-elevation'>${peakObj.elevFeet} ft.</span>
-              <button class='btn btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${this.id}'>LOG TRIP</button>
+              <button class='btn btn--text btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${this.id}'>LOG TRIP</button>
             </div>`
     );
     return marker;
