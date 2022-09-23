@@ -32,6 +32,7 @@ body {
   background-color: var(--color-light-2);
   color: var(--color-dark-3);
   font-family: "Inter", sans-serif;
+  font-size: 1.2rem;
 }
 
 /* REUSABLE CLASSES */
@@ -119,6 +120,18 @@ body {
   gap: 1.2rem;
   padding: 0 1.8rem;
   margin-bottom: 2.4rem;
+}
+
+.heading--bold {
+  font-weight: 700;
+}
+
+.heading--primary {
+  font-size: 2.4rem;
+}
+
+.heading--secondary {
+  font-size: 1.4rem;
 }
 
 /* BUTTONS */
@@ -237,31 +250,31 @@ body {
 
 /* ALL PEAK LISTS CONTAINER */
 
-.peak-list {
+.list-entry {
   display: grid;
   grid-template-columns: max-content 1fr max-content;
-  /* grid-template-columns: 1fr 1fr 1fr; */
   border-top: 1px solid rgba(0, 0, 0, 0.3);
   padding: 2.4rem 2rem;
-  gap: 1.8rem;
+  gap: 2.4rem;
   align-items: center;
 }
 
-.peak-list__info {
+.list-entry__info {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
   /* align-items: center; */
-  /* justify-content: center; */
 }
 
-.peak-list__label-number {
-  font-size: 1.2rem;
+.list-entry__label-primary {
+  font-size: 1.4rem;
+  font-weight: 500;
 }
 
 .progress-bar {
   width: 100%;
-  height: 1rem;
+  height: 1.4rem;
+  font-weight: 500;
   border-radius: 100rem;
   background-color: var(--color-light-3);
   position: relative;
@@ -270,18 +283,17 @@ body {
 .progress-bar__label {
   position: absolute;
   right: 50%;
-  transform: translateX(50%);
+  transform: translate(50%, 0);
 }
 
 .progress {
   background-color: rgba(176, 255, 186, 0.397);
-  height: 1rem;
-  width: 50%;
+  height: 1.4rem;
 }
 
-.btn-view-list {
-  padding: 0rem 2.4rem;
-  height: 60%;
+.btn-view {
+  padding: 0.8rem 2rem;
+  /* height: 60%; */
 }
 
 /* SINGLE PEAK LIST CONTAINER */
@@ -308,7 +320,6 @@ body {
 .peak-list__table th,
 .peak-list__table td {
   padding: 0.6rem 1.6rem;
-  font-size: 1.2rem;
 }
 
 .peak-list__table th {
@@ -328,6 +339,32 @@ body {
   color: var(--color-green-1);
   background-color: transparent;
   font-weight: 500;
+}
+
+/* HISTORY CONTAINER */
+
+.single-history-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  padding: 2.4rem 4rem;
+  font-size: 1.6rem;
+  text-align: left;
+  align-items: start;
+}
+
+.single-history-body td,
+.single-history-body th {
+  padding: 1rem 0;
+}
+
+.single-history-body th {
+  display: flex;
+  align-items: start;
+}
+
+.btn-wrapper {
+  gap: 1rem;
 }
 
 /*///////////////////////////////////////////////////////////////////////////////////
@@ -361,21 +398,12 @@ body {
   width: 100%;
 }
 
-.form__label {
-  font-size: 1.8rem;
-}
-
 .form__label--primary {
   font-size: 1.8rem;
-  margin-right: 0.8rem;
 }
 
 .form__label--secondary {
   font-size: 1.4rem;
-}
-
-.form__label--units {
-  font-size: 1.2rem;
 }
 
 /* DATE */
@@ -534,6 +562,5 @@ body {
 }
 
 .peak-popup__label-elevation {
-  font-size: 1.2rem;
   margin-bottom: 0.6rem;
 }

@@ -41,7 +41,12 @@
     <script defer src="js/peak-lists/vt4k.js"></script>
     <script defer src="js/peak-lists/neHigh.js"></script>
     <script defer src="js/peak-lists/ne100rest.js"></script>
-    <script defer src="js/script.js"></script>
+    <script defer src="js/date.js"></script>
+    <script defer src="js/peak-lists.js"></script>
+    <script defer src="js/log-entry.js"></script>
+    <script defer src="js/user.js"></script>
+    <script defer src="js/app.js"></script>
+    <script defer src="js/init.js"></script>
   </head>
 
   <body>
@@ -49,7 +54,7 @@
     <div class="sidebar flex-column">
       <ul class="main-nav__list flex-column">
         <li>
-          <button class="btn main-nav__btn m" data-container="basecamp">
+          <button class="btn main-nav__btn" data-container="basecamp">
             Basecamp<span class="material-icons main-nav__icon"> home </span>
           </button>
         </li>
@@ -78,7 +83,7 @@
           </button>
         </li>
         <li>
-          <button class="btn main-nav__btn" data-container="history">
+          <button class="btn main-nav__btn" data-container="all-history">
             History<span class="material-icons main-nav__icon"> history </span>
           </button>
         </li>
@@ -99,7 +104,7 @@
 
       <!-- MAIN CONTAINER -->
 
-      <div class="container-main">
+      <div class="container-main hidden">
         <button class="btn btn-close-container">&times;</button>
         <div class="container container-basecamp hidden" data-nav-id="basecamp">
           <div class="wrapper-main-heading">
@@ -171,15 +176,94 @@
 
         <!-- HISTORY CONTAINER -->
 
-        <div class="container container-history hidden" data-nav-id="history">
+        <div
+          class="container container-all-history hidden"
+          data-nav-id="all-history"
+        >
           <div class="wrapper-main-heading">
             <h2 class="container__heading">Trip History</h2>
+          </div>
+          <ul class="history-entries-list"></ul>
+        </div>
+
+        <div
+          class="container container-single-history hidden"
+          data-nav-id="all-history"
+        >
+          <div class="grid-peak-list-heading">
+            <button class="btn btn--icon btn-back" data-container="all-history">
+              <span class="material-icons-outlined"> arrow_back </span>
+            </button>
+
+            <h2 class="container__heading single-history__heading">
+              09/20/2022
+            </h2>
+            <span class="single-history__label-number">5 Peaks</span>
+          </div>
+          <div class="single-history-body grid">
+            <table class="single-history__table">
+              <tr>
+                <th style="width: 40%">Peaks:</th>
+                <td style="width: 60%">
+                  <div class="flex-column">
+                    <span>Mt. Elbert (14,440 ft.)</span
+                    ><span>Mt. Washington (6,250 ft.)</span
+                    ><span>Mt. Sneffels (14,105 ft.)</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>Distance:</th>
+                <td>6.5 mi</td>
+              </tr>
+              <tr>
+                <th>Elevation Gain:</th>
+                <td>6,500 ft</td>
+              </tr>
+              <tr>
+                <th>Time:</th>
+                <td>6,500 ft</td>
+              </tr>
+              <tr>
+                <th>Avg. Speed:</th>
+                <td>5 mi/hr</td>
+              </tr>
+              <tr>
+                <th>Avg. Elevation Gain:</th>
+                <td>500 ft/mi</td>
+              </tr>
+
+              <th>Rating</th>
+              <td>
+                <span class="material-icons star-icon--full"> star</span>
+                <span class="material-icons star-icon--full"> star</span>
+                <span class="material-icons star-icon--full"> star</span>
+                <span class="material-icons star-icon--full"> star</span>
+                <span class="material-icons"> star_border</span>
+              </td>
+              <tr>
+                <th>Notes:</th>
+                <td>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Explicabo ea dicta, expedita eius ullam ipsum rem enim!
+                  Accusamus placeat molestias, ipsam, pariatur, quasi et ea
+                  dolorum ab repudiandae assumenda reiciendis. Lorem ipsum
+                  dolor, sit amet consectetur adipisicing elit. Adipisci
+                  praesentium natus architecto iusto, magnam tempora ex sit
+                  reprehenderit animi, corporis temporibus rem sapiente nihil
+                  facere vero officiis voluptate quis expedita.
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
 
         <!-- NEW ENTRY CONTAINER -->
 
-        <div class="container container-new-entry" data-nav-id="new-entry">
+        <div
+          class="container container-new-entry hidden"
+          data-nav-id="new-entry"
+        >
           <div class="wrapper-main-heading flex">
             <h2 class="container__heading">New Log Entry</h2>
           </div>
@@ -225,6 +309,7 @@
 
                 <select id="choose-list">
                   <option value="" disabled selected>Choose a list</option>
+                  <option value="all">All Peaks</option>
                   <option value="adk46">Adirondack High Peaks</option>
                   <option value="co14">Colorado 14ers</option>
                   <option value="me4k">Maine 4,000 footers</option>
