@@ -37,6 +37,16 @@ class User {
     this._setLocalStorage();
   }
 
+  addSavedList(listID) {
+    this.savedLists.push(listID);
+    this._setLocalStorage();
+  }
+
+  removeSavedList(listID) {
+    this.savedLists.splice(this.savedLists.indexOf(listID), 1);
+    this._setLocalStorage();
+  }
+
   sortLogEntries() {
     this.logEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
   }
@@ -45,6 +55,7 @@ class User {
     localStorage.setItem("logEntries", JSON.stringify(this.logEntries));
     localStorage.setItem("completedPeaks", JSON.stringify(this.completedPeaks));
     localStorage.setItem("listCounts", JSON.stringify(this.listCounts));
+    localStorage.setItem("savedLists", JSON.stringify(this.savedLists));
   }
 
   _getLocalStorage() {
@@ -54,6 +65,8 @@ class User {
       this.completedPeaks = JSON.parse(localStorage.getItem("completedPeaks"));
     if (localStorage.listCounts)
       this.listCounts = JSON.parse(localStorage.getItem("listCounts"));
+    if (localStorage.savedLists)
+      this.savedLists = JSON.parse(localStorage.getItem("savedLists"));
   }
 
   _initializeListCounts() {
