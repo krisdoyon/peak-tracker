@@ -109,6 +109,15 @@ class App {
 
     peakListsEl.addEventListener("click", this._peakListClick.bind(this));
 
+    document.querySelector(".peak-list__buttons-wrapper").addEventListener(
+      "click",
+      function (e) {
+        const clicked = e.target.closest(".btn--text");
+        if (!clicked) return;
+        this._displayAllPeakLists(clicked.dataset.display);
+      }.bind(this)
+    );
+
     // SINGLE PEAK LISTS CONTAINER EVENT HANDLERS
 
     btnBacks.forEach((btnBack) => {
@@ -211,28 +220,20 @@ class App {
     btnAddEntry.addEventListener(
       "click",
       function (e) {
-        e.preventDefault();
+        // e.preventDefault();
         if (!inputDate.value) {
-          alert("Please enter a date");
-          return;
+          // alert("Please enter a date");
+          // return;
         }
         const peaks = this._getCheckedPeaks();
         if (peaks.length <= 0) {
-          alert("Choose at least one peak from a list");
-          return;
+          // alert("Choose at least one peak from a list");
+          // return;
         }
 
         const rating = allStarButtons.filter(
           (star) => star.dataset.filled === "true"
         ).length;
-
-        // const date = new Date(inputDate.value);
-
-        // const formattedDate = new Intl.DateTimeFormat("en-US", {
-        //   day: "2-digit",
-        //   year: "numeric",
-        //   month: "2-digit",
-        // }).format(date);
 
         const newEntry = new LogEntry(
           new Date(inputDate.value),
@@ -347,11 +348,11 @@ class App {
     // Save peak button
     if (e.target.closest(".btn-add-peak")) {
       if (!currentUser.savedLists.includes(id)) {
-        currentUser.savedLists.push(id);
+        currentUser.addSavedList(id);
         e.target.textContent = "done";
       } else {
+        currentUser.removeSavedList(id);
         e.target.textContent = "post_add";
-        currentUser.savedLists.splice(currentUser.savedLists.indexOf(id), 1);
       }
     } else return;
   }
@@ -374,12 +375,20 @@ class App {
     });
   }
 
-  _displayAllPeakLists() {
+  _displayAllPeakLists(type = "all") {
     peakListsEl.innerHTML = "";
-    peakListsArr.sort((a, b) =>
+
+    const listToDisplay =
+      type === "saved"
+        ? peakListsArr.filter((peakListObj) =>
+            currentUser.savedLists.includes(peakListObj.id)
+          )
+        : peakListsArr;
+
+    listToDisplay.sort((a, b) =>
       a.title.toLowerCase().localeCompare(b.title.toLowerCase())
     );
-    peakListsArr.forEach((peakList) => {
+    listToDisplay.forEach((peakList) => {
       const width =
         (currentUser.listCounts[peakList.id] / peakList.data.length) * 100;
       peakListsEl.insertAdjacentHTML(
@@ -464,7 +473,7 @@ class App {
                 <td>${
                   logMatch
                     ? `${logMatch.shortDate}`
-                    : `<button class='btn btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${currentPeakObj.id}'>LOG TRIP</button>`
+                    : `<button class='btn btn--text btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${currentPeakObj.id}'>LOG TRIP</button>`
                 }</td>
               </tr>`
       );
@@ -475,24 +484,25 @@ class App {
 
   _displayAllHistoryList() {
     historyEntriesEl.innerHTML = "";
-    currentUser.sortLogEntries();
-    currentUser.logEntries.forEach((entry) => {
-      const mtnNames = entry.peaks.map((peakID) => peakMap.get(peakID));
-      let mtnStr =
-        mtnNames.length > 1
-          ? mtnNames.slice(0, -1).join(", ") + " and " + mtnNames.slice(-1)
-          : mtnNames[0];
+    if (currentUser.logEntries.length) {
+      currentUser.sortLogEntries();
+      currentUser.logEntries.forEach((entry) => {
+        const mtnNames = entry.peaks.map((peakID) => peakMap.get(peakID));
+        let mtnStr =
+          mtnNames.length > 1
+            ? mtnNames.slice(0, -1).join(", ") + " and " + mtnNames.slice(-1)
+            : mtnNames[0];
 
-      historyEntriesEl.insertAdjacentHTML(
-        "beforeend",
-        `<li class="list-entry" data-id="${entry.id}">
+        historyEntriesEl.insertAdjacentHTML(
+          "beforeend",
+          `<li class="list-entry" data-id="${entry.id}">
               <span class="material-icons"> hiking </span>
 
               <div class="list-entry__info">
                 <h2 class="list-entry__label-primary"><strong>
                   ${entry.longDate} </strong> - ${mtnNames.length} ${
-          mtnNames.length > 1 ? "Peaks" : "Peak"
-        }
+            mtnNames.length > 1 ? "Peaks" : "Peak"
+          }
                 </h2>
                 <span
                   class="list-entry__label-secondary"
@@ -507,8 +517,9 @@ class App {
               <button class="btn btn--dark btn-view btn-view-history">VIEW</button>
               </div>
             </li>`
-      );
-    });
+        );
+      });
+    }
   }
 
   _displaySingleHistory(logID) {
@@ -526,7 +537,7 @@ class App {
       (peakID) =>
         (peaksStr += `<span style='font-size:1.4rem'>${peakMap.get(
           peakID
-        )} (${elevationMap.get(peakID).toLocaleString()} ft)</span>`)
+        )} - ${elevationMap.get(peakID).toLocaleString()} ft</span>`)
     );
     let ratingHTML = "";
     if (logObj.rating) {

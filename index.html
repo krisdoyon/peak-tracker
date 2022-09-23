@@ -50,14 +50,15 @@
   </head>
 
   <body>
+    <img class="main-logo" src="img/logo.png" />
     <!-- SIDEBAR -->
     <div class="sidebar flex-column">
       <ul class="main-nav__list flex-column">
-        <li>
+        <!-- <li>
           <button class="btn main-nav__btn" data-container="basecamp">
             Basecamp<span class="material-icons main-nav__icon"> home </span>
           </button>
-        </li>
+        </li> -->
         <li>
           <button
             class="btn main-nav__btn main-nav__btn--active"
@@ -75,13 +76,13 @@
           </button>
         </li>
 
-        <li>
+        <!-- <li>
           <button class="btn main-nav__btn" data-container="stats">
             Stats<span class="material-icons main-nav__icon">
               query_stats
             </span>
           </button>
-        </li>
+        </li> -->
         <li>
           <button class="btn main-nav__btn" data-container="all-history">
             History<span class="material-icons main-nav__icon"> history </span>
@@ -106,11 +107,11 @@
 
       <div class="container-main hidden">
         <button class="btn btn-close-container">&times;</button>
-        <div class="container container-basecamp hidden" data-nav-id="basecamp">
+        <!-- <div class="container container-basecamp hidden" data-nav-id="basecamp">
           <div class="wrapper-main-heading">
             <h2 class="container__heading">Basecamp</h2>
           </div>
-        </div>
+        </div> -->
 
         <!-- PEAK LIST CONTAINER -->
 
@@ -121,19 +122,13 @@
           <div class="wrapper-main-heading">
             <h2 class="container__heading">Peak Lists</h2>
           </div>
-          <ul class="peak-lists">
-            <!-- <li class="peak-list" data-id="#">
-              <button class="btn btn--icon btn-add-peak">
-                <span class="material-icons"> post_add </span>
-              </button>
-
-              <div class="peak-list__info">
-                <h2 class="peak-list__label-title">All State Highpoints</h2>
-                <span class="peak-list__label-number">50 Mountains</span>
-              </div>
-              <button class="btn btn--dark btn-view-list">VIEW</button>
-            </li> -->
-          </ul>
+          <div class="peak-list__buttons-wrapper flex-center">
+            <button class="btn btn--text" data-display="all">ALL LISTS</button>
+            <button class="btn btn--text" data-display="saved">
+              SAVED LISTS
+            </button>
+          </div>
+          <ul class="peak-lists"></ul>
         </div>
 
         <div
@@ -148,8 +143,8 @@
               <span class="material-icons-outlined"> arrow_back </span>
             </button>
 
-            <h2 class="container__heading">Heading</h2>
-            <span class="peak-list__label-number"># Mountains</span>
+            <h2 class="container__heading"></h2>
+            <span class="peak-list__label-number"></span>
           </div>
 
           <table class="peak-list__table">
@@ -195,66 +190,11 @@
               <span class="material-icons-outlined"> arrow_back </span>
             </button>
 
-            <h2 class="container__heading single-history__heading">
-              09/20/2022
-            </h2>
-            <span class="single-history__label-number">5 Peaks</span>
+            <h2 class="container__heading single-history__heading"></h2>
+            <span class="single-history__label-number"></span>
           </div>
           <div class="single-history-body grid">
-            <table class="single-history__table">
-              <tr>
-                <th style="width: 40%">Peaks:</th>
-                <td style="width: 60%">
-                  <div class="flex-column">
-                    <span>Mt. Elbert (14,440 ft.)</span
-                    ><span>Mt. Washington (6,250 ft.)</span
-                    ><span>Mt. Sneffels (14,105 ft.)</span>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>Distance:</th>
-                <td>6.5 mi</td>
-              </tr>
-              <tr>
-                <th>Elevation Gain:</th>
-                <td>6,500 ft</td>
-              </tr>
-              <tr>
-                <th>Time:</th>
-                <td>6,500 ft</td>
-              </tr>
-              <tr>
-                <th>Avg. Speed:</th>
-                <td>5 mi/hr</td>
-              </tr>
-              <tr>
-                <th>Avg. Elevation Gain:</th>
-                <td>500 ft/mi</td>
-              </tr>
-
-              <th>Rating</th>
-              <td>
-                <span class="material-icons star-icon--full"> star</span>
-                <span class="material-icons star-icon--full"> star</span>
-                <span class="material-icons star-icon--full"> star</span>
-                <span class="material-icons star-icon--full"> star</span>
-                <span class="material-icons"> star_border</span>
-              </td>
-              <tr>
-                <th>Notes:</th>
-                <td>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Explicabo ea dicta, expedita eius ullam ipsum rem enim!
-                  Accusamus placeat molestias, ipsam, pariatur, quasi et ea
-                  dolorum ab repudiandae assumenda reiciendis. Lorem ipsum
-                  dolor, sit amet consectetur adipisicing elit. Adipisci
-                  praesentium natus architecto iusto, magnam tempora ex sit
-                  reprehenderit animi, corporis temporibus rem sapiente nihil
-                  facere vero officiis voluptate quis expedita.
-                </td>
-              </tr>
-            </table>
+            <table class="single-history__table"></table>
           </div>
         </div>
 
@@ -278,7 +218,7 @@
                 >
               </div>
               <div class="grid grid--3-cols grid-date">
-                <input id="date" type="date" />
+                <input id="date" type="date" min="2018-12-58" />
                 <button class="btn btn--dark btn-date btn-today">Today</button>
                 <button class="btn btn--dark btn-date btn-yesterday">
                   Yesterday
