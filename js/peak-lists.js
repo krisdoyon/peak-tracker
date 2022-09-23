@@ -35,8 +35,8 @@ class PeakList {
       const marker = this.createMarker(peakObj, color);
       this.markers.push(marker);
     });
-
     this.markersLayer = L.layerGroup(this.markers);
+    return this.markersLayer;
   }
 
   clearPeaksOnMap() {
