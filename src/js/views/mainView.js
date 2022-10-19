@@ -16,7 +16,7 @@ class MainView {
 
   // PUBLIC METHODS
 
-  addHandlerCloseMainContainer(handler) {
+  addHandlerHideContainer(handler) {
     this.#btnCloseContainer.addEventListener("click", function () {
       handler();
     });
@@ -30,7 +30,7 @@ class MainView {
     });
   }
 
-  addHandlerMainNavClick(handler) {
+  addHandlerMainNav(handler) {
     this.#mainNavList.addEventListener("click", function (e) {
       const clicked = e.target.closest(".main-nav__btn");
       if (!clicked) return;
@@ -39,7 +39,7 @@ class MainView {
     });
   }
 
-  displayContainer(containerID) {
+  showContainer(containerID) {
     const containerObj = this.#allContainers.find((container) =>
       container.classList.contains(`container-${containerID}`)
     );
@@ -55,7 +55,7 @@ class MainView {
     });
   }
 
-  closeMainContainer() {
+  hideContainer() {
     this.#containerMain.classList.add("hidden");
     this.#allContainers.forEach((container) =>
       container.classList.add("hidden")
