@@ -1,35 +1,35 @@
 class newEntryView {
-  _gridDate = document.querySelector(".grid-date");
-  _gridPeakCheckboxes = document.querySelector(".grid-peak-checkboxes");
-  _gridStats = document.querySelector(".grid-stats");
-  _statRows = document.querySelectorAll(".stat-row");
-  _statRowIcons = [...document.querySelectorAll(".stat-row__icon")];
-  _inputDate = document.querySelector("#date");
-  _chooseListSelect = document.querySelector("#choose-list");
-  _inputElevation = document.querySelector("#elevation");
-  _inputDistance = document.querySelector("#distance");
-  _inputHours = document.querySelector("#hours");
-  _inputMinutes = document.querySelector("#minutes");
-  _inputNotes = document.querySelector("#notes");
-  _wrapperStars = document.querySelector(".wrapper-stars");
-  _allStarIcons = [...document.querySelectorAll(".star-icon")];
-  _allStarButtons = [...document.querySelectorAll(".btn-star")];
-  _formNewEntry = document.querySelector("#form-new-entry");
-  _btnClearForm = document.querySelector(".btn-clear-form");
-  _btnAddEntry = document.querySelector(".btn-add-entry");
+  #gridDate = document.querySelector(".grid-date");
+  #gridPeakCheckboxes = document.querySelector(".grid-peak-checkboxes");
+  #gridStats = document.querySelector(".grid-stats");
+  #statRows = document.querySelectorAll(".stat-row");
+  #statRowIcons = [...document.querySelectorAll(".stat-row__icon")];
+  #inputDate = document.querySelector("#date");
+  #chooseListSelect = document.querySelector("#choose-list");
+  #inputElevation = document.querySelector("#elevation");
+  #inputDistance = document.querySelector("#distance");
+  #inputHours = document.querySelector("#hours");
+  #inputMinutes = document.querySelector("#minutes");
+  #inputNotes = document.querySelector("#notes");
+  #wrapperStars = document.querySelector(".wrapper-stars");
+  #allStarIcons = [...document.querySelectorAll(".star-icon")];
+  #allStarButtons = [...document.querySelectorAll(".btn-star")];
+  #formNewEntry = document.querySelector("#form-new-entry");
+  #btnClearForm = document.querySelector(".btn-clear-form");
+  #btnAddEntry = document.querySelector(".btn-add-entry");
 
   constructor() {
-    this._addHandlerToggleStat();
-    this._addHandlerStarMouseover();
-    this._addHandlerStarMouseout();
-    this._addHandlerStarClick();
-    this._addHandlerClearForm();
+    this.#addHandlerToggleStat();
+    this.#addHandlerStarMouseover();
+    this.#addHandlerStarMouseout();
+    this.#addHandlerStarClick();
+    this.#addHandlerClearForm();
   }
 
   // PUBLIC METHODS
 
   addHandlerDateClick(handler) {
-    this._gridDate.addEventListener("click", function (e) {
+    this.#gridDate.addEventListener("click", function (e) {
       e.preventDefault();
       const btn = e.target.closest(".btn-date");
       if (!btn) return;
@@ -38,34 +38,8 @@ class newEntryView {
     });
   }
 
-  changeDate(date) {
-    this._inputDate.value = date;
-  }
-
-  displayCheckboxes(displayArr, listID, checkedMtnID) {
-    this._gridPeakCheckboxes.classList.remove("hidden");
-    this._gridPeakCheckboxes.innerHTML = "";
-    displayArr.forEach((peak) =>
-      this._gridPeakCheckboxes.insertAdjacentHTML(
-        "beforeend",
-        `<input type="checkbox" value="${peak.id}"/><label
-            for="title"
-            class="form__label--units"
-            >${peak.name}
-          </label>`
-      )
-    );
-    if (checkedMtnID) {
-      this._chooseListSelect.value = listID;
-      const checkbox = [
-        ...this._gridPeakCheckboxes.querySelectorAll("input"),
-      ].find((input) => +input.value === +checkedMtnID);
-      checkbox.checked = "true";
-    }
-  }
-
   addHandlerChangeListSelect(handler) {
-    this._chooseListSelect.addEventListener(
+    this.#chooseListSelect.addEventListener(
       "change",
       function (e) {
         const listID = e.target.value;
@@ -75,50 +49,88 @@ class newEntryView {
   }
 
   addHandlerAddEntry(handler) {
-    this._btnAddEntry.addEventListener(
+    this.#btnAddEntry.addEventListener(
       "click",
       function (e) {
         e.preventDefault();
-        if (!this._inputDate.value) {
+        if (!this.#inputDate.value) {
           alert("Please enter a date");
           return;
         }
 
-        const peaks = this._getCheckedPeaks();
+        const peaks = this.#getCheckedPeaks();
         if (peaks.length <= 0) {
           alert("Choose at least one peak from a list");
           return;
         }
 
-        const data = {
-          date: this._inputDate.value,
+        const data = [
+          this.#inputDate.value,
           peaks,
-          list: this._chooseListSelect.value,
-          elevation: +this._inputElevation.value,
-          distance: +this._inputDistance.value,
-          hours: +this._inputHours.value,
-          minutes: +this._inputMinutes.value,
-          notes: this._inputNotes.value,
-          rating: this._getRating(),
-        };
-        handler(data);
+          this.#chooseListSelect.value,
+          +this.#inputElevation.value,
+          +this.#inputDistance.value,
+          +this.#inputHours.value,
+          +this.#inputMinutes.value,
+          this.#inputNotes.value,
+          this.#getRating(),
+        ];
+        handler(data, this.#chooseListSelect.value);
         this.clearNewEntryForm();
       }.bind(this)
     );
   }
 
-  // PRIVATE METHODS
-
-  _addHandlerToggleStat() {
-    this._gridStats.addEventListener("click", this._toggleStat.bind(this));
+  changeDate(date) {
+    this.#inputDate.value = date;
   }
 
-  _toggleStat(e) {
+  displayCheckboxes(displayArr, listID, checkedMtnID) {
+    this.#gridPeakCheckboxes.classList.remove("hidden");
+    this.#gridPeakCheckboxes.innerHTML = "";
+    displayArr.forEach((peak) =>
+      this.#gridPeakCheckboxes.insertAdjacentHTML(
+        "beforeend",
+        `<input type="checkbox" value="${peak.id}"/><label
+            for="title"
+            class="form__label--units"
+            >${peak.name}
+          </label>`
+      )
+    );
+    if (checkedMtnID) {
+      this.#chooseListSelect.value = listID;
+      const checkbox = [
+        ...this.#gridPeakCheckboxes.querySelectorAll("input"),
+      ].find((input) => +input.value === +checkedMtnID);
+      checkbox.checked = "true";
+    }
+  }
+
+  clearNewEntryForm() {
+    for (const starIcon of this.#allStarIcons) {
+      this.#clearStar(starIcon);
+      starIcon.closest(".btn-star").dataset.filled = "false";
+    }
+    this.#gridPeakCheckboxes.innerHTML = "";
+    this.#gridPeakCheckboxes.classList.add("hidden");
+    this.#statRowIcons.forEach((icon) => (icon.textContent = "add_circle"));
+    this.#statRows.forEach((row) => row.classList.add("invisible"));
+    this.#formNewEntry.reset();
+  }
+
+  // PRIVATE METHODS
+
+  #addHandlerToggleStat() {
+    this.#gridStats.addEventListener("click", this.#toggleStat.bind(this));
+  }
+
+  #toggleStat(e) {
     e.preventDefault();
     const clicked = e.target.closest(".btn-add-stat");
     let icon = e.target.textContent.trim();
     if (!clicked) return;
-    this._statRows.forEach(
+    this.#statRows.forEach(
       (row) =>
         row.dataset.stat === clicked.dataset.stat &&
         row.classList.toggle("invisible")
@@ -127,97 +139,85 @@ class newEntryView {
       icon === "add_circle" ? "remove_circle" : "add_circle";
   }
 
-  _addHandlerStarMouseover() {
-    this._wrapperStars.addEventListener(
+  #addHandlerStarMouseover() {
+    this.#wrapperStars.addEventListener(
       "mouseover",
-      this._handleStarMouseOver.bind(this)
+      this.#handleStarMouseOver.bind(this)
     );
   }
 
-  _addHandlerStarMouseout() {
-    this._wrapperStars.addEventListener(
+  #addHandlerStarMouseout() {
+    this.#wrapperStars.addEventListener(
       "mouseout",
-      this._handleStarMouseOut.bind(this)
+      this.#handleStarMouseOut.bind(this)
     );
   }
 
-  _addHandlerStarClick() {
-    this._wrapperStars.addEventListener(
+  #addHandlerStarClick() {
+    this.#wrapperStars.addEventListener(
       "click",
-      this._handleStarClick.bind(this)
+      this.#handleStarClick.bind(this)
     );
   }
 
-  _handleStarMouseOver(e) {
+  #handleStarMouseOver(e) {
     const hovered = e.target.closest(".btn-star");
     if (!hovered) return;
-    for (const starBtn of this._allStarButtons) {
+    for (const starBtn of this.#allStarButtons) {
       const starIcon = starBtn.querySelector(".star-icon");
       starBtn.dataset.num <= hovered.dataset.num
-        ? this._fillStar(starIcon)
-        : this._clearStar(starIcon);
+        ? this.#fillStar(starIcon)
+        : this.#clearStar(starIcon);
     }
   }
 
-  _handleStarMouseOut() {
-    for (const starBtn of this._allStarButtons) {
+  #handleStarMouseOut() {
+    for (const starBtn of this.#allStarButtons) {
       const starIcon = starBtn.querySelector(".star-icon");
       if (starBtn.dataset.filled === "false") {
-        this._clearStar(starIcon);
+        this.#clearStar(starIcon);
       } else {
-        this._fillStar(starIcon);
+        this.#fillStar(starIcon);
       }
     }
   }
 
-  _handleStarClick(e) {
+  #handleStarClick(e) {
     e.preventDefault();
     const clicked = e.target.closest(".btn-star");
     if (!clicked) return;
-    for (const starBtn of this._allStarButtons) {
+    for (const starBtn of this.#allStarButtons) {
       const starIcon = starBtn.querySelector(".star-icon");
       if (starBtn.dataset.num <= clicked.dataset.num) {
-        this._fillStar(starIcon);
+        this.#fillStar(starIcon);
         starBtn.dataset.filled = "true";
       } else {
-        this._clearStar(starIcon);
+        this.#clearStar(starIcon);
         starBtn.dataset.filled = "false";
       }
     }
   }
 
-  _fillStar(starIcon) {
+  #fillStar(starIcon) {
     starIcon.textContent = "star";
     starIcon.classList.add("star-icon--full");
   }
 
-  _clearStar(starIcon) {
+  #clearStar(starIcon) {
     starIcon.textContent = "star_border";
     starIcon.classList.remove("star-icon--full");
   }
 
-  _addHandlerClearForm() {
-    this._btnClearForm.addEventListener(
+  #addHandlerClearForm() {
+    this.#btnClearForm.addEventListener(
       "click",
       this.clearNewEntryForm.bind(this)
     );
   }
 
-  clearNewEntryForm() {
-    for (const starIcon of this._allStarIcons) {
-      this._clearStar(starIcon);
-      starIcon.closest(".btn-star").dataset.filled = "false";
-    }
-    this._gridPeakCheckboxes.innerHTML = "";
-    this._gridPeakCheckboxes.classList.add("hidden");
-    this._statRowIcons.forEach((icon) => (icon.textContent = "add_circle"));
-    this._statRows.forEach((row) => row.classList.add("invisible"));
-    this._formNewEntry.reset();
-  }
-
-  _getCheckedPeaks() {
+  #getCheckedPeaks() {
     const allCheckboxesArr = [
-      ...this._gridPeakCheckboxes.querySelectorAll("input"),
+      ...this.#gridPeakCheckboxes.querySelectorAll("input"),
     ];
     const checkedPeaksIDArr = allCheckboxesArr
       .filter((checkbox) => checkbox.checked)
@@ -225,8 +225,8 @@ class newEntryView {
     return checkedPeaksIDArr;
   }
 
-  _getRating() {
-    return +this._allStarButtons.filter(
+  #getRating() {
+    return +this.#allStarButtons.filter(
       (star) => star.dataset.filled === "true"
     ).length;
   }
@@ -235,8 +235,8 @@ class newEntryView {
 export default new newEntryView();
 
 // currentUser.addLogEntry(newEntry);
-// this._plotListOnMap(chooseListSelect.value);
-// this._clearNewEntryForm();
+// this.#plotListOnMap(chooseListSelect.value);
+// this.#clearNewEntryForm();
 
 // const grid = document.querySelector(".grid-peak-checkboxes");
 // const checkboxes = grid.querySelectorAll("input");

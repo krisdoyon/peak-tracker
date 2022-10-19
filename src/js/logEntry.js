@@ -1,30 +1,48 @@
+import { peakMap, elevationMap } from "./data/peakLists.js";
+
 export class LogEntry {
   peaks = [];
   id;
   constructor(
     date,
-    peaks,
+    peakIDsArr,
     listID,
     elevation,
     distance,
     hours,
     min,
     notes,
-    rating
+    rating,
+    id
   ) {
-    this.date = date;
-    peaks.forEach((peak) => this.peaks.push(peak));
+    this.date = new Date(date);
+    this.peaks = [];
+    peakIDsArr.forEach((peakID) =>
+      this.peaks.push({
+        id: peakID,
+        name: peakMap.get(peakID),
+        elevation: elevationMap.get(peakID),
+      })
+    );
     this.listID = listID;
     this.elevation = +elevation;
     this.distance = +distance;
     this.hours = +hours;
     this.min = +min;
     this.notes = notes;
-    this.rating = rating;
-    this.init();
+    this.rating = +rating;
+    this.id = id;
+    this.#init();
+    console.log(this);
   }
 
-  init() {
+  #init() {
+    const mtnNames = this.peaks.map((peak) => peak.name);
+    this.mtnStr =
+      mtnNames.length > 1
+        ? mtnNames.slice(0, -1).join(", ") + " and " + mtnNames.slice(-1)
+        : mtnNames[0];
+
     this.shortDate = new Intl.DateTimeFormat("en-US", {
       day: "2-digit",
       year: "numeric",
@@ -43,13 +61,5 @@ export class LogEntry {
       this.avgSpeed = Math.round((this.distance / this.time) * 10) / 10;
     if (this.elevation && this.distance)
       this.avgElevation = Math.round(this.elevation / this.distance);
-    if (currentUser.logEntries.length) {
-      const curMaxID = Math.max(
-        ...currentUser.logEntries.map((entry) => entry.id)
-      );
-      this.id = curMaxID + 1;
-    } else {
-      this.id = 1;
-    }
   }
 }

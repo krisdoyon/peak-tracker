@@ -173,9 +173,9 @@ body {
 .main-logo {
   position: absolute;
   right: 1.2rem;
-  top:1.2rem;
+  top: 1.2rem;
   z-index: 999;
-  height:12rem;
+  height: 12rem;
 }
 
 /*//////////////////////////////////////////////////////////////////////////////////
@@ -218,7 +218,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 2rem;
+  gap: 2.4rem;
   text-decoration: none;
   font-size: 1.8rem;
   color: #f7f7f7;
@@ -261,9 +261,10 @@ body {
 /* ALL PEAK LISTS CONTAINER */
 
 .peak-list__buttons-wrapper {
-  gap: 2rem;
-  padding: 1.2rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  background-color: var(--color-green-1);
+  gap: 2.4rem;
+  padding: 0.8rem 0;
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.3); */
 }
 
 .peak-lists li:first-child {
@@ -356,14 +357,28 @@ body {
 }
 
 .btn--text {
-  color: var(--color-green-1);
   background-color: transparent;
-  font-weight: 500;
+  font-weight: 400;
   transition: none;
+  border-radius: 0;
+  display: inline-block;
+}
+
+.btn--text-white {
+  color: #fff;
+}
+
+.btn--text-green {
+  color: var(--color-green-1);
 }
 
 .btn--text:hover {
   font-weight: 700;
+}
+
+.btn--active {
+  font-weight: 700;
+  /* border-bottom: 1px solid #fff; */
 }
 
 /* HISTORY CONTAINER */

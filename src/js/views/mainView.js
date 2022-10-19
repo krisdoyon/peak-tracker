@@ -1,27 +1,37 @@
 class MainView {
-  _containerMain = document.querySelector(".container-main");
-  _allContainers = [...document.querySelectorAll(".container")];
-  _btnCloseContainer = document.querySelector(".btn-close-container");
-  _mainNavBtns = document.querySelectorAll(".main-nav__btn");
-  _mainNavList = document.querySelector(".main-nav__list");
-  _sidebarHidden = false;
-  _sidebar = document.querySelector(".sidebar");
-  _btnSidebar = document.querySelector(".sidebar__btn");
-  _btnSidebarIcon = document.querySelector(".sidebar__btn--icon");
+  #containerMain = document.querySelector(".container-main");
+  #allContainers = [...document.querySelectorAll(".container")];
+  #btnCloseContainer = document.querySelector(".btn-close-container");
+  #mainNavBtns = document.querySelectorAll(".main-nav__btn");
+  #mainNavList = document.querySelector(".main-nav__list");
+  #sidebarHidden = false;
+  #sidebar = document.querySelector(".sidebar");
+  #btnSidebar = document.querySelector(".sidebar__btn");
+  #btnSidebarIcon = document.querySelector(".sidebar__btn--icon");
 
   constructor() {
-    this._addHandlerSidebar();
-    this._addHandlerEscapeKeydown();
+    this.#addHandlerSidebar();
+    this.#addHandlerEscapeKeydown();
   }
 
+  // PUBLIC METHODS
+
   addHandlerCloseMainContainer(handler) {
-    this._btnCloseContainer.addEventListener("click", function () {
+    this.#btnCloseContainer.addEventListener("click", function () {
       handler();
     });
   }
 
+  addHandlerBtnBack(handler) {
+    this.#containerMain.addEventListener("click", function (e) {
+      const btn = e.target.closest(".btn-back");
+      if (!btn) return;
+      handler(btn.dataset.container);
+    });
+  }
+
   addHandlerMainNavClick(handler) {
-    this._mainNavList.addEventListener("click", function (e) {
+    this.#mainNavList.addEventListener("click", function (e) {
       const clicked = e.target.closest(".main-nav__btn");
       if (!clicked) return;
       const containerID = clicked.dataset.container;
@@ -30,15 +40,15 @@ class MainView {
   }
 
   displayContainer(containerID) {
-    const containerObj = this._allContainers.find((container) =>
+    const containerObj = this.#allContainers.find((container) =>
       container.classList.contains(`container-${containerID}`)
     );
-    this._allContainers.forEach((container) =>
+    this.#allContainers.forEach((container) =>
       container.classList.add("hidden")
     );
-    this._containerMain.classList.remove("hidden");
+    this.#containerMain.classList.remove("hidden");
     containerObj.classList.remove("hidden");
-    this._mainNavBtns.forEach((btn) => {
+    this.#mainNavBtns.forEach((btn) => {
       btn.classList.remove("main-nav__btn--active");
       btn.dataset.container === containerObj.dataset.navId &&
         btn.classList.add("main-nav__btn--active");
@@ -46,38 +56,40 @@ class MainView {
   }
 
   closeMainContainer() {
-    this._containerMain.classList.add("hidden");
-    this._allContainers.forEach((container) =>
+    this.#containerMain.classList.add("hidden");
+    this.#allContainers.forEach((container) =>
       container.classList.add("hidden")
     );
-    this._mainNavBtns.forEach((btn) => {
+    this.#mainNavBtns.forEach((btn) => {
       btn.classList.remove("main-nav__btn--active");
       btn.dataset.container === "map" &&
         btn.classList.add("main-nav__btn--active");
     });
   }
 
-  _addHandlerSidebar() {
-    this._btnSidebar.addEventListener(
+  // PRIVATE METHODS
+
+  #addHandlerSidebar() {
+    this.#btnSidebar.addEventListener(
       "click",
       function () {
-        this._sidebarHidden = this._sidebarHidden ? false : true;
-        this._sidebar.style.marginLeft = `${
-          this._sidebarHidden ? "-17.8rem" : "0"
+        this.#sidebarHidden = this.#sidebarHidden ? false : true;
+        this.#sidebar.style.marginLeft = `${
+          this.#sidebarHidden ? "-17.8rem" : "0"
         }`;
-        this._btnSidebarIcon.innerHTML = this._sidebarHidden
+        this.#btnSidebarIcon.innerHTML = this.#sidebarHidden
           ? "chevron_right"
           : "chevron_left";
       }.bind(this)
     );
   }
 
-  _addHandlerEscapeKeydown() {
+  #addHandlerEscapeKeydown() {
     document.addEventListener(
       "keydown",
       function (e) {
         e.key === "Escape" &&
-          !this._containerMain.classList.contains("hidden") &&
+          !this.#containerMain.classList.contains("hidden") &&
           this.closeMainContainer();
       }.bind(this)
     );

@@ -1,8 +1,3 @@
-// import mtnIconGreen from "url:../../img/mtn-icon-green.png";
-// import mtnIconRed from "url:../../img/mtn-icon-red.png";
-
-// console.log(mtnIconGreen);
-
 class MapView {
   #map;
   #markersArr = [];
@@ -28,10 +23,10 @@ class MapView {
       .addTo(this.#map);
   }
 
-  plotListOnMap(list, user) {
+  plotListOnMap(list, completedPeaks) {
     this.clearMap();
     this.#map.setView(list.center, list.zoom);
-    this.#createMarkerLayer(list, user);
+    this.#createMarkerLayer(list, completedPeaks);
     this.#map.addLayer(this.#markersLayer);
   }
 
@@ -52,17 +47,15 @@ class MapView {
       `<div class='peak-popup'>
               <span class='peak-popup__label-name'>${peakObj.name}</span>
               <span class='peak-popup__label-elevation'>${peakObj.elevFeet} ft.</span>
-              <button class='btn btn--text btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${list.id}'>LOG TRIP</button>
+              <button class='btn btn--text btn--text-green btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${list.id}'>LOG TRIP</button>
             </div>`
     );
     return marker;
   }
 
-  #createMarkerLayer(list, user) {
+  #createMarkerLayer(list, completedPeaks) {
     list.data.forEach((peakObj) => {
-      const color = `${
-        user.completedPeaks.includes(peakObj.id) ? "green" : "red"
-      }`;
+      const color = `${completedPeaks.includes(peakObj.id) ? "green" : "red"}`;
       const marker = this.#createMarker(peakObj, list, color);
       this.#markersArr.push(marker);
     });

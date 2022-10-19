@@ -1,17 +1,18 @@
 class PeakListsView {
-  _peakListsEl = document.querySelector(".peak-lists");
-  _singleListContainer = document.querySelector(".container-single-peak-list");
-  _singleListHeading = this._singleListContainer.querySelector(
+  #peakListsEl = document.querySelector(".peak-lists");
+  #singleListContainer = document.querySelector(".container-single-peak-list");
+  #singleListHeading = this.#singleListContainer.querySelector(
     ".container__heading"
   );
-  _singleListNumberLabel = this._singleListContainer.querySelector(
+  #singleListNumberLabel = this.#singleListContainer.querySelector(
     ".peak-list__label-number"
   );
-  _singleListProgressWrapper =
-    this._singleListContainer.querySelector(".wrapper-progress");
-  _peakListTableBody = document.querySelector(".peak-list__table-body");
-  _btnBack = this._singleListContainer.querySelector(".btn-back");
-  _peaklistBtnsWrapper = document.querySelector(".peak-list__buttons-wrapper");
+  #singleListProgressWrapper =
+    this.#singleListContainer.querySelector(".wrapper-progress");
+  #peakListTableBody = document.querySelector(".peak-list__table-body");
+  #btnBack = this.#singleListContainer.querySelector(".btn-back");
+  #peakListBtnsWrapper = document.querySelector(".peak-list__buttons-wrapper");
+  #previewBtns = [...this.#peakListBtnsWrapper.querySelectorAll(".btn--text")];
 
   // PUBLIC METHODS
 
@@ -21,7 +22,6 @@ class PeakListsView {
       function (e) {
         const clicked = e.target.closest(".btn-log-trip");
         if (!clicked) return;
-        // this._chooseListSelect.value = clicked.dataset.listId;
         const listID = clicked.dataset.listId;
         const mtnID = clicked.dataset.mtnId;
         handler(listID, mtnID);
@@ -29,8 +29,16 @@ class PeakListsView {
     );
   }
 
+  addHandlerSaveList(handler) {
+    this.#peakListsEl.addEventListener("click", function (e) {
+      const clicked = e.target.closest(".btn-add-peak-list");
+      if (!clicked) return;
+      handler(clicked.dataset.id);
+    });
+  }
+
   addPeakListViewHandler(handler) {
-    this._peakListsEl.addEventListener("click", function (e) {
+    this.#peakListsEl.addEventListener("click", function (e) {
       const listID = e.target.closest(".list-entry").dataset.id;
       const clicked = e.target.closest(".btn-view-list");
       if (!clicked) return;
@@ -38,64 +46,63 @@ class PeakListsView {
     });
   }
 
-  addHandlerBtnBack(handler) {
-    this._btnBack.addEventListener("click", function (e) {
-      const btn = e.target.closest(".btn-back");
-      if (!btn) return;
-      handler(btn.dataset.container);
-    });
+  addHandlerBtnsWrapper(handler) {
+    this.#peakListBtnsWrapper.addEventListener(
+      "click",
+      function (e) {
+        const clicked = e.target.closest(".btn--text");
+        if (!clicked) return;
+        const type = clicked.dataset.display;
+        handler(type);
+      }.bind(this)
+    );
   }
 
-  displayPeakLists(listArr, user) {
-    this._peakListsEl.innerHTML = "";
+  displayPeakListsPreview(listArr, type, savedLists, listCounts) {
+    this.#setActivePreviewBtn(type);
+    this.#peakListsEl.innerHTML = "";
     listArr.forEach((list) => {
-      this._peakListsEl.insertAdjacentHTML(
+      this.#peakListsEl.insertAdjacentHTML(
         "beforeend",
-        this._generatePreviewMarkup(list, user)
+        this.#generatePreviewMarkup(list, savedLists, listCounts)
       );
     });
   }
 
-  displaySinglePeakList(list, user) {
-    this._singleListHeading.textContent = `${list.title}`;
-    this._singleListNumberLabel.textContent = `${user.listCounts[list.id]} of ${
+  displaySinglePeakList(list, listCounts, logEntries) {
+    this.#singleListHeading.textContent = `${list.title}`;
+    this.#singleListNumberLabel.textContent = `${listCounts[list.id]} of ${
       list.peakCount
     } Peaks`;
-    this._singleListProgressWrapper.innerHTML = "";
-    this._singleListProgressWrapper.insertAdjacentHTML(
+    this.#singleListProgressWrapper.innerHTML = "";
+    this.#singleListProgressWrapper.insertAdjacentHTML(
       "beforeend",
-      this._generateProgressBarHTML(list, user)
+      this.#generateProgressBarHTML(list, listCounts)
     );
-    this._peakListTableBody.innerHTML = "";
-    this._peakListTableBody.insertAdjacentHTML(
+    this.#peakListTableBody.innerHTML = "";
+    this.#peakListTableBody.insertAdjacentHTML(
       "beforeend",
-      this._createSinglePeakListHTML(list, user)
+      this.#generateSinglePeakListHTML(list, logEntries)
     );
   }
 
   // PRIVATE METHODS
 
-  // TODO
-  // FOR SWITCHING BETWEEN DISPLAYING ALL LISTS AND SAVED USER LISTS
-
-  _addHandlerBtnsWrapper() {
-    this._peakListBtnsWrapper.addEventListener(
-      "click",
-      function (e) {
-        const clicked = e.target.closest(".btn--text");
-        if (!clicked) return;
-        this._displayPeakLists(clicked.dataset.display);
-      }.bind(this)
+  #setActivePreviewBtn(type) {
+    this.#previewBtns.forEach((btn) => btn.classList.remove("btn--active"));
+    const activeBtn = this.#previewBtns.find(
+      (btn) => btn.dataset.display === type
     );
+    activeBtn.classList.add("btn--active");
   }
 
-  _createSinglePeakListHTML(list, user) {
+  #generateSinglePeakListHTML(list, logEntries) {
     let peakListHTML = "";
     list.data.forEach((peak, i) => {
       let logMatch;
-      if (user.logEntries.length) {
-        logMatch = user.logEntries.find((entry) =>
-          entry.peaks.includes(peak.id)
+      if (logEntries.length) {
+        logMatch = logEntries.find((entry) =>
+          entry.peaks.some((peakObj) => peakObj.id === peak.id)
         );
       }
 
@@ -118,28 +125,28 @@ class PeakListsView {
     return peakListHTML;
   }
 
-  _generatePreviewMarkup(list, user) {
+  #generatePreviewMarkup(list, savedLists, listCounts) {
     const markup = `<li class="list-entry" data-id="${list.id}">
         <button class="btn btn--icon btn-add-peak-list" data-id='${list.id}'>
         <span class="material-icons"> ${
-          user.savedLists.includes(list.id) ? "done" : "post_add"
+          savedLists.includes(list.id) ? "remove_circle_outline" : "add_circle"
         } </span>
       </button>
       <div class="list-entry__info">
         <h2 class="list-entry__label-primary"><strong>${
           list.title
         }</strong></h2>
-        <span class="list-entry__label-secondary">${
-          user.listCounts[list.id]
-        } of ${list.peakCount} Peaks</span>
-        ${this._generateProgressBarHTML(list, user)}
+        <span class="list-entry__label-secondary">${listCounts[list.id]} of ${
+      list.peakCount
+    } Peaks</span>
+        ${this.#generateProgressBarHTML(list, listCounts)}
         <button class="btn btn--dark btn-view btn-view-list">VIEW</button>
     </li>`;
     return markup;
   }
 
-  _generateProgressBarHTML(list, user) {
-    const width = (user.listCounts[list.id] / list.data.length) * 100;
+  #generateProgressBarHTML(list, listCounts) {
+    const width = (listCounts[list.id] / list.data.length) * 100;
     const html = `<div class='progress-bar'><div class='progress-bar__label'>${
       Math.round(width * 10) / 10
     }%</div><div class='progress' style="width:${width}%"></div></div>

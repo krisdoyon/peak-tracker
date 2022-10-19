@@ -320,4 +320,4 @@ const createObjectsFile = function (id) {
 
 // ids.forEach((id) => createObjectsFile(id));
 
-createObjectsFile("ne100rest");
+// createObjectsFile("ne100rest");

@@ -1,13 +1,16 @@
 import * as model from "./model.js";
+import historyView from "./views/historyView.js";
 import newEntryView from "./views/newEntryView.js";
 import mainView from "./views/mainView.js";
 import mapView from "./views/mapView.js";
 import peakListView from "./views/peakListView.js";
 
+/////////////////////////////////////////////////////////////////////////////////
 // MAIN VIEW
 
 const controlBtnBack = function (containerID) {
   mainView.displayContainer(containerID);
+  mapView.clearMap();
 };
 
 const controlCloseContainer = function () {
@@ -17,19 +20,26 @@ const controlCloseContainer = function () {
 };
 
 const controlMainNavClick = function (containerID) {
+  mapView.clearMap();
   if (containerID === "map") {
     mainView.closeMainContainer();
     return;
   }
   mainView.displayContainer(containerID);
   if (containerID === "all-history") {
-    // Update and display history
+    historyView.displayAllHistoryList(model.state.logEntries);
   }
   if (containerID === "all-peak-lists") {
-    peakListView.displayPeakLists(model.getPeakListsArr(), model.currentUser);
+    peakListView.displayPeakListsPreview(
+      model.getPeakListsArr(model.state.currentListView),
+      model.state.currentListView,
+      model.state.savedLists,
+      model.state.listCounts
+    );
   }
 };
 
+/////////////////////////////////////////////////////////////////////////////////
 // MAP
 
 const initializeMap = async function () {
@@ -42,16 +52,28 @@ const initializeMap = async function () {
   }
 };
 
+/////////////////////////////////////////////////////////////////////////////////
 // PEAK LISTS
 
-const controlPeakListView = function (listID) {
+const controlSinglePeakListView = function (listID) {
   mainView.displayContainer("single-peak-list");
   model.sortPeakList(listID, "elevation");
   peakListView.displaySinglePeakList(
     model.getPeakList(listID),
-    model.currentUser
+    model.state.listCounts,
+    model.state.logEntries
   );
-  mapView.plotListOnMap(model.getPeakList(listID), model.currentUser);
+  mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
+};
+
+const controlPeakListPreview = function (type) {
+  model.state.currentListView = type;
+  peakListView.displayPeakListsPreview(
+    model.getPeakListsArr(model.state.currentListView),
+    model.state.currentListView,
+    model.state.savedLists,
+    model.state.listCounts
+  );
 };
 
 const controlLogTrip = function (listID, mtnID) {
@@ -61,17 +83,42 @@ const controlLogTrip = function (listID, mtnID) {
     listID,
     mtnID
   );
-  mapView.plotListOnMap(model.getPeakList(listID), model.currentUser);
+  mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
 };
 
+const controlSavedLists = function (listID) {
+  if (!model.state.savedLists.includes(listID)) {
+    model.addSavedList(listID);
+  } else {
+    model.removeSavedList(listID);
+  }
+  peakListView.displayPeakListsPreview(
+    model.getPeakListsArr(model.state.currentListView),
+    model.state.currentListView,
+    model.state.savedLists,
+    model.state.listCounts
+  );
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+// HISTORY
+
+const controlSingleHistoryView = function (logID) {
+  mainView.displayContainer("single-history");
+  historyView.displaySingleHistory(model.getLogEntry(logID));
+};
+
+const controlRemoveSingleHistory = function (logID) {
+  model.removeLogEntry(logID);
+  historyView.displayAllHistoryList(model.state.logEntries);
+};
+
+/////////////////////////////////////////////////////////////////////////////////
 // NEW ENTRY
 
-const controlAddEntry = function (data) {
-  model.currentUser.addLogEntry
-  // Create a new log entry
-  // Add the new entry to the user's log entries array
-  // Update the map
-  console.log(data);
+const controlAddEntry = function (data, listID) {
+  model.addLogEntry(data);
+  mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
 };
 
 const controlNewEntryDate = function (date) {
@@ -80,7 +127,7 @@ const controlNewEntryDate = function (date) {
 
 const controlPeakListSelect = function (listID) {
   newEntryView.displayCheckboxes(model.getCheckboxDisplayArr(listID));
-  // Show peak list on map
+  mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
 };
 
 const init = function () {
@@ -89,9 +136,13 @@ const init = function () {
   newEntryView.addHandlerAddEntry(controlAddEntry);
   mainView.addHandlerCloseMainContainer(controlCloseContainer);
   mainView.addHandlerMainNavClick(controlMainNavClick);
-  peakListView.addPeakListViewHandler(controlPeakListView);
-  peakListView.addHandlerBtnBack(controlBtnBack);
+  mainView.addHandlerBtnBack(controlBtnBack);
+  peakListView.addPeakListViewHandler(controlSinglePeakListView);
   peakListView.addHandlerLogTrip(controlLogTrip);
+  peakListView.addHandlerSaveList(controlSavedLists);
+  peakListView.addHandlerBtnsWrapper(controlPeakListPreview);
+  historyView.addHandlerViewSingleHistory(controlSingleHistoryView);
+  historyView.addHandlerRemoveHistoryEntry(controlRemoveSingleHistory);
   initializeMap();
 };
 
