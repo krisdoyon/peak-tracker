@@ -1,0 +1,20 @@
+{
+  "name": "peak-tracker",
+  "version": "1.0.0",
+  "description": "Peak Tracker is a web app designed to track progress of mountain summit peakbagging lists.",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krisdoyon/peak-tracker.git"
+  },
+  "author": "Kris Doyon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krisdoyon/peak-tracker/issues"
+  },
+  "homepage": "https://github.com/krisdoyon/peak-tracker#readme",
+  "devDependencies": {
+    "parcel": "^2.7.0",
+    "sass": "^1.55.0"
+  }
+}
