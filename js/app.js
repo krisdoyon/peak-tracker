@@ -136,8 +136,6 @@ class App {
       function (e) {
         const clicked = e.target.closest(".btn-log-trip");
         if (!clicked) return;
-        this._displayContainer("new-entry");
-        this._displayPeakListCheckboxes(clicked.dataset.listId);
         chooseListSelect.value = clicked.dataset.listId;
         const checkbox = [...gridPeakCheckboxes.querySelectorAll("input")].find(
           (input) => +input.value === +clicked.dataset.mtnId
@@ -184,6 +182,7 @@ class App {
     chooseListSelect.addEventListener(
       "change",
       function (e) {
+        console.log(e.target);
         this._displayPeakListCheckboxes(e.target.value);
       }.bind(this)
     );

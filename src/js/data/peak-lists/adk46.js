@@ -1,4 +1,4 @@
-let adk46 = [
+export const adk46Arr = [
   {
     id: 973357,
     name: "Mount Marcy",

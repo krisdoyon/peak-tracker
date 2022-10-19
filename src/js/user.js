@@ -1,9 +1,10 @@
+import { peakListsArr } from "./data/peakLists.js";
+
 export class User {
-  _savedLists = [];
-  _logEntries = [];
-  _completedPeaks = [];
-  _listCounts = {};
-  _coords;
+  savedLists = [];
+  logEntries = [];
+  completedPeaks = [];
+  listCounts = {};
   constructor(firstName, username) {
     this.firstName = firstName;
     this.username = username;
@@ -85,12 +86,6 @@ export class User {
   }
 
   _decreaseListCounts(peakID) {
-    // Loop through log entires array, flatmap all peaks from each log entry.
-
-    // If the flatmap contains any value that matches the peak, the user has climbed the mountain in another post
-
-    // No peak list count
-
     if (
       !currentUser.logEntries
         .flatMap((entry) => entry.peaks)

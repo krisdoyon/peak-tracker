@@ -1,0 +1,7 @@
+class NavView {
+
+  addHandlerNavClick(handler) {
+
+  }
+
+}

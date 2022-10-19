@@ -3,7 +3,7 @@
 - Track progress of mountain summit peakbagging lists.
 
 - See all peaks displayed with an icon on a map, hilighted green or red.
-  -- When a mountain is clicked, open modal window to 
+  -- When a mountain is clicked, open modal window to
 
 - Log each hike with the following information:
   -- Which mountains were summitted
@@ -31,7 +31,18 @@
 Log
 Map
 Stats page
-Hiking time calculator
 
-PROGRESS BAR
-Search trailheads/campgrounds and find directions?
+### ADDITIONAL FEATURES
+
+Add "List saved!" message when clicking icon to save peak list
+Change background to dark green behind all lists/saved lists links (text to white)
+When removing peaklist from saved lists it should disappear immediately after clicking icon
+Add Hiking time calculator
+Add Search trailheads/campgrounds and find directions?
+In peak list display table, change mountain names to links. Individual mountain name page.
+Add search functionality to add peaks, search peak lists
+Add click and draw trails, calculate distance
+Add alt to images, aria labels
+
+Add media queries
+Restructure HTML/CSS
