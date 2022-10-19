@@ -9,33 +9,29 @@ import peakListView from "./views/peakListView.js";
 // MAIN VIEW
 
 const controlBtnBack = function (containerID) {
-  mainView.displayContainer(containerID);
+  mainView.showContainer(containerID);
   mapView.clearMap();
 };
 
-const controlCloseContainer = function () {
-  mainView.closeMainContainer();
+const controlHideContainer = function () {
+  mainView.hideContainer();
   newEntryView.clearNewEntryForm();
   mapView.clearMap();
 };
 
-const controlMainNavClick = function (containerID) {
+const controlMainNav = function (containerID) {
   mapView.clearMap();
+  newEntryView.clearNewEntryForm();
   if (containerID === "map") {
-    mainView.closeMainContainer();
+    mainView.hideContainer();
     return;
   }
-  mainView.displayContainer(containerID);
+  mainView.showContainer(containerID);
   if (containerID === "all-history") {
-    historyView.displayAllHistoryList(model.state.logEntries);
+    historyView.renderAllHistory(model.state.logEntries);
   }
   if (containerID === "all-peak-lists") {
-    peakListView.displayPeakListsPreview(
-      model.getPeakListsArr(model.state.currentListView),
-      model.state.currentListView,
-      model.state.savedLists,
-      model.state.listCounts
-    );
+    peakListView.renderPeakListsPreview(model.getPreviewData());
   }
 };
 
@@ -55,29 +51,20 @@ const initializeMap = async function () {
 /////////////////////////////////////////////////////////////////////////////////
 // PEAK LISTS
 
-const controlSinglePeakListView = function (listID) {
-  mainView.displayContainer("single-peak-list");
+const controlPeakListTable = function (listID) {
+  mainView.showContainer("single-peak-list");
   model.sortPeakList(listID, "elevation");
-  peakListView.displaySinglePeakList(
-    model.getPeakList(listID),
-    model.state.listCounts,
-    model.state.logEntries
-  );
+  peakListView.renderPeakListTable(model.getTableData(listID));
   mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
 };
 
 const controlPeakListPreview = function (type) {
-  model.state.currentListView = type;
-  peakListView.displayPeakListsPreview(
-    model.getPeakListsArr(model.state.currentListView),
-    model.state.currentListView,
-    model.state.savedLists,
-    model.state.listCounts
-  );
+  model.setCurrentListView(type);
+  peakListView.renderPeakListsPreview(model.getPreviewData());
 };
 
 const controlLogTrip = function (listID, mtnID) {
-  mainView.displayContainer("new-entry");
+  mainView.showContainer("new-entry");
   newEntryView.displayCheckboxes(
     model.getCheckboxDisplayArr(listID),
     listID,
@@ -92,25 +79,21 @@ const controlSavedLists = function (listID) {
   } else {
     model.removeSavedList(listID);
   }
-  peakListView.displayPeakListsPreview(
-    model.getPeakListsArr(model.state.currentListView),
-    model.state.currentListView,
-    model.state.savedLists,
-    model.state.listCounts
-  );
+  peakListView.renderPeakListsPreview(model.getPreviewData());
 };
 
 /////////////////////////////////////////////////////////////////////////////////
 // HISTORY
 
-const controlSingleHistoryView = function (logID) {
-  mainView.displayContainer("single-history");
-  historyView.displaySingleHistory(model.getLogEntry(logID));
+const controlShowHistoryEntry = function (logID, listID) {
+  mainView.showContainer("single-history");
+  historyView.renderHistoryEntry(model.getLogEntry(logID));
+  mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
 };
 
-const controlRemoveSingleHistory = function (logID) {
+const controlDeleteHistoryEntry = function (logID) {
   model.removeLogEntry(logID);
-  historyView.displayAllHistoryList(model.state.logEntries);
+  historyView.renderAllHistory(model.state.logEntries);
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -131,19 +114,19 @@ const controlPeakListSelect = function (listID) {
 };
 
 const init = function () {
-  newEntryView.addHandlerDateClick(controlNewEntryDate);
-  newEntryView.addHandlerChangeListSelect(controlPeakListSelect);
-  newEntryView.addHandlerAddEntry(controlAddEntry);
-  mainView.addHandlerCloseMainContainer(controlCloseContainer);
-  mainView.addHandlerMainNavClick(controlMainNavClick);
-  mainView.addHandlerBtnBack(controlBtnBack);
-  peakListView.addPeakListViewHandler(controlSinglePeakListView);
-  peakListView.addHandlerLogTrip(controlLogTrip);
-  peakListView.addHandlerSaveList(controlSavedLists);
-  peakListView.addHandlerBtnsWrapper(controlPeakListPreview);
-  historyView.addHandlerViewSingleHistory(controlSingleHistoryView);
-  historyView.addHandlerRemoveHistoryEntry(controlRemoveSingleHistory);
   initializeMap();
+  newEntryView.addHandlerDate(controlNewEntryDate);
+  newEntryView.addHandlerPeakListSelect(controlPeakListSelect);
+  newEntryView.addHandlerAddEntry(controlAddEntry);
+  mainView.addHandlerHideContainer(controlHideContainer);
+  mainView.addHandlerMainNav(controlMainNav);
+  mainView.addHandlerBtnBack(controlBtnBack);
+  peakListView.addHandlerPeakListView(controlPeakListTable);
+  peakListView.addHandlerLogTrip(controlLogTrip);
+  peakListView.addHandlerSavedLists(controlSavedLists);
+  peakListView.addHandlerPeakListPreview(controlPeakListPreview);
+  historyView.addHandlerShowEntry(controlShowHistoryEntry);
+  historyView.addHandlerDeleteEntry(controlDeleteHistoryEntry);
 };
 
 init();
