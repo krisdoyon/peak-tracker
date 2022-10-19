@@ -2,7 +2,6 @@ import { peakMap, elevationMap } from "./data/peakLists.js";
 
 export class LogEntry {
   peaks = [];
-  id;
   constructor(
     date,
     peakIDsArr,
@@ -13,7 +12,7 @@ export class LogEntry {
     min,
     notes,
     rating,
-    id
+    logID
   ) {
     this.date = new Date(date);
     this.peaks = [];
@@ -31,9 +30,8 @@ export class LogEntry {
     this.min = +min;
     this.notes = notes;
     this.rating = +rating;
-    this.id = id;
+    this.logID = logID;
     this.#init();
-    console.log(this);
   }
 
   #init() {
