@@ -7,12 +7,11 @@ import { nh4kArr } from "./peak-lists/nh4k.js";
 import { vt4kArr } from "./peak-lists/vt4k.js";
 
 class PeakList {
-  markers = [];
-  constructor(title, id, data, center, zoom) {
+  constructor(title, listID, peaks, center, zoom) {
     this.title = title;
-    this.id = id;
-    this.data = data;
-    this.peakCount = data.length;
+    this.listID = listID;
+    this.peaks = peaks;
+    this.peakCount = peaks.length;
     this.center = center;
     this.zoom = zoom;
   }
@@ -69,7 +68,7 @@ const adk46 = new PeakList(
 const ne4k = new PeakList(
   "New England 4,000 Footers",
   "ne4k",
-  [...nh4k.data, ...me4k.data, ...vt4k.data],
+  [...nh4k.peaks, ...me4k.peaks, ...vt4k.peaks],
   [44.54350521320822, -73.39753417968751],
   8
 );
@@ -77,7 +76,7 @@ const ne4k = new PeakList(
 const ne100 = new PeakList(
   "New England 100 Highest",
   "ne100",
-  [...ne4k.data, ...ne100restArr],
+  [...ne4k.peaks, ...ne100restArr],
   [44.54350521320822, -73.39753417968751],
   8
 );
@@ -87,7 +86,7 @@ const peakListsArr = [co14, me4k, nh4k, vt4k, neHigh, adk46, ne4k, ne100];
 const all = new PeakList(
   "All Peaks",
   "all",
-  [...new Set(peakListsArr.flatMap((peakList) => peakList.data))],
+  [...new Set(peakListsArr.flatMap((peakList) => peakList.peaks))],
   [39.63953756436671, -107.7978515625],
   5
 );
@@ -98,11 +97,11 @@ const peakMap = new Map();
 
 const elevationMap = new Map();
 
-all.data.forEach((peakObj) => {
-  peakMap.set(peakObj.id, peakObj.name);
+all.peaks.forEach((peak) => {
+  peakMap.set(peak.id, peak.name);
 });
 
-all.data.forEach((peakObj) => elevationMap.set(peakObj.id, peakObj.elevFeet));
+all.peaks.forEach((peak) => elevationMap.set(peak.id, peak.elevFeet));
 
 peakListsArr.sort((a, b) =>
   a.title.toLowerCase().localeCompare(b.title.toLowerCase())
