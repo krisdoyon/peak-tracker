@@ -6,6 +6,7 @@ export class LogEntry {
     date,
     peakIDsArr,
     listID,
+    listTitle,
     elevation,
     distance,
     hours,
@@ -24,6 +25,7 @@ export class LogEntry {
       })
     );
     this.listID = listID;
+    this.listTitle = listTitle;
     this.elevation = +elevation;
     this.distance = +distance;
     this.hours = +hours;
