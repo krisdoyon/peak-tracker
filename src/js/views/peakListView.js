@@ -15,7 +15,8 @@ class PeakListsView {
   #peakListTableBody = document.querySelector(".peak-list__table-body");
   #btnBack = this.#singleListContainer.querySelector(".btn-back");
   #peakListBtnsWrapper = document.querySelector(".peak-list__buttons-wrapper");
-  #previewBtns = [...this.#peakListBtnsWrapper.querySelectorAll(".btn--text")];
+  #previewBtns = [...this.#peakListBtnsWrapper.querySelectorAll(".btn-text")];
+  #noSavedLists = document.querySelector(".no-saved-lists");
 
   // PUBLIC METHODS
 
@@ -53,7 +54,7 @@ class PeakListsView {
     this.#peakListBtnsWrapper.addEventListener(
       "click",
       function (e) {
-        const clicked = e.target.closest(".btn--text");
+        const clicked = e.target.closest(".btn-text");
         if (!clicked) return;
         const { previewType } = clicked.dataset;
         handler(previewType);
@@ -66,10 +67,15 @@ class PeakListsView {
     this.#previewType = data.previewType;
     this.#setActivePreviewBtn(this.#previewType);
     this.#peakListsEl.innerHTML = "";
-    this.#peakListsEl.insertAdjacentHTML(
-      "beforeend",
-      this.#generatePreviewMarkup(data)
-    );
+    if (this.#previewData.length) {
+      this.#noSavedLists.classList.add("hidden");
+      this.#peakListsEl.insertAdjacentHTML(
+        "beforeend",
+        this.#generatePreviewMarkup(this.#previewData)
+      );
+    } else {
+      this.#noSavedLists.classList.remove("hidden");
+    }
   }
 
   renderPeakListTable(data) {
@@ -110,7 +116,7 @@ class PeakListsView {
         <td>${
           peak.completed
             ? `${peak.completedDate}`
-            : `<button class='btn btn--text btn-log-trip' data-mtn-id='${
+            : `<button class='btn btn-text btn-log-trip' data-mtn-id='${
                 peak.id
               }' data-list-id='${this.#tableData.listID}'>LOG TRIP</button>`
         }</td>
@@ -126,9 +132,7 @@ class PeakListsView {
 
   #generateSinglePreviewMarkup(list) {
     const markup = `<li class="list-entry" data-list-id="${list.listID}">
-        <button class="btn btn--icon btn-add-peak-list" data-id='${
-          list.listID
-        }'>
+        <button class="btn btn-icon btn-add-peak-list" data-id='${list.listID}'>
         <span class="material-icons"> ${
           list.saved ? "remove_circle_outline" : "add_circle"
         } </span>
@@ -141,7 +145,7 @@ class PeakListsView {
       list.peakCount
     } Peaks</span>
         ${this.#generateProgressBarMarkup(list)}
-        <button class="btn btn--dark btn-view btn-view-list">VIEW</button>
+        <button class="btn btn--green btn-view btn-view-list">VIEW</button>
     </li>`;
     return markup;
   }
@@ -156,10 +160,12 @@ class PeakListsView {
   }
 
   #setActivePreviewBtn() {
-    this.#previewBtns.forEach((btn) => btn.classList.remove("btn--active"));
+    this.#previewBtns.forEach((btn) =>
+      btn.classList.remove("btn-text--active")
+    );
     this.#previewBtns
       .find((btn) => btn.dataset.previewType === this.#previewType)
-      .classList.add("btn--active");
+      .classList.add("btn-text--active");
   }
 }
 
