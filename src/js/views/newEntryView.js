@@ -28,7 +28,7 @@ class newEntryView {
 
   // PUBLIC METHODS
 
-  addHandlerDateClick(handler) {
+  addHandlerDate(handler) {
     this.#gridDate.addEventListener("click", function (e) {
       e.preventDefault();
       const btn = e.target.closest(".btn-date");
@@ -38,7 +38,7 @@ class newEntryView {
     });
   }
 
-  addHandlerChangeListSelect(handler) {
+  addHandlerPeakListSelect(handler) {
     this.#chooseListSelect.addEventListener(
       "change",
       function (e) {
@@ -233,10 +233,3 @@ class newEntryView {
 }
 
 export default new newEntryView();
-
-// currentUser.addLogEntry(newEntry);
-// this.#plotListOnMap(chooseListSelect.value);
-// this.#clearNewEntryForm();
-
-// const grid = document.querySelector(".grid-peak-checkboxes");
-// const checkboxes = grid.querySelectorAll("input");
