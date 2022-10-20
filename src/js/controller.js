@@ -1,5 +1,5 @@
 import * as model from "./model.js";
-import historyView from "./views/historyView.js";
+import logView from "./views/logView.js";
 import newEntryView from "./views/newEntryView.js";
 import mainView from "./views/mainView.js";
 import mapView from "./views/mapView.js";
@@ -15,20 +15,20 @@ const controlBtnBack = function (containerID) {
 
 const controlHideContainer = function () {
   mainView.hideContainer();
-  newEntryView.clearNewEntryForm();
+  newEntryView.clearForm();
   mapView.clearMap();
 };
 
 const controlMainNav = function (containerID) {
   mapView.clearMap();
-  newEntryView.clearNewEntryForm();
+  newEntryView.clearForm();
   if (containerID === "map") {
     mainView.hideContainer();
     return;
   }
   mainView.showContainer(containerID);
-  if (containerID === "all-history") {
-    historyView.renderAllHistory(model.state.logEntries);
+  if (containerID === "log-preview") {
+    logView.renderLogPreview(model.state.logEntries);
   }
   if (containerID === "all-peak-lists") {
     peakListView.renderPeakListsPreview(model.getPreviewData());
@@ -83,24 +83,34 @@ const controlSavedLists = function (listID) {
 };
 
 /////////////////////////////////////////////////////////////////////////////////
-// HISTORY
+// TRIP LOG
 
-const controlShowHistoryEntry = function (logID, listID) {
-  mainView.showContainer("single-history");
-  historyView.renderHistoryEntry(model.getLogEntry(logID));
+const controlShowLogEntry = function (logID, listID) {
+  mainView.showContainer("log-entry");
+  logView.renderLogEntry(model.getLogEntry(logID));
   mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
 };
 
-const controlDeleteHistoryEntry = function (logID) {
+const controlDeleteLogEntry = function (logID) {
   model.removeLogEntry(logID);
-  historyView.renderAllHistory(model.state.logEntries);
+  logView.renderLogPreview(model.state.logEntries);
+};
+
+const controlLogAddEntry = function () {
+  mainView.showContainer("new-entry");
 };
 
 /////////////////////////////////////////////////////////////////////////////////
 // NEW ENTRY
 
-const controlAddEntry = function (data, listID) {
+const controlClearForm = function () {
+  newEntryView.clearForm();
+  mapView.clearMap();
+};
+
+const controlFormAddEntry = function (data, listID) {
   model.addLogEntry(data);
+  newEntryView.clearForm();
   mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
 };
 
@@ -117,7 +127,8 @@ const init = function () {
   initializeMap();
   newEntryView.addHandlerDate(controlNewEntryDate);
   newEntryView.addHandlerPeakListSelect(controlPeakListSelect);
-  newEntryView.addHandlerAddEntry(controlAddEntry);
+  newEntryView.addHandlerAddEntry(controlFormAddEntry);
+  newEntryView.addHandlerClearForm(controlClearForm);
   mainView.addHandlerHideContainer(controlHideContainer);
   mainView.addHandlerMainNav(controlMainNav);
   mainView.addHandlerBtnBack(controlBtnBack);
@@ -125,8 +136,9 @@ const init = function () {
   peakListView.addHandlerLogTrip(controlLogTrip);
   peakListView.addHandlerSavedLists(controlSavedLists);
   peakListView.addHandlerPeakListPreview(controlPeakListPreview);
-  historyView.addHandlerShowEntry(controlShowHistoryEntry);
-  historyView.addHandlerDeleteEntry(controlDeleteHistoryEntry);
+  logView.addHandlerShowEntry(controlShowLogEntry);
+  logView.addHandlerDeleteEntry(controlDeleteLogEntry);
+  logView.addHandlerAddEntry(controlLogAddEntry);
 };
 
 init();
