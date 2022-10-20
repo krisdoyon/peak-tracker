@@ -47,14 +47,14 @@ class MapView {
       `<div class='peak-popup'>
               <span class='peak-popup__label-name'>${peakObj.name}</span>
               <span class='peak-popup__label-elevation'>${peakObj.elevFeet} ft.</span>
-              <button class='btn btn--text btn--text-green btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${list.id}'>LOG TRIP</button>
+              <button class='btn btn--text btn--text-green btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${list.listID}'>LOG TRIP</button>
             </div>`
     );
     return marker;
   }
 
   #createMarkerLayer(list, completedPeaks) {
-    list.data.forEach((peakObj) => {
+    list.peaks.forEach((peakObj) => {
       const color = `${completedPeaks.includes(peakObj.id) ? "green" : "red"}`;
       const marker = this.#createMarker(peakObj, list, color);
       this.#markersArr.push(marker);
