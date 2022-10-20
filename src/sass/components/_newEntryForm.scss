@@ -1,0 +1,164 @@
+#form-new-entry input,
+#form-new-entry select {
+  padding: 1.2rem;
+  border-radius: 1.2rem;
+  border: none;
+  font-family: inherit;
+  background-color: #fff;
+}
+
+#form-new-entry .form__row:first-child {
+  border-top: none;
+}
+
+.form__row {
+  display: flex;
+  gap: 1.8rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  padding: 2.4rem 1.8rem;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form__label--primary {
+  font-size: 1.8rem;
+}
+
+.form__label--secondary {
+  font-size: 1.4rem;
+}
+
+/* DATE */
+
+.grid-date {
+  grid-template-columns: 1fr 25% 25%;
+  gap: 1.2rem;
+}
+
+.btn-date {
+  background-color: var(--color-green-primary);
+  width: 90%;
+  justify-self: flex-start;
+}
+
+.btn-today {
+  justify-self: flex-end;
+}
+
+/* PEAKS */
+
+.grid-peaks {
+  display: grid;
+  grid-template-columns: max-content auto;
+  align-items: center;
+  gap: 1.2rem;
+  column-gap: 2.4rem;
+}
+
+.grid-peaks span {
+  grid-column: 1/-1;
+  margin-left: 1rem;
+}
+
+.grid-peak-checkboxes {
+  display: grid;
+  grid-template-columns: 10% 1fr 10% 1fr;
+  justify-content: center;
+  /* gap: 1rem; */
+  row-gap: 0.6rem;
+  padding: 1rem 0;
+  /* text-align: left; */
+}
+
+.peak-checkbox-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* STATS */
+
+.grid-stats {
+  display: grid;
+  grid-template-columns: min-content min-content 1fr;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.stat-row input {
+  flex: 1;
+}
+
+.btn-add-stat {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+}
+
+/* NOTES */
+
+#notes {
+  resize: none;
+  height: 10rem;
+  font-family: inherit;
+  padding: 0.8rem;
+}
+
+/* RATING */
+
+.form__row--rating {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wrapper-stars {
+  display: flex;
+}
+
+.btn-star {
+  background-color: transparent;
+}
+
+.star-icon {
+  font-size: 2.4rem;
+}
+
+.star-icon--full {
+  color: #ffd61e !important;
+}
+
+.footer-new-entry {
+  position: sticky;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 0 0 0 1.2rem;
+  background-color: var(--color-grey-light-2);
+  border-top: 1px rgba(153, 153, 153, 0.5) solid;
+  padding: 1rem 1rem 1rem 2.4rem;
+  bottom: 0;
+}
+
+.btn-clear-form {
+  background-color: transparent;
+  font-weight: 500;
+}
+
+.btn-add-entry {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  font-size: 1.6rem;
+  color: #f7f7f7;
+  padding: 0.8rem 2rem;
+  border-radius: 1000rem;
+}

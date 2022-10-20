@@ -1,0 +1,44 @@
+/*///////////////////////////////////////////////////////////////////////////////////
+// PEAK LIST CONTAINER */
+
+/* ALL PEAK LISTS CONTAINER */
+
+.peak-list__buttons-wrapper {
+  background-color: var(--color-green-primary);
+  gap: 2.4rem;
+  padding: 0.8rem 0;
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.3); */
+}
+
+.peak-lists li:first-child {
+  border-top: none;
+}
+
+.list-entry {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  padding: 2.4rem 2rem;
+  gap: 2.4rem;
+  align-items: center;
+}
+
+.list-entry__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  /* align-items: center; */
+}
+
+.list-entry__label-primary {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+/* SINGLE PEAK LIST CONTAINER */
+
+/* HISTORY CONTAINER */
+
+.history-entries-list li:first-child {
+  border-top: none;
+}

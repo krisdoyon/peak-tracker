@@ -1,0 +1,21 @@
+#map {
+  height: 100vh;
+  z-index: 1;
+}
+
+.peak-popup {
+  font-size: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.peak-popup__label-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  /* background-color: red; */
+}
+
+.peak-popup__label-elevation {
+  margin-bottom: 0.6rem;
+}

@@ -1,0 +1,32 @@
+.grid-peak-list-heading {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: auto auto;
+  padding: 0 2.4rem;
+  margin-bottom: 2rem;
+  column-gap: 1.8rem;
+  row-gap: 0.8rem;
+}
+
+.peak-list__table {
+  border-collapse: collapse;
+  padding: 5rem;
+}
+
+.peak-list__table th,
+.peak-list__table td {
+  padding: 0.6rem 1.6rem;
+}
+
+.peak-list__table th {
+  background-color: var(--color-grey-light-2);
+}
+
+.peak-list__table td {
+  border-top: 1px solid var(--color-dark-1);
+  text-align: center;
+}
+
+.peak-list__table-row--complete {
+  background-color: rgba(176, 255, 186, 0.397);
+}
