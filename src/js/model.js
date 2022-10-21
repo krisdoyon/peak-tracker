@@ -1,4 +1,4 @@
-import { peakListsArr } from "./data/peakLists.js";
+import { peakListsArr } from "./peakLists.js";
 import { LogEntry } from "./logEntry.js";
 
 export const state = {
@@ -24,7 +24,7 @@ const getPeakListsArr = function (previewType = "all") {
 const sortPeakList = function (listID, sortType) {
   const list = getPeakList(listID);
   if (sortType === "elevation") {
-    list.peaks.sort((a, b) => b.elevFeet - a.elevFeet);
+    list.peaks.sort((a, b) => b.elevation - a.elevation);
   }
   if (sortType === "alphabetical") {
     list.peaks.sort((a, b) =>
@@ -129,7 +129,7 @@ export const getTableData = function (listID) {
         id: peak.id,
         num: i + 1,
         name: peak.name,
-        elevation: peak.elevFeet,
+        elevation: peak.elevation,
         state: peak.state,
         completed: logMatch ? true : false,
         completedDate: logMatch ? logMatch.shortDate : false,
@@ -163,7 +163,7 @@ export const getMapData = function (listID) {
         lat: peak.lat,
         long: peak.long,
         completed: state.completedPeaks.includes(peak.id) ? true : false,
-        elevation: peak.elevFeet,
+        elevation: peak.elevation,
       };
     }),
     center: list.center,
