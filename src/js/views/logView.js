@@ -44,7 +44,6 @@ class LogView {
 
   renderLogPreview(data) {
     this.#data = data;
-    console.log(data);
     this.#logEntriesPreviewEl.innerHTML = "";
     if (this.#data.length) {
       this.#noLogEntries.classList.add("hidden");
