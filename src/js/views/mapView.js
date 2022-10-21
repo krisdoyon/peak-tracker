@@ -5,6 +5,7 @@ class MapView {
   #map;
   #markersArr = [];
   #markersLayer;
+  #data;
 
   // PUBLIC METHODS
 
@@ -26,10 +27,11 @@ class MapView {
       .addTo(this.#map);
   }
 
-  plotListOnMap(list, completedPeaks) {
+  plotListOnMap(data) {
+    this.#data = data;
     this.clearMap();
-    this.#map.setView(list.center, list.zoom);
-    this.#createMarkerLayer(list, completedPeaks);
+    this.#map.setView(this.#data.center, this.#data.zoom);
+    this.#createMarkerLayer();
     this.#map.addLayer(this.#markersLayer);
   }
 
@@ -40,28 +42,28 @@ class MapView {
 
   // PRIVATE METHODS
 
-  #createMarker(peakObj, list, color) {
+  #createMarker(peak) {
     const mtnIcon = L.icon({
-      iconUrl: `${color === "red" ? mtnIconRed : mtnIconGreen}`,
+      iconUrl: `${peak.completed ? mtnIconGreen : mtnIconRed}`,
       iconSize: [25, 20],
     });
-    const marker = new L.Marker([peakObj.lat, peakObj.long], { icon: mtnIcon });
+    const marker = new L.Marker([peak.lat, peak.long], { icon: mtnIcon });
     marker.bindPopup(L.popup({})).setPopupContent(
       `<div class='peak-popup'>
-              <span class='peak-popup__label-name'>${peakObj.name}</span>
-              <span class='peak-popup__label-elevation'>${peakObj.elevFeet} ft.</span>
-              <button class='btn btn-text btn-text-green btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${list.listID}'>LOG TRIP</button>
-            </div>`
+        <span class='peak-popup__label-name'>${peak.name}</span>
+        <span class='peak-popup__label-elevation'>${peak.elevation} ft.</span>
+        <button class='btn btn-text btn-text-green btn-log-trip' data-mtn-id='${
+          peak.id
+        }' data-list-id='${this.#data.listID}'>LOG TRIP</button>
+      </div>`
     );
     return marker;
   }
 
-  #createMarkerLayer(list, completedPeaks) {
-    list.peaks.forEach((peakObj) => {
-      const color = `${completedPeaks.includes(peakObj.id) ? "green" : "red"}`;
-      const marker = this.#createMarker(peakObj, list, color);
-      this.#markersArr.push(marker);
-    });
+  #createMarkerLayer() {
+    this.#data.peaks.forEach((peak) =>
+      this.#markersArr.push(this.#createMarker(peak))
+    );
     this.#markersLayer = L.layerGroup(this.#markersArr);
   }
 }

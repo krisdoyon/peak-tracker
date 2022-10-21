@@ -55,7 +55,7 @@ const controlPeakListTable = function (listID) {
   mainView.showContainer("single-peak-list");
   model.sortPeakList(listID, "elevation");
   peakListView.renderPeakListTable(model.getTableData(listID));
-  mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
+  mapView.plotListOnMap(model.getMapData(listID));
 };
 
 const controlPeakListPreview = function (type) {
@@ -70,7 +70,7 @@ const controlLogTrip = function (listID, mtnID) {
     listID,
     mtnID
   );
-  mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
+  mapView.plotListOnMap(model.getMapData(listID));
 };
 
 const controlSavedLists = function (listID) {
@@ -88,7 +88,7 @@ const controlSavedLists = function (listID) {
 const controlShowLogEntry = function (logID, listID) {
   mainView.showContainer("log-entry");
   logView.renderLogEntry(model.getLogEntry(logID));
-  mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
+  mapView.plotListOnMap(model.getMapData(listID));
 };
 
 const controlDeleteLogEntry = function (logID) {
@@ -111,7 +111,7 @@ const controlClearForm = function () {
 const controlFormAddEntry = function (data, listID) {
   model.addLogEntry(data);
   newEntryView.clearForm();
-  mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
+  mapView.plotListOnMap(model.getMapData(listID));
 };
 
 const controlNewEntryDate = function (date) {
@@ -120,7 +120,7 @@ const controlNewEntryDate = function (date) {
 
 const controlPeakListSelect = function (listID) {
   newEntryView.displayCheckboxes(model.getCheckboxDisplayArr(listID));
-  mapView.plotListOnMap(model.getPeakList(listID), model.state.completedPeaks);
+  mapView.plotListOnMap(model.getMapData(listID));
 };
 
 const init = function () {
