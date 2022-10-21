@@ -6,24 +6,14 @@ export const state = {
   logEntries: [],
   completedPeaks: [],
   listCounts: {},
-  currentListView: "all",
+  currentPreviewView: "all",
 };
 
-export const setCurrentListView = function (previewType) {
-  state.currentListView = previewType;
-};
-
-export const getCoords = async function () {
-  return new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(resolve, reject);
-  });
-};
-
-export const getPeakList = function (listID) {
+const getPeakList = function (listID) {
   return peakListsArr.find((list) => list.listID === listID);
 };
 
-export const getPeakListsArr = function (previewType = "all") {
+const getPeakListsArr = function (previewType = "all") {
   if (previewType === "all") return peakListsArr;
   if (previewType === "saved")
     return peakListsArr.filter((list) =>
@@ -31,7 +21,7 @@ export const getPeakListsArr = function (previewType = "all") {
     );
 };
 
-export const sortPeakList = function (listID, sortType) {
+const sortPeakList = function (listID, sortType) {
   const list = getPeakList(listID);
   if (sortType === "elevation") {
     list.peaks.sort((a, b) => b.elevFeet - a.elevFeet);
@@ -41,6 +31,16 @@ export const sortPeakList = function (listID, sortType) {
       a.name.toLowerCase().localeCompare(b.name.toLowerCase())
     );
   }
+};
+
+export const setCurrentPreviewView = function (previewType) {
+  state.currentPreviewView = previewType;
+};
+
+export const getCoords = async function () {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
 };
 
 export const getCheckboxDisplayArr = function (listID) {
@@ -112,6 +112,7 @@ export const getLogEntry = function (logID) {
 
 export const getTableData = function (listID) {
   const list = getPeakList(listID);
+  sortPeakList(listID, "elevation");
   const data = {
     listID: list.listID,
     title: list.title,
@@ -139,7 +140,7 @@ export const getTableData = function (listID) {
 };
 
 export const getPreviewData = function () {
-  const listArr = getPeakListsArr(state.currentListView);
+  const listArr = getPeakListsArr(state.currentPreviewView);
   const data = listArr.map((list) => {
     return {
       listID: list.listID,
@@ -149,7 +150,7 @@ export const getPreviewData = function () {
       peakCount: list.peakCount,
     };
   });
-  return { previewType: state.currentListView, data };
+  return { previewType: state.currentPreviewView, data };
 };
 
 export const getMapData = function (listID) {
@@ -171,7 +172,14 @@ export const getMapData = function (listID) {
   };
 };
 
-console.log(getPeakList("nh4k"));
+export const getSelectData = function () {
+  return getPeakListsArr("all").map((list) => {
+    return {
+      listID: list.listID,
+      title: list.title,
+    };
+  });
+};
 
 const sortLogEntries = function () {
   state.logEntries.sort((a, b) => new Date(b.date) - new Date(a.date));

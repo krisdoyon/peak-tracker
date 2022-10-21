@@ -53,13 +53,12 @@ const initializeMap = async function () {
 
 const controlPeakListTable = function (listID) {
   mainView.showContainer("single-peak-list");
-  model.sortPeakList(listID, "elevation");
   peakListView.renderPeakListTable(model.getTableData(listID));
   mapView.plotListOnMap(model.getMapData(listID));
 };
 
-const controlPeakListPreview = function (type) {
-  model.setCurrentListView(type);
+const controlPeakListPreview = function (previewType) {
+  model.setCurrentPreviewView(previewType);
   peakListView.renderPeakListsPreview(model.getPreviewData());
 };
 
@@ -125,6 +124,7 @@ const controlPeakListSelect = function (listID) {
 
 const init = function () {
   initializeMap();
+  newEntryView.initializeListSelect(model.getSelectData());
   newEntryView.addHandlerDate(controlNewEntryDate);
   newEntryView.addHandlerPeakListSelect(controlPeakListSelect);
   newEntryView.addHandlerAddEntry(controlFormAddEntry);

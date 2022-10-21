@@ -95,6 +95,20 @@ class newEntryView {
     this.#inputDate.value = date;
   }
 
+  clearForm() {
+    for (const starBtn of this.#allStarButtons) {
+      this.#clearStar(starBtn);
+      starBtn.dataset.filled = "false";
+    }
+    this.#gridPeakCheckboxes.innerHTML = "";
+    this.#gridPeakCheckboxes.classList.add("hidden");
+    this.#statRowIcons.forEach(
+      (icon) => (icon.innerHTML = `<use href="${icons}#icon-add"></use>`)
+    );
+    this.#statRows.forEach((row) => row.classList.add("invisible"));
+    this.#formNewEntry.reset();
+  }
+
   displayCheckboxes(displayArr, listID, checkedMtnID) {
     this.#gridPeakCheckboxes.classList.remove("hidden");
     this.#gridPeakCheckboxes.innerHTML = "";
@@ -117,18 +131,11 @@ class newEntryView {
     }
   }
 
-  clearForm() {
-    for (const starBtn of this.#allStarButtons) {
-      this.#clearStar(starBtn);
-      starBtn.dataset.filled = "false";
-    }
-    this.#gridPeakCheckboxes.innerHTML = "";
-    this.#gridPeakCheckboxes.classList.add("hidden");
-    this.#statRowIcons.forEach(
-      (icon) => (icon.innerHTML = `<use href="${icons}#icon-add"></use>`)
+  initializeListSelect(data) {
+    this.#chooseListSelect.insertAdjacentHTML(
+      "beforeend",
+      data.map((list) => this.#generateSelectRow(list)).join("")
     );
-    this.#statRows.forEach((row) => row.classList.add("invisible"));
-    this.#formNewEntry.reset();
   }
 
   // PRIVATE METHODS
@@ -236,6 +243,11 @@ class newEntryView {
     return +this.#allStarButtons.filter(
       (star) => star.dataset.filled === "true"
     ).length;
+  }
+
+  #generateSelectRow(list) {
+    const markup = `<option value="${list.listID}">${list.title}</option>`;
+    return markup;
   }
 }
 
