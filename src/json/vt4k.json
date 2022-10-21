@@ -1,0 +1,49 @@
+{
+  "title": "Vermont 4,000 Footers",
+  "listID": "vt4k",
+  "center": [44.0836, -74.0835],
+  "zoom": 9,
+  "peakCount": 5,
+  "peaks": [
+    {
+      "id": 1461774,
+      "name": "Mt. Mansfield",
+      "lat": 44.5436627,
+      "long": -72.8142903,
+      "elevation": 4383,
+      "state": "VT"
+    },
+    {
+      "id": 1458086,
+      "name": "Killington Peak",
+      "lat": 43.6045042,
+      "long": -72.8201012,
+      "elevation": 4226,
+      "state": "VT"
+    },
+    {
+      "id": 1456724,
+      "name": "Camels Hump",
+      "lat": 44.3195001,
+      "long": -72.8862309,
+      "elevation": 4071,
+      "state": "VT"
+    },
+    {
+      "id": 1460843,
+      "name": "Mt. Ellen",
+      "lat": 44.16005,
+      "long": -72.9288358,
+      "elevation": 4078,
+      "state": "VT"
+    },
+    {
+      "id": 1460513,
+      "name": "Mt. Abraham",
+      "lat": 44.1204328,
+      "long": -72.9360992,
+      "elevation": 4012,
+      "state": "VT"
+    }
+  ]
+}

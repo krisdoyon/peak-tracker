@@ -1,0 +1,545 @@
+{
+  "title": "New England 4,000 Footers",
+  "listID": "ne4k",
+  "center": [44.5435, -73.3975],
+  "zoom": 8,
+  "peakCount": 67,
+  "peaks": [
+    {
+      "id": 561737,
+      "name": "Mt. Katahdin (Baxter Peak)",
+      "lat": 45.9042845,
+      "long": -68.9213562,
+      "elevation": 5259,
+      "state": "ME"
+    },
+    {
+      "id": 567535,
+      "name": "Mt. Katahdin (Hamlin Peak)",
+      "lat": 45.92416,
+      "long": -68.92767,
+      "elevation": 4757,
+      "state": "ME"
+    },
+    {
+      "id": 564525,
+      "name": "Crocker Mountain",
+      "lat": 45.04712,
+      "long": -70.38273,
+      "elevation": 4226,
+      "state": "ME"
+    },
+    {
+      "id": 572729,
+      "name": "Old Speck Mountain",
+      "lat": 44.57092,
+      "long": -70.95365,
+      "elevation": 4183,
+      "state": "ME"
+    },
+    {
+      "id": 572313,
+      "name": "North Brother",
+      "lat": 45.95716,
+      "long": -68.98544,
+      "elevation": 4140,
+      "state": "ME"
+    },
+    {
+      "id": 572033,
+      "name": "Bigelow Mountain (Avery Peak)",
+      "lat": 45.14664,
+      "long": -70.27585,
+      "elevation": 4068,
+      "state": "ME"
+    },
+    {
+      "id": 561068,
+      "name": "Mt. Abraham",
+      "lat": 44.9722782,
+      "long": -70.3259007,
+      "elevation": 4032,
+      "state": "ME"
+    },
+    {
+      "id": 581982,
+      "name": "South Crocker Mountain",
+      "lat": 45.03619,
+      "long": -70.37607,
+      "elevation": 4042,
+      "state": "ME"
+    },
+    {
+      "id": 576826,
+      "name": "Saddleback Horn",
+      "lat": 44.95119,
+      "long": -70.48706,
+      "elevation": 3999,
+      "state": "ME"
+    },
+    {
+      "id": 578873,
+      "name": "Mt. Redington",
+      "lat": 45.02499,
+      "long": -70.3887,
+      "elevation": 3999,
+      "state": "ME"
+    },
+    {
+      "id": 561033,
+      "name": "Spaulding Mountain",
+      "lat": 45.0028335,
+      "long": -70.333401,
+      "elevation": 4009,
+      "state": "ME"
+    },
+    {
+      "id": 576507,
+      "name": "Sugarloaf Mountain",
+      "lat": 45.03169,
+      "long": -70.31333,
+      "elevation": 4226,
+      "state": "ME"
+    },
+    {
+      "id": 578186,
+      "name": "Bigelow Mountain (West Peak)",
+      "lat": 45.14676,
+      "long": -70.28835,
+      "elevation": 4131,
+      "state": "ME"
+    },
+    {
+      "id": 574668,
+      "name": "Saddleback Mountain",
+      "lat": 44.93641,
+      "long": -70.50461,
+      "elevation": 4117,
+      "state": "ME"
+    },
+    {
+      "id": 1461774,
+      "name": "Mt. Mansfield",
+      "lat": 44.5436627,
+      "long": -72.8142903,
+      "elevation": 4383,
+      "state": "VT"
+    },
+    {
+      "id": 1458086,
+      "name": "Killington Peak",
+      "lat": 43.6045042,
+      "long": -72.8201012,
+      "elevation": 4226,
+      "state": "VT"
+    },
+    {
+      "id": 1456724,
+      "name": "Camels Hump",
+      "lat": 44.3195001,
+      "long": -72.8862309,
+      "elevation": 4071,
+      "state": "VT"
+    },
+    {
+      "id": 1460843,
+      "name": "Mt. Ellen",
+      "lat": 44.16005,
+      "long": -72.9288358,
+      "elevation": 4078,
+      "state": "VT"
+    },
+    {
+      "id": 1460513,
+      "name": "Mt. Abraham",
+      "lat": 44.1204328,
+      "long": -72.9360992,
+      "elevation": 4012,
+      "state": "VT"
+    },
+    {
+      "id": 871352,
+      "name": "Mt. Washington",
+      "lat": 44.2705781,
+      "long": -71.3033287,
+      "elevation": 6273,
+      "state": "NH"
+    },
+    {
+      "id": 871380,
+      "name": "Mt. Adams",
+      "lat": 44.3206546,
+      "long": -71.2915306,
+      "elevation": 5791,
+      "state": "NH"
+    },
+    {
+      "id": 872101,
+      "name": "Mt. Jefferson",
+      "lat": 44.304315,
+      "long": -71.3166955,
+      "elevation": 5699,
+      "state": "NH"
+    },
+    {
+      "id": 872313,
+      "name": "Mt. Monroe",
+      "lat": 44.2552125,
+      "long": -71.3214183,
+      "elevation": 5351,
+      "state": "NH"
+    },
+    {
+      "id": 872247,
+      "name": "Mt. Madison",
+      "lat": 44.3288173,
+      "long": -71.2767796,
+      "elevation": 5351,
+      "state": "NH"
+    },
+    {
+      "id": 872150,
+      "name": "Mt. Lafayette",
+      "lat": 44.1608182,
+      "long": -71.6444575,
+      "elevation": 5236,
+      "state": "NH"
+    },
+    {
+      "id": 872176,
+      "name": "Mt. Lincoln",
+      "lat": 44.1489451,
+      "long": -71.6445258,
+      "elevation": 5085,
+      "state": "NH"
+    },
+    {
+      "id": 872710,
+      "name": "South Twin Mountain",
+      "lat": 44.187556,
+      "long": -71.5548018,
+      "elevation": 4888,
+      "state": "NH"
+    },
+    {
+      "id": 871629,
+      "name": "Carter Dome",
+      "lat": 44.2673401,
+      "long": -71.1792622,
+      "elevation": 4826,
+      "state": "NH"
+    },
+    {
+      "id": 872324,
+      "name": "Mt. Moosilauke",
+      "lat": 44.024502,
+      "long": -71.8309164,
+      "elevation": 4813,
+      "state": "NH"
+    },
+    {
+      "id": 871851,
+      "name": "Mt. Eisenhower",
+      "lat": 44.2407341,
+      "long": -71.3501812,
+      "elevation": 4757,
+      "state": "NH"
+    },
+    {
+      "id": 872408,
+      "name": "North Twin Mountain",
+      "lat": 44.2025557,
+      "long": -71.5578576,
+      "elevation": 4751,
+      "state": "NH"
+    },
+    {
+      "id": 871628,
+      "name": "Mt. Carrigain",
+      "lat": 44.0936537,
+      "long": -71.4466959,
+      "elevation": 4682,
+      "state": "NH"
+    },
+    {
+      "id": 871556,
+      "name": "Mt. Bond",
+      "lat": 44.1528345,
+      "long": -71.5311895,
+      "elevation": 4685,
+      "state": "NH"
+    },
+    {
+      "id": 872288,
+      "name": "Middle Carter Mountain",
+      "lat": 44.3031109,
+      "long": -71.1678106,
+      "elevation": 4603,
+      "state": "NH"
+    },
+    {
+      "id": 1,
+      "name": "West Bond Mountain",
+      "lat": 44.1547633,
+      "long": -71.5436295,
+      "elevation": 4540,
+      "state": "NH"
+    },
+    {
+      "id": 871925,
+      "name": "Mt. Garfield",
+      "lat": 44.1872617,
+      "long": -71.6106785,
+      "elevation": 4495,
+      "state": "NH"
+    },
+    {
+      "id": 872169,
+      "name": "Mt. Liberty",
+      "lat": 44.1158901,
+      "long": -71.6420251,
+      "elevation": 4439,
+      "state": "NH"
+    },
+    {
+      "id": 872698,
+      "name": "South Carter Mountain",
+      "lat": 44.2897779,
+      "long": -71.176635,
+      "elevation": 4419,
+      "state": "NH"
+    },
+    {
+      "id": 872940,
+      "name": "Wildcat Mountain (A peak)",
+      "lat": 44.2595144,
+      "long": -71.201848,
+      "elevation": 4423,
+      "state": "NH"
+    },
+    {
+      "id": 872006,
+      "name": "Mt. Hancock",
+      "lat": 44.0836076,
+      "long": -71.4934302,
+      "elevation": 4409,
+      "state": "NH"
+    },
+    {
+      "id": 872707,
+      "name": "Kinsman Mountain (South Peak)",
+      "lat": 44.1228429,
+      "long": -71.7367508,
+      "elevation": 4331,
+      "state": "NH"
+    },
+    {
+      "id": 873014,
+      "name": "Mt. Field",
+      "lat": 44.196137,
+      "long": -71.4331049,
+      "elevation": 4311,
+      "state": "NH"
+    },
+    {
+      "id": 872440,
+      "name": "Mt. Osceola",
+      "lat": 44.0014482,
+      "long": -71.5359097,
+      "elevation": 4314,
+      "state": "NH"
+    },
+    {
+      "id": 871894,
+      "name": "Mt. Flume",
+      "lat": 44.1089459,
+      "long": -71.6278579,
+      "elevation": 4318,
+      "state": "NH"
+    },
+    {
+      "id": 872495,
+      "name": "Mt. Pierce",
+      "lat": 44.2265226,
+      "long": -71.3659732,
+      "elevation": 4304,
+      "state": "NH"
+    },
+    {
+      "id": 872952,
+      "name": "Mt. Willey",
+      "lat": 44.1835296,
+      "long": -71.4207354,
+      "elevation": 4268,
+      "state": "NH"
+    },
+    {
+      "id": 7,
+      "name": "Bondcliff",
+      "lat": 44.1405773,
+      "long": -71.5409195,
+      "elevation": 4265,
+      "state": "NH"
+    },
+    {
+      "id": 872833,
+      "name": "Mt. Tripyramid",
+      "lat": 43.9731659,
+      "long": -71.4427801,
+      "elevation": 4163,
+      "state": "NH"
+    },
+    {
+      "id": 865897,
+      "name": "Mt. Cabot",
+      "lat": 44.5060061,
+      "long": -71.4144768,
+      "elevation": 4163,
+      "state": "NH"
+    },
+    {
+      "id": 871835,
+      "name": "Mt. Osceola (East Peak)",
+      "lat": 44.0061704,
+      "long": -71.5206316,
+      "elevation": 4134,
+      "state": "NH"
+    },
+    {
+      "id": 872294,
+      "name": "Mt. Tripyramid (Middle Peak)",
+      "lat": 43.9646744,
+      "long": -71.4400968,
+      "elevation": 4114,
+      "state": "NH"
+    },
+    {
+      "id": 873192,
+      "name": "Cannon Mountain",
+      "lat": 44.156614,
+      "long": -71.6988025,
+      "elevation": 4085,
+      "state": "NH"
+    },
+    {
+      "id": 871992,
+      "name": "Mt. Hale",
+      "lat": 44.2217224,
+      "long": -71.5120232,
+      "elevation": 4062,
+      "state": "NH"
+    },
+    {
+      "id": 872093,
+      "name": "Mt. Jackson",
+      "lat": 44.2032358,
+      "long": -71.3754007,
+      "elevation": 4042,
+      "state": "NH"
+    },
+    {
+      "id": 872824,
+      "name": "Mt. Tom",
+      "lat": 44.2105188,
+      "long": -71.4460606,
+      "elevation": 4042,
+      "state": "NH"
+    },
+    {
+      "id": 6,
+      "name": "Wildcat Mountain (D peak)",
+      "lat": 44.2494098,
+      "long": -71.2235995,
+      "elevation": 4062,
+      "state": "NH"
+    },
+    {
+      "id": 872330,
+      "name": "Mt. Moriah",
+      "lat": 44.3406387,
+      "long": -71.1318489,
+      "elevation": 4029,
+      "state": "NH"
+    },
+    {
+      "id": 872460,
+      "name": "Mt. Passaconaway",
+      "lat": 43.9547374,
+      "long": -71.3808824,
+      "elevation": 4045,
+      "state": "NH"
+    },
+    {
+      "id": 873045,
+      "name": "Galehead Mountain",
+      "lat": 44.1848105,
+      "long": -71.5733908,
+      "elevation": 4016,
+      "state": "NH"
+    },
+    {
+      "id": 872920,
+      "name": "Mt. Whiteface",
+      "lat": 43.9339506,
+      "long": -71.4059066,
+      "elevation": 3993,
+      "state": "NH"
+    },
+    {
+      "id": 870689,
+      "name": "Mt. Waumbek",
+      "lat": 44.4328282,
+      "long": -71.4170236,
+      "elevation": 3996,
+      "state": "NH"
+    },
+    {
+      "id": 872086,
+      "name": "Mt. Isolation",
+      "lat": 44.2147796,
+      "long": -71.3092406,
+      "elevation": 4003,
+      "state": "NH"
+    },
+    {
+      "id": 872778,
+      "name": "Mt. Tecumseh",
+      "lat": 43.9665408,
+      "long": -71.5566086,
+      "elevation": 4009,
+      "state": "NH"
+    },
+    {
+      "id": 2,
+      "name": "Mt. Hancock (South Peak)",
+      "lat": 44.0732711,
+      "long": -71.4869445,
+      "elevation": 4318,
+      "state": "NH"
+    },
+    {
+      "id": 3,
+      "name": "Kinsman Mountain (North Peak)",
+      "lat": 44.1333547,
+      "long": -71.7368148,
+      "elevation": 4293,
+      "state": "NH"
+    },
+    {
+      "id": 4,
+      "name": "Mt. Zealand",
+      "lat": 44.1800207,
+      "long": -71.5215792,
+      "elevation": 4260,
+      "state": "NH"
+    },
+    {
+      "id": 5,
+      "name": "Owls Head",
+      "lat": 44.1443341,
+      "long": -71.6051095,
+      "elevation": 4025,
+      "state": "NH"
+    }
+  ]
+}
