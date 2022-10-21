@@ -1,7 +1,7 @@
 class MainView {
   #containerMain = document.querySelector(".container-main");
   #allContainers = [...document.querySelectorAll(".container")];
-  #btnCloseContainer = document.querySelector(".btn-close-container");
+  #btnCloseContainer = document.querySelector(".btn-close");
   #mainNavBtns = document.querySelectorAll(".main-nav__btn");
   #mainNavList = document.querySelector(".main-nav__list");
   #sidebarHidden = false;
@@ -26,7 +26,7 @@ class MainView {
     this.#containerMain.addEventListener("click", function (e) {
       const btn = e.target.closest(".btn-back");
       if (!btn) return;
-      handler(btn.dataset.container);
+      handler(btn.dataset.display);
     });
   }
 
@@ -34,7 +34,7 @@ class MainView {
     this.#mainNavList.addEventListener("click", function (e) {
       const clicked = e.target.closest(".main-nav__btn");
       if (!clicked) return;
-      const containerID = clicked.dataset.container;
+      const containerID = clicked.dataset.display;
       handler(containerID);
     });
   }
@@ -50,7 +50,7 @@ class MainView {
     containerObj.classList.remove("hidden");
     this.#mainNavBtns.forEach((btn) => {
       btn.classList.remove("main-nav__btn--active");
-      btn.dataset.container === containerObj.dataset.navId &&
+      btn.dataset.display === containerObj.dataset.navActive &&
         btn.classList.add("main-nav__btn--active");
     });
   }
@@ -62,7 +62,7 @@ class MainView {
     );
     this.#mainNavBtns.forEach((btn) => {
       btn.classList.remove("main-nav__btn--active");
-      btn.dataset.container === "map" &&
+      btn.dataset.display === "map" &&
         btn.classList.add("main-nav__btn--active");
     });
   }
