@@ -1,9 +1,14 @@
+import icons from "../../img/sprite.svg";
+
 class newEntryView {
-  #gridDate = document.querySelector(".grid-date");
-  #gridPeakCheckboxes = document.querySelector(".grid-peak-checkboxes");
-  #gridStats = document.querySelector(".grid-stats");
-  #statRows = document.querySelectorAll(".stat-row");
-  #statRowIcons = [...document.querySelectorAll(".stat-row__icon")];
+  #gridDate = document.querySelector(".form-new-entry__date-grid");
+  #gridPeakCheckboxes = document.querySelector(
+    ".form-new-entry__checkbox-grid"
+  );
+  #gridStats = document.querySelector(".form-new-entry__stats-grid");
+  #statRows = [...document.querySelectorAll(".form-new-entry__stat-row")];
+  #statRowIcons = [...this.#gridStats.querySelectorAll(".btn-icon__icon")];
+  #statBtns = [...this.#gridStats.querySelectorAll(".btn-add-stat")];
   #inputDate = document.querySelector("#date");
   #chooseListSelect = document.querySelector("#choose-list");
   #inputElevation = document.querySelector("#elevation");
@@ -11,22 +16,25 @@ class newEntryView {
   #inputHours = document.querySelector("#hours");
   #inputMinutes = document.querySelector("#minutes");
   #inputNotes = document.querySelector("#notes");
-  #wrapperStars = document.querySelector(".wrapper-stars");
-  #allStarIcons = [...document.querySelectorAll(".star-icon")];
+  #wrapperStars = document.querySelector(".form-new-entry__wrapper-stars");
+  #allStarIcons = [...document.querySelectorAll(".btn-star__icon")];
   #allStarButtons = [...document.querySelectorAll(".btn-star")];
   #formNewEntry = document.querySelector("#form-new-entry");
   #btnClearForm = document.querySelector(".btn-clear-form");
-  #btnAddEntry = document.querySelector(".btn-add-entry");
+  #btnAddEntry = document.querySelector("#add-entry");
 
   constructor() {
     this.#addHandlerToggleStat();
     this.#addHandlerStarMouseover();
     this.#addHandlerStarMouseout();
     this.#addHandlerStarClick();
-    this.#addHandlerClearForm();
   }
 
   // PUBLIC METHODS
+
+  addHandlerClearForm(handler) {
+    this.#btnClearForm.addEventListener("click", handler);
+  }
 
   addHandlerDate(handler) {
     this.#gridDate.addEventListener("click", function (e) {
@@ -68,6 +76,8 @@ class newEntryView {
           this.#inputDate.value,
           peaks,
           this.#chooseListSelect.value,
+          this.#chooseListSelect[this.#chooseListSelect.selectedIndex]
+            .textContent,
           +this.#inputElevation.value,
           +this.#inputDistance.value,
           +this.#inputHours.value,
@@ -76,7 +86,7 @@ class newEntryView {
           this.#getRating(),
         ];
         handler(data, this.#chooseListSelect.value);
-        this.clearNewEntryForm();
+        this.clearForm();
       }.bind(this)
     );
   }
@@ -107,14 +117,16 @@ class newEntryView {
     }
   }
 
-  clearNewEntryForm() {
-    for (const starIcon of this.#allStarIcons) {
-      this.#clearStar(starIcon);
-      starIcon.closest(".btn-star").dataset.filled = "false";
+  clearForm() {
+    for (const starBtn of this.#allStarButtons) {
+      this.#clearStar(starBtn);
+      starBtn.dataset.filled = "false";
     }
     this.#gridPeakCheckboxes.innerHTML = "";
     this.#gridPeakCheckboxes.classList.add("hidden");
-    this.#statRowIcons.forEach((icon) => (icon.textContent = "add_circle"));
+    this.#statRowIcons.forEach(
+      (icon) => (icon.innerHTML = `<use href="${icons}#icon-add"></use>`)
+    );
     this.#statRows.forEach((row) => row.classList.add("invisible"));
     this.#formNewEntry.reset();
   }
@@ -128,15 +140,18 @@ class newEntryView {
   #toggleStat(e) {
     e.preventDefault();
     const clicked = e.target.closest(".btn-add-stat");
-    let icon = e.target.textContent.trim();
     if (!clicked) return;
-    this.#statRows.forEach(
-      (row) =>
-        row.dataset.stat === clicked.dataset.stat &&
-        row.classList.toggle("invisible")
+    const icon = clicked.querySelector("use");
+    const row = this.#statRows.find(
+      (row) => row.dataset.stat === clicked.dataset.stat
     );
-    e.target.textContent =
-      icon === "add_circle" ? "remove_circle" : "add_circle";
+    if (row.classList.contains("invisible")) {
+      row.classList.remove("invisible");
+      icon.setAttribute("href", `${icons}#icon-remove`);
+    } else {
+      row.classList.add("invisible");
+      icon.setAttribute("href", `${icons}#icon-add`);
+    }
   }
 
   #addHandlerStarMouseover() {
@@ -164,20 +179,18 @@ class newEntryView {
     const hovered = e.target.closest(".btn-star");
     if (!hovered) return;
     for (const starBtn of this.#allStarButtons) {
-      const starIcon = starBtn.querySelector(".star-icon");
       starBtn.dataset.num <= hovered.dataset.num
-        ? this.#fillStar(starIcon)
-        : this.#clearStar(starIcon);
+        ? this.#fillStar(starBtn)
+        : this.#clearStar(starBtn);
     }
   }
 
   #handleStarMouseOut() {
     for (const starBtn of this.#allStarButtons) {
-      const starIcon = starBtn.querySelector(".star-icon");
       if (starBtn.dataset.filled === "false") {
-        this.#clearStar(starIcon);
+        this.#clearStar(starBtn);
       } else {
-        this.#fillStar(starIcon);
+        this.#fillStar(starBtn);
       }
     }
   }
@@ -187,32 +200,26 @@ class newEntryView {
     const clicked = e.target.closest(".btn-star");
     if (!clicked) return;
     for (const starBtn of this.#allStarButtons) {
-      const starIcon = starBtn.querySelector(".star-icon");
       if (starBtn.dataset.num <= clicked.dataset.num) {
-        this.#fillStar(starIcon);
+        this.#fillStar(starBtn);
         starBtn.dataset.filled = "true";
       } else {
-        this.#clearStar(starIcon);
+        this.#clearStar(starBtn);
         starBtn.dataset.filled = "false";
       }
     }
   }
 
-  #fillStar(starIcon) {
-    starIcon.textContent = "star";
-    starIcon.classList.add("star-icon--full");
+  #fillStar(starBtn) {
+    starBtn.querySelector("svg").classList.add("btn-star__icon--full");
+    starBtn
+      .querySelector("use")
+      .setAttribute("href", `${icons}#icon-star-solid`);
   }
 
-  #clearStar(starIcon) {
-    starIcon.textContent = "star_border";
-    starIcon.classList.remove("star-icon--full");
-  }
-
-  #addHandlerClearForm() {
-    this.#btnClearForm.addEventListener(
-      "click",
-      this.clearNewEntryForm.bind(this)
-    );
+  #clearStar(starBtn) {
+    starBtn.querySelector("svg").classList.remove("btn-star__icon--full");
+    starBtn.querySelector("use").setAttribute("href", `${icons}#icon-star`);
   }
 
   #getCheckedPeaks() {
