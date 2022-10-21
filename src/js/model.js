@@ -152,6 +152,27 @@ export const getPreviewData = function () {
   return { previewType: state.currentListView, data };
 };
 
+export const getMapData = function (listID) {
+  const list = getPeakList(listID);
+  return {
+    peaks: list.peaks.map((peak) => {
+      return {
+        id: peak.id,
+        name: peak.name,
+        lat: peak.lat,
+        long: peak.long,
+        completed: state.completedPeaks.includes(peak.id) ? true : false,
+        elevation: peak.elevFeet,
+      };
+    }),
+    center: list.center,
+    zoom: list.zoom,
+    listID: list.listID,
+  };
+};
+
+console.log(getPeakList("nh4k"));
+
 const sortLogEntries = function () {
   state.logEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
 };
