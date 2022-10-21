@@ -3,42 +3,55 @@
 
 /* ALL PEAK LISTS CONTAINER */
 
-.peak-list__buttons-wrapper {
-  background-color: var(--color-green-primary);
-  gap: 2.4rem;
-  padding: 0.8rem 0;
-  /* border-bottom: 1px solid rgba(0, 0, 0, 0.3); */
+.preview-list {
+  &__entry {
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
+    border-top: var(--border-grey-light);
+    padding: 2.4rem 2rem;
+    gap: 2.4rem;
+    align-items: center;
+  }
+
+  &__entry:first-child {
+    border-top: none;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  &__label-primary {
+    font-size: 1.5rem;
+    font-weight: 300;
+
+    strong {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+  }
 }
 
-.peak-lists li:first-child {
-  border-top: none;
-}
-
-.list-entry {
-  display: grid;
-  grid-template-columns: max-content 1fr max-content;
-  border-top: 1px solid rgba(0, 0, 0, 0.3);
-  padding: 2.4rem 2rem;
-  gap: 2.4rem;
-  align-items: center;
-}
-
-.list-entry__info {
+.no-data {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 80%;
+  font-size: 1.8rem;
   flex-direction: column;
-  gap: 0.8rem;
-  /* align-items: center; */
+  margin: 0 2rem;
+  gap: 2rem;
 }
 
-.list-entry__label-primary {
-  font-size: 1.4rem;
-  font-weight: 500;
-}
+// PEAK LIST CONTAINER
 
-/* SINGLE PEAK LIST CONTAINER */
-
-/* HISTORY CONTAINER */
-
-.history-entries-list li:first-child {
-  border-top: none;
+.preview-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 9.5rem);
+  justify-content: center;
+  background-color: var(--color-green-primary);
+  padding: 0.8rem 0;
 }

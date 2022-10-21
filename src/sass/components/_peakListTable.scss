@@ -8,25 +8,25 @@
   row-gap: 0.8rem;
 }
 
-.peak-list__table {
+.peak-list-table {
   border-collapse: collapse;
   padding: 5rem;
 }
 
-.peak-list__table th,
-.peak-list__table td {
+.peak-list-table th,
+.peak-list-table td {
   padding: 0.6rem 1.6rem;
 }
 
-.peak-list__table th {
+.peak-list-table th {
   background-color: var(--color-grey-light-2);
 }
 
-.peak-list__table td {
-  border-top: 1px solid var(--color-dark-1);
+.peak-list-table td {
+  border-top: 1px solid var(--color-grey-light-3);
   text-align: center;
 }
 
-.peak-list__table-row--complete {
-  background-color: rgba(176, 255, 186, 0.397);
+.peak-list-table__row--complete {
+  background-color: var(--color-green-hilight)
 }

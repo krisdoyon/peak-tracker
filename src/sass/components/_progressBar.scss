@@ -1,20 +1,19 @@
+@use "../abstracts/mixins" as *;
+
 .progress-bar {
   width: 100%;
-  height: 1.4rem;
-  font-weight: 500;
+  height: 1.6rem;
   border-radius: 100rem;
   background-color: var(--color-grey-light-2);
   position: relative;
   overflow: hidden;
-}
+  border: var(--border-grey-dark);
+  &__label {
+    @include absolute-center;
+  }
 
-.progress-bar__label {
-  position: absolute;
-  right: 50%;
-  transform: translate(50%, 0);
-}
-
-.progress {
-  background-color: var(--color-green-hilight);
-  height: 1.4rem;
+  &__progress {
+    background-color: var(--color-green-hilight);
+    height: 100%;
+  }
 }

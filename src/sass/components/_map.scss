@@ -1,10 +1,12 @@
 #map {
+  // position: fixed;
   height: 100vh;
+  width: 100vw;
   z-index: 1;
+  font-family: inherit;
 }
 
 .peak-popup {
-  font-size: 1rem;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -13,9 +15,10 @@
 .peak-popup__label-name {
   font-size: 1.4rem;
   font-weight: 600;
-  /* background-color: red; */
+  margin-bottom: 0.4rem;
 }
 
 .peak-popup__label-elevation {
+  font-size: 1.2rem;
   margin-bottom: 0.6rem;
 }

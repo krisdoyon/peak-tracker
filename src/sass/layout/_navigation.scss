@@ -57,14 +57,14 @@
         fill: var(--color-green-primary);
       }
     }
-  }
 
-  &__btn--active {
-    color: var(--color-green-primary);
-    background-color: #f7f7f7;
+    &--active {
+      color: var(--color-green-primary);
+      background-color: #f7f7f7;
 
-    .main-nav__icon {
-      fill: var(--color-green-primary);
+      .main-nav__icon {
+        fill: var(--color-green-primary);
+      }
     }
   }
 

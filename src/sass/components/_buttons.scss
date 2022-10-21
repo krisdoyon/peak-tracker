@@ -4,63 +4,54 @@
   transition: all 0.3s;
   border-radius: 1000rem;
   font-family: inherit;
+
+  &--green {
+    background-color: var(--color-green-primary);
+    color: var(--color-grey-light-1);
+
+    &:hover {
+      background-color: var(--color-green-light);
+    }
+  }
 }
 
-.btn--light {
-  background-color: var(--color-light-2);
-  color: #111;
-  padding: 1.2rem 2.4rem;
-}
-
-.btn--light:hover {
-  background-color: #fff;
-}
-
-.btn--dark {
-  background-color: var(--color-green-primary);
-  color: #fff;
-}
-
-.btn--dark:hover {
-  background-color: var(--color-green-light);
-}
-
-.btn--icon {
-  color: var(--color-green-primary);
+.btn-icon {
+  fill: var(--color-green-primary);
   background-color: transparent;
+
+  &:hover {
+    fill: var(--color-green-light);
+  }
+
+  &__icon {
+    height: 2.2rem;
+    width: 2.2rem;
+  }
 }
 
-.btn--text {
+.btn-text {
   background-color: transparent;
   font-weight: 400;
   transition: none;
   border-radius: 0;
   display: inline-block;
+
+  &--light {
+    color: var(--color-grey-light-1);
+  }
+
+  &--green {
+    color: var(--color-green-primary);
+  }
+
+  &--active,
+  &:hover {
+    font-weight: 700;
+  }
 }
 
-.btn--text-white {
-  color: #fff;
-}
-
-.btn--text-green {
-  color: var(--color-green-primary);
-}
-
-.btn--text:hover {
-  font-weight: 700;
-}
-
-.btn--active {
-  font-weight: 700;
-  /* border-bottom: 1px solid #fff; */
-}
-
-.btn-view {
-  padding: 0.8rem 2rem;
-  /* height: 60%; */
-}
-
-.btn-close-container {
+.btn-close {
+  color: #555;
   background-color: transparent;
   position: absolute;
   right: 0;
@@ -68,12 +59,37 @@
   border-radius: 0 1.2rem 0 1.2rem;
   padding: 1.2rem 2.4rem;
   font-size: 4.8rem;
+
+  &:hover {
+    color: var(--color-green-light);
+  }
 }
 
-.btn-wrapper {
-  gap: 1rem;
+.btn-view {
+  padding: 0.8rem 1.8rem;
 }
 
 .btn-back {
   grid-row: 1/-1;
+}
+
+.btn-add-entry {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  font-size: 1.6rem;
+  color: var(--color-grey-light-1);
+  padding: 0.8rem 2rem;
+  border-radius: 1000rem;
+
+  &__icon {
+    fill: var(--color-grey-light-1);
+    height: 1.8rem;
+    width: 1.8rem;
+  }
+}
+
+.btn-log-trip {
+  font-weight: 400;
 }
