@@ -1,3 +1,6 @@
+import mtnIconRed from "url:../../img/mtn-icon-red.png";
+import mtnIconGreen from "url:../../img/mtn-icon-green.png";
+
 class MapView {
   #map;
   #markersArr = [];
@@ -39,7 +42,7 @@ class MapView {
 
   #createMarker(peakObj, list, color) {
     const mtnIcon = L.icon({
-      iconUrl: new URL(`../../img/mtn-icon-${color}.png`, import.meta.url),
+      iconUrl: `${color === "red" ? mtnIconRed : mtnIconGreen}`,
       iconSize: [25, 20],
     });
     const marker = new L.Marker([peakObj.lat, peakObj.long], { icon: mtnIcon });
@@ -47,7 +50,7 @@ class MapView {
       `<div class='peak-popup'>
               <span class='peak-popup__label-name'>${peakObj.name}</span>
               <span class='peak-popup__label-elevation'>${peakObj.elevFeet} ft.</span>
-              <button class='btn btn--text btn--text-green btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${list.listID}'>LOG TRIP</button>
+              <button class='btn btn-text btn-text-green btn-log-trip' data-mtn-id='${peakObj.id}' data-list-id='${list.listID}'>LOG TRIP</button>
             </div>`
     );
     return marker;
