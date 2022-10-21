@@ -559,7 +559,7 @@
     },
     {
       "id": 872374,
-      "name": "Mount Nancy",
+      "name": "Mt. Nancy",
       "lat": 44.1225582,
       "long": -71.4047974,
       "elevation": 3894,
@@ -575,8 +575,8 @@
     },
     {
       "id": 870718,
-      "name": "Mount Weeks",
-      "lat": null,
+      "name": "Mt. Weeks",
+      "lat": 44.4616068,
       "long": -71.3818967,
       "elevation": 3901,
       "state": "NH"
@@ -671,7 +671,7 @@
     },
     {
       "id": 564149,
-      "name": "Mount Coe",
+      "name": "Mt. Coe",
       "lat": 45.93371,
       "long": -69.00901,
       "elevation": 3786,
@@ -783,7 +783,7 @@
     },
     {
       "id": 1461622,
-      "name": "Mount Wilson",
+      "name": "Mt. Wilson",
       "lat": 44.0047016,
       "long": -72.9256359,
       "elevation": 3766,

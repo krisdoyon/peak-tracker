@@ -7,7 +7,7 @@
   "peaks": [
     {
       "id": 973357,
-      "name": "Mount Marcy",
+      "name": "Mt. Marcy",
       "lat": 44.112733,
       "long": -73.9237833,
       "elevation": 5344,
@@ -23,7 +23,7 @@
     },
     {
       "id": 973353,
-      "name": "Mount Haystack",
+      "name": "Mt. Haystack",
       "lat": 44.1056093,
       "long": -73.9004196,
       "elevation": 4924,
@@ -31,7 +31,7 @@
     },
     {
       "id": 973360,
-      "name": "Mount Skylight",
+      "name": "Mt. Skylight",
       "lat": 44.0994987,
       "long": -73.9306986,
       "elevation": 4908,
@@ -87,7 +87,7 @@
     },
     {
       "id": 947091,
-      "name": "Mount Colden",
+      "name": "Mt. Colden",
       "lat": 44.1269976,
       "long": -73.9598674,
       "elevation": 4708,
@@ -119,7 +119,7 @@
     },
     {
       "id": 962328,
-      "name": "Mount Redfield",
+      "name": "Mt. Redfield",
       "lat": 44.094777,
       "long": -73.949866,
       "elevation": 4603,
@@ -183,7 +183,7 @@
     },
     {
       "id": 956573,
-      "name": "Mount Marshall",
+      "name": "Mt. Marshall",
       "lat": 44.1275538,
       "long": -74.0118142,
       "elevation": 4380,
@@ -287,7 +287,7 @@
     },
     {
       "id": 947211,
-      "name": "Mount Colvin",
+      "name": "Mt. Colvin",
       "lat": 44.0939424,
       "long": -73.8345829,
       "elevation": 4049,
@@ -295,7 +295,7 @@
     },
     {
       "id": 949645,
-      "name": "Mount Emmons",
+      "name": "Mt. Emmons",
       "lat": 44.1436698,
       "long": -74.2140464,
       "elevation": 4022,
