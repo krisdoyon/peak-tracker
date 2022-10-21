@@ -16,6 +16,8 @@
 }
 
 .btn-icon {
+  display: flex;
+  align-items: center;
   fill: var(--color-green-primary);
   background-color: transparent;
 
@@ -26,6 +28,11 @@
   &__icon {
     height: 2.2rem;
     width: 2.2rem;
+
+    &--sm {
+      height: 2rem;
+      width: 2rem;
+    }
   }
 }
 
@@ -35,6 +42,7 @@
   transition: none;
   border-radius: 0;
   display: inline-block;
+  text-transform: uppercase;
 
   &--light {
     color: var(--color-grey-light-1);
@@ -92,4 +100,5 @@
 
 .btn-log-trip {
   font-weight: 400;
+  color: var(--color-green-primary);
 }
