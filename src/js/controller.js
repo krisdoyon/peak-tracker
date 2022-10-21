@@ -107,8 +107,8 @@ const controlClearForm = function () {
   mapView.clearMap();
 };
 
-const controlFormAddEntry = function (data, listID) {
-  model.addLogEntry(data);
+const controlFormAddEntry = function (formData, listID) {
+  model.addLogEntry(formData);
   newEntryView.clearForm();
   mapView.plotListOnMap(model.getMapData(listID));
 };
