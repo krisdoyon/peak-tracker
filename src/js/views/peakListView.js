@@ -1,20 +1,21 @@
+import icons from "../../img/sprite.svg";
+
 class PeakListsView {
   #previewData;
   #tableData;
   #previewType;
-  #peakListsEl = document.querySelector(".peak-lists");
+  #peakListsPreviewEl = document.querySelector(".preview-peak-lists");
   #singleListContainer = document.querySelector(".container-single-peak-list");
-  #singleListHeading = this.#singleListContainer.querySelector(
-    ".container__heading"
-  );
+  #singleListHeading =
+    this.#singleListContainer.querySelector(".heading-secondary");
   #singleListNumberLabel = this.#singleListContainer.querySelector(
     ".peak-list__label-number"
   );
   #singleListProgressWrapper =
     this.#singleListContainer.querySelector(".wrapper-progress");
-  #peakListTableBody = document.querySelector(".peak-list__table-body");
+  #peakListTableBody = document.querySelector(".peak-list-table__body");
   #btnBack = this.#singleListContainer.querySelector(".btn-back");
-  #peakListBtnsWrapper = document.querySelector(".peak-list__buttons-wrapper");
+  #peakListBtnsWrapper = document.querySelector(".preview-wrapper");
   #previewBtns = [...this.#peakListBtnsWrapper.querySelectorAll(".btn-text")];
   #noSavedLists = document.querySelector(".no-saved-lists");
 
@@ -33,19 +34,19 @@ class PeakListsView {
   }
 
   addHandlerSavedLists(handler) {
-    this.#peakListsEl.addEventListener("click", function (e) {
-      const clicked = e.target.closest(".btn-add-peak-list");
+    this.#peakListsPreviewEl.addEventListener("click", function (e) {
+      const clicked = e.target.closest(".btn-save-peak-list");
       if (!clicked) return;
-      const { listId } = e.target.closest(".list-entry").dataset;
+      const { listId } = e.target.closest(".preview-list__entry").dataset;
       handler(listId);
     });
   }
 
   addHandlerPeakListView(handler) {
-    this.#peakListsEl.addEventListener("click", function (e) {
+    this.#peakListsPreviewEl.addEventListener("click", function (e) {
       const clicked = e.target.closest(".btn-view-list");
       if (!clicked) return;
-      const { listId } = e.target.closest(".list-entry").dataset;
+      const { listId } = e.target.closest(".preview-list__entry").dataset;
       handler(listId);
     });
   }
@@ -66,10 +67,10 @@ class PeakListsView {
     this.#previewData = data.data;
     this.#previewType = data.previewType;
     this.#setActivePreviewBtn(this.#previewType);
-    this.#peakListsEl.innerHTML = "";
+    this.#peakListsPreviewEl.innerHTML = "";
     if (this.#previewData.length) {
       this.#noSavedLists.classList.add("hidden");
-      this.#peakListsEl.insertAdjacentHTML(
+      this.#peakListsPreviewEl.insertAdjacentHTML(
         "beforeend",
         this.#generatePreviewMarkup(this.#previewData)
       );
@@ -105,10 +106,10 @@ class PeakListsView {
   }
 
   #generateTableRowMarkup(peak) {
-    const markup = `<tr class="peak-list__table-row ${
-      peak.completed && "peak-list__table-row--complete"
+    const markup = `<tr class="peak-list-table__row ${
+      peak.completed ? "peak-list-table__row--complete" : ""
     }" data-mtn-id="${peak.id}" data-list-id="${peak.id}">
-        <td>${peak.num}</td>
+        <td><strong>${peak.num}</strong></td>
         <td style="text-align:left">${peak.name}</td>
         <td>${peak.state}</td>
 
@@ -131,17 +132,19 @@ class PeakListsView {
   }
 
   #generateSinglePreviewMarkup(list) {
-    const markup = `<li class="list-entry" data-list-id="${list.listID}">
-        <button class="btn btn-icon btn-add-peak-list" data-id='${list.listID}'>
-        <span class="material-icons"> ${
-          list.saved ? "remove_circle_outline" : "add_circle"
-        } </span>
+    const markup = `<li class="preview-list__entry" data-list-id="${
+      list.listID
+    }">
+      <button class="btn btn-icon btn-save-peak-list" data-id='${list.listID}'>
+        <svg class="btn-icon__icon">
+          <use href="${icons}#icon-${list.saved ? "remove" : "add"}"></use>
+        </svg>
       </button>
-      <div class="list-entry__info">
-        <h2 class="list-entry__label-primary"><strong>${
+      <div class="preview-list__info">
+        <h2 class="preview-list__label-primary"><strong>${
           list.title
         }</strong></h2>
-        <span class="list-entry__label-secondary">${list.numCompleted} of ${
+        <span class="preview-list__label-secondary">${list.numCompleted} of ${
       list.peakCount
     } Peaks</span>
         ${this.#generateProgressBarMarkup(list)}
@@ -154,7 +157,7 @@ class PeakListsView {
     const width = (list.numCompleted / list.peakCount) * 100;
     const markup = `<div class='progress-bar'><div class='progress-bar__label'>${
       Math.round(width * 10) / 10
-    }%</div><div class='progress' style="width:${width}%"></div></div>
+    }%</div><div class='progress-bar__progress' style="width:${width}%"></div></div>
       </div>`;
     return markup;
   }
