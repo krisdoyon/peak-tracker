@@ -10,6 +10,9 @@ import peakListView from "./views/peakListView.js";
 
 const controlBtnBack = function (containerID) {
   mainView.showContainer(containerID);
+  if (containerID === "all-peak-lists") {
+    peakListView.renderPeakListsPreview(model.getPreviewData());
+  }
   mapView.clearMap();
 };
 
@@ -28,7 +31,7 @@ const controlMainNav = function (containerID) {
   }
   mainView.showContainer(containerID);
   if (containerID === "log-preview") {
-    logView.renderLogPreview(model.state.logEntries);
+    logView.renderLogPreview(model.getLogEntries("all"));
   }
   if (containerID === "all-peak-lists") {
     peakListView.renderPeakListsPreview(model.getPreviewData());
@@ -72,13 +75,32 @@ const controlLogTrip = function (listID, mtnID) {
   mapView.plotListOnMap(model.getMapData(listID));
 };
 
-const controlSavedLists = function (listID) {
+const controlSavedListsPreview = function (listID) {
   if (!model.state.savedLists.includes(listID)) {
     model.addSavedList(listID);
   } else {
     model.removeSavedList(listID);
   }
   peakListView.renderPeakListsPreview(model.getPreviewData());
+};
+
+const controlSavedListsTable = function (listID) {
+  console.log(listID);
+  if (!model.state.savedLists.includes(listID)) {
+    model.addSavedList(listID);
+  } else {
+    model.removeSavedList(listID);
+  }
+  peakListView.renderPeakListTable(model.getTableData(listID));
+};
+
+const controlTableHover = function (mtnID) {
+  mapView.openPopup(mtnID);
+};
+
+const controlSortTable = function (listID, sortType) {
+  model.setCurrentTableSort(sortType);
+  peakListView.renderPeakListTable(model.getTableData(listID));
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -92,11 +114,18 @@ const controlShowLogEntry = function (logID, listID) {
 
 const controlDeleteLogEntry = function (logID) {
   model.removeLogEntry(logID);
-  logView.renderLogPreview(model.state.logEntries);
+  mainView.showContainer("log-preview");
+  mapView.clearMap();
+  logView.renderLogPreview(model.getLogEntries());
 };
 
 const controlLogAddEntry = function () {
   mainView.showContainer("new-entry");
+};
+
+const controlLogSelect = function (listID) {
+  model.setCurrentLogSelect(listID);
+  logView.renderLogPreview(model.getLogEntries());
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -134,11 +163,17 @@ const init = function () {
   mainView.addHandlerBtnBack(controlBtnBack);
   peakListView.addHandlerPeakListView(controlPeakListTable);
   peakListView.addHandlerLogTrip(controlLogTrip);
-  peakListView.addHandlerSavedLists(controlSavedLists);
+  peakListView.addHandlerSavedListsPreview(controlSavedListsPreview);
+  peakListView.addHandlerSavedListsTable(controlSavedListsTable);
   peakListView.addHandlerPeakListPreview(controlPeakListPreview);
+  peakListView.addHandlerSortTable(controlSortTable);
+  peakListView.addHandlerTableRowHover(controlTableHover);
+  logView.initializeListSelect(model.getSelectData());
   logView.addHandlerShowEntry(controlShowLogEntry);
+  logView.addHandlerDeleteEntryPreview(controlDeleteLogEntry);
   logView.addHandlerDeleteEntry(controlDeleteLogEntry);
   logView.addHandlerAddEntry(controlLogAddEntry);
+  logView.addHandlerLogSelect(controlLogSelect);
 };
 
 init();
