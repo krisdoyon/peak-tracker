@@ -46,12 +46,35 @@
   gap: 2rem;
 }
 
-// PEAK LIST CONTAINER
-
 .preview-wrapper {
   display: grid;
-  grid-template-columns: repeat(2, 9.5rem);
+  padding: 0.8rem 0;
+  align-items: center;
   justify-content: center;
   background-color: var(--color-green-primary);
-  padding: 0.8rem 0;
+  grid-template-rows: 2.4rem;
+}
+
+.peak-list-preview-wrapper {
+  grid-template-columns: repeat(2, 9.5rem);
+}
+
+.log-preview-wrapper {
+  grid-template-columns: max-content 45%;
+
+  gap: 1.2rem;
+
+  select {
+    padding: 0.2rem 0.8rem;
+    border-radius: 0.4rem;
+    border: none;
+    font-family: inherit;
+    background-color: #fff;
+  }
+
+  label {
+    color: var(--color-grey-light-1);
+    font-weight: 400;
+    font-size: 1.4rem;
+  }
 }
