@@ -1,4 +1,4 @@
-import { peakListsArr } from "./peakLists.js";
+import { peakListsArr } from "./createPeakLists.js";
 import { LogEntry } from "./logEntry.js";
 
 export const state = {
@@ -7,6 +7,8 @@ export const state = {
   completedPeaks: [],
   listCounts: {},
   currentPreviewView: "all",
+  currentLogSelect: "all",
+  currentTableSort: "elevation",
 };
 
 const getPeakList = function (listID) {
@@ -35,6 +37,14 @@ const sortPeakList = function (listID, sortType) {
 
 export const setCurrentPreviewView = function (previewType) {
   state.currentPreviewView = previewType;
+};
+
+export const setCurrentLogSelect = function (listID) {
+  state.currentLogSelect = listID;
+};
+
+export const setCurrentTableSort = function (sortType) {
+  state.currentTableSort = sortType;
 };
 
 export const getCoords = async function () {
@@ -110,13 +120,26 @@ export const getLogEntry = function (logID) {
   return state.logEntries.find((entry) => entry.logID === logID);
 };
 
+export const getLogEntries = function () {
+  console.log(`Getting entries for ${state.currentLogSelect}`);
+  const listID = state.currentLogSelect;
+  return {
+    noEntries: state.logEntries.length ? false : true,
+    entries:
+      listID === "all"
+        ? state.logEntries
+        : state.logEntries.filter((entry) => entry.listID === listID),
+  };
+};
+
 export const getTableData = function (listID) {
   const list = getPeakList(listID);
-  sortPeakList(listID, "elevation");
+  sortPeakList(listID, state.currentTableSort);
   const data = {
     listID: list.listID,
     title: list.title,
     numCompleted: state.listCounts[listID],
+    saved: state.savedLists.includes(list.listID) ? true : false,
     peakCount: list.peakCount,
     peaks: list.peaks.map((peak, i) => {
       let logMatch;
