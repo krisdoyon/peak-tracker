@@ -17,24 +17,16 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link href="./src/sass/main.scss" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
-      integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
-      crossorigin=""
-    />
-    <script
-      defer
-      src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
-      integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
-      crossorigin=""
-    ></script>
+    <!-- <link href="./src/sass/main.scss" rel="stylesheet" /> -->
+    <link href="./src/css/styles.css" rel="stylesheet" />
+
+    <link href="./node_modules/leaflet/dist/leaflet.css" rel="stylesheet" />
+    <script defer src="./node_modules/leaflet/dist/leaflet.js"></script>
     <script type="module" src="./src/js/controller.js"></script>
   </head>
 
   <body>
-    <img class="logo" src="./src/img/logo.png" />
+    <img class="logo" src="./src/img/logo.png" alt="Peak Tracker logo" />
     <!-- SIDEBAR/NAVIGATION -->
     <div class="sidebar">
       <nav class="main-nav">
@@ -76,7 +68,10 @@
           </li>
         </ul>
       </nav>
-      <button class="btn sidebar__btn">
+      <button
+        class="btn sidebar__btn"
+        aria-label="Toggle sidebar open or closed"
+      >
         <svg class="main-nav__icon">
           <use href="./src/img/sprite.svg#icon-chevron-left"></use>
         </svg>
@@ -88,57 +83,71 @@
     <div class="container-main hidden">
       <button class="btn btn-close">&times;</button>
 
-      <!-- PEAK LIST CONTAINER -->
+      <!-- ALL PEAK LISTS CONTAINER -->
 
       <div
         class="container container-all-peak-lists hidden"
         data-nav-active="all-peak-lists"
       >
-        <div class="wrapper-container-heading no-border">
-          <h2 class="heading-secondary">Peak Lists</h2>
+        <div class="container__heading-wrapper no-border">
+          <h2 class="container__heading">Peak Lists</h2>
         </div>
-        <div class="preview-wrapper">
+        <div class="preview-wrapper peak-list-preview-wrapper">
           <button class="btn btn-text btn-text--light" data-preview-type="all">
-            ALL LISTS
+            All lists
           </button>
           <button
             class="btn btn-text btn-text--light"
             data-preview-type="saved"
           >
-            SAVED LISTS
+            Saved lists
           </button>
         </div>
         <ul class="preview-list preview-peak-lists"></ul>
         <div class="no-data no-saved-lists hidden">
-          You haven't saved any peak lists yet. <br />Click "all lists" above to
-          get started!
+          <div class="no-data__message">
+            You haven't saved any peak lists yet. <br />
+            Click "all lists" above to get started!
+          </div>
         </div>
       </div>
+
+      <!-- SINGLE PEAK LISTS CONTAINER -->
 
       <div
         class="container container-single-peak-list hidden"
         data-nav-active="all-peak-lists"
       >
-        <div class="grid-peak-list-heading">
+        <div class="container__heading-grid">
           <button class="btn btn-icon btn-back" data-display="all-peak-lists">
             <svg class="btn-icon__icon">
               <use href="./src/img/sprite.svg#icon-arrow-left"></use>
             </svg>
           </button>
-
-          <h2 class="heading-secondary"></h2>
-          <span class="peak-list__label-number"></span>
-          <div class="wrapper-progress" style="grid-column: 2"></div>
+          <h2 class="container__heading"></h2>
+          <div class="heading-row">
+            <span class="peak-list__label-number"></span> |
+            <div class="heading-button-wrapper"></div>
+            |
+            <label id="sort-table-select-label" for="sort-table-select"
+              >Sort by:</label
+            >
+            <select id="sort-table-select">
+              <option value="elevation" selected>Elevation</option>
+              <option value="alphabetical">Name</option>
+            </select>
+          </div>
+          <div class="heading-progress-wrapper"></div>
         </div>
 
         <table class="peak-list-table">
           <thead>
             <tr>
-              <th style="width: 10%; text-align: center">#</th>
-              <th style="text-align: left">Name</th>
-              <th style="width: 10%">State</th>
-              <th style="width: 20%">Elevation (ft)</th>
-              <th style="width: 20%">Hiked On</th>
+              <th class="peak-list-table__head-number">#</th>
+              <th class="peak-list-table__head-name">Name</th>
+              <th class="peak-list-table__head-state">State</th>
+              <th class="peak-list-table__head-elevation">Elevation (ft)</th>
+              <th class="peak-list-table__head-date">Hiked On</th>
             </tr>
           </thead>
           <tbody class="peak-list-table__body"></tbody>
@@ -151,13 +160,18 @@
         class="container container-log-preview hidden"
         data-nav-active="log-preview"
       >
-        <div class="wrapper-container-heading">
-          <h2 class="heading-secondary">Trip Log</h2>
+        <div class="container__heading-wrapper no-border">
+          <h2 class="container__heading">Trip Log</h2>
+        </div>
+        <div class="preview-wrapper log-preview-wrapper">
+          <label for="choose-list-log-preview">Sort by list:</label>
+          <select id="choose-list-log-preview">
+            <option value="all" selected>All log entries</option>
+          </select>
         </div>
         <ul class="preview-list log-entries-preview"></ul>
         <div class="no-data no-log-entries hidden">
-          You haven't added any log entries yet. <br />Click the button below to
-          log your first entry!
+          <div class="no-data__message"></div>
           <button class="btn btn--green btn-add-entry">
             <span>Add</span>
             <svg class="btn-add-entry__icon">
@@ -173,15 +187,18 @@
         class="container container-log-entry hidden"
         data-nav-active="log-preview"
       >
-        <div class="grid-peak-list-heading">
+        <div class="container__heading-grid">
           <button class="btn btn-icon btn-back" data-display="log-preview">
             <svg class="btn-icon__icon">
               <use href="./src/img/sprite.svg#icon-arrow-left"></use>
             </svg>
           </button>
 
-          <h2 class="heading-secondary log-entry__heading"></h2>
-          <span class="log-entry__label-number"></span>
+          <h2 class="container__heading log-entry__heading"></h2>
+          <div class="heading-row">
+            <span class="log-entry__label-number"></span>|
+            <div class="heading-button-wrapper"></div>
+          </div>
         </div>
         <div class="log-entry"></div>
       </div>
@@ -192,8 +209,8 @@
         class="container container-new-entry hidden"
         data-nav-active="new-entry"
       >
-        <div class="wrapper-container-heading">
-          <h2 class="heading-secondary">New Log Entry</h2>
+        <div class="container__heading-wrapper">
+          <h2 class="container__heading">New Log Entry</h2>
         </div>
 
         <form id="form-new-entry" class="form-new-entry">
@@ -224,10 +241,12 @@
             </div>
 
             <div class="form-new-entry__peaks-grid">
-              <label for="choose-list" class="form-new-entry__label-secondary"
+              <label
+                for="choose-list-new-entry"
+                class="form-new-entry__label-secondary"
                 >Choose a peak list:</label
               >
-              <select id="choose-list">
+              <select id="choose-list-new-entry">
                 <option value="" disabled selected>Choose a list</option>
               </select>
             </div>
