@@ -40,6 +40,13 @@ class MapView {
     this.#markersArr = [];
   }
 
+  openPopup(mtnId) {
+    const marker = this.#markersArr.find(
+      (marker) => marker.options.id === +mtnId
+    );
+    marker.openPopup();
+  }
+
   // PRIVATE METHODS
 
   #createMarker(peak) {
@@ -47,9 +54,13 @@ class MapView {
       iconUrl: `${peak.completed ? mtnIconGreen : mtnIconRed}`,
       iconSize: [25, 20],
     });
-    const marker = new L.Marker([peak.lat, peak.long], { icon: mtnIcon });
+    const marker = new L.Marker([peak.lat, peak.long], {
+      icon: mtnIcon,
+      id: peak.id,
+      riseOnHover: true,
+    });
     marker.bindPopup(L.popup({})).setPopupContent(
-      `<div class='peak-popup'>
+      `<div class='peak-popup' data-id=${peak.id}>
         <span class='peak-popup__label-name'>${peak.name}</span>
         <span class='peak-popup__label-elevation'>${peak.elevation} ft.</span>
         <button class='btn btn-text btn-text-green btn-log-trip' data-mtn-id='${
@@ -57,6 +68,12 @@ class MapView {
         }' data-list-id='${this.#data.listID}'>LOG TRIP</button>
       </div>`
     );
+    marker.on("mouseover", function () {
+      this.openPopup();
+    });
+    marker.on("click", function () {
+      this.openPopup();
+    });
     return marker;
   }
 
