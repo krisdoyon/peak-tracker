@@ -1,4 +1,4 @@
-import { peakMap, elevationMap } from "./peakLists.js";
+import { peakMap, elevationMap } from "./createPeakLists.js";
 
 export class LogEntry {
   peaks = [];
