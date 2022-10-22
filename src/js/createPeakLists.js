@@ -6,7 +6,6 @@ import ne4kJSON from "../json/ne4k.json";
 import neHighJSON from "../json/neHigh.json";
 import nh4kJSON from "../json/nh4k.json";
 import vt4kJSON from "../json/vt4k.json";
-import allJSON from "../json/all";
 
 class PeakList {
   constructor(data) {
@@ -30,26 +29,23 @@ const vt4k = new PeakList(vt4kJSON);
 
 const peakListsArr = [adk46, co14, me4k, ne100, ne4k, neHigh, nh4k, vt4k];
 
-const all = new PeakList(allJSON);
-
-const allPeaks = peakListsArr.flatMap((peakList) => peakList.peaks);
 const uniquePeaks = [
-  ...new Map(allPeaks.map((peak) => [peak.id, peak])).values(),
+  ...new Map(
+    peakListsArr
+      .flatMap((peakList) => peakList.peaks)
+      .map((peak) => [peak.id, peak])
+  ).values(),
 ];
-
-all.peaks = uniquePeaks;
-all.peakCount = uniquePeaks.length;
-peakListsArr.push(all);
 
 const peakMap = new Map();
 
 const elevationMap = new Map();
 
-all.peaks.forEach((peak) => {
+uniquePeaks.forEach((peak) => {
   peakMap.set(peak.id, peak.name);
 });
 
-all.peaks.forEach((peak) => elevationMap.set(peak.id, peak.elevFeet));
+uniquePeaks.forEach((peak) => elevationMap.set(peak.id, peak.elevation));
 
 peakListsArr.sort((a, b) =>
   a.title.toLowerCase().localeCompare(b.title.toLowerCase())
