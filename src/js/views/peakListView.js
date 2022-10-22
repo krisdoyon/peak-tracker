@@ -6,20 +6,32 @@ class PeakListsView {
   #previewType;
   #peakListsPreviewEl = document.querySelector(".preview-peak-lists");
   #singleListContainer = document.querySelector(".container-single-peak-list");
+  #btnBack = this.#singleListContainer.querySelector(".btn-back");
   #singleListHeading =
     this.#singleListContainer.querySelector(".heading-secondary");
-  #singleListNumberLabel = this.#singleListContainer.querySelector(
+  #singleListLabelNumber = this.#singleListContainer.querySelector(
     ".peak-list__label-number"
   );
-  #singleListProgressWrapper =
-    this.#singleListContainer.querySelector(".wrapper-progress");
-  #peakListTableBody = document.querySelector(".peak-list-table__body");
-  #btnBack = this.#singleListContainer.querySelector(".btn-back");
+  #progressBarWrapper = this.#singleListContainer.querySelector(
+    ".heading-progress-wrapper"
+  );
+  #btnSaveListWrapper = this.#singleListContainer.querySelector(
+    ".heading-button-wrapper"
+  );
+  #sortTableSelect = document.querySelector("#sort-table-select");
+  #tableBody = document.querySelector(".peak-list-table__body");
   #peakListBtnsWrapper = document.querySelector(".preview-wrapper");
   #previewBtns = [...this.#peakListBtnsWrapper.querySelectorAll(".btn-text")];
   #noSavedLists = document.querySelector(".no-saved-lists");
 
   // PUBLIC METHODS
+
+  addHandlerTableRowHover(handler) {
+    this.#tableBody.addEventListener("mouseover", function (e) {
+      const { mtnId } = e.target.closest(".peak-list-table__row").dataset;
+      handler(mtnId);
+    });
+  }
 
   addHandlerLogTrip(handler) {
     document.addEventListener(
@@ -33,11 +45,20 @@ class PeakListsView {
     );
   }
 
-  addHandlerSavedLists(handler) {
+  addHandlerSavedListsPreview(handler) {
     this.#peakListsPreviewEl.addEventListener("click", function (e) {
       const clicked = e.target.closest(".btn-save-peak-list");
       if (!clicked) return;
       const { listId } = e.target.closest(".preview-list__entry").dataset;
+      handler(listId);
+    });
+  }
+
+  addHandlerSavedListsTable(handler) {
+    this.#btnSaveListWrapper.addEventListener("click", function (e) {
+      const clicked = e.target.closest(".btn-save-peak-list");
+      if (!clicked) return;
+      const listId = clicked.dataset.id;
       handler(listId);
     });
   }
@@ -63,6 +84,17 @@ class PeakListsView {
     );
   }
 
+  addHandlerSortTable(handler) {
+    this.#sortTableSelect.addEventListener(
+      "change",
+      function (e) {
+        const sortType = e.target.value;
+        const listID = this.#tableData.listID;
+        handler(listID, sortType);
+      }.bind(this)
+    );
+  }
+
   renderPeakListsPreview(data) {
     this.#previewData = data.data;
     this.#previewType = data.previewType;
@@ -81,17 +113,17 @@ class PeakListsView {
 
   renderPeakListTable(data) {
     this.#tableData = data;
-    this.#singleListHeading.textContent = `${this.#tableData.title}`;
-    this.#singleListNumberLabel.textContent = `${
+    console.log(this.#tableData);
+    this.#singleListHeading.innerHTML = `${this.#tableData.title}`;
+    this.#singleListLabelNumber.innerHTML = `${
       this.#tableData.numCompleted
     } of ${this.#tableData.peakCount} Peaks`;
-    this.#singleListProgressWrapper.innerHTML = "";
-    this.#singleListProgressWrapper.insertAdjacentHTML(
-      "beforeend",
-      this.#generateProgressBarMarkup(this.#tableData)
-    );
-    this.#peakListTableBody.innerHTML = "";
-    this.#peakListTableBody.insertAdjacentHTML(
+    this.#progressBarWrapper.innerHTML = `${this.#generateProgressBarMarkup(
+      this.#tableData
+    )}`;
+    this.#btnSaveListWrapper.innerHTML = this.#generateSaveButtonMarkup();
+    this.#tableBody.innerHTML = "";
+    this.#tableBody.insertAdjacentHTML(
       "beforeend",
       this.#generateTableMarkup()
     );
@@ -159,6 +191,23 @@ class PeakListsView {
       Math.round(width * 10) / 10
     }%</div><div class='progress-bar__progress' style="width:${width}%"></div></div>
       </div>`;
+    return markup;
+  }
+
+  #generateSaveButtonMarkup() {
+    const markup = `
+      <button class="btn btn-icon btn-save-peak-list" data-id='${
+        this.#tableData.listID
+      }'>
+        <svg class="btn-icon__icon">
+          <use href="${icons}#icon-${
+      this.#tableData.saved ? "remove" : "add"
+    }"></use>
+        </svg>
+      </button>
+      <span>${
+        this.#tableData.saved ? "Remove from" : "Add to"
+      } my lists</span>`;
     return markup;
   }
 
