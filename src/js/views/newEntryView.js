@@ -10,7 +10,7 @@ class newEntryView {
   #statRowIcons = [...this.#gridStats.querySelectorAll(".btn-icon__icon")];
   #statBtns = [...this.#gridStats.querySelectorAll(".btn-add-stat")];
   #inputDate = document.querySelector("#date");
-  #chooseListSelect = document.querySelector("#choose-list");
+  #chooseListSelect = document.querySelector("#choose-list-new-entry");
   #inputElevation = document.querySelector("#elevation");
   #inputDistance = document.querySelector("#distance");
   #inputHours = document.querySelector("#hours");
@@ -134,7 +134,7 @@ class newEntryView {
   initializeListSelect(data) {
     this.#chooseListSelect.insertAdjacentHTML(
       "beforeend",
-      data.map((list) => this.#generateSelectRow(list)).join("")
+      data.map((list) => this.#generateSelectRowMarkup(list)).join("")
     );
   }
 
@@ -245,7 +245,7 @@ class newEntryView {
     ).length;
   }
 
-  #generateSelectRow(list) {
+  #generateSelectRowMarkup(list) {
     const markup = `<option value="${list.listID}">${list.title}</option>`;
     return markup;
   }
