@@ -1,47 +1,31 @@
-import { peakMap, elevationMap } from "./createPeakLists.js";
+import { uniquePeaks } from "./createPeakLists.js";
 
 export class LogEntry {
   peaks = [];
-  constructor(
-    date,
-    peakIDsArr,
-    listID,
-    listTitle,
-    elevation,
-    distance,
-    hours,
-    min,
-    notes,
-    rating,
-    logID
-  ) {
-    this.date = new Date(date);
-    this.peaks = [];
-    peakIDsArr.forEach((peakID) =>
-      this.peaks.push({
-        id: peakID,
-        name: peakMap.get(peakID),
-        elevation: elevationMap.get(peakID),
-      })
+  constructor(formData, logID, lists) {
+    this.date = new Date(formData.date);
+    formData.peakIDs.forEach((peakID) =>
+      this.peaks.push(uniquePeaks.find((peak) => peak.id === peakID))
     );
-    this.listID = listID;
-    this.listTitle = listTitle;
-    this.elevation = +elevation;
-    this.distance = +distance;
-    this.hours = +hours;
-    this.min = +min;
-    this.notes = notes;
-    this.rating = +rating;
+    this.stats = {
+      elevation: +formData.elevation,
+      distance: +formData.distance,
+      minutes: +formData.minutes,
+      hours: +formData.hours,
+    };
+    this.notes = formData.notes;
+    this.rating = +formData.rating;
     this.logID = logID;
+    this.lists = lists;
     this.#init();
   }
 
   #init() {
-    const mtnNames = this.peaks.map((peak) => peak.name);
-    this.mtnStr =
-      mtnNames.length > 1
-        ? mtnNames.slice(0, -1).join(", ") + " and " + mtnNames.slice(-1)
-        : mtnNames[0];
+    const peakNames = this.peaks.map((peak) => peak.name);
+    this.peakString =
+      peakNames.length > 1
+        ? peakNames.slice(0, -1).join(", ") + " and " + peakNames.slice(-1)
+        : peakNames[0];
 
     this.shortDate = new Intl.DateTimeFormat("en-US", {
       day: "2-digit",
