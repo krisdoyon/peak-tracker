@@ -1,7 +1,8 @@
 import { peakListsArr } from "./createPeakLists.js";
 import { LogEntry } from "./logEntry.js";
+import testData from "../json/testData.json";
 
-export const state = {
+export let state = {
   savedLists: [],
   logEntries: [],
   completedPeaks: [],
@@ -11,28 +12,112 @@ export const state = {
   currentTableSort: "elevation",
 };
 
-const getPeakList = function (listID) {
-  return peakListsArr.find((list) => list.listID === listID);
+const getPeakList = function (listID, sortType) {
+  const peakList = { ...peakListsArr.find((list) => list.listID === listID) };
+  if (sortType === "elevation") {
+    peakList.peaks.sort((a, b) => b.elevation - a.elevation);
+  }
+  if (sortType === "alphabetical") {
+    peakList.peaks.sort((a, b) =>
+      a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+    );
+  }
+  if (sortType === "state") {
+    peakList.peaks.sort((a, b) =>
+      a.state.toLowerCase().localeCompare(b.state.toLowerCase())
+    );
+  }
+  return peakList;
 };
 
 const getPeakListsArr = function (previewType = "all") {
   if (previewType === "all") return peakListsArr;
   if (previewType === "saved")
-    return peakListsArr.filter((list) =>
-      state.savedLists.includes(list.listID)
-    );
+    return [
+      ...peakListsArr.filter((list) => state.savedLists.includes(list.listID)),
+    ];
 };
 
-const sortPeakList = function (listID, sortType) {
-  const list = getPeakList(listID);
-  if (sortType === "elevation") {
-    list.peaks.sort((a, b) => b.elevation - a.elevation);
+const setLogID = function () {
+  const logID = state.logEntries.length
+    ? Math.max(...state.logEntries.map((entry) => entry.logID)) + 1
+    : 1;
+  return logID;
+};
+
+const setLogLists = function (peakIDs) {
+  const allTitles = [];
+  const allIDs = [];
+  peakIDs.forEach((peakID) => {
+    increaseListCounts(peakID);
+    const listMatchIDs = getMatchingListIDs(peakID);
+    listMatchIDs.forEach((listID) => {
+      const title = getPeakList(listID).title;
+      allTitles.push(title);
+      allIDs.push(listID);
+    });
+  });
+  const ids = [...new Set(allIDs)];
+  const titles = [...new Set(allTitles)];
+  return {
+    ids,
+    titles,
+  };
+};
+
+const sortLogEntries = function () {
+  state.logEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
+};
+
+const getMatchingListIDs = function (peakID) {
+  const listMatchIDs = [];
+  peakListsArr.forEach((peakList) => {
+    if (peakList.peaks.some((peak) => peak.id === peakID)) {
+      listMatchIDs.push(peakList.listID);
+    }
+  });
+  return listMatchIDs;
+};
+
+const increaseListCounts = function (peakID) {
+  const listMatchIDs = getMatchingListIDs(peakID);
+  if (!state.completedPeaks.includes(peakID)) {
+    state.completedPeaks.push(peakID);
+    listMatchIDs.forEach((listID) => {
+      state.listCounts[listID] += 1;
+    });
   }
-  if (sortType === "alphabetical") {
-    list.peaks.sort((a, b) =>
-      a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-    );
+};
+
+const decreaseListCounts = function (peakID) {
+  if (
+    !state.logEntries
+      .flatMap((entry) => entry.peaks)
+      .some((peak) => peak.id === peakID)
+  ) {
+    state.completedPeaks.splice(state.completedPeaks.indexOf(peakID), 1);
+    peakListsArr
+      .filter((peaklistObj) =>
+        peaklistObj.peaks.some((peak) => peak.id === peakID)
+      )
+      .map((peakList) => peakList.listID)
+      .forEach((peakListID) => state.listCounts[peakListID]--);
   }
+};
+
+const setLocalStorage = function () {
+  localStorage.setItem("state", JSON.stringify(state));
+};
+
+const getLocalStorage = function () {
+  if (localStorage.state) state = JSON.parse(localStorage.getItem("state"));
+};
+
+const initializeListCounts = function () {
+  peakListsArr.forEach((list) => {
+    if (!state.listCounts[`${list.listID}`])
+      state.listCounts[`${list.listID}`] = 0;
+  });
 };
 
 export const setCurrentPreviewView = function (previewType) {
@@ -53,17 +138,12 @@ export const getCoords = async function () {
   });
 };
 
-export const getCheckboxDisplayArr = function (listID) {
-  sortPeakList(listID, "alphabetical");
-  const listArr = getPeakList(listID).peaks;
-  const firstHalf = listArr.slice(0, Math.ceil(listArr.length / 2));
-  const secondHalf = listArr.slice(Math.ceil(listArr.length / 2));
-  const displayArr = [];
-  for (const [i, _] of listArr.entries()) {
-    firstHalf[i] && displayArr.push(firstHalf[i]);
-    secondHalf[i] && displayArr.push(secondHalf[i]);
-  }
-  return displayArr;
+export const getCheckboxData = function (listID, checkedID) {
+  return {
+    listID,
+    checkedID: +checkedID || false,
+    peaks: getPeakList(listID, "alphabetical").peaks,
+  };
 };
 
 export const getDate = function (date) {
@@ -92,19 +172,15 @@ export const removeSavedList = function (listID) {
 };
 
 export const addLogEntry = function (data) {
-  const logID = state.logEntries.length
-    ? Math.max(...state.logEntries.map((entry) => entry.logID)) + 1
-    : 1;
-  const entry = new LogEntry(...data, logID);
+  const logID = setLogID();
+  const lists = setLogLists(data.peakIDs);
+  console.log(data);
+  const entry = new LogEntry(data, logID, lists);
   state.logEntries.unshift(entry);
-  entry.peaks.forEach((peak) => {
-    increaseListCounts(peak.id);
-    if (!state.completedPeaks.includes(peak.id)) {
-      state.completedPeaks.push(peak.id);
-    }
-  });
   sortLogEntries();
   setLocalStorage();
+  console.log(entry);
+  return logID;
 };
 
 export const removeLogEntry = function (logID) {
@@ -121,20 +197,18 @@ export const getLogEntry = function (logID) {
 };
 
 export const getLogEntries = function () {
-  console.log(`Getting entries for ${state.currentLogSelect}`);
   const listID = state.currentLogSelect;
   return {
     noEntries: state.logEntries.length ? false : true,
     entries:
       listID === "all"
         ? state.logEntries
-        : state.logEntries.filter((entry) => entry.listID === listID),
+        : state.logEntries.filter((entry) => entry.lists.ids.includes(listID)),
   };
 };
 
 export const getTableData = function (listID) {
-  const list = getPeakList(listID);
-  sortPeakList(listID, state.currentTableSort);
+  const list = getPeakList(listID, state.currentTableSort);
   const data = {
     listID: list.listID,
     title: list.title,
@@ -176,22 +250,30 @@ export const getPreviewData = function () {
   return { previewType: state.currentPreviewView, data };
 };
 
-export const getMapData = function (listID) {
-  const list = getPeakList(listID);
+export const getMapData = function (type, id) {
+  let peaks, listID;
+  if (type === "list") {
+    peaks = getPeakList(id).peaks;
+    listID = getPeakList(id).listID;
+  }
+  if (type === "log") {
+    peaks = getLogEntry(id).peaks;
+  }
   return {
-    peaks: list.peaks.map((peak) => {
+    peaks: peaks.map((peak) => {
+      let logMatch;
+      if (state.logEntries.length) {
+        logMatch = state.logEntries.find((entry) =>
+          entry.peaks.some((peakObj) => peakObj.id === peak.id)
+        );
+      }
       return {
-        id: peak.id,
-        name: peak.name,
-        lat: peak.lat,
-        long: peak.long,
+        ...peak,
         completed: state.completedPeaks.includes(peak.id) ? true : false,
-        elevation: peak.elevation,
+        completedDate: logMatch ? logMatch.shortDate : false,
       };
     }),
-    center: list.center,
-    zoom: list.zoom,
-    listID: list.listID,
+    listID,
   };
 };
 
@@ -204,59 +286,19 @@ export const getSelectData = function () {
   });
 };
 
-const sortLogEntries = function () {
-  state.logEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
-};
-
-const increaseListCounts = function (peakID) {
-  peakListsArr.forEach((peakListObj) => {
-    if (!state.completedPeaks.includes(peakID)) {
-      if (peakListObj.peaks.some((peak) => peak.id === peakID)) {
-        state.listCounts[`${peakListObj.listID}`] += 1;
-      }
-    }
-  });
-};
-
-const decreaseListCounts = function (peakID) {
-  if (
-    !state.logEntries
-      .flatMap((entry) => entry.peaks)
-      .some((peak) => peak.id === peakID)
-  ) {
-    state.completedPeaks.splice(state.completedPeaks.indexOf(peakID), 1);
-    peakListsArr
-      .filter((peaklistObj) =>
-        peaklistObj.peaks.some((peak) => peak.id === peakID)
-      )
-      .map((peakList) => peakList.listID)
-      .forEach((peakListID) => state.listCounts[peakListID]--);
+export const loadTestData = function () {
+  if (confirm("Loading test data will overwrite manual changes. Continue?")) {
+    state = testData.state;
+    setLocalStorage();
+    location.reload();
   }
 };
 
-const setLocalStorage = function () {
-  localStorage.setItem("logEntries", JSON.stringify(state.logEntries));
-  localStorage.setItem("completedPeaks", JSON.stringify(state.completedPeaks));
-  localStorage.setItem("listCounts", JSON.stringify(state.listCounts));
-  localStorage.setItem("savedLists", JSON.stringify(state.savedLists));
-};
-
-const getLocalStorage = function () {
-  if (localStorage.logEntries)
-    state.logEntries = JSON.parse(localStorage.getItem("logEntries"));
-  if (localStorage.completedPeaks)
-    state.completedPeaks = JSON.parse(localStorage.getItem("completedPeaks"));
-  if (localStorage.listCounts)
-    state.listCounts = JSON.parse(localStorage.getItem("listCounts"));
-  if (localStorage.savedLists)
-    state.savedLists = JSON.parse(localStorage.getItem("savedLists"));
-};
-
-const initializeListCounts = function () {
-  peakListsArr.forEach((list) => {
-    if (!state.listCounts[`${list.listID}`])
-      state.listCounts[`${list.listID}`] = 0;
-  });
+export const clearAllData = function () {
+  if (confirm("Are you sure you want to clear all data?")) {
+    localStorage.clear();
+    location.reload();
+  }
 };
 
 const init = function () {
