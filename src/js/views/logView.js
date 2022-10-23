@@ -8,7 +8,7 @@ class LogView {
   #noEntriesMessage =
     this.#logPreviewContainer.querySelector(".no-data__message");
   #btnDeleteWrapper = this.#logEntryContainer.querySelector(
-    ".heading-button-wrapper"
+    ".container__heading-button-wrapper"
   );
   #logEntriesPreviewEl = document.querySelector(".log-entries-preview");
   #chooseListSelect = document.querySelector("#choose-list-log-preview");

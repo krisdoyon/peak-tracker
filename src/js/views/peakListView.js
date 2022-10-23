@@ -14,10 +14,10 @@ class PeakListsView {
     ".peak-list__label-number"
   );
   #progressBarWrapper = this.#singleListContainer.querySelector(
-    ".heading-progress-wrapper"
+    ".container__heading-progress-wrapper"
   );
   #btnSaveListWrapper = this.#singleListContainer.querySelector(
-    ".heading-button-wrapper"
+    ".container__heading-button-wrapper"
   );
   #sortTableSelect = document.querySelector("#sort-table-select");
   #tableBody = document.querySelector(".peak-list-table__body");
