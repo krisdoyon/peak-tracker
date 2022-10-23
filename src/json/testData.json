@@ -1,0 +1,106 @@
+{
+  "state": {
+    "completedPeaks": [
+      7, 871556, 1, 973340, 956573, 973355, 971754, 561737, 567535
+    ],
+    "logEntries": [
+      {
+        "peaks": [
+          {
+            "id": 561737,
+            "name": "Mt. Katahdin (Baxter Peak)",
+            "elevation": 5259
+          },
+          {
+            "id": 567535,
+            "name": "Mt. Katahdin (Hamlin Peak)",
+            "elevation": 4757
+          }
+        ],
+        "date": "2022-08-12T00:00:00.000Z",
+        "elevation": 5500,
+        "distance": 11,
+        "hours": 12,
+        "min": null,
+        "notes": "Brutal hike!",
+        "rating": 5,
+        "logID": 3,
+        "lists": {
+          "ids": ["me4k", "ne100", "ne4k", "neHigh"],
+          "titles": [
+            "Maine 4,000 Footers",
+            "New England 100 Highest",
+            "New England 4,000 Footers",
+            "New England State Highpoints"
+          ]
+        },
+        "mtnStr": "Mt. Katahdin (Baxter Peak) and Mt. Katahdin (Hamlin Peak)",
+        "shortDate": "08/11/2022",
+        "longDate": "August 11, 2022",
+        "avgElevation": 500
+      },
+      {
+        "peaks": [
+          { "id": 973340, "name": "Algonquin Peak", "elevation": 5105 },
+          { "id": 956573, "name": "Mt. Marshall", "elevation": 4380 },
+          { "id": 973355, "name": "Iroquois Peak", "elevation": 4829 },
+          { "id": 971754, "name": "Wright Peak", "elevation": 4564 }
+        ],
+        "date": "2022-06-22T00:00:00.000Z",
+        "elevation": 3500,
+        "distance": 9,
+        "hours": 6,
+        "min": null,
+        "notes": "Rainy day!",
+        "rating": 4,
+        "logID": 2,
+        "lists": { "ids": ["adk46"], "titles": ["Adirondack High Peaks"] },
+        "mtnStr": "Algonquin Peak, Mt. Marshall, Iroquois Peak and Wright Peak",
+        "shortDate": "06/21/2022",
+        "longDate": "June 21, 2022",
+        "avgElevation": 389
+      },
+      {
+        "peaks": [
+          { "id": 7, "name": "Bondcliff", "elevation": 4265 },
+          { "id": 871556, "name": "Mt. Bond", "elevation": 4685 },
+          { "id": 1, "name": "West Bond Mountain", "elevation": 4540 }
+        ],
+        "date": "2021-09-04T00:00:00.000Z",
+        "elevation": 4500,
+        "distance": 12,
+        "hours": 8,
+        "min": null,
+        "notes": "Great trip!",
+        "rating": 5,
+        "logID": 1,
+        "lists": {
+          "ids": ["ne100", "ne4k", "nh4k"],
+          "titles": [
+            "New England 100 Highest",
+            "New England 4,000 Footers",
+            "New Hampshire 4,000 Footers"
+          ]
+        },
+        "mtnStr": "Bondcliff, Mt. Bond and West Bond Mountain",
+        "shortDate": "09/03/2021",
+        "longDate": "September 03, 2021",
+        "avgElevation": 375
+      }
+    ],
+    "savedLists": ["adk46", "me4k", "nh4k"],
+    "listCounts": {
+      "adk46": 4,
+      "co14": 0,
+      "me4k": 2,
+      "ne100": 5,
+      "ne4k": 5,
+      "neHigh": 1,
+      "nh4k": 3,
+      "vt4k": 0
+    },
+    "currentPreviewView": "all",
+    "currentLogSelect": "all",
+    "currentTableSort": "elevation"
+  }
+}
