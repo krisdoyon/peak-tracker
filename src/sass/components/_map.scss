@@ -10,15 +10,25 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-}
 
-.peak-popup__label-name {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-}
+  &__label-name {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
 
-.peak-popup__label-elevation {
-  font-size: 1.2rem;
-  margin-bottom: 0.6rem;
+  &__label-elevation {
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
+  }
+
+  &__label-date {
+    font-size: 1.2rem;
+
+    strong {
+      font-weight: 500;
+      color: var(--color-grey-dark-2);
+      text-decoration: underline;
+    }
+  }
 }
