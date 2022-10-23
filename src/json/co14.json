@@ -1,8 +1,6 @@
 {
   "title": "Colorado 14ers",
   "listID": "co14",
-  "center": [38.7695, -108.5459],
-  "zoom": 8,
   "peakCount": 57,
   "peaks": [
     {

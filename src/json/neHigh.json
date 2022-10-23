@@ -1,8 +1,6 @@
 {
   "title": "New England State Highpoints",
   "listID": "neHigh",
-  "center": [43.73935, -76.0363],
-  "zoom": 7,
   "peakCount": 6,
   "peaks": [
     {

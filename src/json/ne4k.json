@@ -1,8 +1,6 @@
 {
   "title": "New England 4,000 Footers",
   "listID": "ne4k",
-  "center": [44.5435, -73.3975],
-  "zoom": 8,
   "peakCount": 67,
   "peaks": [
     {
