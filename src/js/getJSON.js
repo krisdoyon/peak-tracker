@@ -55,7 +55,7 @@ function writeGNISData(mtnsArr, state, id) {
 
 // writeGNISData(ne100HighestNamesVT, "vt", "ne100vt");
 
-const writeJSON = function (title, listID, center, zoom) {
+const writeJSON = function (title, listID) {
   const contents = fs.readFileSync(
     path.resolve(__dirname, `../txt/${listID}.txt`),
     "utf-8"
@@ -68,8 +68,6 @@ const writeJSON = function (title, listID, center, zoom) {
   const peakList = {
     title,
     listID,
-    center,
-    zoom,
     peakCount: peaks.length,
     peaks: peaks,
   };
