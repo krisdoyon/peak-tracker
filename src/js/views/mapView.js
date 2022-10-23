@@ -1,18 +1,25 @@
 import mtnIconRed from "url:../../img/mtn-icon-red.png";
 import mtnIconGreen from "url:../../img/mtn-icon-green.png";
+import markerIcon from "url:../../img/marker-icon.png";
+import icon from "leaflet";
 
 class MapView {
   #map;
   #markersArr = [];
   #markersLayer;
   #data;
+  #btnLocation = document.querySelector(".btn-location");
 
   // PUBLIC METHODS
 
-  loadMap(coords = [44.0444, -71.6684]) {
+  addHandlerGetLocation(handler) {
+    this.#btnLocation.addEventListener("click", handler);
+  }
+
+  loadMap() {
     this.#map = new L.Map("map", {
       zoomControl: false,
-    }).setView(coords, 14);
+    }).setView([39.402244340292775, -108.45703125000001], 4);
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
@@ -27,12 +34,35 @@ class MapView {
       .addTo(this.#map);
   }
 
-  plotListOnMap(data) {
+  setMapView(coords) {
+    this.#map.setView(coords, 16);
+    const icon = L.icon({
+      iconUrl: markerIcon,
+      iconAnchor: [0, 41],
+      popupAnchor: [12, -20],
+    });
+    const marker = new L.Marker(coords, {
+      icon: icon,
+    });
+    marker.bindPopup(L.popup({})).setPopupContent("Your location");
+    marker.on("mouseover", function () {
+      this.openPopup();
+    });
+    marker.on("click", function () {
+      this.openPopup();
+    });
+    marker.addTo(this.#map);
+  }
+
+  plotPeaksOnMap(data) {
     this.#data = data;
     this.clearMap();
-    this.#map.setView(this.#data.center, this.#data.zoom);
     this.#createMarkerLayer();
     this.#map.addLayer(this.#markersLayer);
+    this.#map.fitBounds(this.#markersLayer.getBounds(), {
+      paddingTopLeft: [650, 0],
+      maxZoom: 10,
+    });
   }
 
   clearMap() {
@@ -40,9 +70,9 @@ class MapView {
     this.#markersArr = [];
   }
 
-  openPopup(mtnId) {
+  openPopup(peakId) {
     const marker = this.#markersArr.find(
-      (marker) => marker.options.id === +mtnId
+      (marker) => marker.options.id === +peakId
     );
     marker.openPopup();
   }
@@ -59,15 +89,9 @@ class MapView {
       id: peak.id,
       riseOnHover: true,
     });
-    marker.bindPopup(L.popup({})).setPopupContent(
-      `<div class='peak-popup' data-id=${peak.id}>
-        <span class='peak-popup__label-name'>${peak.name}</span>
-        <span class='peak-popup__label-elevation'>${peak.elevation} ft.</span>
-        <button class='btn btn-text btn-text-green btn-log-trip' data-mtn-id='${
-          peak.id
-        }' data-list-id='${this.#data.listID}'>LOG TRIP</button>
-      </div>`
-    );
+    marker
+      .bindPopup(L.popup({}))
+      .setPopupContent(this.#generatePopupMarkup(peak));
     marker.on("mouseover", function () {
       this.openPopup();
     });
@@ -78,10 +102,37 @@ class MapView {
   }
 
   #createMarkerLayer() {
-    this.#data.peaks.forEach((peak) =>
-      this.#markersArr.push(this.#createMarker(peak))
-    );
-    this.#markersLayer = L.layerGroup(this.#markersArr);
+    this.#markersLayer = new L.featureGroup();
+    this.#data.peaks.forEach((peak) => {
+      const marker = this.#createMarker(peak);
+      this.#markersArr.push(marker);
+      this.#markersLayer.addLayer(marker);
+    });
+  }
+
+  #generatePopupMarkup(peak) {
+    const markup = `<div class='peak-popup' data-id=${peak.id}>
+        <span class='peak-popup__label-name'>${peak.name}</span>
+        <span class='peak-popup__label-elevation'>${peak.elevation} ft.</span>
+        ${
+          peak.completed
+            ? this.#generateCompletedDateMarkup(peak)
+            : this.#generateLogTripButtonMarkup(peak)
+        }
+      </div>`;
+    return markup;
+  }
+
+  #generateLogTripButtonMarkup(peak) {
+    const markup = `<button class='btn btn-text btn-text-green btn-log-trip' data-peak-id='${
+      peak.id
+    }' data-list-id='${this.#data.listID}'>LOG TRIP</button>`;
+    return markup;
+  }
+
+  #generateCompletedDateMarkup(peak) {
+    const markup = `<span class="peak-popup__label-date"><strong>Hiked On:</strong><br/>${peak.completedDate}</span>`;
+    return markup;
   }
 }
 
