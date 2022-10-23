@@ -26,7 +26,18 @@
   </head>
 
   <body>
-    <img class="logo" src="./src/img/logo.png" alt="Peak Tracker logo" />
+    <div class="wrapper">
+      <img class="logo" src="./src/img/logo.png" alt="Peak Tracker logo" />
+      <div class="button-wrapper">
+        <button class="btn btn--green btn-load-data">Load test data</button>
+        <button class="btn btn--green btn-clear-data">Clear all data</button>
+      </div>
+    </div>
+    <button class="btn btn--green btn-location">
+      <svg class="btn-location__icon">
+        <use href="./src/img/sprite.svg#icon-location"></use>
+      </svg>
+    </button>
     <!-- SIDEBAR/NAVIGATION -->
     <div class="sidebar">
       <nav class="main-nav">
@@ -135,6 +146,7 @@
             <select id="sort-table-select">
               <option value="elevation" selected>Elevation</option>
               <option value="alphabetical">Name</option>
+              <option value="state">State</option>
             </select>
           </div>
           <div class="heading-progress-wrapper"></div>
@@ -251,7 +263,7 @@
               </select>
             </div>
 
-            <div class="form-new-entry__checkbox-grid hidden"></div>
+            <ul class="form-new-entry__checkbox-grid hidden"></ul>
           </div>
 
           <div class="form-new-entry__row">
@@ -362,7 +374,7 @@
         </form>
 
         <div class="form-new-entry__footer">
-          <button class="btn btn-text btn-clear-form">CLEAR FORM</button>
+          <button class="btn btn-text btn-clear-form">Clear form</button>
           <button
             type="submit"
             form="form-new-entry"
