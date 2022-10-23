@@ -5,10 +5,14 @@
   input,
   select {
     padding: 1.2rem;
-    border-radius: 1.2rem;
+    border-radius: 1rem;
     border: none;
     font-family: inherit;
     background-color: #fff;
+
+    &:focus {
+      outline: 1px solid var(--color-green-light);
+    }
   }
 
   &__row {
@@ -78,17 +82,80 @@
   }
 
   &__checkbox-grid {
-    display: grid;
-    grid-template-columns: 10% 1fr 10% 1fr;
+    column-count: 2;
     justify-content: center;
     row-gap: 0.6rem;
-    padding: 1rem 0;
+    padding: 1rem 1rem;
+    list-style: none;
+    padding-bottom: 0;
+
+    li {
+      display: flex;
+      margin-bottom: 0.8rem;
+    }
   }
 
-  &__checkbox-grid-row {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
+  // Customize the label (the container)
+  &__checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 3.5rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  // Hide default checkbox
+  &__checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  // Create custom checkbox
+  &__checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2rem;
+    width: 2rem;
+    background-color: #eee;
+    border: 1px solid var(--color-grey-light-2);
+  }
+
+  // On mouse-over add background color
+  &__checkbox-container:hover input ~ &__checkmark {
+    background-color: var(--color-grey-light-3);
+  }
+
+  // When the checkbox is checked, add colored background to container
+  &__checkbox-container input:checked ~ &__checkmark {
+    background-color: var(--color-green-hilight-hover);
+    border: none;
+  }
+
+  // Create the checkmark
+  &__checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  // Show the checkmark when checked
+  &__checkbox-container input:checked ~ &__checkmark:after {
+    display: block;
+  }
+
+  // Style the checkmark
+  &__checkbox-container &__checkmark:after {
+    left: 0.8rem;
+    top: 0.4rem;
+    width: 0.5rem;
+    height: 1rem;
+    border: solid var(--color-grey-dark-1);
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
   }
 
   /* STATS */
@@ -125,6 +192,12 @@
     height: 10rem;
     font-family: inherit;
     padding: 0.8rem;
+    border: none;
+    border-radius: 1rem;
+
+    &:focus {
+      outline: 1px solid var(--color-green-light);
+    }
   }
 
   // RATING
