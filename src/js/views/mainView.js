@@ -1,3 +1,5 @@
+import icons from "../../img/sprite.svg";
+
 class MainView {
   #containerMain = document.querySelector(".container-main");
   #allContainers = [...document.querySelectorAll(".container")];
@@ -9,7 +11,7 @@ class MainView {
   #sidebarHidden = false;
   #sidebar = document.querySelector(".sidebar");
   #btnSidebar = document.querySelector(".sidebar__btn");
-  #btnSidebarIcon = document.querySelector(".sidebar__btn--icon");
+  #btnSidebarIcon = this.#btnSidebar.querySelector("use");
 
   constructor() {
     this.#addHandlerSidebar();
@@ -83,13 +85,20 @@ class MainView {
     this.#btnSidebar.addEventListener(
       "click",
       function () {
+        console.log(this.#btnSidebarIcon);
         this.#sidebarHidden = this.#sidebarHidden ? false : true;
-        this.#sidebar.style.marginLeft = `${
-          this.#sidebarHidden ? "-17.8rem" : "0"
-        }`;
-        this.#btnSidebarIcon.innerHTML = this.#sidebarHidden
-          ? "chevron_right"
-          : "chevron_left";
+        [this.#sidebar, this.#containerMain].forEach(
+          (container) =>
+            (container.style.marginLeft = `${
+              this.#sidebarHidden ? "-18.2rem" : "0"
+            }`)
+        );
+        this.#btnSidebarIcon.setAttribute(
+          "href",
+          `${icons}#icon-${
+            this.#sidebarHidden ? "chevron-right" : "chevron-left"
+          }`
+        );
       }.bind(this)
     );
   }
