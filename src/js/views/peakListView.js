@@ -7,8 +7,9 @@ class PeakListsView {
   #peakListsPreviewEl = document.querySelector(".preview-peak-lists");
   #singleListContainer = document.querySelector(".container-single-peak-list");
   #btnBack = this.#singleListContainer.querySelector(".btn-back");
-  #singleListHeading =
-    this.#singleListContainer.querySelector(".heading-secondary");
+  #singleListHeading = this.#singleListContainer.querySelector(
+    ".container__heading"
+  );
   #singleListLabelNumber = this.#singleListContainer.querySelector(
     ".peak-list__label-number"
   );
@@ -28,8 +29,8 @@ class PeakListsView {
 
   addHandlerTableRowHover(handler) {
     this.#tableBody.addEventListener("mouseover", function (e) {
-      const { mtnId } = e.target.closest(".peak-list-table__row").dataset;
-      handler(mtnId);
+      const { peakId } = e.target.closest(".peak-list-table__row").dataset;
+      handler(peakId);
     });
   }
 
@@ -39,8 +40,8 @@ class PeakListsView {
       function (e) {
         const clicked = e.target.closest(".btn-log-trip");
         if (!clicked) return;
-        const { listId, mtnId } = clicked.dataset;
-        handler(listId, mtnId);
+        const { listId, peakId } = clicked.dataset;
+        handler(listId, peakId);
       }.bind(this)
     );
   }
@@ -113,7 +114,6 @@ class PeakListsView {
 
   renderPeakListTable(data) {
     this.#tableData = data;
-    console.log(this.#tableData);
     this.#singleListHeading.innerHTML = `${this.#tableData.title}`;
     this.#singleListLabelNumber.innerHTML = `${
       this.#tableData.numCompleted
@@ -140,7 +140,7 @@ class PeakListsView {
   #generateTableRowMarkup(peak) {
     const markup = `<tr class="peak-list-table__row ${
       peak.completed ? "peak-list-table__row--complete" : ""
-    }" data-mtn-id="${peak.id}" data-list-id="${peak.id}">
+    }" data-peak-id="${peak.id}">
         <td><strong>${peak.num}</strong></td>
         <td style="text-align:left">${peak.name}</td>
         <td>${peak.state}</td>
@@ -149,7 +149,7 @@ class PeakListsView {
         <td>${
           peak.completed
             ? `${peak.completedDate}`
-            : `<button class='btn btn-text btn-log-trip' data-mtn-id='${
+            : `<button class='btn btn-text btn-log-trip' data-peak-id='${
                 peak.id
               }' data-list-id='${this.#tableData.listID}'>LOG TRIP</button>`
         }</td>
