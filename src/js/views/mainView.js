@@ -2,6 +2,8 @@ class MainView {
   #containerMain = document.querySelector(".container-main");
   #allContainers = [...document.querySelectorAll(".container")];
   #btnCloseContainer = document.querySelector(".btn-close");
+  #btnLoadData = document.querySelector(".btn-load-data");
+  #btnClearData = document.querySelector(".btn-clear-data");
   #mainNavBtns = document.querySelectorAll(".main-nav__btn");
   #mainNavList = document.querySelector(".main-nav__list");
   #sidebarHidden = false;
@@ -37,6 +39,14 @@ class MainView {
       const containerID = clicked.dataset.display;
       handler(containerID);
     });
+  }
+
+  addHandlerLoadData(handler) {
+    this.#btnLoadData.addEventListener("click", handler);
+  }
+
+  addHandlerClearAllData(handler) {
+    this.#btnClearData.addEventListener("click", handler);
   }
 
   showContainer(containerID) {
