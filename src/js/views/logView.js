@@ -32,10 +32,8 @@ class LogView {
       function (e) {
         const clicked = e.target.closest(".btn-view");
         if (!clicked) return;
-        const { logId, listId } = clicked.closest(
-          ".preview-list__entry"
-        ).dataset;
-        handler(+logId, listId);
+        const { logId } = clicked.closest(".preview-list__entry").dataset;
+        handler(+logId);
       }.bind(this)
     );
   }
@@ -54,7 +52,6 @@ class LogView {
   addHandlerDeleteEntry(handler) {
     this.#btnDeleteWrapper.addEventListener("click", function (e) {
       const clicked = e.target.closest(".btn-delete-entry");
-      console.log(clicked);
       if (!clicked) return;
       if (confirm("Are you sure you want to delete this entry?")) {
         const { logId } = clicked.dataset;
@@ -66,7 +63,6 @@ class LogView {
   addHandlerLogSelect(handler) {
     this.#chooseListSelect.addEventListener("change", function (e) {
       const listID = e.target.value;
-      console.log(listID);
       handler(listID);
     });
   }
@@ -81,8 +77,6 @@ class LogView {
   renderLogPreview(data) {
     this.#data = data.entries;
     this.#noEntries = data.noEntries;
-    console.log(this.#data);
-    console.log(this.#noEntries);
     this.#logEntriesPreviewEl.innerHTML = "";
     if (this.#data.length) {
       this.#noLogEntries.classList.add("hidden");
@@ -118,20 +112,15 @@ class LogView {
           peak.name
         } - ${peak.elevation.toLocaleString()} ft</span>`)
     );
-    let ratingMarkup = "";
-    if (entry.rating) {
-      for (let i = 0; i < entry.rating; i++) {
-        ratingMarkup += `<svg class="btn-star__icon btn-star__icon--full"><use href="${icons}#icon-star-solid"></use></svg>`;
-      }
-      for (let i = 0; i < 5 - entry.rating; i++) {
-        ratingMarkup += `<svg class="btn-star__icon"><use href="${icons}#icon-star"></use></svg>`;
-      }
-    } else {
-      ratingMarkup = "n/a";
-    }
+
+    let listStr = "";
+    entry.lists.titles.forEach((title) => {
+      listStr += `<span>${title}</span>`;
+    });
+
     const markup = `
-      <span class="log-entry__label">Peak List:</span>
-      <span>${entry.listTitle}</span>
+      <span class="log-entry__label">Peak Lists:</span>
+      <div class="log-entry__lists">${listStr}</div>
       <span class="log-entry__label">Peaks:</span>
       <div class="log-entry__peaks">${peaksStr}</div>
       <span class="log-entry__label">Distance:</span>
@@ -151,7 +140,7 @@ class LogView {
           : "n/a"
       }</span>
       <span class="log-entry__label">Rating:</span>
-      <span>${ratingMarkup}</span>
+      <span>${this.#generateRatingMarkup(entry.rating)}</span>
       <span class="log-entry__label">Notes:</span>
       <span>${entry.notes ? entry.notes : "n/a"}</span>`;
     return markup;
@@ -179,8 +168,7 @@ class LogView {
       entry.peaks.length > 1 ? "Peaks" : "Peak"
     }
         </h2>
-        <span>${entry.listTitle}</span>
-        <span class="preview-list__label-secondary">${entry.mtnStr}</span>
+        <span class="preview-list__label-secondary">${entry.peakString}</span>
       </div>
               
               <button class="btn btn--green btn-view btn-view-log">VIEW</button>
@@ -189,7 +177,6 @@ class LogView {
   }
 
   #generateDeleteButtonMarkup(entry) {
-    console.log(entry);
     const markup = `
       <button class="btn btn-icon btn-delete-entry" data-log-id='${entry.logID}'>
         <svg class="btn-icon__icon--sm">
@@ -208,12 +195,27 @@ class LogView {
   #showNoEntriesMessage() {
     const message = `
     You haven't added any log entries ${
-      this.#noEntries ? "" : "from this list"
-    } yet. <br />
+      this.#noEntries ? "" : "that include peaks from this list"
+    } yet.
     Click the button below to log your first entry!
     `;
     this.#noEntriesMessage.innerHTML = message;
     this.#noLogEntries.classList.remove("hidden");
+  }
+
+  #generateRatingMarkup(rating) {
+    let markup = "";
+    if (rating) {
+      for (let i = 0; i < rating; i++) {
+        markup += `<svg class="btn-star__icon btn-star__icon--full"><use href="${icons}#icon-star-solid"></use></svg>`;
+      }
+      for (let i = 0; i < 5 - rating; i++) {
+        markup += `<svg class="btn-star__icon"><use href="${icons}#icon-star"></use></svg>`;
+      }
+    } else {
+      markup = "n/a";
+    }
+    return markup;
   }
 }
 
