@@ -66,26 +66,24 @@ class newEntryView {
           return;
         }
 
-        const peaks = this.#getCheckedPeaks();
-        if (peaks.length <= 0) {
+        const peakIDs = this.#getCheckedPeaks();
+        if (peakIDs.length <= 0) {
           alert("Choose at least one peak from a list");
           return;
         }
 
-        const data = [
-          this.#inputDate.value,
-          peaks,
-          this.#chooseListSelect.value,
-          this.#chooseListSelect[this.#chooseListSelect.selectedIndex]
-            .textContent,
-          +this.#inputElevation.value,
-          +this.#inputDistance.value,
-          +this.#inputHours.value,
-          +this.#inputMinutes.value,
-          this.#inputNotes.value,
-          this.#getRating(),
-        ];
-        handler(data, this.#chooseListSelect.value);
+        const formData = {
+          date: this.#inputDate.value,
+          peakIDs,
+          elevation: this.#inputElevation.value,
+          distance: this.#inputDistance.value,
+          hours: this.#inputHours.value,
+          minutes: this.#inputMinutes.value,
+          notes: this.#inputNotes.value,
+          rating: this.#getRating(),
+        };
+        console.log(formData);
+        handler(formData);
         this.clearForm();
       }.bind(this)
     );
@@ -109,26 +107,34 @@ class newEntryView {
     this.#formNewEntry.reset();
   }
 
-  displayCheckboxes(displayArr, listID, checkedMtnID) {
+  displayCheckboxes(data) {
     this.#gridPeakCheckboxes.classList.remove("hidden");
     this.#gridPeakCheckboxes.innerHTML = "";
-    displayArr.forEach((peak) =>
+    data.peaks.forEach((peak) =>
       this.#gridPeakCheckboxes.insertAdjacentHTML(
         "beforeend",
-        `<input type="checkbox" value="${peak.id}"/><label
-            for="title"
-            class="form__label--units"
-            >${peak.name}
-          </label>`
+        this.#generateCheckboxMarkup(peak)
       )
     );
-    if (checkedMtnID) {
-      this.#chooseListSelect.value = listID;
+    if (data.checkedID) {
+      this.#chooseListSelect.value = data.listID;
       const checkbox = [
         ...this.#gridPeakCheckboxes.querySelectorAll("input"),
-      ].find((input) => +input.value === +checkedMtnID);
-      checkbox.checked = "true";
+      ].find((input) => +input.value === data.checkedID);
+      checkbox.checked = true;
     }
+  }
+
+  #generateCheckboxMarkup(peak) {
+    const markup = `
+    <li>
+      <label class="form-new-entry__checkbox-container">${peak.name}
+        <input type="checkbox" value="${peak.id}"/>
+        <span class="form-new-entry__checkmark"></span>
+      </label>
+    </li>
+    `;
+    return markup;
   }
 
   initializeListSelect(data) {
