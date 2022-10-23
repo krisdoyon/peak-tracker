@@ -10,7 +10,8 @@
     font-weight: 700;
   }
 
-  &__peaks {
+  &__peaks,
+  &__lists {
     display: flex;
     flex-direction: column;
   }
