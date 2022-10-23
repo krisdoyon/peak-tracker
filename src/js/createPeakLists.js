@@ -37,18 +37,8 @@ const uniquePeaks = [
   ).values(),
 ];
 
-const peakMap = new Map();
-
-const elevationMap = new Map();
-
-uniquePeaks.forEach((peak) => {
-  peakMap.set(peak.id, peak.name);
-});
-
-uniquePeaks.forEach((peak) => elevationMap.set(peak.id, peak.elevation));
-
 peakListsArr.sort((a, b) =>
   a.title.toLowerCase().localeCompare(b.title.toLowerCase())
 );
 
-export { peakListsArr, peakMap, elevationMap };
+export { peakListsArr, uniquePeaks };
