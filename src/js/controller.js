@@ -1,20 +1,22 @@
 import * as model from "./model.js";
-import logView from "./views/logView.js";
+import logPreviewView from "./views/logPreviewView.js";
+import logEntryView from "./views/logEntryView.js";
 import newEntryView from "./views/newEntryView.js";
 import mainView from "./views/mainView.js";
 import mapView from "./views/mapView.js";
-import peakListView from "./views/peakListView.js";
+import peakListPreviewView from "./views/peakListPreviewView.js";
+import peakListTableView from "./views/peakListTableView.js";
 
 /////////////////////////////////////////////////////////////////////////////////
 // MAIN VIEW
 
 const controlBtnBack = function (containerID) {
   mainView.showContainer(containerID);
-  if (containerID === "all-peak-lists") {
-    peakListView.renderPeakListsPreview(model.getPreviewData());
+  if (containerID === "peak-list-preview") {
+    peakListPreviewView.render(model.getPreviewData());
   }
   if (containerID === "log-preview") {
-    logView.renderLogPreview(model.getLogEntries(model.state.currentLogSelect));
+    logPreviewView.render(model.getLogEntries(model.state.currentLogSelect));
   }
   mapView.clearMap();
 };
@@ -34,10 +36,10 @@ const controlMainNav = function (containerID) {
   }
   mainView.showContainer(containerID);
   if (containerID === "log-preview") {
-    logView.renderLogPreview(model.getLogEntries(model.state.currentLogSelect));
+    logPreviewView.render(model.getLogEntries(model.state.currentLogSelect));
   }
-  if (containerID === "all-peak-lists") {
-    peakListView.renderPeakListsPreview(model.getPreviewData());
+  if (containerID === "peak-list-preview") {
+    peakListPreviewView.render(model.getPreviewData());
   }
 };
 
@@ -65,15 +67,15 @@ const controlLocation = async function () {
 /////////////////////////////////////////////////////////////////////////////////
 // PEAK LISTS
 
-const controlPeakListTable = function (listID) {
-  mainView.showContainer("single-peak-list");
-  peakListView.renderPeakListTable(model.getTableData(listID));
+const controlShowTable = function (listID) {
+  mainView.showContainer("peak-list-table");
+  peakListTableView.render(model.getTableData(listID));
   mapView.plotPeaksOnMap(model.getMapData("list", listID));
 };
 
 const controlPeakListPreview = function (previewType) {
   model.setCurrentPreviewView(previewType);
-  peakListView.renderPeakListsPreview(model.getPreviewData());
+  peakListPreviewView.render(model.getPreviewData());
 };
 
 const controlLogTrip = function (listID, checkedID) {
@@ -88,7 +90,7 @@ const controlSavedListsPreview = function (listID) {
   } else {
     model.removeSavedList(listID);
   }
-  peakListView.renderPeakListsPreview(model.getPreviewData());
+  peakListPreviewView.render(model.getPreviewData());
 };
 
 const controlSavedListsTable = function (listID) {
@@ -97,16 +99,16 @@ const controlSavedListsTable = function (listID) {
   } else {
     model.removeSavedList(listID);
   }
-  peakListView.renderPeakListTable(model.getTableData(listID));
+  peakListTableView.render(model.getTableData(listID));
 };
 
-const controlTableHover = function (peakID) {
+const controlTableRowHover = function (peakID) {
   mapView.openPopup(peakID);
 };
 
-const controlSortTable = function (listID, sortType) {
+const controlTableSort = function (listID, sortType) {
   model.setCurrentTableSort(sortType);
-  peakListView.renderPeakListTable(model.getTableData(listID));
+  peakListTableView.render(model.getTableData(listID));
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +116,7 @@ const controlSortTable = function (listID, sortType) {
 
 const controlShowLogEntry = function (logID) {
   mainView.showContainer("log-entry");
-  logView.renderLogEntry(model.getLogEntry(logID));
+  logEntryView.render(model.getLogEntry(logID));
   mapView.plotPeaksOnMap(model.getMapData("log", logID));
 };
 
@@ -122,7 +124,7 @@ const controlDeleteLogEntry = function (logID) {
   model.removeLogEntry(logID);
   mainView.showContainer("log-preview");
   mapView.clearMap();
-  logView.renderLogPreview(model.getLogEntries());
+  logPreviewView.render(model.getLogEntries());
 };
 
 const controlLogAddEntry = function () {
@@ -131,7 +133,7 @@ const controlLogAddEntry = function () {
 
 const controlLogSelect = function (listID) {
   model.setCurrentLogSelect(listID);
-  logView.renderLogPreview(model.getLogEntries());
+  logPreviewView.render(model.getLogEntries());
 };
 
 const controlLogListView = function (type, id) {
@@ -149,7 +151,7 @@ const controlClearForm = function () {
 const controlFormAddEntry = function (formData) {
   const logID = model.addLogEntry(formData);
   mainView.showContainer("log-entry");
-  logView.renderLogEntry(model.getLogEntry(logID));
+  logEntryView.render(model.getLogEntry(logID));
   mapView.plotPeaksOnMap(model.getMapData("log", logID));
 };
 
@@ -175,20 +177,20 @@ const init = function () {
   mainView.addHandlerBtnBack(controlBtnBack);
   mainView.addHandlerLoadData(controlLoadData);
   mainView.addHandlerClearAllData(controlClearAllData);
-  peakListView.addHandlerPeakListView(controlPeakListTable);
-  peakListView.addHandlerLogTrip(controlLogTrip);
-  peakListView.addHandlerSavedListsPreview(controlSavedListsPreview);
-  peakListView.addHandlerSavedListsTable(controlSavedListsTable);
-  peakListView.addHandlerPeakListPreview(controlPeakListPreview);
-  peakListView.addHandlerSortTable(controlSortTable);
-  peakListView.addHandlerTableRowHover(controlTableHover);
-  logView.initializeListSelect(model.getSelectData());
-  logView.addHandlerShowEntry(controlShowLogEntry);
-  logView.addHandlerDeleteEntryPreview(controlDeleteLogEntry);
-  logView.addHandlerDeleteEntry(controlDeleteLogEntry);
-  logView.addHandlerAddEntry(controlLogAddEntry);
-  logView.addHandlerLogSelect(controlLogSelect);
-  logView.addHandlerView(controlLogListView);
+  peakListPreviewView.addHandlerViewTable(controlShowTable);
+  peakListPreviewView.addHandlerSavedLists(controlSavedListsPreview);
+  peakListPreviewView.addHandlerPreviewType(controlPeakListPreview);
+  peakListTableView.addHandlerSortTable(controlTableSort);
+  peakListTableView.addHandlerRowHover(controlTableRowHover);
+  peakListTableView.addHandlerSavedLists(controlSavedListsTable);
+  peakListTableView.addHandlerLogTrip(controlLogTrip);
+  logPreviewView.initializeListSelect(model.getSelectData());
+  logPreviewView.addHandlerShowEntry(controlShowLogEntry);
+  logPreviewView.addHandlerDeleteEntry(controlDeleteLogEntry);
+  logPreviewView.addHandlerAddEntry(controlLogAddEntry);
+  logPreviewView.addHandlerLogSelect(controlLogSelect);
+  logEntryView.addHandlerDeleteEntry(controlDeleteLogEntry);
+  logEntryView.addHandlerViewMap(controlLogListView);
 };
 
 init();
