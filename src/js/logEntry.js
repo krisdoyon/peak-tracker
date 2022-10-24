@@ -3,47 +3,64 @@ import { uniquePeaks } from "./createPeakLists.js";
 export class LogEntry {
   peaks = [];
   constructor(formData, logID, lists) {
-    this.date = new Date(formData.date);
     formData.peakIDs.forEach((peakID) =>
       this.peaks.push(uniquePeaks.find((peak) => peak.id === peakID))
     );
     this.stats = {
-      elevation: +formData.elevation,
-      distance: +formData.distance,
-      minutes: +formData.minutes,
-      hours: +formData.hours,
+      elevation: +formData.elevation || null,
+      distance: +formData.distance || null,
+      minutes: +formData.minutes || null,
+      hours: +formData.hours || null,
     };
     this.notes = formData.notes;
     this.rating = +formData.rating;
     this.logID = logID;
     this.lists = lists;
-    this.#init();
+    this.#setPeakString();
+    this.#setDate(formData.date);
+    this.#setStats();
   }
 
-  #init() {
+  #setPeakString() {
     const peakNames = this.peaks.map((peak) => peak.name);
     this.peakString =
       peakNames.length > 1
         ? peakNames.slice(0, -1).join(", ") + " and " + peakNames.slice(-1)
         : peakNames[0];
+  }
 
-    this.shortDate = new Intl.DateTimeFormat("en-US", {
-      day: "2-digit",
-      year: "numeric",
-      month: "2-digit",
-    }).format(this.date);
+  #setDate(date) {
+    const fullDate = new Date(`${date}T00:00:00`);
+    this.date = {
+      fullDate,
+      day: new Intl.DateTimeFormat("en-US", { day: "2-digit" }).format(
+        fullDate
+      ),
+      month: {
+        numeric: new Intl.DateTimeFormat("en-US", { month: "2-digit" }).format(
+          fullDate
+        ),
+        alpha: new Intl.DateTimeFormat("en-US", { month: "long" }).format(
+          fullDate
+        ),
+      },
+      year: new Intl.DateTimeFormat("en-US", { year: "numeric" }).format(
+        fullDate
+      ),
+    };
+  }
 
-    this.longDate = new Intl.DateTimeFormat("en-US", {
-      day: "2-digit",
-      year: "numeric",
-      month: "long",
-    }).format(this.date);
-
-    if (this.hours && this.min)
-      this.time = Math.round((this.hours + this.min / 60) * 10) / 10;
-    if (this.distance && this.time)
-      this.avgSpeed = Math.round((this.distance / this.time) * 10) / 10;
-    if (this.elevation && this.distance)
-      this.avgElevation = Math.round(this.elevation / this.distance);
+  #setStats() {
+    if (this.stats.hours || this.stats.minutes) {
+      this.stats.time =
+        Math.round((this.stats.hours + this.stats.minutes / 60) * 10) / 10;
+    }
+    if (this.stats.distance && this.stats.time)
+      this.stats.avgSpeed =
+        Math.round((this.stats.distance / this.stats.time) * 10) / 10;
+    if (this.stats.elevation && this.stats.distance)
+      this.stats.avgElevation = Math.round(
+        this.stats.elevation / this.stats.distance
+      );
   }
 }
