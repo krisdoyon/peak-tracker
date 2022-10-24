@@ -77,11 +77,12 @@ const writeJSON = function (title, listID) {
   );
 };
 
-writeJSON("Colorado 14ers", "co14");
-writeJSON("Maine 4,000 Footers", "me4k");
-writeJSON("New Hampshire 4,000 Footers", "nh4k");
-writeJSON("Vermont 4,000 Footers", "vt4k");
-writeJSON("New England State Highpoints", "neHigh");
-writeJSON("Adirondack High Peaks", "adk46");
-writeJSON("New England 4,000 Footers", "ne4k");
-writeJSON("New England 100 Highest", "ne100");
+// writeJSON("Colorado 14ers", "co14");
+// writeJSON("Maine 4,000 Footers", "me4k");
+// writeJSON("New Hampshire 4,000 Footers", "nh4k");
+// writeJSON("Vermont 4,000 Footers", "vt4k");
+// writeJSON("New England State Highpoints", "neHigh");
+// writeJSON("Adirondack High Peaks", "adk46");
+// writeJSON("New England 4,000 Footers", "ne4k");
+// writeJSON("New England 100 Highest", "ne100");
+writeJSON("USA State Highpoints", "usHigh");

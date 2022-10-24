@@ -6,6 +6,7 @@ import ne4kJSON from "../json/ne4k.json";
 import neHighJSON from "../json/neHigh.json";
 import nh4kJSON from "../json/nh4k.json";
 import vt4kJSON from "../json/vt4k.json";
+import usHighJSON from "../json/usHigh.json";
 
 class PeakList {
   constructor(data) {
@@ -26,8 +27,19 @@ const ne4k = new PeakList(ne4kJSON);
 const neHigh = new PeakList(neHighJSON);
 const nh4k = new PeakList(nh4kJSON);
 const vt4k = new PeakList(vt4kJSON);
+const usHigh = new PeakList(usHighJSON);
 
-const peakListsArr = [adk46, co14, me4k, ne100, ne4k, neHigh, nh4k, vt4k];
+const peakListsArr = [
+  adk46,
+  co14,
+  me4k,
+  ne100,
+  ne4k,
+  neHigh,
+  nh4k,
+  vt4k,
+  usHigh,
+];
 
 const uniquePeaks = [
   ...new Map(
