@@ -5,7 +5,11 @@ class LogPreviewView extends LogView {
   #noEntries;
   _container = document.querySelector(".container-log-preview");
   #logEntriesPreviewEl = document.querySelector(".log-entries-preview");
-  #chooseListSelect = document.querySelector("#choose-list-log-preview");
+  #listSelect = document.querySelector("#select-list-log-preview");
+  #monthSelect = document.querySelector("#select-month-log-preview");
+  #yearSelect = document.querySelector("#select-year-log-preview");
+  #allSelects = [this.#listSelect, this.#monthSelect, this.#yearSelect];
+
   #btnAddEntry = this._container.querySelector(".btn-add-entry");
   #noEntriesMessage = this._container.querySelector(".no-data__message");
   #noLogEntries = document.querySelector(".no-log-entries");
@@ -28,18 +32,42 @@ class LogPreviewView extends LogView {
     );
   }
 
-  addHandlerLogSelect(handler) {
-    this.#chooseListSelect.addEventListener("change", function (e) {
-      const listID = e.target.value;
-      handler(listID);
-    });
+  addHandlerLogSelects(handler) {
+    this.#allSelects.forEach((select) =>
+      select.addEventListener(
+        "change",
+        function () {
+          const listID = this.#listSelect.value;
+          const month = this.#monthSelect.value;
+          const year = this.#yearSelect.value;
+          const currentSelectValues = { listID, month, year };
+          handler(currentSelectValues);
+        }.bind(this)
+      )
+    );
   }
 
   initializeListSelect(data) {
-    this.#chooseListSelect.insertAdjacentHTML(
+    this.#listSelect.insertAdjacentHTML(
       "beforeend",
-      data.map((list) => this.#generateSelectRowMarkup(list)).join("")
+      data.map((list) => this.#generateListSelectRowMarkup(list)).join("")
     );
+  }
+
+  updateYearSelect(logYears) {
+    if (logYears.length) {
+      this.#yearSelect.options.length = 0;
+      this.#yearSelect.insertAdjacentHTML(
+        "beforeend",
+        this.#generateYearSelectRowMarkup("all", "All years")
+      );
+      this.#yearSelect.insertAdjacentHTML(
+        "beforeend",
+        logYears
+          .map((year) => this.#generateYearSelectRowMarkup(year, year))
+          .join("")
+      );
+    }
   }
 
   render(data) {
@@ -73,7 +101,9 @@ class LogPreviewView extends LogView {
       ${this._generateDeleteButtonMarkup(entry)}
       <div class="preview-list__info">
         <h2 class="preview-list__label-primary">
-          <strong>${entry.longDate} </strong> - ${entry.peaks.length} ${
+          <strong>${entry.date.month.alpha} ${entry.date.day}, ${
+      entry.date.year
+    } </strong> - ${entry.peaks.length} ${
       entry.peaks.length > 1 ? "Peaks" : "Peak"
     }
         </h2>
@@ -85,8 +115,13 @@ class LogPreviewView extends LogView {
     return markup;
   }
 
-  #generateSelectRowMarkup(list) {
+  #generateListSelectRowMarkup(list) {
     const markup = `<option value="${list.listID}">${list.title}</option>`;
+    return markup;
+  }
+
+  #generateYearSelectRowMarkup(value, text) {
+    const markup = `<option value="${value}">${text}</option>`;
     return markup;
   }
 
