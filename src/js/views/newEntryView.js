@@ -82,7 +82,6 @@ class newEntryView {
           notes: this.#inputNotes.value,
           rating: this.#getRating(),
         };
-        console.log(formData);
         handler(formData);
         this.clearForm();
       }.bind(this)
