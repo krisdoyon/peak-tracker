@@ -29,7 +29,7 @@ class LogEntryView extends LogView {
     this.#logEntryLabelNumber.textContent = `${entry.peaks.length} ${
       entry.peaks.length > 1 ? "Peaks" : "Peak"
     }`;
-    this.#logEntryHeading.textContent = `${entry.longDate}`;
+    this.#logEntryHeading.textContent = `${entry.date.month.alpha} ${entry.date.day}, ${entry.date.year}`;
     this.#btnDeleteWrapper.innerHTML = `${this._generateDeleteButtonMarkup(
       entry,
       "small"
@@ -43,6 +43,7 @@ class LogEntryView extends LogView {
   // PRIVATE METHODS
 
   #generateLogEntryMarkup(entry) {
+    console.log(entry);
     const markup = `
       <span class="log-entry__label">Peak Lists:</span>
       <div class="log-entry__lists">${this.#generatePeakListMarkup(entry)}</div>
@@ -51,19 +52,25 @@ class LogEntryView extends LogView {
         entry.peaks.length
       }, max-content)">${this.#generatePeaksMarkup(entry)}</div>
       <span class="log-entry__label">Distance:</span>
-      <span>${entry.distance ? entry.distance + ` mi` : "n/a"}</span>
+      <span>${
+        entry.stats.distance ? entry.stats.distance + ` mi` : "n/a"
+      }</span>
       <span class="log-entry__label">Elevation Gain:</span>
       <span>${
-        entry.elevation ? entry.elevation.toLocaleString() + ` ft` : "n/a"
+        entry.stats.elevation
+          ? entry.stats.elevation.toLocaleString() + ` ft`
+          : "n/a"
       }</span>
       <span class="log-entry__label">Time:</span>
-      <span>${entry.time ? entry.time + ` hrs` : "n/a"}</span>
+      <span>${entry.stats.time ? entry.stats.time + ` hrs` : "n/a"}</span>
       <span class="log-entry__label">Avg Speed:</span>
-      <span>${entry.avgSpeed ? entry.avgSpeed + ` mi/hr` : "n/a"}</span>
+      <span>${
+        entry.stats.avgSpeed ? entry.stats.avgSpeed + ` mi/hr` : "n/a"
+      }</span>
       <span class="log-entry__label">Avg Elevation Gain:</span>
       <span>${
-        entry.avgElevation
-          ? entry.avgElevation.toLocaleString() + ` ft/mi`
+        entry.stats.avgElevation
+          ? entry.stats.avgElevation.toLocaleString() + ` ft/mi`
           : "n/a"
       }</span>
       <span class="log-entry__label">Rating:</span>
