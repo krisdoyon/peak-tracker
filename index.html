@@ -57,7 +57,7 @@
             </button>
           </li>
           <li class="main-nav__list-item">
-            <button class="btn main-nav__btn" data-display="all-peak-lists">
+            <button class="btn main-nav__btn" data-display="peak-list-preview">
               <span>Peak Lists</span
               ><svg class="main-nav__icon">
                 <use href="./src/img/sprite.svg#icon-mountain"></use>
@@ -104,8 +104,8 @@
       <!-- ALL PEAK LISTS CONTAINER -->
 
       <div
-        class="container container-all-peak-lists hidden"
-        data-nav-active="all-peak-lists"
+        class="container container-peak-list-preview hidden"
+        data-nav-active="peak-list-preview"
       >
         <div class="container__heading-wrapper no-border">
           <h2 class="container__heading">Peak Lists</h2>
@@ -133,11 +133,14 @@
       <!-- SINGLE PEAK LISTS CONTAINER -->
 
       <div
-        class="container container-single-peak-list hidden"
-        data-nav-active="all-peak-lists"
+        class="container container-peak-list-table hidden"
+        data-nav-active="peak-list-preview"
       >
         <div class="container__heading-grid">
-          <button class="btn btn-icon btn-back" data-display="all-peak-lists">
+          <button
+            class="btn btn-icon btn-back"
+            data-display="peak-list-preview"
+          >
             <svg class="btn-icon__icon">
               <use href="./src/img/sprite.svg#icon-arrow-left"></use>
             </svg>
