@@ -128,9 +128,9 @@ class LogPreviewView extends LogView {
   #showNoEntriesMessage() {
     const message = `
     You haven't added any log entries ${
-      this.#noEntries ? "" : "that include peaks from this list"
-    } yet.
-    Click the button below to log your first entry!
+      this.#noEntries ? "yet" : "that match the selected filters"
+    }. ${this.#noEntries ? "Click" : "Adjust the filters or click"}
+     the button below to log ${this.#noEntries ? "your first" : "a new"} entry!
     `;
     this.#noEntriesMessage.innerHTML = message;
     this.#noLogEntries.classList.remove("hidden");
