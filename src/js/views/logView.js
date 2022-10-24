@@ -15,6 +15,7 @@ class LogView {
   #logEntryEl = document.querySelector(".log-entry");
   #logEntryLabelNumber = document.querySelector(".log-entry__label-number");
   #logEntryHeading = document.querySelector(".log-entry__heading");
+  #peakListGrid = document.querySelector(".log-entry__lists");
   #btnAddEntry = document
     .querySelector(".container-log-preview")
     .querySelector(".btn-add-entry");
@@ -57,6 +58,16 @@ class LogView {
         const { logId } = clicked.dataset;
         handler(+logId);
       }
+    });
+  }
+
+  addHandlerView(handler) {
+    this.#logEntryEl.addEventListener("click", function (e) {
+      const clicked = e.target.closest(".btn-view--sm");
+      if (!clicked) return;
+      let { type, id } = clicked.dataset;
+      id = type === "log" ? +id : id;
+      handler(type, id);
     });
   }
 
@@ -105,24 +116,13 @@ class LogView {
   // PRIVATE METHODS
 
   #generateLogEntryMarkup(entry) {
-    let peaksStr = "";
-    entry.peaks.forEach(
-      (peak) =>
-        (peaksStr += `<span class='log-entry__peak'>${
-          peak.name
-        } - ${peak.elevation.toLocaleString()} ft</span>`)
-    );
-
-    let listStr = "";
-    entry.lists.titles.forEach((title) => {
-      listStr += `<span>${title}</span>`;
-    });
-
     const markup = `
       <span class="log-entry__label">Peak Lists:</span>
-      <div class="log-entry__lists">${listStr}</div>
+      <div class="log-entry__lists">${this.#generatePeakListMarkup(entry)}</div>
       <span class="log-entry__label">Peaks:</span>
-      <div class="log-entry__peaks">${peaksStr}</div>
+      <div class="log-entry__peaks" style="grid-template-rows:repeat(${
+        entry.peaks.length
+      }, max-content)">${this.#generatePeaksMarkup(entry)}</div>
       <span class="log-entry__label">Distance:</span>
       <span>${entry.distance ? entry.distance + ` mi` : "n/a"}</span>
       <span class="log-entry__label">Elevation Gain:</span>
@@ -215,6 +215,26 @@ class LogView {
     } else {
       markup = "n/a";
     }
+    return markup;
+  }
+
+  #generatePeaksMarkup(entry) {
+    let markup = "";
+    entry.peaks.forEach(
+      (peak) =>
+        (markup += `<span class='log-entry__peak'>${
+          peak.name
+        } - ${peak.elevation.toLocaleString()} ft</span>`)
+    );
+    markup += `<button class='btn btn--green btn-view--sm' data-type='log' data-id='${entry.logID}'>VIEW</button>`;
+    return markup;
+  }
+
+  #generatePeakListMarkup(entry) {
+    let markup = "";
+    entry.lists.titles.forEach((title, i) => {
+      markup += `<span>${title}</span><button class='btn btn--green btn-view--sm' data-type='list' data-id='${entry.lists.ids[i]}'>VIEW</button>`;
+    });
     return markup;
   }
 }

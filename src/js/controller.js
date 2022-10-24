@@ -134,6 +134,10 @@ const controlLogSelect = function (listID) {
   logView.renderLogPreview(model.getLogEntries());
 };
 
+const controlLogListView = function (type, id) {
+  mapView.plotPeaksOnMap(model.getMapData(type, id));
+};
+
 /////////////////////////////////////////////////////////////////////////////////
 // NEW ENTRY
 
@@ -184,6 +188,7 @@ const init = function () {
   logView.addHandlerDeleteEntry(controlDeleteLogEntry);
   logView.addHandlerAddEntry(controlLogAddEntry);
   logView.addHandlerLogSelect(controlLogSelect);
+  logView.addHandlerView(controlLogListView);
 };
 
 init();
