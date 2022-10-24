@@ -8,9 +8,11 @@ export let state = {
   completedPeaks: [],
   listCounts: {},
   currentPreviewView: "all",
-  currentLogSelect: "all",
+  currentLogSelect: { listID: "all", month: "all", year: "all" },
   currentTableSort: "elevation",
 };
+
+export let visitedThisSession = false;
 
 const getPeakList = function (listID, sortType) {
   const peakList = { ...peakListsArr.find((list) => list.listID === listID) };
@@ -38,14 +40,14 @@ const getPeakListsArr = function (previewType = "all") {
     ];
 };
 
-const setLogID = function () {
+const setLogEntryID = function () {
   const logID = state.logEntries.length
     ? Math.max(...state.logEntries.map((entry) => entry.logID)) + 1
     : 1;
   return logID;
 };
 
-const setLogLists = function (peakIDs) {
+const setLogEntryLists = function (peakIDs) {
   const allTitles = [];
   const allIDs = [];
   peakIDs.forEach((peakID) => {
@@ -66,7 +68,9 @@ const setLogLists = function (peakIDs) {
 };
 
 const sortLogEntries = function () {
-  state.logEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
+  return [...state.logEntries].sort(
+    (a, b) => new Date(b.date.fullDate) - new Date(a.date.fullDate)
+  );
 };
 
 const getMatchingListIDs = function (peakID) {
@@ -120,12 +124,22 @@ const initializeListCounts = function () {
   });
 };
 
+export const setSessionStorage = function () {
+  sessionStorage.setItem("visitedThisSession", true);
+};
+
+const getSessionStorage = function () {
+  if (sessionStorage.visitedThisSession) {
+    visitedThisSession = sessionStorage.getItem("visitedThisSession");
+  }
+};
+
 export const setCurrentPreviewView = function (previewType) {
   state.currentPreviewView = previewType;
 };
 
-export const setCurrentLogSelect = function (listID) {
-  state.currentLogSelect = listID;
+export const setCurrentLogSelect = function (currentValues) {
+  state.currentLogSelect = currentValues;
 };
 
 export const setCurrentTableSort = function (sortType) {
@@ -172,14 +186,12 @@ export const removeSavedList = function (listID) {
 };
 
 export const addLogEntry = function (data) {
-  const logID = setLogID();
-  const lists = setLogLists(data.peakIDs);
-  console.log(data);
+  const logID = setLogEntryID();
+  const lists = setLogEntryLists(data.peakIDs);
   const entry = new LogEntry(data, logID, lists);
   state.logEntries.unshift(entry);
-  sortLogEntries();
   setLocalStorage();
-  console.log(entry);
+
   return logID;
 };
 
@@ -197,13 +209,24 @@ export const getLogEntry = function (logID) {
 };
 
 export const getLogEntries = function () {
-  const listID = state.currentLogSelect;
+  const allEntries = sortLogEntries();
+  const { listID, month, year } = state.currentLogSelect;
+  let entries =
+    listID === "all"
+      ? allEntries
+      : allEntries.filter((entry) => entry.lists.ids.includes(listID));
+  entries =
+    month === "all"
+      ? entries
+      : entries.filter((entry) => entry.date.month.numeric === month);
+  entries =
+    year === "all"
+      ? entries
+      : entries.filter((entry) => entry.date.year === year);
+
   return {
-    noEntries: state.logEntries.length ? false : true,
-    entries:
-      listID === "all"
-        ? state.logEntries
-        : state.logEntries.filter((entry) => entry.lists.ids.includes(listID)),
+    noEntries: allEntries.length ? false : true,
+    entries,
   };
 };
 
@@ -229,7 +252,9 @@ export const getTableData = function (listID) {
         elevation: peak.elevation,
         state: peak.state,
         completed: logMatch ? true : false,
-        completedDate: logMatch ? logMatch.shortDate : false,
+        completedDate: logMatch
+          ? `${logMatch.date.month.numeric}/${logMatch.date.day}/${logMatch.date.year}`
+          : false,
       };
     }),
   };
@@ -270,14 +295,16 @@ export const getMapData = function (type, id) {
       return {
         ...peak,
         completed: state.completedPeaks.includes(peak.id) ? true : false,
-        completedDate: logMatch ? logMatch.shortDate : false,
+        completedDate: logMatch
+          ? `${logMatch.date.month.numeric}/${logMatch.date.day}/${logMatch.date.year}`
+          : false,
       };
     }),
     listID,
   };
 };
 
-export const getSelectData = function () {
+export const getListSelectData = function () {
   return getPeakListsArr("all").map((list) => {
     return {
       listID: list.listID,
@@ -286,18 +313,21 @@ export const getSelectData = function () {
   });
 };
 
+export const getLogYears = function (year) {
+  const years = state.logEntries.map((entry) => entry.date.year);
+  return [...new Set(years)].sort((a, b) => b - a);
+};
+
 export const loadTestData = function () {
   if (confirm("Loading test data will overwrite manual changes. Continue?")) {
     state = testData.state;
     setLocalStorage();
-    location.reload();
   }
 };
 
 export const clearAllData = function () {
   if (confirm("Are you sure you want to clear all data?")) {
     localStorage.clear();
-    location.reload();
   }
 };
 
@@ -305,6 +335,7 @@ const init = function () {
   getLocalStorage();
   initializeListCounts();
   setLocalStorage();
+  getSessionStorage();
 };
 
 init();
