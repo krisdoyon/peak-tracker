@@ -4,6 +4,7 @@ import logEntryView from "./views/logEntryView.js";
 import newEntryView from "./views/newEntryView.js";
 import mainView from "./views/mainView.js";
 import mapView from "./views/mapView.js";
+import modalView from "./views/modalView.js";
 import peakListPreviewView from "./views/peakListPreviewView.js";
 import peakListTableView from "./views/peakListTableView.js";
 
@@ -16,7 +17,7 @@ const controlBtnBack = function (containerID) {
     peakListPreviewView.render(model.getPreviewData());
   }
   if (containerID === "log-preview") {
-    logPreviewView.render(model.getLogEntries(model.state.currentLogSelect));
+    logPreviewView.render(model.getLogEntries());
   }
   mapView.clearMap();
 };
@@ -36,7 +37,7 @@ const controlMainNav = function (containerID) {
   }
   mainView.showContainer(containerID);
   if (containerID === "log-preview") {
-    logPreviewView.render(model.getLogEntries(model.state.currentLogSelect));
+    logPreviewView.render(model.getLogEntries());
   }
   if (containerID === "peak-list-preview") {
     peakListPreviewView.render(model.getPreviewData());
@@ -45,10 +46,22 @@ const controlMainNav = function (containerID) {
 
 const controlLoadData = function () {
   model.loadTestData();
+  logPreviewView.render(model.getLogEntries());
+  mainView.showContainer("log-preview");
 };
 
 const controlClearAllData = function () {
   model.clearAllData();
+  location.reload();
+};
+
+const controlOpenModal = function () {
+  modalView.openModal();
+};
+
+const controlFirstVisit = function () {
+  !model.visitedThisSession && modalView.openModal();
+  model.setSessionStorage();
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -131,8 +144,8 @@ const controlLogAddEntry = function () {
   mainView.showContainer("new-entry");
 };
 
-const controlLogSelect = function (listID) {
-  model.setCurrentLogSelect(listID);
+const controlLogSelects = function (currentValues) {
+  model.setCurrentLogSelect(currentValues);
   logPreviewView.render(model.getLogEntries());
 };
 
@@ -153,6 +166,7 @@ const controlFormAddEntry = function (formData) {
   mainView.showContainer("log-entry");
   logEntryView.render(model.getLogEntry(logID));
   mapView.plotPeaksOnMap(model.getMapData("log", logID));
+  logPreviewView.updateYearSelect(model.getLogYears());
 };
 
 const controlNewEntryDate = function (date) {
@@ -167,16 +181,13 @@ const controlPeakListSelect = function (listID) {
 const init = function () {
   mapView.loadMap();
   mapView.addHandlerGetLocation(controlLocation);
-  newEntryView.initializeListSelect(model.getSelectData());
-  newEntryView.addHandlerDate(controlNewEntryDate);
-  newEntryView.addHandlerPeakListSelect(controlPeakListSelect);
-  newEntryView.addHandlerAddEntry(controlFormAddEntry);
-  newEntryView.addHandlerClearForm(controlClearForm);
+  modalView.addHandlerLoadData(controlLoadData);
   mainView.addHandlerHideContainer(controlHideContainer);
   mainView.addHandlerMainNav(controlMainNav);
   mainView.addHandlerBtnBack(controlBtnBack);
   mainView.addHandlerLoadData(controlLoadData);
   mainView.addHandlerClearAllData(controlClearAllData);
+  mainView.addHandlerBtnAbout(controlOpenModal);
   peakListPreviewView.addHandlerViewTable(controlShowTable);
   peakListPreviewView.addHandlerSavedLists(controlSavedListsPreview);
   peakListPreviewView.addHandlerPreviewType(controlPeakListPreview);
@@ -184,13 +195,20 @@ const init = function () {
   peakListTableView.addHandlerRowHover(controlTableRowHover);
   peakListTableView.addHandlerSavedLists(controlSavedListsTable);
   peakListTableView.addHandlerLogTrip(controlLogTrip);
-  logPreviewView.initializeListSelect(model.getSelectData());
+  logPreviewView.initializeListSelect(model.getListSelectData());
+  logPreviewView.updateYearSelect(model.getLogYears());
   logPreviewView.addHandlerShowEntry(controlShowLogEntry);
   logPreviewView.addHandlerDeleteEntry(controlDeleteLogEntry);
   logPreviewView.addHandlerAddEntry(controlLogAddEntry);
-  logPreviewView.addHandlerLogSelect(controlLogSelect);
+  logPreviewView.addHandlerLogSelects(controlLogSelects);
   logEntryView.addHandlerDeleteEntry(controlDeleteLogEntry);
   logEntryView.addHandlerViewMap(controlLogListView);
+  newEntryView.initializeListSelect(model.getListSelectData());
+  newEntryView.addHandlerDate(controlNewEntryDate);
+  newEntryView.addHandlerPeakListSelect(controlPeakListSelect);
+  newEntryView.addHandlerAddEntry(controlFormAddEntry);
+  newEntryView.addHandlerClearForm(controlClearForm);
+  controlFirstVisit();
 };
 
 init();
