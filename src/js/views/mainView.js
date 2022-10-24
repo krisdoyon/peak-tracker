@@ -3,15 +3,16 @@ import icons from "../../img/sprite.svg";
 class MainView {
   #containerMain = document.querySelector(".container-main");
   #allContainers = [...document.querySelectorAll(".container")];
-  #btnCloseContainer = document.querySelector(".btn-close");
-  #btnLoadData = document.querySelector(".btn-load-data");
-  #btnClearData = document.querySelector(".btn-clear-data");
+  #btnCloseContainer = this.#containerMain.querySelector(".btn-close");
+  #btnLoadData = document.querySelector("#btn-load-data-map");
+  #btnClearData = document.querySelector("#btn-clear-data-map");
   #mainNavBtns = document.querySelectorAll(".main-nav__btn");
   #mainNavList = document.querySelector(".main-nav__list");
   #sidebarHidden = false;
   #sidebar = document.querySelector(".sidebar");
   #btnSidebar = document.querySelector(".sidebar__btn");
   #btnSidebarIcon = this.#btnSidebar.querySelector("use");
+  #btnAbout = document.querySelector(".btn-about");
 
   constructor() {
     this.#addHandlerSidebar();
@@ -51,6 +52,10 @@ class MainView {
     this.#btnClearData.addEventListener("click", handler);
   }
 
+  addHandlerBtnAbout(handler) {
+    this.#btnAbout.addEventListener("click", handler);
+  }
+
   showContainer(containerID) {
     const containerObj = this.#allContainers.find((container) =>
       container.classList.contains(`container-${containerID}`)
@@ -85,7 +90,6 @@ class MainView {
     this.#btnSidebar.addEventListener(
       "click",
       function () {
-        console.log(this.#btnSidebarIcon);
         this.#sidebarHidden = this.#sidebarHidden ? false : true;
         [this.#sidebar, this.#containerMain].forEach(
           (container) =>
