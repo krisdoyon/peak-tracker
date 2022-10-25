@@ -25,7 +25,6 @@
     <script type="module" src="./src/js/controller.js"></script>
   </head>
 
-  <body>
     <!-- WELCOME MODAL -->
 
     <div class="modal hidden">
@@ -52,7 +51,7 @@
             </button>
             <div class="modal__question-bubble">
               A "peakbagging list" is a list of mountain summits that all meet
-              certain criteria. For example, the New Hampshire 4,000 footers
+              a certain criteria. For example, the New Hampshire 4,000 footers
               list contains 48 peaks with an elevation over 4,000 feet.
             </div>
           </div>
@@ -65,8 +64,9 @@
             </svg>
             <h3 class="modal__feature-heading">Log Trips</h3>
             <p class="modal__feature-text">
-              Add and delete log entries with trip information including date, completed peaks, hiking
-              stats, notes and rating. Filter log entries by individual peak list or by date.
+              Add and delete log entries with trip information including date,
+              completed peaks, hiking stats, notes and rating. Filter log
+              entries by individual peak list or by date.
             </p>
           </div>
 
@@ -135,12 +135,12 @@
     <div class="overlay hidden"></div>
 
     <!-- SIDEBAR/NAVIGATION -->
-    <div class="sidebar">
+    <div class="sidebar preload">
       <nav class="main-nav">
         <ul class="main-nav__list">
           <li class="main-nav__list-item">
             <button
-              class="btn main-nav__btn main-nav__btn--active"
+              class="btn main-nav__btn"
               data-display="map"
             >
               <span>Map</span>
@@ -162,6 +162,14 @@
               <span>Trip Log</span>
               <svg class="main-nav__icon">
                 <use href="./src/img/sprite.svg#icon-book"></use>
+              </svg>
+            </button>
+          </li>
+          <li class="main-nav__list-item">
+            <button class="btn main-nav__btn" data-display="stats">
+              <span>Stats</span>
+              <svg class="main-nav__icon">
+                <use href="./src/img/sprite.svg#icon-chart"></use>
               </svg>
             </button>
           </li>
@@ -199,7 +207,7 @@
 
     <!-- MAIN CONTAINER -->
 
-    <div class="container-main hidden">
+    <div class="container-main preload hidden">
       <button class="btn btn-close">&times;</button>
 
       <!-- ALL PEAK LISTS CONTAINER -->
@@ -288,10 +296,10 @@
         </div>
         <div class="preview-wrapper select-preview-wrapper">
           <label for="select-list-log-preview">Filter by list:</label>
-          <select id="select-list-log-preview">
+          <select class="select-list" id="select-list-log-preview">
             <option value="all" selected>All lists</option>
           </select>
-          <label for="select-list-log-preview">Filter by date:</label>
+          <label for="select-month-log-preview">Filter by date:</label>
           <select id="select-month-log-preview">
             <option value="all" selected>All Months</option>
             <option value="01">January</option>
@@ -343,6 +351,38 @@
           </div>
         </div>
         <div class="log-entry"></div>
+      </div>
+
+      <div class="container container-stats hidden" data-nav-active="stats">
+        <div class="container__heading-wrapper no-border">
+          <h2 class="container__heading">Hiking Stats</h2>
+        </div>
+        <div class="preview-wrapper select-preview-wrapper">
+          <label for="select-list-stats">Filter by list:</label>
+          <select class="select-list" id="select-list-stats">
+            <option value="all" selected>All lists</option>
+          </select>
+          <label for="select-list-stats">Filter by date:</label>
+          <select id="select-month-stats">
+            <option value="all" selected>All Months</option>
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          <select id="select-year-stats">
+            <option value="all" selected>All years</option>
+          </select>
+        </div>
+        <div class="stats-grid"></div>
       </div>
 
       <!-- NEW ENTRY CONTAINER -->
