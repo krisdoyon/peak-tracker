@@ -1,6 +1,7 @@
 import { peakListsArr } from "./createPeakLists.js";
 import { LogEntry } from "./logEntry.js";
 import testData from "../json/testData.json";
+import modalView from "./views/modalView.js";
 
 export let state = {
   savedLists: [],
@@ -9,7 +10,10 @@ export let state = {
   listCounts: {},
   currentPreviewView: "all",
   currentLogSelect: { listID: "all", month: "all", year: "all" },
+  currentStatsSelect: { listID: "all", month: "all", year: "all" },
   currentTableSort: "elevation",
+  currentPeakListID: "",
+  sidebarHidden: false,
 };
 
 export let visitedThisSession = false;
@@ -134,18 +138,6 @@ const getSessionStorage = function () {
   }
 };
 
-export const setCurrentPreviewView = function (previewType) {
-  state.currentPreviewView = previewType;
-};
-
-export const setCurrentLogSelect = function (currentValues) {
-  state.currentLogSelect = currentValues;
-};
-
-export const setCurrentTableSort = function (sortType) {
-  state.currentTableSort = sortType;
-};
-
 export const getCoords = async function () {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(resolve, reject);
@@ -208,9 +200,21 @@ export const getLogEntry = function (logID) {
   return state.logEntries.find((entry) => entry.logID === logID);
 };
 
-export const getLogEntries = function () {
-  const allEntries = sortLogEntries();
+export const getLogEntries = function (selectValues) {
+  state.currentLogSelect = selectValues || state.currentLogSelect;
+  setLocalStorage();
   const { listID, month, year } = state.currentLogSelect;
+  const entries = filterLogEntries(listID, month, year);
+
+  return {
+    noEntries: state.logEntries.length ? false : true,
+    entries,
+    selectValues: { ...state.currentLogSelect },
+  };
+};
+
+const filterLogEntries = function (listID, month, year) {
+  const allEntries = sortLogEntries();
   let entries =
     listID === "all"
       ? allEntries
@@ -223,19 +227,27 @@ export const getLogEntries = function () {
     year === "all"
       ? entries
       : entries.filter((entry) => entry.date.year === year);
+  return entries;
+};
+
+export const getStatsData = function () {
+  const { listID, month, year } = state.currentStatsSelect;
+  const entries = filterLogEntries(listID, month, year);
 
   return {
-    noEntries: allEntries.length ? false : true,
-    entries,
+    noEntries: state.logEntries.length ? false : true,
   };
 };
 
-export const getTableData = function (listID) {
-  const list = getPeakList(listID, state.currentTableSort);
+export const getTableData = function (listID, sortType) {
+  state.currentTableSort = sortType || state.currentTableSort;
+  state.currentPeakListID = listID || state.currentPeakListID;
+  setLocalStorage();
+  const list = getPeakList(state.currentPeakListID, state.currentTableSort);
   const data = {
     listID: list.listID,
     title: list.title,
-    numCompleted: state.listCounts[listID],
+    numCompleted: state.listCounts[state.currentPeakListID],
     saved: state.savedLists.includes(list.listID) ? true : false,
     peakCount: list.peakCount,
     peaks: list.peaks.map((peak, i) => {
@@ -257,11 +269,15 @@ export const getTableData = function (listID) {
           : false,
       };
     }),
+    sortType: state.currentTableSort,
   };
+  console.log(data);
   return data;
 };
 
-export const getPreviewData = function () {
+export const getPreviewData = function (previewType) {
+  state.currentPreviewView = previewType || state.currentPreviewView;
+  setLocalStorage();
   const listArr = getPeakListsArr(state.currentPreviewView);
   const data = listArr.map((list) => {
     return {
@@ -278,8 +294,8 @@ export const getPreviewData = function () {
 export const getMapData = function (type, id) {
   let peaks, listID;
   if (type === "list") {
-    peaks = getPeakList(id).peaks;
-    listID = getPeakList(id).listID;
+    listID = id || state.currentPeakListID;
+    peaks = getPeakList(listID).peaks;
   }
   if (type === "log") {
     peaks = getLogEntry(id).peaks;
@@ -313,7 +329,7 @@ export const getListSelectData = function () {
   });
 };
 
-export const getLogYears = function (year) {
+export const getLogYears = function () {
   const years = state.logEntries.map((entry) => entry.date.year);
   return [...new Set(years)].sort((a, b) => b - a);
 };
@@ -329,6 +345,11 @@ export const clearAllData = function () {
   if (confirm("Are you sure you want to clear all data?")) {
     localStorage.clear();
   }
+};
+
+export const updateSidebarHidden = function () {
+  state.sidebarHidden = state.sidebarHidden ? false : true;
+  setLocalStorage();
 };
 
 const init = function () {
