@@ -27,7 +27,6 @@ const controlHideContainer = function () {
   mainView.hideContainer();
   newEntryView.clearForm();
   mapView.clearMap();
-  window.history.pushState(null, "", `/map`);
 };
 
 const controlMainNav = function (containerID) {
@@ -41,6 +40,10 @@ const controlMainNav = function (containerID) {
   mainView.showContainer(containerID);
   if (containerID === "log-preview") {
     logPreviewView.render(model.getLogEntries());
+  }
+  if (containerID === "log-entry") {
+    logEntryView.render(model.getLogEntry());
+    mapView.plotPeaksOnMap(model.getMapData("log"));
   }
   if (containerID === "peak-list-preview") {
     peakListPreviewView.render(model.getPreviewData());
@@ -88,7 +91,9 @@ const controlLocation = async function () {
     const { latitude, longitude } = pos.coords;
     mapView.setMapView([latitude, longitude]);
   } catch {
-    alert("Could not get your location");
+    alert(
+      "Could not get your location. You must have location services enabled to use this feature."
+    );
   }
 };
 
@@ -97,6 +102,7 @@ const controlLocation = async function () {
 
 const controlShowTable = function (listID) {
   mainView.showContainer("peak-list-table");
+
   peakListTableView.render(model.getTableData(listID));
   mapView.plotPeaksOnMap(model.getMapData("list", listID));
 };

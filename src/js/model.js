@@ -1,7 +1,6 @@
 import { peakListsArr } from "./createPeakLists.js";
 import { LogEntry } from "./logEntry.js";
 import testData from "../json/testData.json";
-import modalView from "./views/modalView.js";
 
 export let state = {
   savedLists: [],
@@ -13,6 +12,7 @@ export let state = {
   currentStatsSelect: { listID: "all", month: "all", year: "all" },
   currentTableSort: "elevation",
   currentPeakListID: "",
+  currentLogID: "",
   sidebarHidden: false,
 };
 
@@ -197,7 +197,9 @@ export const removeLogEntry = function (logID) {
 };
 
 export const getLogEntry = function (logID) {
-  return state.logEntries.find((entry) => entry.logID === logID);
+  state.currentLogID = logID || state.currentLogID;
+  setLocalStorage();
+  return state.logEntries.find((entry) => entry.logID === state.currentLogID);
 };
 
 export const getLogEntries = function (selectValues) {
@@ -298,7 +300,8 @@ export const getMapData = function (type, id) {
     peaks = getPeakList(listID).peaks;
   }
   if (type === "log") {
-    peaks = getLogEntry(id).peaks;
+    logID = id || state.currentLogID;
+    peaks = getLogEntry(logID).peaks;
   }
   return {
     peaks: peaks.map((peak) => {
