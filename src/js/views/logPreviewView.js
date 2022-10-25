@@ -71,10 +71,13 @@ class LogPreviewView extends LogView {
   }
 
   render(data) {
-    this.#data = data.entries;
+    this.#data = data;
     this.#noEntries = data.noEntries;
+    this.#listSelect.value = data.selectValues.listID;
+    this.#monthSelect.value = data.selectValues.month;
+    this.#yearSelect.value = data.selectValues.year;
     this.#logEntriesPreviewEl.innerHTML = "";
-    if (this.#data.length) {
+    if (this.#data.entries.length) {
       this.#noLogEntries.classList.add("hidden");
       this.#logEntriesPreviewEl.insertAdjacentHTML(
         "beforeend",
@@ -88,7 +91,7 @@ class LogPreviewView extends LogView {
   // PRIVATE METHODS
 
   #generatePreviewMarkup() {
-    return this.#data
+    return this.#data.entries
       .map((entry) => this.#generateSinglePreviewMarkup(entry))
       .join("");
   }

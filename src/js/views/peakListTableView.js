@@ -49,6 +49,7 @@ class PeakListTableView extends PeakListView {
 
   render(data) {
     this.#data = data;
+    this.#sortTableSelect.value = this.#data.sortType;
     this.#containerHeading.innerHTML = `${this.#data.title}`;
     this.#labelNumber.innerHTML = `${this.#data.numCompleted} of ${
       this.#data.peakCount
@@ -103,9 +104,7 @@ class PeakListTableView extends PeakListView {
     }"></use>
         </svg>
       </button>
-      <span>${
-        this.#data.saved ? "Remove from" : "Add to"
-      } my lists</span>`;
+      <span>${this.#data.saved ? "Remove from" : "Add to"} my lists</span>`;
     return markup;
   }
 }

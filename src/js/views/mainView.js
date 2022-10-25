@@ -8,18 +8,29 @@ class MainView {
   #btnClearData = document.querySelector("#btn-clear-data-map");
   #mainNavBtns = document.querySelectorAll(".main-nav__btn");
   #mainNavList = document.querySelector(".main-nav__list");
-  #sidebarHidden = false;
   #sidebar = document.querySelector(".sidebar");
   #btnSidebar = document.querySelector(".sidebar__btn");
   #btnSidebarIcon = this.#btnSidebar.querySelector("use");
   #btnAbout = document.querySelector(".btn-about");
 
   constructor() {
-    this.#addHandlerSidebar();
+    // this.#addHandlerSidebar();
     this.#addHandlerEscapeKeydown();
   }
 
   // PUBLIC METHODS
+
+  addHandlerLoadPage(handler) {
+    window.addEventListener(
+      "load",
+      function (e) {
+        const containerID = window.location.pathname.slice(1) || "map";
+        this.#containerMain.classList.remove("preload");
+        this.#sidebar.classList.remove("preload");
+        handler(containerID);
+      }.bind(this)
+    );
+  }
 
   addHandlerHideContainer(handler) {
     this.#btnCloseContainer.addEventListener("click", function () {
@@ -57,6 +68,7 @@ class MainView {
   }
 
   showContainer(containerID) {
+    window.history.pushState(null, "", `/${containerID}`);
     const containerObj = this.#allContainers.find((container) =>
       container.classList.contains(`container-${containerID}`)
     );
@@ -86,24 +98,18 @@ class MainView {
 
   // PRIVATE METHODS
 
-  #addHandlerSidebar() {
-    this.#btnSidebar.addEventListener(
-      "click",
-      function () {
-        this.#sidebarHidden = this.#sidebarHidden ? false : true;
-        [this.#sidebar, this.#containerMain].forEach(
-          (container) =>
-            (container.style.marginLeft = `${
-              this.#sidebarHidden ? "-18.2rem" : "0"
-            }`)
-        );
-        this.#btnSidebarIcon.setAttribute(
-          "href",
-          `${icons}#icon-${
-            this.#sidebarHidden ? "chevron-right" : "chevron-left"
-          }`
-        );
-      }.bind(this)
+  addHandlerSidebar(handler) {
+    this.#btnSidebar.addEventListener("click", handler);
+  }
+
+  toggleSidebar(sidebarHidden) {
+    [this.#sidebar, this.#containerMain].forEach(
+      (element) =>
+        (element.style.marginLeft = `${sidebarHidden ? "-18.2rem" : "0"}`)
+    );
+    this.#btnSidebarIcon.setAttribute(
+      "href",
+      `${icons}#icon-${sidebarHidden ? "chevron-right" : "chevron-left"}`
     );
   }
 
