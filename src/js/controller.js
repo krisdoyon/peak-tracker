@@ -7,6 +7,7 @@ import mapView from "./views/mapView.js";
 import modalView from "./views/modalView.js";
 import peakListPreviewView from "./views/peakListPreviewView.js";
 import peakListTableView from "./views/peakListTableView.js";
+import statsView from "./views/statsView.js";
 
 /////////////////////////////////////////////////////////////////////////////////
 // MAIN VIEW
@@ -26,11 +27,13 @@ const controlHideContainer = function () {
   mainView.hideContainer();
   newEntryView.clearForm();
   mapView.clearMap();
+  window.history.pushState(null, "", `/map`);
 };
 
 const controlMainNav = function (containerID) {
   mapView.clearMap();
   newEntryView.clearForm();
+
   if (containerID === "map") {
     mainView.hideContainer();
     return;
@@ -41,6 +44,13 @@ const controlMainNav = function (containerID) {
   }
   if (containerID === "peak-list-preview") {
     peakListPreviewView.render(model.getPreviewData());
+  }
+  if (containerID === "peak-list-table") {
+    peakListTableView.render(model.getTableData());
+    mapView.plotPeaksOnMap(model.getMapData("list"));
+  }
+  if (containerID === "stats") {
+    statsView.render();
   }
 };
 
@@ -62,6 +72,11 @@ const controlOpenModal = function () {
 const controlFirstVisit = function () {
   !model.visitedThisSession && modalView.openModal();
   model.setSessionStorage();
+};
+
+const controlSidebar = function () {
+  model.updateSidebarHidden();
+  mainView.toggleSidebar(model.state.sidebarHidden);
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -87,8 +102,7 @@ const controlShowTable = function (listID) {
 };
 
 const controlPeakListPreview = function (previewType) {
-  model.setCurrentPreviewView(previewType);
-  peakListPreviewView.render(model.getPreviewData());
+  peakListPreviewView.render(model.getPreviewData(previewType));
 };
 
 const controlLogTrip = function (listID, checkedID) {
@@ -120,8 +134,7 @@ const controlTableRowHover = function (peakID) {
 };
 
 const controlTableSort = function (listID, sortType) {
-  model.setCurrentTableSort(sortType);
-  peakListTableView.render(model.getTableData(listID));
+  peakListTableView.render(model.getTableData(listID, sortType));
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -144,9 +157,8 @@ const controlLogAddEntry = function () {
   mainView.showContainer("new-entry");
 };
 
-const controlLogSelects = function (currentValues) {
-  model.setCurrentLogSelect(currentValues);
-  logPreviewView.render(model.getLogEntries());
+const controlLogSelects = function (selectValues) {
+  logPreviewView.render(model.getLogEntries(selectValues));
 };
 
 const controlLogListView = function (type, id) {
@@ -182,12 +194,15 @@ const init = function () {
   mapView.loadMap();
   mapView.addHandlerGetLocation(controlLocation);
   modalView.addHandlerLoadData(controlLoadData);
+  mainView.addHandlerLoadPage(controlMainNav);
   mainView.addHandlerHideContainer(controlHideContainer);
   mainView.addHandlerMainNav(controlMainNav);
   mainView.addHandlerBtnBack(controlBtnBack);
   mainView.addHandlerLoadData(controlLoadData);
   mainView.addHandlerClearAllData(controlClearAllData);
   mainView.addHandlerBtnAbout(controlOpenModal);
+  mainView.addHandlerSidebar(controlSidebar);
+  mainView.toggleSidebar(model.state.sidebarHidden);
   peakListPreviewView.addHandlerViewTable(controlShowTable);
   peakListPreviewView.addHandlerSavedLists(controlSavedListsPreview);
   peakListPreviewView.addHandlerPreviewType(controlPeakListPreview);
