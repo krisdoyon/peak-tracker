@@ -43,7 +43,6 @@ class LogEntryView extends LogView {
   // PRIVATE METHODS
 
   #generateLogEntryMarkup(entry) {
-    console.log(entry);
     const markup = `
       <span class="log-entry__label">Peak Lists:</span>
       <div class="log-entry__lists">${this.#generatePeakListMarkup(entry)}</div>
