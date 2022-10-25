@@ -113,7 +113,7 @@ class MapView {
   #generatePopupMarkup(peak) {
     const markup = `<div class='peak-popup' data-id=${peak.id}>
         <span class='peak-popup__label-name'>${peak.name}</span>
-        <span class='peak-popup__label-elevation'>${peak.elevation} ft.</span>
+        <span class='peak-popup__label-elevation'>${peak.elevation.toLocaleString()} ft.</span>
         ${
           peak.completed
             ? this.#generateCompletedDateMarkup(peak)
