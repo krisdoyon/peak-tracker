@@ -14,7 +14,6 @@ class MainView {
   #btnAbout = document.querySelector(".btn-about");
 
   constructor() {
-    // this.#addHandlerSidebar();
     this.#addHandlerEscapeKeydown();
   }
 
@@ -85,6 +84,7 @@ class MainView {
   }
 
   hideContainer() {
+    window.history.pushState(null, "", `/map`);
     this.#containerMain.classList.add("hidden");
     this.#allContainers.forEach((container) =>
       container.classList.add("hidden")
