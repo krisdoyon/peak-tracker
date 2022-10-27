@@ -51,16 +51,17 @@ export class LogEntry {
   }
 
   #setStats() {
-    if (this.stats.hours || this.stats.minutes) {
-      this.stats.time =
-        Math.round((this.stats.hours + this.stats.minutes / 60) * 10) / 10;
-    }
-    if (this.stats.distance && this.stats.time)
-      this.stats.avgSpeed =
-        Math.round((this.stats.distance / this.stats.time) * 10) / 10;
-    if (this.stats.elevation && this.stats.distance)
-      this.stats.avgElevation = Math.round(
-        this.stats.elevation / this.stats.distance
-      );
+    this.stats.time =
+      this.stats.hours || this.stats.minutes
+        ? Math.round((this.stats.hours + this.stats.minutes / 60) * 10) / 10
+        : null;
+    this.stats.avgSpeed =
+      this.stats.distance && this.stats.time
+        ? Math.round((this.stats.distance / this.stats.time) * 10) / 10
+        : null;
+    this.stats.avgElevation =
+      this.stats.elevation && this.stats.distance
+        ? Math.round(this.stats.elevation / this.stats.distance)
+        : null;
   }
 }
