@@ -2,6 +2,7 @@ import icons from "../../img/sprite.svg";
 import PeakListView from "./peakListView.js";
 
 class PeakListTableView extends PeakListView {
+  href = "/peak-list-table";
   #data;
   _container = document.querySelector(".container-peak-list-table");
   #containerHeading = this._container.querySelector(".container__heading");
@@ -13,6 +14,7 @@ class PeakListTableView extends PeakListView {
     ".container__heading-button-wrapper"
   );
   #sortTableSelect = document.querySelector("#sort-table-select");
+  #description = document.querySelector(".peak-list-description");
   #tableBody = document.querySelector(".peak-list-table__body");
 
   // PUBLIC METHODS
@@ -48,21 +50,18 @@ class PeakListTableView extends PeakListView {
   }
 
   render(data) {
-    this.#data = data;
+    this.#data = data.data;
     this.#sortTableSelect.value = this.#data.sortType;
     this.#containerHeading.innerHTML = `${this.#data.title}`;
     this.#labelNumber.innerHTML = `${this.#data.numCompleted} of ${
       this.#data.peakCount
     } Peaks`;
-    this.#progressBarWrapper.innerHTML = `${this._generateProgressBarMarkup(
+    this.#progressBarWrapper.innerHTML = this._generateProgressBarMarkup(
       this.#data
-    )}`;
-    this.#btnSaveListWrapper.innerHTML = this.#generateSaveButtonMarkup();
-    this.#tableBody.innerHTML = "";
-    this.#tableBody.insertAdjacentHTML(
-      "beforeend",
-      this.#generateTableMarkup()
     );
+    this.#btnSaveListWrapper.innerHTML = this.#generateSaveButtonMarkup();
+    this.#description.innerHTML = data.data.description;
+    this.#tableBody.innerHTML = this.#generateTableMarkup();
   }
 
   // PRIVATE METHODS
