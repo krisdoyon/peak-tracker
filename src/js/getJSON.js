@@ -55,7 +55,7 @@ function writeGNISData(mtnsArr, state, id) {
 
 // writeGNISData(ne100HighestNamesVT, "vt", "ne100vt");
 
-const writeJSON = function (title, listID) {
+const writeJSON = function (title, listID, description) {
   const contents = fs.readFileSync(
     path.resolve(__dirname, `../txt/${listID}.txt`),
     "utf-8"
@@ -69,7 +69,8 @@ const writeJSON = function (title, listID) {
     title,
     listID,
     peakCount: peaks.length,
-    peaks: peaks,
+    peaks,
+    description,
   };
   fs.writeFileSync(
     path.resolve(__dirname, `../json/${listID}.json`),
@@ -77,12 +78,56 @@ const writeJSON = function (title, listID) {
   );
 };
 
-// writeJSON("Colorado 14ers", "co14");
-// writeJSON("Maine 4,000 Footers", "me4k");
-// writeJSON("New Hampshire 4,000 Footers", "nh4k");
-// writeJSON("Vermont 4,000 Footers", "vt4k");
-// writeJSON("New England State Highpoints", "neHigh");
-// writeJSON("Adirondack High Peaks", "adk46");
-// writeJSON("New England 4,000 Footers", "ne4k");
-// writeJSON("New England 100 Highest", "ne100");
-writeJSON("USA State Highpoints", "usHigh");
+writeJSON(
+  "Colorado 14ers",
+  "co14",
+  `The Colorado Fourteeners (14ers) are a collection of all summits over 14,000 ft. in elevation with at least 300 ft of topographic prominence across seven mountain ranges within the state of Colorado. Colorado is home to more fourteeners than any other state in the US. The tallest peak, Mt. Elbert, is the second tallest mountain in the lower 48 states.`
+);
+
+writeJSON(
+  "Maine 4,000 Footers",
+  "me4k",
+  `The Maine 4,000 Footers are a collection of summits over 4,000 ft. in elevation with at least 200 ft of topographic prominence across four mountain ranges within the state of Maine.The tallest mountain, Mt. Katahdin (Baxter Peak), is the Northern Terminus of the 2,000+ mile Appalachian Trail and the third tallest, Sugarloaf, is a popular ski mountain.`
+);
+
+writeJSON(
+  "New Hampshire 4,000 Footers",
+  "nh4k",
+  `The New Hampshire 4,000 Footers (NH 48) are a collection of summits over 4,000 ft. in elevation with at least 200 ft of topographic prominence within the state of New Hampshire. All summits are located within the White Mountain National Forest. More than 1/3 of the peaks are located directly along or in close proximity to the Appalachian Trail.`
+);
+
+writeJSON(
+  "Vermont 4,000 Footers",
+  "vt4k",
+  `The Vermont 4,000 Footers are a collection of summits over 4,000 ft. in elevation with at least 200 ft of topographic prominence within the state of Vermont. All five summits reside along the 272 mile “Long Trail”, the oldest long distance hiking trail in the United States.`
+);
+
+writeJSON(
+  "New England State Highpoints",
+  "neHigh",
+  `The New England State Highpoints are a collection of the highest points in each of the six states in New England. The highest point in Connecticut is not a mountain summit, but is on the border of Massachusetts on the slope of Mt. Frissell. It is one of only four states where the highest point is not a mountain summit (KS, DE and DC being the other three).`
+);
+
+writeJSON(
+  "Adirondack High Peaks",
+  "adk46",
+  `The Adirondack High Peaks (also known as the "46ers") are a collection of summits within Adirondack Park, the largest state park and largest publicly protected area in the lower 48 states. The original list was thought to contain all peaks over 4,000 ft. in elevation, but recent USGS surveys have shown four of the peaks slightly below this threshold.`
+);
+
+writeJSON(
+  "New England 4,000 Footers",
+  "ne4k",
+  `The New England 4,000 footers are a collection of summits over 4,000 ft. in elevation with at least 200 ft of topographic prominence spanning across the three northernmost states in New England (Maine, New Hampshire and Vermont).`
+);
+
+writeJSON(
+  "New England 100 Highest",
+  "ne100",
+  `The New England 100 Highest are a collection of the one hundred highest mountain summits in New England spanning across the three northernmost states in New England. Fifty-nine (59) of the summits lie in New Hampshire, 27 are in Maine and 14 are in Vermont.`
+);
+
+writeJSON(
+  "USA State Highpoints",
+  "usHigh",
+  `The USA State Highpoints are a collection of the highest points in each of the 50 United States plus the District of Columbia. Those actively attempting to complete this list are known as “highpointers”. Eight of the state highpoints are found in National Parks`
+);
