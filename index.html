@@ -17,8 +17,8 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- <link href="./src/sass/main.scss" rel="stylesheet" /> -->
-    <link href="./src/css/styles.css" rel="stylesheet" />
+    <link href="./src/sass/main.scss" rel="stylesheet" />
+    <!-- <link href="./src/css/styles.css" rel="stylesheet" /> -->
     <link href="./node_modules/leaflet/dist/leaflet.css" rel="stylesheet" />
     <script defer src="./node_modules/leaflet/dist/leaflet.js"></script>
     <script type="module" src="./src/js/controller.js"></script>
@@ -411,7 +411,7 @@
                 class="form-new-entry__stat-row invisible"
                 data-stat="distance"
               >
-                <input id="distance" min="0" max="99999" type="number" />
+                <input id="distance" min="0" max="9999" type="number" step='0.01'/>
                 <label class="form-new-entry__label-units">mi</label>
               </div>
               <label class="form-new-entry__label-secondary">Time:</label>
