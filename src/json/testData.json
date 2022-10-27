@@ -511,99 +511,7 @@
   },
   "peakPreview": {
     "previewType": "all",
-    "data": [
-      {
-        "listID": "adk46",
-        "title": "Adirondack High Peaks",
-        "saved": true,
-        "numCompleted": 3,
-        "peakCount": 46
-      },
-      {
-        "listID": "ca14",
-        "title": "California Fourteeners",
-        "saved": false,
-        "numCompleted": 0,
-        "peakCount": 12
-      },
-      {
-        "listID": "cat35",
-        "title": "Catskill High Peaks",
-        "saved": false,
-        "numCompleted": 0,
-        "peakCount": 35
-      },
-      {
-        "listID": "co14",
-        "title": "Colorado Fourteeners",
-        "saved": true,
-        "numCompleted": 5,
-        "peakCount": 53
-      },
-      {
-        "listID": "me4k",
-        "title": "Maine 4,000 Footers",
-        "saved": false,
-        "numCompleted": 0,
-        "peakCount": 14
-      },
-      {
-        "listID": "ne100",
-        "title": "New England 100 Highest",
-        "saved": false,
-        "numCompleted": 14,
-        "peakCount": 100
-      },
-      {
-        "listID": "ne4k",
-        "title": "New England 4,000 Footers",
-        "saved": false,
-        "numCompleted": 14,
-        "peakCount": 67
-      },
-      {
-        "listID": "neHigh",
-        "title": "New England State Highpoints",
-        "saved": true,
-        "numCompleted": 2,
-        "peakCount": 6
-      },
-      {
-        "listID": "nh4k",
-        "title": "New Hampshire 4,000 Footers",
-        "saved": true,
-        "numCompleted": 14,
-        "peakCount": 48
-      },
-      {
-        "listID": "nh52",
-        "title": "New Hampshire 52 With a View",
-        "saved": true,
-        "numCompleted": 2,
-        "peakCount": 52
-      },
-      {
-        "listID": "south6",
-        "title": "Southern Sixers",
-        "saved": false,
-        "numCompleted": 0,
-        "peakCount": 40
-      },
-      {
-        "listID": "usHigh",
-        "title": "USA State Highpoints",
-        "saved": false,
-        "numCompleted": 3,
-        "peakCount": 51
-      },
-      {
-        "listID": "vt4k",
-        "title": "Vermont 4,000 Footers",
-        "saved": false,
-        "numCompleted": 0,
-        "peakCount": 5
-      }
-    ],
+    "data": [],
     "page": 1,
     "resPerPage": 6
   },
@@ -617,5 +525,10 @@
     "page": 1,
     "resPerPage": 6
   },
-  "curLogEntry": {}
+  "curLogEntry": {},
+  "stats": {
+    "curSelectValues": { "listID": "all", "month": "all", "year": "all" },
+    "data": {}
+  },
+  "map": { "data": {} }
 }
