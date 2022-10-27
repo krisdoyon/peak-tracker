@@ -152,3 +152,33 @@
   text-transform: uppercase;
   font-weight: 500;
 }
+
+.btn-pagination {
+  background-color: var(--color-grey-light-1);
+  color: var(--color-grey-dark-2);
+  padding: 0.2rem 1rem;
+  font-size: 1.2rem;
+  grid-row: 1/-1;
+
+  &:hover {
+    background-color: var(--color-grey-light-2);
+  }
+
+  &--next {
+    justify-self: end;
+    grid-column: -2/-1;
+  }
+
+  &--prev {
+    justify-self: start;
+    grid-column: 1 / 2;
+  }
+}
+
+.btn-all-lists {
+  grid-column: 2;
+}
+
+.btn-saved-lists {
+  grid-column: 3;
+}
