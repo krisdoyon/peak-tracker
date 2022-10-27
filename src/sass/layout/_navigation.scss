@@ -29,7 +29,7 @@
     flex-direction: column;
     justify-items: center;
     row-gap: 0.6rem;
-    margin-bottom:2.4rem;
+    margin-bottom: 2.4rem;
   }
 
   &__copyright {
@@ -38,7 +38,7 @@
   }
 }
 
-.main-nav {
+.nav {
   &__list {
     list-style: none;
     display: flex;
@@ -70,7 +70,7 @@
       color: var(--color-green-primary);
       background-position: 100%;
 
-      .main-nav__icon {
+      .nav__icon {
         fill: var(--color-green-primary);
       }
     }
@@ -79,7 +79,7 @@
       color: var(--color-green-primary);
       background-color: #f7f7f7;
 
-      .main-nav__icon {
+      .nav__icon {
         fill: var(--color-green-primary);
       }
     }
