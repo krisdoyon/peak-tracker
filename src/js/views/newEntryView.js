@@ -1,6 +1,10 @@
 import icons from "../../img/sprite.svg";
+import View from "./view.js";
 
-class newEntryView {
+class newEntryView extends View {
+  href = "/new-entry";
+  _navBtn = document.querySelector("#nav-btn-new-entry");
+  _container = document.querySelector(".container-new-entry");
   #gridDate = document.querySelector(".form-new-entry__date-grid");
   #gridPeakCheckboxes = document.querySelector(
     ".form-new-entry__checkbox-grid"
@@ -24,6 +28,7 @@ class newEntryView {
   #btnAddEntry = document.querySelector("#add-entry");
 
   constructor() {
+    super();
     this.#addHandlerToggleStat();
     this.#addHandlerStarMouseover();
     this.#addHandlerStarMouseout();
@@ -61,19 +66,28 @@ class newEntryView {
       "click",
       function (e) {
         e.preventDefault();
-        if (!this.#inputDate.value) {
-          alert("Please enter a date");
+        const date = this.#inputDate.value;
+        if (!date) {
+          alert("Please enter a complete date in the format MM-DD-YYY");
+          return;
+        }
+
+        if (
+          +date.slice(0, 4) < 1900 ||
+          new Date(date).getTime() > new Date().getTime()
+        ) {
+          alert(`Please enter a date between 01-01-1900 and today`);
           return;
         }
 
         const peakIDs = this.#getCheckedPeaks();
         if (peakIDs.length <= 0) {
-          alert("Choose at least one peak from a list");
+          alert("Please choose at least one peak from a list");
           return;
         }
 
         const formData = {
-          date: this.#inputDate.value,
+          date,
           peakIDs,
           elevation: this.#inputElevation.value,
           distance: this.#inputDistance.value,
@@ -115,25 +129,13 @@ class newEntryView {
         this.#generateCheckboxMarkup(peak)
       )
     );
+    this.#chooseListSelect.value = data.listID;
     if (data.checkedID) {
-      this.#chooseListSelect.value = data.listID;
       const checkbox = [
         ...this.#gridPeakCheckboxes.querySelectorAll("input"),
       ].find((input) => +input.value === data.checkedID);
       checkbox.checked = true;
     }
-  }
-
-  #generateCheckboxMarkup(peak) {
-    const markup = `
-    <li>
-      <label class="form-new-entry__checkbox-container">${peak.name}
-        <input type="checkbox" value="${peak.id}"/>
-        <span class="form-new-entry__checkmark"></span>
-      </label>
-    </li>
-    `;
-    return markup;
   }
 
   initializeListSelect(data) {
@@ -147,23 +149,6 @@ class newEntryView {
 
   #addHandlerToggleStat() {
     this.#gridStats.addEventListener("click", this.#toggleStat.bind(this));
-  }
-
-  #toggleStat(e) {
-    e.preventDefault();
-    const clicked = e.target.closest(".btn-add-stat");
-    if (!clicked) return;
-    const icon = clicked.querySelector("use");
-    const row = this.#statRows.find(
-      (row) => row.dataset.stat === clicked.dataset.stat
-    );
-    if (row.classList.contains("invisible")) {
-      row.classList.remove("invisible");
-      icon.setAttribute("href", `${icons}#icon-remove`);
-    } else {
-      row.classList.add("invisible");
-      icon.setAttribute("href", `${icons}#icon-add`);
-    }
   }
 
   #addHandlerStarMouseover() {
@@ -232,6 +217,35 @@ class newEntryView {
   #clearStar(starBtn) {
     starBtn.querySelector("svg").classList.remove("btn-star__icon--full");
     starBtn.querySelector("use").setAttribute("href", `${icons}#icon-star`);
+  }
+
+  #generateCheckboxMarkup(peak) {
+    const markup = `
+    <li>
+      <label class="form-new-entry__checkbox-container">${peak.name}
+        <input type="checkbox" value="${peak.id}"/>
+        <span class="form-new-entry__checkmark"></span>
+      </label>
+    </li>
+    `;
+    return markup;
+  }
+
+  #toggleStat(e) {
+    e.preventDefault();
+    const clicked = e.target.closest(".btn-add-stat");
+    if (!clicked) return;
+    const icon = clicked.querySelector("use");
+    const row = this.#statRows.find(
+      (row) => row.dataset.stat === clicked.dataset.stat
+    );
+    if (row.classList.contains("invisible")) {
+      row.classList.remove("invisible");
+      icon.setAttribute("href", `${icons}#icon-remove`);
+    } else {
+      row.classList.add("invisible");
+      icon.setAttribute("href", `${icons}#icon-add`);
+    }
   }
 
   #getCheckedPeaks() {
