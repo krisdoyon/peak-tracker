@@ -9,6 +9,7 @@
   &--log-entries {
     grid-template-rows: repeat(6, 1fr);
   }
+
   &__entry {
     display: grid;
     grid-template-columns: max-content 1fr max-content;
@@ -16,7 +17,6 @@
     padding: 2rem;
     gap: 2.4rem;
     align-items: center;
-    // flex: 1;
   }
 
   &__entry:first-child {
@@ -104,4 +104,12 @@
   flex-direction: column;
   margin: 0 10rem;
   gap: 2rem;
+}
+
+.btn-all-lists {
+  grid-column: 2;
+}
+
+.btn-saved-lists {
+  grid-column: 3;
 }
