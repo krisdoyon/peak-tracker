@@ -1,0 +1,424 @@
+{
+  "title": "New Hampshire 52 With a View",
+  "listID": "nh52",
+  "peakCount": 52,
+  "peaks": [
+    {
+      "id": 872622,
+      "name": "Sandwich Mountain",
+      "lat": 43.9000705,
+      "long": -71.4981311,
+      "elevation": 3983,
+      "state": "NH"
+    },
+    {
+      "id": 872876,
+      "name": "Mt. Webster",
+      "lat": 44.1948092,
+      "long": -71.3878928,
+      "elevation": 3898,
+      "state": "NH"
+    },
+    {
+      "id": 870151,
+      "name": "Mt. Starr King",
+      "lat": 44.4344947,
+      "long": -71.4328572,
+      "elevation": 3891,
+      "state": "NH"
+    },
+    {
+      "id": 870384,
+      "name": "The Horn",
+      "lat": 44.5180243,
+      "long": -71.4000978,
+      "elevation": 3911,
+      "state": "NH"
+    },
+    {
+      "id": 872647,
+      "name": "Shelburne Moriah Mountain",
+      "lat": 44.3531843,
+      "long": -71.0988137,
+      "elevation": 3730,
+      "state": "NH"
+    },
+    {
+      "id": 870264,
+      "name": "Sugarloaf Mountain",
+      "lat": 44.7444935,
+      "long": -71.4675847,
+      "elevation": 3632,
+      "state": "NH"
+    },
+    {
+      "id": 872388,
+      "name": "North Baldface",
+      "lat": 44.2430039,
+      "long": -71.0872944,
+      "elevation": 3609,
+      "state": "NH"
+    },
+    {
+      "id": 872754,
+      "name": "Mt. Success",
+      "lat": 44.4715308,
+      "long": -71.0392432,
+      "elevation": 3566,
+      "state": "NH"
+    },
+    {
+      "id": 872692,
+      "name": "South Baldface",
+      "lat": 44.2309664,
+      "long": -71.0780643,
+      "elevation": 3570,
+      "state": "NH"
+    },
+    {
+      "id": 871679,
+      "name": "Mt. Chocorua",
+      "lat": 43.9542292,
+      "long": -71.2734042,
+      "elevation": 3474,
+      "state": "NH"
+    },
+    {
+      "id": 872727,
+      "name": "Stairs Mountain",
+      "lat": 44.1556126,
+      "long": -71.3195871,
+      "elevation": 3458,
+      "state": "NH"
+    },
+    {
+      "id": 872102,
+      "name": "Jennings Peak",
+      "lat": 43.9112492,
+      "long": -71.5105008,
+      "elevation": 3442,
+      "state": "NH"
+    },
+    {
+      "id": 871418,
+      "name": "Mt. Avalon",
+      "lat": 44.2064609,
+      "long": -71.4283253,
+      "elevation": 3412,
+      "state": "NH"
+    },
+    {
+      "id": 1916321,
+      "name": "North Percy Peak",
+      "lat": 44.6633851,
+      "long": -71.4356387,
+      "elevation": 3379,
+      "state": "NH"
+    },
+    {
+      "id": 872565,
+      "name": "Mt. Resolution",
+      "lat": 44.1475708,
+      "long": -71.3139982,
+      "elevation": 3405,
+      "state": "NH"
+    },
+    {
+      "id": 868234,
+      "name": "Magalloway Mountain",
+      "lat": 45.0631032,
+      "long": -71.1645188,
+      "elevation": 3346,
+      "state": "NH"
+    },
+    {
+      "id": 872828,
+      "name": "Mt. Tremont",
+      "lat": 44.0534857,
+      "long": -71.3567806,
+      "elevation": 3363,
+      "state": "NH"
+    },
+    {
+      "id": 872816,
+      "name": "Three Sisters",
+      "lat": 43.9621751,
+      "long": -71.272107,
+      "elevation": 3327,
+      "state": "NH"
+    },
+    {
+      "id": 872126,
+      "name": "Kearsarge North",
+      "lat": 44.1058615,
+      "long": -71.0940653,
+      "elevation": 3271,
+      "state": "NH"
+    },
+    {
+      "id": 868282,
+      "name": "Mt. Martha",
+      "lat": 44.3306868,
+      "long": -71.4992034,
+      "elevation": 3550,
+      "state": "NH"
+    },
+    {
+      "id": 869960,
+      "name": "Smarts Mountain",
+      "lat": 43.8256166,
+      "long": -72.0389802,
+      "elevation": 3232,
+      "state": "NH"
+    },
+    {
+      "id": 872897,
+      "name": "West Royce Mountain",
+      "lat": 44.3024756,
+      "long": -71.0182785,
+      "elevation": 3195,
+      "state": "NH"
+    },
+    {
+      "id": 872465,
+      "name": "Mt. Paugus",
+      "lat": 43.9514212,
+      "long": -71.329085,
+      "elevation": 3169,
+      "state": "NH"
+    },
+    {
+      "id": 872402,
+      "name": "North Moat Mountain",
+      "lat": 44.0431627,
+      "long": -71.214619,
+      "elevation": 3189,
+      "state": "NH"
+    },
+    {
+      "id": 872070,
+      "name": "Imp Face",
+      "lat": 44.3217366,
+      "long": -71.1880888,
+      "elevation": 3163,
+      "state": "NH"
+    },
+    {
+      "id": 868516,
+      "name": "Mt. Monadnock",
+      "lat": 42.8611939,
+      "long": -72.1092489,
+      "elevation": 3041,
+      "state": "NH"
+    },
+    {
+      "id": 865998,
+      "name": "Mt. Cardigan",
+      "lat": 43.6497949,
+      "long": -71.9148048,
+      "elevation": 3123,
+      "state": "NH"
+    },
+    {
+      "id": 871741,
+      "name": "Mt. Crawford",
+      "lat": 44.1366169,
+      "long": -71.3322305,
+      "elevation": 3094,
+      "state": "NH"
+    },
+    {
+      "id": 872397,
+      "name": "North Doublehead",
+      "lat": 44.167867,
+      "long": -71.130261,
+      "elevation": 3045,
+      "state": "NH"
+    },
+    {
+      "id": 872455,
+      "name": "Mt. Parker",
+      "lat": 44.1236081,
+      "long": -71.2985564,
+      "elevation": 3002,
+      "state": "NH"
+    },
+    {
+      "id": 869884,
+      "name": "Mt. Shaw",
+      "lat": 43.7420203,
+      "long": -71.2734035,
+      "elevation": 2920,
+      "state": "NH"
+    },
+    {
+      "id": 871842,
+      "name": "Eastman Mountain",
+      "lat": 44.2157975,
+      "long": -71.0621019,
+      "elevation": 2926,
+      "state": "NH"
+    },
+    {
+      "id": 867821,
+      "name": "Mt. Kearsarge",
+      "lat": 43.3834092,
+      "long": -71.8570253,
+      "elevation": 2926,
+      "state": "NH"
+    },
+    {
+      "id": 872036,
+      "name": "Hibbard Mountain",
+      "lat": 43.9363434,
+      "long": -71.370819,
+      "elevation": 2930,
+      "state": "NH"
+    },
+    {
+      "id": 868617,
+      "name": "Mt. Cube",
+      "lat": 43.88577,
+      "long": -72.022969,
+      "elevation": 2913,
+      "state": "NH"
+    },
+    {
+      "id": 872744,
+      "name": "Stinson Mountain",
+      "lat": 43.8347371,
+      "long": -71.7791832,
+      "elevation": 2887,
+      "state": "NH"
+    },
+    {
+      "id": 872947,
+      "name": "Mt. Willard",
+      "lat": 44.2042235,
+      "long": -71.412854,
+      "elevation": 2848,
+      "state": "NH"
+    },
+    {
+      "id": 871524,
+      "name": "Black Mountain",
+      "lat": 44.074732,
+      "long": -71.9221092,
+      "elevation": 2828,
+      "state": "NH"
+    },
+    {
+      "id": 872271,
+      "name": "Mt. Meader",
+      "lat": 44.2692075,
+      "long": -71.053426,
+      "elevation": 2782,
+      "state": "NH"
+    },
+    {
+      "id": 872703,
+      "name": "South Moat Mountain",
+      "lat": 44.0175458,
+      "long": -71.1936791,
+      "elevation": 2762,
+      "state": "NH"
+    },
+    {
+      "id": 871525,
+      "name": "Black Mountain (Middle Peak)",
+      "lat": 43.885895,
+      "long": -71.5306309,
+      "elevation": 2723,
+      "state": "NH"
+    },
+    {
+      "id": 871785,
+      "name": "Welch & Dickey Mountains",
+      "lat": 43.9230081,
+      "long": -71.5786151,
+      "elevation": 2726,
+      "state": "NH"
+    },
+    {
+      "id": 872083,
+      "name": "Iron Mountain",
+      "lat": 44.1347815,
+      "long": -71.2392385,
+      "elevation": 2710,
+      "state": "NH"
+    },
+    {
+      "id": 872522,
+      "name": "Potash Mountain",
+      "lat": 43.9819434,
+      "long": -71.3907565,
+      "elevation": 2690,
+      "state": "NH"
+    },
+    {
+      "id": 871545,
+      "name": "Blueberry Mountain",
+      "lat": 44.0195018,
+      "long": -71.9049771,
+      "elevation": 2664,
+      "state": "NH"
+    },
+    {
+      "id": 872089,
+      "name": "Mt. Israel",
+      "lat": 43.8455256,
+      "long": -71.4718884,
+      "elevation": 2628,
+      "state": "NH"
+    },
+    {
+      "id": 873080,
+      "name": "Square Ledge Trail",
+      "lat": 43.9503486,
+      "long": -71.3575733,
+      "elevation": 2041,
+      "state": "NH"
+    },
+    {
+      "id": 869543,
+      "name": "Mt. Roberts",
+      "lat": 43.756464,
+      "long": -71.3264601,
+      "elevation": 2569,
+      "state": "NH"
+    },
+    {
+      "id": 872479,
+      "name": "Mt. Pemigewasset",
+      "lat": 44.0981891,
+      "long": -71.6996787,
+      "elevation": 2529,
+      "state": "NH"
+    },
+    {
+      "id": 872023,
+      "name": "Mt. Hayes",
+      "lat": 44.4158982,
+      "long": -71.1597747,
+      "elevation": 2543,
+      "state": "NH"
+    },
+    {
+      "id": 868422,
+      "name": "Middle Sugarloaf",
+      "lat": 44.2513222,
+      "long": -71.5173219,
+      "elevation": 2536,
+      "state": "NH"
+    },
+    {
+      "id": 872031,
+      "name": "Hedgehog Mountain",
+      "lat": 43.9745838,
+      "long": -71.367142,
+      "elevation": 2533,
+      "state": "NH"
+    }
+  ],
+  "description": "The New Hampshire 52 With a View are a collection of summits in the state of New Hampshire that are under 4,000 feet in elevation and have excellent views from the summit. This peak list was created by the “Over the Hill Hikers” group as an alternative to the New Hampshire 4,000 footers list. The majority of the peaks reside within the 800,000 acre White Mountain National Forest."
+}

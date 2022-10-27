@@ -1,126 +1,20 @@
 {
   "listCounts": {
     "adk46": 3,
+    "ca14": 0,
+    "cat35": 0,
     "co14": 5,
     "me4k": 0,
     "ne100": 14,
     "ne4k": 14,
-    "neHigh": 1,
+    "neHigh": 2,
     "nh4k": 14,
-    "usHigh": 1,
+    "nh52": 2,
+    "south6": 0,
+    "usHigh": 3,
     "vt4k": 0
   },
   "allLogEntries": [
-    {
-      "peaks": [
-        {
-          "id": 872150,
-          "name": "Mt. Lafayette",
-          "lat": 44.1608182,
-          "long": -71.6444575,
-          "elevation": 5236,
-          "state": "NH"
-        },
-        {
-          "id": 872176,
-          "name": "Mt. Lincoln",
-          "lat": 44.1489451,
-          "long": -71.6445258,
-          "elevation": 5085,
-          "state": "NH"
-        }
-      ],
-      "stats": {
-        "elevation": 3800,
-        "distance": 8.1,
-        "minutes": 15,
-        "hours": 6,
-        "time": 6.3,
-        "avgSpeed": 1.3,
-        "avgElevation": 469
-      },
-      "notes": "Hiked the Franconia Ridge Loop up Falling Waters Trail and down the Old Bridle Path. Chilly on the summits, saw a black bear on the way up!",
-      "rating": 5,
-      "logID": 7,
-      "lists": {
-        "ids": ["ne100", "ne4k", "nh4k"],
-        "titles": [
-          "New England 100 Highest",
-          "New England 4,000 Footers",
-          "New Hampshire 4,000 Footers"
-        ]
-      },
-      "peakString": "Mt. Lafayette and Mt. Lincoln",
-      "date": {
-        "fullDate": "2019-05-12T04:00:00.000Z",
-        "day": "12",
-        "month": { "numeric": "05", "alpha": "May" },
-        "year": "2019"
-      }
-    },
-    {
-      "peaks": [
-        {
-          "id": 872460,
-          "name": "Mt. Passaconaway",
-          "lat": 43.9547374,
-          "long": -71.3808824,
-          "elevation": 4045,
-          "state": "NH"
-        },
-        {
-          "id": 872833,
-          "name": "Mt. Tripyramid",
-          "lat": 43.9731659,
-          "long": -71.4427801,
-          "elevation": 4163,
-          "state": "NH"
-        },
-        {
-          "id": 872294,
-          "name": "Mt. Tripyramid (Middle Peak)",
-          "lat": 43.9646744,
-          "long": -71.4400968,
-          "elevation": 4114,
-          "state": "NH"
-        },
-        {
-          "id": 872920,
-          "name": "Mt. Whiteface",
-          "lat": 43.9339506,
-          "long": -71.4059066,
-          "elevation": 3993,
-          "state": "NH"
-        }
-      ],
-      "stats": {
-        "elevation": 4600,
-        "distance": 18,
-        "minutes": 30,
-        "hours": 12,
-        "time": 12.5,
-        "avgSpeed": 1.4,
-        "avgElevation": 256
-      },
-      "notes": "Completed the Kate Sleeper loop. Stayed overnight at Camp Rich off the summit of Mt. Passaconaway",
-      "rating": 4,
-      "logID": 6,
-      "lists": {
-        "ids": ["ne100", "ne4k", "nh4k"],
-        "titles": [
-          "New England 100 Highest",
-          "New England 4,000 Footers",
-          "New Hampshire 4,000 Footers"
-        ]
-      },
-      "peakString": "Mt. Passaconaway, Mt. Tripyramid, Mt. Tripyramid (Middle Peak) and Mt. Whiteface",
-      "date": {
-        "fullDate": "2021-07-10T04:00:00.000Z",
-        "day": "10",
-        "month": { "numeric": "07", "alpha": "July" },
-        "year": "2021"
-      }
-    },
     {
       "peaks": [
         {
@@ -167,19 +61,16 @@
       },
       "notes": "Second day of the presidential traverse. Day started off cloudy but cleared up about half way through.",
       "rating": 4,
-      "logID": 5,
-      "lists": {
-        "ids": ["ne100", "ne4k", "nh4k"],
-        "titles": [
-          "New England 100 Highest",
-          "New England 4,000 Footers",
-          "New Hampshire 4,000 Footers"
-        ]
-      },
+      "logID": 6,
+      "lists": [
+        { "listID": "ne100", "title": "New England 100 Highest" },
+        { "listID": "ne4k", "title": "New England 4,000 Footers" },
+        { "listID": "nh4k", "title": "New Hampshire 4,000 Footers" }
+      ],
       "peakString": "Mt. Eisenhower, Mt. Jackson, Mt. Monroe and Mt. Pierce",
       "date": {
-        "fullDate": "2022-08-25T04:00:00.000Z",
-        "day": "25",
+        "fullDate": "2022-08-29T04:00:00.000Z",
+        "day": "29",
         "month": { "numeric": "08", "alpha": "August" },
         "year": "2022"
       }
@@ -228,113 +119,22 @@
         "avgSpeed": 1.5,
         "avgElevation": 417
       },
-      "notes": "First day of the presidential traverse, stayed the night at Lake of the Clouds Hut. ",
+      "notes": "First day of the presidential traverse, stayed the night at Lake of the Clouds Hut. Incredible views!",
       "rating": 5,
-      "logID": 4,
-      "lists": {
-        "ids": ["ne100", "ne4k", "nh4k", "neHigh", "usHigh"],
-        "titles": [
-          "New England 100 Highest",
-          "New England 4,000 Footers",
-          "New Hampshire 4,000 Footers",
-          "New England State Highpoints",
-          "USA State Highpoints"
-        ]
-      },
+      "logID": 5,
+      "lists": [
+        { "listID": "ne100", "title": "New England 100 Highest" },
+        { "listID": "ne4k", "title": "New England 4,000 Footers" },
+        { "listID": "neHigh", "title": "New England State Highpoints" },
+        { "listID": "nh4k", "title": "New Hampshire 4,000 Footers" },
+        { "listID": "usHigh", "title": "USA State Highpoints" }
+      ],
       "peakString": "Mt. Adams, Mt. Jefferson, Mt. Madison and Mt. Washington",
       "date": {
-        "fullDate": "2022-08-24T04:00:00.000Z",
-        "day": "24",
+        "fullDate": "2022-08-28T04:00:00.000Z",
+        "day": "28",
         "month": { "numeric": "08", "alpha": "August" },
         "year": "2022"
-      }
-    },
-    {
-      "peaks": [
-        {
-          "id": 204979,
-          "name": "Longs Peak",
-          "lat": 40.2548614,
-          "long": -105.6162397,
-          "elevation": 14262,
-          "state": "CO"
-        }
-      ],
-      "stats": {
-        "elevation": 5000,
-        "distance": 15,
-        "minutes": null,
-        "hours": 12,
-        "time": 12,
-        "avgSpeed": 1.3,
-        "avgElevation": 333
-      },
-      "notes": "Epic day...the keyhole route was intense!",
-      "rating": 5,
-      "logID": 3,
-      "lists": { "ids": ["co14"], "titles": ["Colorado 14ers"] },
-      "peakString": "Longs Peak",
-      "date": {
-        "fullDate": "2017-08-20T04:00:00.000Z",
-        "day": "20",
-        "month": { "numeric": "08", "alpha": "August" },
-        "year": "2017"
-      }
-    },
-    {
-      "peaks": [
-        {
-          "id": 179961,
-          "name": "Mt. Bross",
-          "lat": 39.3349948,
-          "long": -106.1071665,
-          "elevation": 14176,
-          "state": "CO"
-        },
-        {
-          "id": 179957,
-          "name": "Mt. Cameron",
-          "lat": 39.3463459,
-          "long": -106.1189002,
-          "elevation": 14232,
-          "state": "CO"
-        },
-        {
-          "id": 204685,
-          "name": "Mt. Democrat",
-          "lat": 39.3394723,
-          "long": -106.1398604,
-          "elevation": 14144,
-          "state": "CO"
-        },
-        {
-          "id": 179956,
-          "name": "Mt. Lincoln",
-          "lat": 39.351504,
-          "long": -106.1113773,
-          "elevation": 14285,
-          "state": "CO"
-        }
-      ],
-      "stats": {
-        "elevation": 3100,
-        "distance": 7,
-        "minutes": 45,
-        "hours": 5,
-        "time": 5.8,
-        "avgSpeed": 1.2,
-        "avgElevation": 443
-      },
-      "notes": "Had a great day, warm weather and saw lots of mountain goats!",
-      "rating": 5,
-      "logID": 2,
-      "lists": { "ids": ["co14"], "titles": ["Colorado 14ers"] },
-      "peakString": "Mt. Bross, Mt. Cameron, Mt. Democrat and Mt. Lincoln",
-      "date": {
-        "fullDate": "2016-06-24T04:00:00.000Z",
-        "day": "24",
-        "month": { "numeric": "06", "alpha": "June" },
-        "year": "2016"
       }
     },
     {
@@ -373,10 +173,10 @@
         "avgSpeed": 1.3,
         "avgElevation": 407
       },
-      "notes": "Great first trip to the Adirondacks!",
+      "notes": "Awesome first trip to the Adirondacks!",
       "rating": 5,
-      "logID": 1,
-      "lists": { "ids": ["adk46"], "titles": ["Adirondack High Peaks"] },
+      "logID": 3,
+      "lists": [{ "listID": "adk46", "title": "Adirondack High Peaks" }],
       "peakString": "Algonquin Peak, Iroquois Peak and Wright Peak",
       "date": {
         "fullDate": "2021-08-15T04:00:00.000Z",
@@ -384,32 +184,438 @@
         "month": { "numeric": "08", "alpha": "August" },
         "year": "2021"
       }
+    },
+    {
+      "peaks": [
+        {
+          "id": 872460,
+          "name": "Mt. Passaconaway",
+          "lat": 43.9547374,
+          "long": -71.3808824,
+          "elevation": 4045,
+          "state": "NH"
+        },
+        {
+          "id": 872833,
+          "name": "Mt. Tripyramid",
+          "lat": 43.9731659,
+          "long": -71.4427801,
+          "elevation": 4163,
+          "state": "NH"
+        },
+        {
+          "id": 872294,
+          "name": "Mt. Tripyramid (Middle Peak)",
+          "lat": 43.9646744,
+          "long": -71.4400968,
+          "elevation": 4114,
+          "state": "NH"
+        },
+        {
+          "id": 872920,
+          "name": "Mt. Whiteface",
+          "lat": 43.9339506,
+          "long": -71.4059066,
+          "elevation": 4019,
+          "state": "NH"
+        }
+      ],
+      "stats": {
+        "elevation": 4600,
+        "distance": 18,
+        "minutes": 30,
+        "hours": 12,
+        "time": 12.5,
+        "avgSpeed": 1.4,
+        "avgElevation": 256
+      },
+      "notes": "Completed the Kate Sleeper loop, stayed overnight at Camp Rich off the summit of Mt. Passaconaway.",
+      "rating": 4,
+      "logID": 4,
+      "lists": [
+        { "listID": "ne100", "title": "New England 100 Highest" },
+        { "listID": "ne4k", "title": "New England 4,000 Footers" },
+        { "listID": "nh4k", "title": "New Hampshire 4,000 Footers" }
+      ],
+      "peakString": "Mt. Passaconaway, Mt. Tripyramid, Mt. Tripyramid (Middle Peak) and Mt. Whiteface",
+      "date": {
+        "fullDate": "2021-06-25T04:00:00.000Z",
+        "day": "25",
+        "month": { "numeric": "06", "alpha": "June" },
+        "year": "2021"
+      }
+    },
+    {
+      "peaks": [
+        {
+          "id": 871418,
+          "name": "Mt. Avalon",
+          "lat": 44.2064609,
+          "long": -71.4283253,
+          "elevation": 3412,
+          "state": "NH"
+        },
+        {
+          "id": 872947,
+          "name": "Mt. Willard",
+          "lat": 44.2042235,
+          "long": -71.412854,
+          "elevation": 2848,
+          "state": "NH"
+        }
+      ],
+      "stats": {
+        "elevation": 1800,
+        "distance": 5.5,
+        "minutes": 10,
+        "hours": 4,
+        "time": 4.2,
+        "avgSpeed": 1.3,
+        "avgElevation": 327
+      },
+      "notes": "Great views of the fall foliage from both summits. Got some great photos of Crawford Notch from Mt. Willard and of the southern Presidential Range from Mt. Avalon!",
+      "rating": 5,
+      "logID": 8,
+      "lists": [{ "listID": "nh52", "title": "New Hampshire 52 With a View" }],
+      "peakString": "Mt. Avalon and Mt. Willard",
+      "date": {
+        "fullDate": "2020-10-11T04:00:00.000Z",
+        "day": "11",
+        "month": { "numeric": "10", "alpha": "October" },
+        "year": "2020"
+      }
+    },
+    {
+      "peaks": [
+        {
+          "id": 607428,
+          "name": "Mt. Frissell (South Slope)",
+          "lat": 42.049633,
+          "long": -73.483042,
+          "elevation": 2451,
+          "state": "CT"
+        }
+      ],
+      "stats": {
+        "elevation": 1100,
+        "distance": 5,
+        "minutes": 30,
+        "hours": 4,
+        "time": 4.5,
+        "avgSpeed": 1.1,
+        "avgElevation": 220
+      },
+      "notes": "Finally made it to the Connecticut state high point. Hit Brace Mountain and Round Mountain on the loop as well!",
+      "rating": 4,
+      "logID": 9,
+      "lists": [
+        { "listID": "neHigh", "title": "New England State Highpoints" },
+        { "listID": "usHigh", "title": "USA State Highpoints" }
+      ],
+      "peakString": "Mt. Frissell (South Slope)",
+      "date": {
+        "fullDate": "2020-08-10T04:00:00.000Z",
+        "day": "10",
+        "month": { "numeric": "08", "alpha": "August" },
+        "year": "2020"
+      }
+    },
+    {
+      "peaks": [
+        {
+          "id": 872150,
+          "name": "Mt. Lafayette",
+          "lat": 44.1608182,
+          "long": -71.6444575,
+          "elevation": 5236,
+          "state": "NH"
+        },
+        {
+          "id": 872176,
+          "name": "Mt. Lincoln",
+          "lat": 44.1489451,
+          "long": -71.6445258,
+          "elevation": 5085,
+          "state": "NH"
+        }
+      ],
+      "stats": {
+        "elevation": 3800,
+        "distance": 8.1,
+        "minutes": 15,
+        "hours": 6,
+        "time": 6.3,
+        "avgSpeed": 1.3,
+        "avgElevation": 469
+      },
+      "notes": "Hiked the Franconia Ridge Loop up Falling Waters Trail and down the Old Bridle Path. Chilly on the summits, saw a black bear on the way up!",
+      "rating": 5,
+      "logID": 7,
+      "lists": [
+        { "listID": "ne100", "title": "New England 100 Highest" },
+        { "listID": "ne4k", "title": "New England 4,000 Footers" },
+        { "listID": "nh4k", "title": "New Hampshire 4,000 Footers" }
+      ],
+      "peakString": "Mt. Lafayette and Mt. Lincoln",
+      "date": {
+        "fullDate": "2019-05-12T04:00:00.000Z",
+        "day": "12",
+        "month": { "numeric": "05", "alpha": "May" },
+        "year": "2019"
+      }
+    },
+    {
+      "peaks": [
+        {
+          "id": 180381,
+          "name": "Mt. Elbert",
+          "lat": 39.1178687,
+          "long": -106.4452569,
+          "elevation": 14426,
+          "state": "CO"
+        }
+      ],
+      "stats": {
+        "elevation": 4500,
+        "distance": 9.5,
+        "minutes": 20,
+        "hours": 7,
+        "time": 7.3,
+        "avgSpeed": 1.3,
+        "avgElevation": 474
+      },
+      "notes": "Difficult hike but well worth it. Cold at the top but 360 degree views from the summit!",
+      "rating": 5,
+      "logID": 10,
+      "lists": [
+        { "listID": "co14", "title": "Colorado Fourteeners" },
+        { "listID": "usHigh", "title": "USA State Highpoints" }
+      ],
+      "peakString": "Mt. Elbert",
+      "date": {
+        "fullDate": "2018-09-04T04:00:00.000Z",
+        "day": "04",
+        "month": { "numeric": "09", "alpha": "September" },
+        "year": "2018"
+      }
+    },
+    {
+      "peaks": [
+        {
+          "id": 204979,
+          "name": "Longs Peak",
+          "lat": 40.2548614,
+          "long": -105.6162397,
+          "elevation": 14262,
+          "state": "CO"
+        }
+      ],
+      "stats": {
+        "elevation": 5000,
+        "distance": 15,
+        "minutes": null,
+        "hours": 12,
+        "time": 12,
+        "avgSpeed": 1.3,
+        "avgElevation": 333
+      },
+      "notes": "Epic day, the keyhole route was intense!",
+      "rating": 5,
+      "logID": 1,
+      "lists": [{ "listID": "co14", "title": "Colorado Fourteeners" }],
+      "peakString": "Longs Peak",
+      "date": {
+        "fullDate": "2017-07-24T04:00:00.000Z",
+        "day": "24",
+        "month": { "numeric": "07", "alpha": "July" },
+        "year": "2017"
+      }
+    },
+    {
+      "peaks": [
+        {
+          "id": 179961,
+          "name": "Mt. Bross",
+          "lat": 39.3349948,
+          "long": -106.1071665,
+          "elevation": 14176,
+          "state": "CO"
+        },
+        {
+          "id": 204685,
+          "name": "Mt. Democrat",
+          "lat": 39.3394723,
+          "long": -106.1398604,
+          "elevation": 14144,
+          "state": "CO"
+        },
+        {
+          "id": 179956,
+          "name": "Mt. Lincoln",
+          "lat": 39.351504,
+          "long": -106.1113773,
+          "elevation": 14285,
+          "state": "CO"
+        }
+      ],
+      "stats": {
+        "elevation": 3100,
+        "distance": 7,
+        "minutes": 45,
+        "hours": 5,
+        "time": 5.8,
+        "avgSpeed": 1.2,
+        "avgElevation": 443
+      },
+      "notes": "Had a great day, warm weather and saw lots of mountain goats!",
+      "rating": 4,
+      "logID": 2,
+      "lists": [{ "listID": "co14", "title": "Colorado Fourteeners" }],
+      "peakString": "Mt. Bross, Mt. Democrat and Mt. Lincoln",
+      "date": {
+        "fullDate": "2016-06-25T04:00:00.000Z",
+        "day": "25",
+        "month": { "numeric": "06", "alpha": "June" },
+        "year": "2016"
+      }
     }
   ],
+  "noEntries": false,
   "completedPeaks": [
-    973340, 973355, 971754, 179961, 179957, 204685, 179956, 204979, 871380,
-    872101, 872247, 871352, 871851, 872093, 872313, 872495, 872460, 872833,
-    872294, 872920, 872150, 872176
+    204979, 179961, 204685, 179956, 973340, 973355, 971754, 872460, 872833,
+    872294, 872920, 871380, 872101, 872247, 871352, 871851, 872093, 872313,
+    872495, 872150, 872176, 871418, 872947, 607428, 180381
   ],
-  "savedLists": ["adk46", "neHigh", "nh4k", "co14"],
+  "savedLists": ["adk46", "co14", "nh52", "nh4k", "neHigh"],
   "sidebarHidden": false,
+  "allSelectValues": {
+    "lists": [
+      { "listID": "adk46", "title": "Adirondack High Peaks" },
+      { "listID": "co14", "title": "Colorado Fourteeners" },
+      { "listID": "ne100", "title": "New England 100 Highest" },
+      { "listID": "ne4k", "title": "New England 4,000 Footers" },
+      { "listID": "neHigh", "title": "New England State Highpoints" },
+      { "listID": "nh4k", "title": "New Hampshire 4,000 Footers" },
+      { "listID": "nh52", "title": "New Hampshire 52 With a View" },
+      { "listID": "usHigh", "title": "USA State Highpoints" }
+    ],
+    "months": [
+      { "numeric": "05", "alpha": "May" },
+      { "numeric": "06", "alpha": "June" },
+      { "numeric": "07", "alpha": "July" },
+      { "numeric": "08", "alpha": "August" },
+      { "numeric": "09", "alpha": "September" },
+      { "numeric": "10", "alpha": "October" }
+    ],
+    "years": ["2022", "2021", "2020", "2019", "2018", "2017", "2016"]
+  },
   "peakPreview": {
     "previewType": "all",
-    "data": "",
+    "data": [
+      {
+        "listID": "adk46",
+        "title": "Adirondack High Peaks",
+        "saved": true,
+        "numCompleted": 3,
+        "peakCount": 46
+      },
+      {
+        "listID": "ca14",
+        "title": "California Fourteeners",
+        "saved": false,
+        "numCompleted": 0,
+        "peakCount": 12
+      },
+      {
+        "listID": "cat35",
+        "title": "Catskill High Peaks",
+        "saved": false,
+        "numCompleted": 0,
+        "peakCount": 35
+      },
+      {
+        "listID": "co14",
+        "title": "Colorado Fourteeners",
+        "saved": true,
+        "numCompleted": 5,
+        "peakCount": 53
+      },
+      {
+        "listID": "me4k",
+        "title": "Maine 4,000 Footers",
+        "saved": false,
+        "numCompleted": 0,
+        "peakCount": 14
+      },
+      {
+        "listID": "ne100",
+        "title": "New England 100 Highest",
+        "saved": false,
+        "numCompleted": 14,
+        "peakCount": 100
+      },
+      {
+        "listID": "ne4k",
+        "title": "New England 4,000 Footers",
+        "saved": false,
+        "numCompleted": 14,
+        "peakCount": 67
+      },
+      {
+        "listID": "neHigh",
+        "title": "New England State Highpoints",
+        "saved": true,
+        "numCompleted": 2,
+        "peakCount": 6
+      },
+      {
+        "listID": "nh4k",
+        "title": "New Hampshire 4,000 Footers",
+        "saved": true,
+        "numCompleted": 14,
+        "peakCount": 48
+      },
+      {
+        "listID": "nh52",
+        "title": "New Hampshire 52 With a View",
+        "saved": true,
+        "numCompleted": 2,
+        "peakCount": 52
+      },
+      {
+        "listID": "south6",
+        "title": "Southern Sixers",
+        "saved": false,
+        "numCompleted": 0,
+        "peakCount": 40
+      },
+      {
+        "listID": "usHigh",
+        "title": "USA State Highpoints",
+        "saved": false,
+        "numCompleted": 3,
+        "peakCount": 51
+      },
+      {
+        "listID": "vt4k",
+        "title": "Vermont 4,000 Footers",
+        "saved": false,
+        "numCompleted": 0,
+        "peakCount": 5
+      }
+    ],
     "page": 1,
     "resPerPage": 6
   },
-  "peakTable": { "sortType": "elevation", "data": "" },
+  "peakTable": {
+    "sortType": "elevation",
+    "data": {}
+  },
   "logPreview": {
-    "selectValues": { "listID": "all", "month": "all", "year": "all" },
+    "curSelectValues": { "listID": "all", "month": "all", "year": "all" },
+    "entries": [],
     "page": 1,
-    "data": "",
     "resPerPage": 6
   },
-  "curLogEntry": {},
-  "stats": {
-    "selectValues": { "listID": "all", "month": "all", "year": "all" },
-    "data": ""
-  },
-  "map": { "data": "" }
+  "curLogEntry": {}
 }

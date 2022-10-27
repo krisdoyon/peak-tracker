@@ -1,1 +1,56 @@
-{"title":"New England State Highpoints","listID":"neHigh","peakCount":6,"peaks":[{"id":871352,"name":"Mt. Washington","lat":44.2705781,"long":-71.3033287,"elevation":6273,"state":"NH"},{"id":561737,"name":"Mt. Katahdin (Baxter Peak)","lat":45.9042845,"long":-68.9213562,"elevation":5259,"state":"ME"},{"id":1461774,"name":"Mt. Mansfield","lat":44.5436627,"long":-72.8142903,"elevation":4383,"state":"VT"},{"id":607428,"name":"Mount Frissell (South Slope)","lat":42.049633,"long":-73.483042,"elevation":2451,"state":"CT"},{"id":1219566,"name":"Jerimoth Hill","lat":41.8494158,"long":-71.7788736,"elevation":810,"state":"RI"},{"id":607448,"name":"Mt. Greylock","lat":42.6371703,"long":-73.1659399,"elevation":3491,"state":"MA"}],"description":"The New England State Highpoints are a collection of the highest points in each of the six states in New England. The highest point in Connecticut is not a mountain summit, but is on the border of Massachusetts on the slope of Mt. Frissell. It is one of only four states where the highest point is not a mountain summit (KS, DE and DC being the other three)."}
+{
+  "title": "New England State Highpoints",
+  "listID": "neHigh",
+  "peakCount": 6,
+  "peaks": [
+    {
+      "id": 871352,
+      "name": "Mt. Washington",
+      "lat": 44.2705781,
+      "long": -71.3033287,
+      "elevation": 6273,
+      "state": "NH"
+    },
+    {
+      "id": 561737,
+      "name": "Mt. Katahdin (Baxter Peak)",
+      "lat": 45.9042845,
+      "long": -68.9213562,
+      "elevation": 5259,
+      "state": "ME"
+    },
+    {
+      "id": 1461774,
+      "name": "Mt. Mansfield",
+      "lat": 44.5436627,
+      "long": -72.8142903,
+      "elevation": 4383,
+      "state": "VT"
+    },
+    {
+      "id": 607428,
+      "name": "Mt. Frissell (South Slope)",
+      "lat": 42.049633,
+      "long": -73.483042,
+      "elevation": 2451,
+      "state": "CT"
+    },
+    {
+      "id": 1219566,
+      "name": "Jerimoth Hill",
+      "lat": 41.8494158,
+      "long": -71.7788736,
+      "elevation": 810,
+      "state": "RI"
+    },
+    {
+      "id": 607448,
+      "name": "Mt. Greylock",
+      "lat": 42.6371703,
+      "long": -73.1659399,
+      "elevation": 3491,
+      "state": "MA"
+    }
+  ],
+  "description": "The New England State Highpoints are a collection of the highest points in each of the six states in New England. The highest point in Connecticut is not a mountain summit, but is on the border of Massachusetts on the slope of Mt. Frissell. It is one of only four states where the highest point is not a mountain summit (KS, DE and DC being the other three)."
+}

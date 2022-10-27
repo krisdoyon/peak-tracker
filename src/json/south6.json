@@ -1,0 +1,328 @@
+{
+  "title": "Southern Sixers",
+  "listID": "south6",
+  "peakCount": 40,
+  "peaks": [
+    {
+      "id": 1013745,
+      "name": "Mt. Mitchell",
+      "lat": 35.7647624,
+      "long": -82.2648609,
+      "elevation": 6663,
+      "state": "NC"
+    },
+    {
+      "id": 1023658,
+      "name": "Mt. Craig",
+      "lat": 35.7776097,
+      "long": -82.2617853,
+      "elevation": 6637,
+      "state": "NC"
+    },
+    {
+      "id": 1326387,
+      "name": "Clingmans Dome",
+      "lat": 35.562778,
+      "long": -83.498535,
+      "elevation": 6644,
+      "state": "NC"
+    },
+    {
+      "id": 1008906,
+      "name": "Balsam Cone",
+      "lat": 35.7895541,
+      "long": -82.2559521,
+      "elevation": 6581,
+      "state": "NC"
+    },
+    {
+      "id": 1010111,
+      "name": "Cattail Peak",
+      "lat": 35.7985673,
+      "long": -82.2561837,
+      "elevation": 6555,
+      "state": "NC"
+    },
+    {
+      "id": 1023659,
+      "name": "Mt. Gibbes",
+      "lat": 35.7389873,
+      "long": -82.2851441,
+      "elevation": 6562,
+      "state": "NC"
+    },
+    {
+      "id": 1014869,
+      "name": "Richland Balsam",
+      "lat": 35.3671315,
+      "long": -82.9900864,
+      "elevation": 6404,
+      "state": "NC"
+    },
+    {
+      "id": 1017815,
+      "name": "Hallback",
+      "lat": 35.7488602,
+      "long": -82.2753712,
+      "elevation": 6388,
+      "state": "NC"
+    },
+    {
+      "id": 1008011,
+      "name": "Old Black",
+      "lat": 35.71503,
+      "long": -83.2554699,
+      "elevation": 6352,
+      "state": "NC"
+    },
+    {
+      "id": 1019209,
+      "name": "Blackstock Knob",
+      "lat": 35.7379826,
+      "long": -82.3185412,
+      "elevation": 6325,
+      "state": "NC"
+    },
+    {
+      "id": 1010141,
+      "name": "Celo Knob",
+      "lat": 35.8522963,
+      "long": -82.2485812,
+      "elevation": 6319,
+      "state": "NC"
+    },
+    {
+      "id": 996851,
+      "name": "Waterrock Knob",
+      "lat": 35.4641389,
+      "long": -83.1376606,
+      "elevation": 6289,
+      "state": "NC"
+    },
+    {
+      "id": 1014928,
+      "name": "Roan High Bluff",
+      "lat": 36.0931728,
+      "long": -82.1454025,
+      "elevation": 6260,
+      "state": "NC"
+    },
+    {
+      "id": 1023665,
+      "name": "Mt. Lyn Lowry",
+      "lat": 35.4636692,
+      "long": -83.1103728,
+      "elevation": 6234,
+      "state": "NC"
+    },
+    {
+      "id": 989123,
+      "name": "Luftee Knob",
+      "lat": 35.6923491,
+      "long": -83.2151688,
+      "elevation": 6197,
+      "state": "NC"
+    },
+    {
+      "id": 1009428,
+      "name": "Black Balsam Knob",
+      "lat": 35.3278774,
+      "long": -82.874294,
+      "elevation": 6207,
+      "state": "NC"
+    },
+    {
+      "id": 1020423,
+      "name": "Gibbs Mountain",
+      "lat": 35.8404037,
+      "long": -82.2479608,
+      "elevation": 6230,
+      "state": "NC"
+    },
+    {
+      "id": 1016759,
+      "name": "Winter Star Mountain",
+      "lat": 35.8176441,
+      "long": -82.2491358,
+      "elevation": 6204,
+      "state": "NC"
+    },
+    {
+      "id": 1023657,
+      "name": "Mt. Collins",
+      "lat": 35.5868095,
+      "long": -83.4723775,
+      "elevation": 6188,
+      "state": "NC"
+    },
+    {
+      "id": 1023669,
+      "name": "Mt. Yonaguska",
+      "lat": 35.6941919,
+      "long": -83.2483278,
+      "elevation": 6181,
+      "state": "NC"
+    },
+    {
+      "id": 1020523,
+      "name": "Grassy Ridge Bald",
+      "lat": 36.0998357,
+      "long": -82.0803954,
+      "elevation": 6184,
+      "state": "NC"
+    },
+    {
+      "id": 989348,
+      "name": "Marks Knob",
+      "lat": 35.6802835,
+      "long": -83.2480931,
+      "elevation": 6158,
+      "state": "NC"
+    },
+    {
+      "id": 1019126,
+      "name": "Big Cataloochee Mountain",
+      "lat": 35.6719328,
+      "long": -83.1760207,
+      "elevation": 6152,
+      "state": "NC"
+    },
+    {
+      "id": 1023662,
+      "name": "Mt. Hardy",
+      "lat": 35.3042737,
+      "long": -82.9272857,
+      "elevation": 6106,
+      "state": "NC"
+    },
+    {
+      "id": 1022218,
+      "name": "Reinhart Knob",
+      "lat": 35.3500978,
+      "long": -82.9769255,
+      "elevation": 6102,
+      "state": "NC"
+    },
+    {
+      "id": 1022472,
+      "name": "Sam Knob",
+      "lat": 35.3295456,
+      "long": -82.8947013,
+      "elevation": 6073,
+      "state": "NC"
+    },
+    {
+      "id": 1022905,
+      "name": "Tennent Mountain",
+      "lat": 35.3370442,
+      "long": -82.8690163,
+      "elevation": 6063,
+      "state": "NC"
+    },
+    {
+      "id": 1014536,
+      "name": "Plott Balsam",
+      "lat": 35.4801284,
+      "long": -83.0881925,
+      "elevation": 6092,
+      "state": "NC"
+    },
+    {
+      "id": 1019839,
+      "name": "Craggy Dome",
+      "lat": 35.7059415,
+      "long": -82.3667865,
+      "elevation": 6056,
+      "state": "NC"
+    },
+    {
+      "id": 1020505,
+      "name": "Grassy Cove Top",
+      "lat": 35.3484333,
+      "long": -82.8640163,
+      "elevation": 6037,
+      "state": "NC"
+    },
+    {
+      "id": 997707,
+      "name": "Yellow Face",
+      "lat": 35.4509277,
+      "long": -83.1506953,
+      "elevation": 6033,
+      "state": "NC"
+    },
+    {
+      "id": 1010378,
+      "name": "Cold Mountain",
+      "lat": 35.4095443,
+      "long": -82.8562391,
+      "elevation": 6024,
+      "state": "NC"
+    },
+    {
+      "id": 1022609,
+      "name": "Shining Rock",
+      "lat": 35.3681555,
+      "long": -82.8623498,
+      "elevation": 6020,
+      "state": "NC"
+    },
+    {
+      "id": 1019624,
+      "name": "Chestnut Bald",
+      "lat": 35.3071464,
+      "long": -82.8893153,
+      "elevation": 6020,
+      "state": "NC"
+    },
+    {
+      "id": 1000705,
+      "name": "Mt. Sequoyah",
+      "lat": 35.6745344,
+      "long": -83.2884823,
+      "elevation": 6001,
+      "state": "NC"
+    },
+    {
+      "id": 1023660,
+      "name": "Mt. Guyot",
+      "lat": 35.7053166,
+      "long": -83.257456,
+      "elevation": 6621,
+      "state": "TN"
+    },
+    {
+      "id": 1646824,
+      "name": "Mt. Le Conte",
+      "lat": 35.6543501,
+      "long": -83.4367154,
+      "elevation": 6591,
+      "state": "TN"
+    },
+    {
+      "id": 1306768,
+      "name": "Mt. Chapman",
+      "lat": 35.6867569,
+      "long": -83.2709816,
+      "elevation": 6427,
+      "state": "TN"
+    },
+    {
+      "id": 1022307,
+      "name": "Roan High Knob",
+      "lat": 36.1045556,
+      "long": -82.1223421,
+      "elevation": 6283,
+      "state": "TN"
+    },
+    {
+      "id": 1023663,
+      "name": "Mt. Kephart",
+      "lat": 35.6308871,
+      "long": -83.3897695,
+      "elevation": 6217,
+      "state": "TN"
+    }
+  ],
+  "description": "The Southern Sixers (6ers) are a collection of summits over 6,000 ft. in elevation in the southern Appalachian mountains. All of the peaks are located within 32 miles of the TN/NC border. All mountains have at least 200 ft. of topographic prominence, or there is a distance of at least 0.75 miles between peaks. Other than Mount Washington in New Hampshire, these mountains are the only 6,000 footers east of the Mississippi."
+}
