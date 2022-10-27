@@ -219,21 +219,21 @@
     bottom: 0;
   }
 
-  .btn-star {
-    background-color: transparent;
-
-    &__icon {
-      height: 2.4rem;
-      width: 2.4rem;
-      pointer-events: none;
-
-      &--full {
-        fill: #ffd61e;
-      }
-    }
-  }
-
   .btn-clear-form {
     font-weight: 500;
+  }
+}
+
+.btn-star {
+  background-color: transparent;
+
+  &__icon {
+    height: 2.4rem;
+    width: 2.4rem;
+    pointer-events: none;
+
+    &--full {
+      fill: #ffd61e;
+    }
   }
 }
