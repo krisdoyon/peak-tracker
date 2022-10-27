@@ -14,7 +14,7 @@ export let state = {
   allSelectValues: { lists: "", months: "", years: "" },
   peakPreview: {
     previewType: "all",
-    data: {},
+    data: [],
     page: 1,
     resPerPage: 6,
   },
