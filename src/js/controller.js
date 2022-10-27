@@ -43,8 +43,7 @@ const controlGoBack = function (containerID) {
 
 const controlLoadTestData = function () {
   model.loadTestData();
-  model.loadLogPreviewData();
-  logPreviewView.render(model.state.logPreview);
+  logPreviewView.render(model.getLogPreviewPage());
   logPreviewView.showContainer();
 };
 
