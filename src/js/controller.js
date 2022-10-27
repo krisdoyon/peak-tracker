@@ -222,7 +222,7 @@ const controlNewEntry = function () {
 };
 
 const controlClearForm = function () {
-  model.state.newEntry.curSelectValue = "";
+  model.resetNewEntryState();
   newEntryView.clearForm();
   mapView.clearMap();
 };

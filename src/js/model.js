@@ -433,12 +433,18 @@ export const getStatsData = function (curSelectValues) {
 
 export const getCheckboxData = function (listID, checkedID) {
   state.newEntry.curSelectValue = listID;
+  state.newEntry.curCheckedID = checkedID;
   setLocalStorage();
   return {
     listID,
     checkedID: +checkedID || false,
     peaks: sortPeakList(listID, "alphabetical").peaks,
   };
+};
+
+export const resetNewEntryState = function () {
+  state.newEntry.curSelectValue = "";
+  state.newEntry.curCheckedID = "";
 };
 
 export const getDate = function (date) {
@@ -462,7 +468,7 @@ export const addLogEntry = function (formData) {
   const entry = new LogEntry(formData, logID, lists);
   state.allLogEntries.unshift(entry);
   state.curLogEntry = entry;
-  state.newEntry.curSelectValue = "";
+  resetNewEntryState();
   sortLogEntries();
   updateAllSelectValues();
   setLocalStorage();
