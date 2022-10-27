@@ -111,7 +111,7 @@ writeJSON(
 writeJSON(
   "Adirondack High Peaks",
   "adk46",
-  `The Adirondack High Peaks (also known as the "46ers") are a collection of summits within Adirondack Park, the largest state park and largest publicly protected area in the lower 48 states. The original list was thought to contain all peaks over 4,000 ft. in elevation, but recent USGS surveys have shown four of the peaks slightly below this threshold.`
+  `The Adirondack High Peaks (also known as the "46ers") are a collection of summits within Adirondack Park, the largest state park and largest publicly protected area in the lower 48 states. The original list was thought to contain all peaks over 4,000 ft. in the park, but recent USGS surveys have shown four of the peaks slightly below this threshold.`
 );
 
 writeJSON(
