@@ -2,6 +2,7 @@ import icons from "../../img/sprite.svg";
 import LogView from "./logView.js";
 
 class LogEntryView extends LogView {
+  href = "/log-entry";
   #data;
   _container = document.querySelector(".container-log-entry");
   #logEntryEl = document.querySelector(".log-entry");
@@ -108,8 +109,8 @@ class LogEntryView extends LogView {
 
   #generatePeakListMarkup(entry) {
     let markup = "";
-    entry.lists.titles.forEach((title, i) => {
-      markup += `<span>${title}</span><button class='btn btn--green btn-view--sm' data-type='list' data-id='${entry.lists.ids[i]}'>VIEW</button>`;
+    entry.lists.forEach((list) => {
+      markup += `<span>${list.title}</span><button class='btn btn--green btn-view--sm' data-type='list' data-id='${list.listID}'>VIEW</button>`;
     });
     return markup;
   }
