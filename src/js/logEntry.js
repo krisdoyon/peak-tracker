@@ -1,10 +1,9 @@
 import { uniquePeaks } from "./createPeakLists.js";
 
 export class LogEntry {
-  peaks = [];
   constructor(formData, logID, lists) {
-    formData.peakIDs.forEach((peakID) =>
-      this.peaks.push(uniquePeaks.find((peak) => peak.id === peakID))
+    this.peaks = formData.peakIDs.map((peakID) =>
+      uniquePeaks.find((peak) => peak.id === peakID)
     );
     this.stats = {
       elevation: +formData.elevation || null,
@@ -12,8 +11,8 @@ export class LogEntry {
       minutes: +formData.minutes || null,
       hours: +formData.hours || null,
     };
-    this.notes = formData.notes;
-    this.rating = +formData.rating;
+    this.notes = formData.notes || undefined;
+    this.rating = +formData.rating || undefined;
     this.logID = logID;
     this.lists = lists;
     this.#setPeakString();
