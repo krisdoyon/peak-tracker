@@ -4,25 +4,16 @@
   background-color: var(--color-grey-light-1);
   border: 2px solid var(--color-grey-light-2);
   box-shadow: var(--box-shadow-light);
+  grid-column: 1/-1;
+  margin-bottom: 0.6rem;
 }
 
-.wrapper {
+.logo-wrapper {
+  display: grid;
+  grid-template-columns: 1fr max-content;
   position: absolute;
   right: 1.6rem;
   top: 1.6rem;
   z-index: 10;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-.button-wrapper {
-  display: grid;
-  grid-template-columns: 1fr max-content;
   gap: 0.6rem;
-}
-
-#btn-load-data-map,
-#btn-clear-data-map {
-  grid-column: 2;
 }
