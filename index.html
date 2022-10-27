@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="An app to track progress of mountain summit peak bagging lists"
+      content="An app to track progress of mountain summit peakbagging lists"
     />
     <meta name="author" content="Kris Doyon" />
     <title>Peak Tracker</title>
@@ -19,14 +19,13 @@
     />
     <!-- <link href="./src/sass/main.scss" rel="stylesheet" /> -->
     <link href="./src/css/styles.css" rel="stylesheet" />
-
     <link href="./node_modules/leaflet/dist/leaflet.css" rel="stylesheet" />
     <script defer src="./node_modules/leaflet/dist/leaflet.js"></script>
     <script type="module" src="./src/js/controller.js"></script>
   </head>
 
-    <!-- WELCOME MODAL -->
-
+  <!-- WELCOME MODAL -->
+  <body>
     <div class="modal hidden">
       <div class="modal__container">
         <button class="btn btn-close">&times;</button>
@@ -50,8 +49,8 @@
               </svg>
             </button>
             <div class="modal__question-bubble">
-              A "peakbagging list" is a list of mountain summits that all meet
-              a certain criteria. For example, the New Hampshire 4,000 footers
+              A "peakbagging list" is a list of mountain summits that all meet a
+              certain criteria. For example, the New Hampshire 4,000 footers
               list contains 48 peaks with an elevation over 4,000 feet.
             </div>
           </div>
@@ -136,47 +135,64 @@
 
     <!-- SIDEBAR/NAVIGATION -->
     <div class="sidebar preload">
-      <nav class="main-nav">
-        <ul class="main-nav__list">
-          <li class="main-nav__list-item">
+      <nav class="nav">
+        <ul class="nav__list">
+          <li class="nav__list-item">
             <button
-              class="btn main-nav__btn"
+              id="nav-btn-map"
+              class="btn nav__btn"
               data-display="map"
             >
               <span>Map</span>
-              <svg class="main-nav__icon">
+              <svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-earth"></use>
               </svg>
             </button>
           </li>
-          <li class="main-nav__list-item">
-            <button class="btn main-nav__btn" data-display="peak-list-preview">
+          <li class="nav__list-item">
+            <button
+              id="nav-btn-peak-lists"
+              class="btn nav__btn"
+              data-display="peak-list-preview"
+            >
               <span>Peak Lists</span
-              ><svg class="main-nav__icon">
+              ><svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-mountain"></use>
               </svg>
             </button>
           </li>
-          <li class="main-nav__list-item">
-            <button class="btn main-nav__btn" data-display="log-preview">
+          <li class="nav__list-item">
+            <button
+              id="nav-btn-log"
+              class="btn nav__btn"
+              data-display="log-preview"
+            >
               <span>Trip Log</span>
-              <svg class="main-nav__icon">
+              <svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-book"></use>
               </svg>
             </button>
           </li>
-          <li class="main-nav__list-item">
-            <button class="btn main-nav__btn" data-display="stats">
+          <li class="nav__list-item">
+            <button
+              id="nav-btn-stats"
+              class="btn nav__btn"
+              data-display="stats"
+            >
               <span>Stats</span>
-              <svg class="main-nav__icon">
+              <svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-chart"></use>
               </svg>
             </button>
           </li>
-          <li class="main-nav__list-item">
-            <button class="btn main-nav__btn" data-display="new-entry">
+          <li class="nav__list-item">
+            <button
+              id="nav-btn-new-entry"
+              class="btn nav__btn"
+              data-display="new-entry"
+            >
               <span>New Entry</span
-              ><svg class="main-nav__icon">
+              ><svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-pencil"></use>
               </svg>
             </button>
@@ -188,7 +204,7 @@
           class="btn sidebar__btn"
           aria-label="Toggle sidebar open or closed"
         >
-          <svg class="main-nav__icon sidebar__btn-icon">
+          <svg class="nav__icon sidebar__btn-icon">
             <use href="./src/img/sprite.svg#icon-chevron-left"></use>
           </svg>
         </button>
@@ -210,7 +226,7 @@
     <div class="container-main preload hidden">
       <button class="btn btn-close">&times;</button>
 
-      <!-- ALL PEAK LISTS CONTAINER -->
+      <!-- PEAK LIST PREVIEW CONTAINER -->
 
       <div
         class="container container-peak-list-preview hidden"
@@ -219,18 +235,8 @@
         <div class="container__heading-wrapper no-border">
           <h2 class="container__heading">Peak Lists</h2>
         </div>
-        <div class="preview-wrapper peak-list-preview-wrapper">
-          <button class="btn btn-text btn-text--light" data-preview-type="all">
-            All lists
-          </button>
-          <button
-            class="btn btn-text btn-text--light"
-            data-preview-type="saved"
-          >
-            Saved lists
-          </button>
-        </div>
-        <ul class="preview-list preview-peak-lists"></ul>
+        <div class="preview-wrapper preview-wrapper--peak-list"></div>
+        <ul class="preview-list preview-list--peak-lists"></ul>
         <div class="no-data no-saved-lists hidden">
           <div class="no-data__message">
             You haven't saved any peak lists yet. <br />
@@ -270,6 +276,7 @@
           </div>
           <div class="container__heading-progress-wrapper"></div>
         </div>
+        <div class="peak-list-description"></div>
 
         <table class="peak-list-table">
           <thead>
@@ -294,32 +301,10 @@
         <div class="container__heading-wrapper no-border">
           <h2 class="container__heading">Trip Log</h2>
         </div>
-        <div class="preview-wrapper select-preview-wrapper">
-          <label for="select-list-log-preview">Filter by list:</label>
-          <select class="select-list" id="select-list-log-preview">
-            <option value="all" selected>All lists</option>
-          </select>
-          <label for="select-month-log-preview">Filter by date:</label>
-          <select id="select-month-log-preview">
-            <option value="all" selected>All Months</option>
-            <option value="01">January</option>
-            <option value="02">February</option>
-            <option value="03">March</option>
-            <option value="04">April</option>
-            <option value="05">May</option>
-            <option value="06">June</option>
-            <option value="07">July</option>
-            <option value="08">August</option>
-            <option value="09">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
-          </select>
-          <select id="select-year-log-preview">
-            <option value="all" selected>All years</option>
-          </select>
-        </div>
-        <ul class="preview-list log-entries-preview"></ul>
+        <div
+          class="preview-wrapper preview-wrapper--select preview-wrapper--log-preview"
+        ></div>
+        <ul class="preview-list preview-list--log-entries"></ul>
         <div class="no-data no-log-entries hidden">
           <div class="no-data__message"></div>
           <button class="btn btn--green btn-add-entry">
@@ -355,34 +340,21 @@
 
       <div class="container container-stats hidden" data-nav-active="stats">
         <div class="container__heading-wrapper no-border">
-          <h2 class="container__heading">Hiking Stats</h2>
+          <h2 class="container__heading">Stats</h2>
         </div>
-        <div class="preview-wrapper select-preview-wrapper">
-          <label for="select-list-stats">Filter by list:</label>
-          <select class="select-list" id="select-list-stats">
-            <option value="all" selected>All lists</option>
-          </select>
-          <label for="select-list-stats">Filter by date:</label>
-          <select id="select-month-stats">
-            <option value="all" selected>All Months</option>
-            <option value="01">January</option>
-            <option value="02">February</option>
-            <option value="03">March</option>
-            <option value="04">April</option>
-            <option value="05">May</option>
-            <option value="06">June</option>
-            <option value="07">July</option>
-            <option value="08">August</option>
-            <option value="09">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
-          </select>
-          <select id="select-year-stats">
-            <option value="all" selected>All years</option>
-          </select>
-        </div>
+        <div
+          class="preview-wrapper preview-wrapper--select preview-wrapper--stats"
+        ></div>
         <div class="stats-grid"></div>
+        <div class="no-data no-stats hidden">
+          <div class="no-data__message"></div>
+          <button class="btn btn--green btn-add-entry">
+            <span>Add</span>
+            <svg class="btn-add-entry__icon">
+              <use href="./src/img/sprite.svg#icon-plus"></use>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <!-- NEW ENTRY CONTAINER -->
@@ -407,7 +379,14 @@
             </div>
 
             <div class="form-new-entry__date-grid">
-              <input id="date" type="date" min="1900-01-01" />
+              <input
+                id="date"
+                name="date"
+                type="date"
+                min="1900-01-01"
+                max="9999-01-01"
+                required
+              />
               <button class="btn btn--green btn-date btn-today">Today</button>
               <button class="btn btn--green btn-date btn-yesterday">
                 Yesterday
