@@ -1,6 +1,9 @@
 import icons from "../../img/sprite.svg";
+import View from "./view.js";
 
-export default class LogView {
+export default class LogView extends View {
+  _navBtn = document.querySelector("#nav-btn-log");
+
   // PUBLIC METHODS
 
   addHandlerDeleteEntry(handler) {

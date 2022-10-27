@@ -1,4 +1,8 @@
-export default class PeakListView {
+import View from "./view.js";
+
+export default class PeakListView extends View {
+  _navBtn = document.querySelector("#nav-btn-peak-lists");
+
   // PUBLIC METHODS
 
   addHandlerSavedLists(handler) {
