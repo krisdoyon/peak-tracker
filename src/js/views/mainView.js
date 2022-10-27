@@ -13,11 +13,7 @@ class MainView {
   // PUBLIC METHODS
 
   addHandlerPageLoad(handler) {
-    window.addEventListener("load", function () {
-      window.location.pathname.slice(1) ||
-        this.window.history.replaceState(null, "", "/map");
-      handler();
-    });
+    window.addEventListener("load", handler);
   }
 
   addHandlerCloseContainer(handler) {
@@ -26,14 +22,14 @@ class MainView {
 
   addHandlerBtnBack(handler) {
     this.#containerMain.addEventListener("click", function (e) {
-      const btn = e.target.closest(".btn-back");
-      if (!btn) return;
-      handler(btn.dataset.display);
+      const clicked = e.target.closest(".btn-back");
+      if (!clicked) return;
+      const { containerId } = clicked.dataset;
+      handler(containerId);
     });
   }
 
   closeContainer() {
-    window.history.replaceState(null, "", "/map");
     this.#containerMain.classList.add("hidden");
     this.#allContainers.forEach((container) =>
       container.classList.add("hidden")

@@ -2,8 +2,8 @@ import icons from "../../img/sprite.svg";
 import LogView from "./logView.js";
 
 class LogEntryView extends LogView {
-  href = "/log-entry";
-  #data;
+  #entry;
+  hash = "#log-entry";
   _container = document.querySelector(".container-log-entry");
   #logEntryEl = document.querySelector(".log-entry");
   #logEntryLabelNumber = document.querySelector(".log-entry__label-number");
@@ -11,7 +11,6 @@ class LogEntryView extends LogView {
   #btnDeleteWrapper = this._container.querySelector(
     ".container__heading-button-wrapper"
   );
-  #peakListGrid = document.querySelector(".log-entry__lists");
 
   // PUBLIC METHODS
 
@@ -26,67 +25,72 @@ class LogEntryView extends LogView {
   }
 
   render(entry) {
+    this.#entry = entry;
     this.#logEntryEl.innerHTML = "";
-    this.#logEntryLabelNumber.textContent = `${entry.peaks.length} ${
+    this.#logEntryLabelNumber.innerHTML = `${entry.peaks.length} ${
       entry.peaks.length > 1 ? "Peaks" : "Peak"
     }`;
-    this.#logEntryHeading.textContent = `${entry.date.month.alpha} ${entry.date.day}, ${entry.date.year}`;
+    this.#logEntryHeading.innerHTML = `${entry.date.month.alpha} ${entry.date.day}, ${entry.date.year}`;
     this.#btnDeleteWrapper.innerHTML = `${this._generateDeleteButtonMarkup(
       entry,
       "small"
     )}<span>Delete entry</span>`;
     this.#logEntryEl.insertAdjacentHTML(
       "beforeend",
-      this.#generateLogEntryMarkup(entry)
+      this.#generateLogEntryMarkup()
     );
   }
 
   // PRIVATE METHODS
 
-  #generateLogEntryMarkup(entry) {
+  #generateLogEntryMarkup() {
     const markup = `
       <span class="log-entry__label">Peak Lists:</span>
-      <div class="log-entry__lists">${this.#generatePeakListMarkup(entry)}</div>
+      <div class="log-entry__lists">${this.#generatePeakListMarkup()}</div>
       <span class="log-entry__label">Peaks:</span>
       <div class="log-entry__peaks" style="grid-template-rows:repeat(${
-        entry.peaks.length
-      }, max-content)">${this.#generatePeaksMarkup(entry)}</div>
+        this.#entry.peaks.length
+      }, max-content)">${this.#generatePeaksMarkup()}</div>
       <span class="log-entry__label">Distance:</span>
       <span>${
-        entry.stats.distance ? entry.stats.distance + ` mi` : "n/a"
+        this.#entry.stats.distance ? this.#entry.stats.distance + ` mi` : "n/a"
       }</span>
       <span class="log-entry__label">Elevation Gain:</span>
       <span>${
-        entry.stats.elevation
-          ? entry.stats.elevation.toLocaleString() + ` ft`
+        this.#entry.stats.elevation
+          ? this.#entry.stats.elevation.toLocaleString() + ` ft`
           : "n/a"
       }</span>
       <span class="log-entry__label">Time:</span>
-      <span>${entry.stats.time ? entry.stats.time + ` hrs` : "n/a"}</span>
+      <span>${
+        this.#entry.stats.time ? this.#entry.stats.time + ` hrs` : "n/a"
+      }</span>
       <span class="log-entry__label">Avg Speed:</span>
       <span>${
-        entry.stats.avgSpeed ? entry.stats.avgSpeed + ` mi/hr` : "n/a"
+        this.#entry.stats.avgSpeed
+          ? this.#entry.stats.avgSpeed + ` mi/hr`
+          : "n/a"
       }</span>
       <span class="log-entry__label">Avg Elevation Gain:</span>
       <span>${
-        entry.stats.avgElevation
-          ? entry.stats.avgElevation.toLocaleString() + ` ft/mi`
+        this.#entry.stats.avgElevation
+          ? this.#entry.stats.avgElevation.toLocaleString() + ` ft/mi`
           : "n/a"
       }</span>
       <span class="log-entry__label">Rating:</span>
-      <span>${this.#generateRatingMarkup(entry.rating)}</span>
+      <span>${this.#generateRatingMarkup()}</span>
       <span class="log-entry__label">Notes:</span>
-      <span>${entry.notes ? entry.notes : "n/a"}</span>`;
+      <span>${this.#entry.notes ? this.#entry.notes : "n/a"}</span>`;
     return markup;
   }
 
-  #generateRatingMarkup(rating) {
+  #generateRatingMarkup() {
     let markup = "";
-    if (rating) {
-      for (let i = 0; i < rating; i++) {
+    if (this.#entry.rating) {
+      for (let i = 0; i < this.#entry.rating; i++) {
         markup += `<svg class="btn-star__icon btn-star__icon--full"><use href="${icons}#icon-star-solid"></use></svg>`;
       }
-      for (let i = 0; i < 5 - rating; i++) {
+      for (let i = 0; i < 5 - this.#entry.rating; i++) {
         markup += `<svg class="btn-star__icon"><use href="${icons}#icon-star"></use></svg>`;
       }
     } else {
@@ -95,21 +99,23 @@ class LogEntryView extends LogView {
     return markup;
   }
 
-  #generatePeaksMarkup(entry) {
+  #generatePeaksMarkup() {
     let markup = "";
-    entry.peaks.forEach(
+    this.#entry.peaks.forEach(
       (peak) =>
         (markup += `<span class='log-entry__peak'>${
           peak.name
         } - ${peak.elevation.toLocaleString()} ft</span>`)
     );
-    markup += `<button class='btn btn--green btn-view--sm' data-type='log' data-id='${entry.logID}'>VIEW</button>`;
+    markup += `<button class='btn btn--green btn-view--sm' data-type='log' data-id='${
+      this.#entry.logID
+    }'>VIEW</button>`;
     return markup;
   }
 
-  #generatePeakListMarkup(entry) {
+  #generatePeakListMarkup() {
     let markup = "";
-    entry.lists.forEach((list) => {
+    this.#entry.lists.forEach((list) => {
       markup += `<span>${list.title}</span><button class='btn btn--green btn-view--sm' data-type='list' data-id='${list.listID}'>VIEW</button>`;
     });
     return markup;

@@ -2,7 +2,7 @@ import icons from "../../img/sprite.svg";
 import PeakListView from "./peakListView.js";
 
 class PeakListTableView extends PeakListView {
-  href = "/peak-list-table";
+  hash = "#peak-list-table";
   #data;
   _container = document.querySelector(".container-peak-list-table");
   #containerHeading = this._container.querySelector(".container__heading");

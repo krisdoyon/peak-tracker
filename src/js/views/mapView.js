@@ -3,14 +3,12 @@ import mtnIconGreen from "url:../../img/mtn-icon-green.png";
 import markerIcon from "url:../../img/marker-icon.png";
 
 class MapView {
-  href = "/map";
-  #navBtn = document.querySelector("#nav-btn-map");
-  #allNavBtns = document.querySelectorAll(".nav__btn");
-  #map;
-  #markersArr = [];
-  #markersLayer;
   #data;
+  #map;
+  #markersLayer;
   #locationMarker;
+  #markersArr = [];
+  #navBtn = document.querySelector("#nav-btn-map");
   #btnLocation = document.querySelector(".btn-location");
   #btnLoadData = document.querySelector("#btn-load-data-map");
   #btnClearData = document.querySelector("#btn-clear-data-map");
@@ -18,16 +16,7 @@ class MapView {
   // PUBLIC METHODS
 
   addHandlerNavClick(handler) {
-    this.#navBtn.addEventListener(
-      "click",
-      function () {
-        this.#allNavBtns.forEach((btn) =>
-          btn.classList.remove("nav__btn--active")
-        );
-        this.#navBtn.classList.add("nav__btn--active");
-        handler();
-      }.bind(this)
-    );
+    this.#navBtn.addEventListener("click", handler);
   }
 
   addHandlerLoadData(handler) {
@@ -70,21 +59,12 @@ class MapView {
     this.#locationMarker = new L.Marker(coords, {
       icon: icon,
     });
-
     this.#locationMarker.addTo(this.#map);
   }
 
-  addLocationPopup(address) {
-    this.#locationMarker
-      .bindPopup(L.popup({}))
-      .setPopupContent(`<div class='location-popup'>${address}</div>`);
-    this.#locationMarker.on("mouseover", function () {
-      this.openPopup();
-    });
-    this.#locationMarker.on("click", function () {
-      this.openPopup();
-    });
-    this.#locationMarker.openPopup();
+  clearMap() {
+    this.#markersLayer && this.#markersLayer.clearLayers();
+    this.#markersArr = [];
   }
 
   plotPeaksOnMap(data) {
@@ -98,9 +78,17 @@ class MapView {
     });
   }
 
-  clearMap() {
-    this.#markersLayer && this.#markersLayer.clearLayers();
-    this.#markersArr = [];
+  addLocationPopup(address) {
+    this.#locationMarker
+      .bindPopup(L.popup({}))
+      .setPopupContent(`<div class='location-popup'>${address}</div>`);
+    this.#locationMarker.on("mouseover", function () {
+      this.openPopup();
+    });
+    this.#locationMarker.on("click", function () {
+      this.openPopup();
+    });
+    this.#locationMarker.openPopup();
   }
 
   openPopup(peakId) {

@@ -1,5 +1,5 @@
 export default class View {
-  href;
+  hash;
   _navBtn;
   _container;
   _allContainers = document.querySelectorAll(".container");
@@ -13,7 +13,7 @@ export default class View {
   }
 
   showContainer() {
-    window.history.replaceState(null, "", this.href);
+    window.history.replaceState(null, "", this.hash);
     this._allContainers.forEach((container) =>
       container.classList.add("hidden")
     );

@@ -1,7 +1,7 @@
 import View from "./view.js";
 
 class StatsView extends View {
-  href = "/stats";
+  hash = "#stats";
   _navBtn = document.querySelector("#nav-btn-stats");
   _container = document.querySelector(".container-stats");
   #data;

@@ -2,7 +2,7 @@ import icons from "../../img/sprite.svg";
 import PeakListView from "./peakListView.js";
 
 class PeakListPreviewView extends PeakListView {
-  href = "/peak-list-preview";
+  hash = "#peak-list-preview";
   _container = document.querySelector(".container-peak-list-preview");
   #data;
   #previewType;

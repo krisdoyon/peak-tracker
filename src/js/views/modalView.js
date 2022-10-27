@@ -29,11 +29,8 @@ class ModalView {
   // PRIVATE METHODS
 
   #addHandlerCloseModal() {
-    this.#btnClose.addEventListener("click", this.#closeModal.bind(this));
-    this.#overlay.addEventListener("click", this.#closeModal.bind(this));
-    this.#btnStartScratch.addEventListener(
-      "click",
-      this.#closeModal.bind(this)
+    [this.#btnClose, this.#overlay, this.#btnStartScratch].forEach((el) =>
+      el.addEventListener("click", this.#closeModal.bind(this))
     );
   }
 

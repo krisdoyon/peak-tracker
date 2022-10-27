@@ -2,7 +2,7 @@ import icons from "../../img/sprite.svg";
 import View from "./view.js";
 
 class newEntryView extends View {
-  href = "/new-entry";
+  hash = "#new-entry";
   _navBtn = document.querySelector("#nav-btn-new-entry");
   _container = document.querySelector(".container-new-entry");
   #gridDate = document.querySelector(".form-new-entry__date-grid");
@@ -12,7 +12,6 @@ class newEntryView extends View {
   #gridStats = document.querySelector(".form-new-entry__stats-grid");
   #statRows = [...document.querySelectorAll(".form-new-entry__stat-row")];
   #statRowIcons = [...this.#gridStats.querySelectorAll(".btn-icon__icon")];
-  #statBtns = [...this.#gridStats.querySelectorAll(".btn-add-stat")];
   #inputDate = document.querySelector("#date");
   #chooseListSelect = document.querySelector("#choose-list-new-entry");
   #inputElevation = document.querySelector("#elevation");
@@ -21,7 +20,6 @@ class newEntryView extends View {
   #inputMinutes = document.querySelector("#minutes");
   #inputNotes = document.querySelector("#notes");
   #wrapperStars = document.querySelector(".form-new-entry__wrapper-stars");
-  #allStarIcons = [...document.querySelectorAll(".btn-star__icon")];
   #allStarButtons = [...document.querySelectorAll(".btn-star")];
   #formNewEntry = document.querySelector("#form-new-entry");
   #btnClearForm = document.querySelector(".btn-clear-form");
@@ -44,9 +42,9 @@ class newEntryView extends View {
   addHandlerDate(handler) {
     this.#gridDate.addEventListener("click", function (e) {
       e.preventDefault();
-      const btn = e.target.closest(".btn-date");
-      if (!btn) return;
-      const date = btn.textContent.toLowerCase().trim();
+      const clicked = e.target.closest(".btn-date");
+      if (!clicked) return;
+      const date = clicked.textContent.toLowerCase().trim();
       handler(date);
     });
   }
@@ -62,42 +60,12 @@ class newEntryView extends View {
   }
 
   addHandlerAddEntry(handler) {
-    this.#btnAddEntry.addEventListener(
-      "click",
+    this.#formNewEntry.addEventListener(
+      "submit",
       function (e) {
         e.preventDefault();
-        const date = this.#inputDate.value;
-        if (!date) {
-          alert("Please enter a complete date in the format MM-DD-YYY");
-          return;
-        }
-
-        if (
-          +date.slice(0, 4) < 1900 ||
-          new Date(date).getTime() > new Date().getTime()
-        ) {
-          alert(`Please enter a date between 01-01-1900 and today`);
-          return;
-        }
-
-        const peakIDs = this.#getCheckedPeaks();
-        if (peakIDs.length <= 0) {
-          alert("Please choose at least one peak from a list");
-          return;
-        }
-
-        const formData = {
-          date,
-          peakIDs,
-          elevation: this.#inputElevation.value,
-          distance: this.#inputDistance.value,
-          hours: this.#inputHours.value,
-          minutes: this.#inputMinutes.value,
-          notes: this.#inputNotes.value,
-          rating: this.#getRating(),
-        };
+        const formData = this.getFormData();
         handler(formData);
-        this.clearForm();
       }.bind(this)
     );
   }
@@ -122,13 +90,7 @@ class newEntryView extends View {
 
   displayCheckboxes(data) {
     this.#gridPeakCheckboxes.classList.remove("hidden");
-    this.#gridPeakCheckboxes.innerHTML = "";
-    data.peaks.forEach((peak) =>
-      this.#gridPeakCheckboxes.insertAdjacentHTML(
-        "beforeend",
-        this.#generateCheckboxMarkup(peak)
-      )
-    );
+    this.#gridPeakCheckboxes.innerHTML = this.#generateCheckboxGridMarkup(data);
     this.#chooseListSelect.value = data.listID;
     if (data.checkedID) {
       const checkbox = [
@@ -138,11 +100,33 @@ class newEntryView extends View {
     }
   }
 
+  getFormData() {
+    const formData = {
+      date: this.#inputDate.value || undefined,
+      peakIDs: this.#getCheckedPeaks(),
+      elevation: this.#inputElevation.value || undefined,
+      distance: this.#inputDistance.value || undefined,
+      hours: this.#inputHours.value || undefined,
+      minutes: this.#inputMinutes.value || undefined,
+      notes: this.#inputNotes.value || undefined,
+      rating: this.#getRating(),
+    };
+    return formData;
+  }
+
   initializeListSelect(data) {
     this.#chooseListSelect.insertAdjacentHTML(
       "beforeend",
       data.map((list) => this.#generateSelectRowMarkup(list)).join("")
     );
+  }
+
+  isFormEmpty() {
+    const formData = this.getFormData();
+    const isEmpty = Object.values(formData).every(
+      (input) => input === undefined
+    );
+    return isEmpty;
   }
 
   // PRIVATE METHODS
@@ -219,7 +203,16 @@ class newEntryView extends View {
     starBtn.querySelector("use").setAttribute("href", `${icons}#icon-star`);
   }
 
-  #generateCheckboxMarkup(peak) {
+  #generateSelectRowMarkup(list) {
+    const markup = `<option value="${list.listID}">${list.title}</option>`;
+    return markup;
+  }
+
+  #generateCheckboxGridMarkup(data) {
+    return data.peaks.map(this.#generateSingleCheckboxMarkup).join("");
+  }
+
+  #generateSingleCheckboxMarkup(peak) {
     const markup = `
     <li>
       <label class="form-new-entry__checkbox-container">${peak.name}
@@ -229,6 +222,16 @@ class newEntryView extends View {
     </li>
     `;
     return markup;
+  }
+
+  #getCheckedPeaks() {
+    const allCheckboxesArr = [
+      ...this.#gridPeakCheckboxes.querySelectorAll("input"),
+    ];
+    const checkedPeaksIDArr = allCheckboxesArr
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => +checkbox.value);
+    return checkedPeaksIDArr.length > 0 ? checkedPeaksIDArr : undefined;
   }
 
   #toggleStat(e) {
@@ -248,25 +251,11 @@ class newEntryView extends View {
     }
   }
 
-  #getCheckedPeaks() {
-    const allCheckboxesArr = [
-      ...this.#gridPeakCheckboxes.querySelectorAll("input"),
-    ];
-    const checkedPeaksIDArr = allCheckboxesArr
-      .filter((checkbox) => checkbox.checked)
-      .map((checkbox) => +checkbox.value);
-    return checkedPeaksIDArr;
-  }
-
   #getRating() {
-    return +this.#allStarButtons.filter(
-      (star) => star.dataset.filled === "true"
-    ).length;
-  }
-
-  #generateSelectRowMarkup(list) {
-    const markup = `<option value="${list.listID}">${list.title}</option>`;
-    return markup;
+    return (
+      +this.#allStarButtons.filter((star) => star.dataset.filled === "true")
+        .length || undefined
+    );
   }
 }
 

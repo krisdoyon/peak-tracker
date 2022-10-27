@@ -6,17 +6,13 @@ class LogPreviewView extends LogView {
   #noEntries;
   #curSelectValues;
   #allSelectValues;
-  #page;
-  #numPages;
-  href = "/log-preview";
-  _container = document.querySelector(".container-log-preview");
-  #previewGrid = document.querySelector(".preview-list--log-entries");
   #listSelect;
   #monthSelect;
   #yearSelect;
-  #allSelects;
+  hash = "#log-preview";
+  _container = document.querySelector(".container-log-preview");
+  #previewGrid = document.querySelector(".preview-list--log-entries");
   #selectWrapper = this._container.querySelector(".preview-wrapper");
-
   #btnAddEntry = this._container.querySelector(".btn-add-entry");
   #noEntriesMessage = this._container.querySelector(".no-data__message");
   #noLogEntries = document.querySelector(".no-log-entries");
@@ -33,7 +29,7 @@ class LogPreviewView extends LogView {
       function (e) {
         const clicked = e.target.closest(".btn-view");
         if (!clicked) return;
-        const { logId } = clicked.closest(".preview-list__entry").dataset;
+        const { logId } = clicked.dataset;
         handler(+logId);
       }.bind(this)
     );
@@ -58,7 +54,8 @@ class LogPreviewView extends LogView {
       function (e) {
         const clicked = e.target.closest(".btn-pagination");
         if (!clicked) return;
-        handler(this.#curSelectValues, +clicked.dataset.page);
+        const { page } = clicked.dataset;
+        handler(this.#curSelectValues, +page);
       }.bind(this)
     );
   }
@@ -74,13 +71,10 @@ class LogPreviewView extends LogView {
     if (data.entries.length) {
       this.#noLogEntries.classList.add("hidden");
       this.#previewGrid.classList.remove("hidden");
-      this.#previewGrid.insertAdjacentHTML(
-        "beforeend",
-        this.#generatePreviewMarkup()
-      );
+      this.#previewGrid.innerHTML = this.#generatePreviewMarkup();
     } else {
-      this.#showNoEntriesMessage();
       this.#previewGrid.classList.add("hidden");
+      this.#showNoEntriesMessage();
     }
     this.#listSelect = document.querySelector("#select-list-log-preview");
     this.#monthSelect = document.querySelector("#select-month-log-preview");
@@ -100,23 +94,21 @@ class LogPreviewView extends LogView {
 
   #generateSinglePreviewMarkup(entry) {
     const markup = `
-    <li class="preview-list__entry" data-log-id="${
-      entry.logID
-    }" data-list-id="${entry.listID}">
-      ${this._generateDeleteButtonMarkup(entry)}
-      <div class="preview-list__info">
-        <h2 class="preview-list__label-primary">
-          <strong>${entry.date.month.alpha} ${entry.date.day}, ${
-      entry.date.year
-    } </strong> - ${entry.peaks.length} ${
-      entry.peaks.length > 1 ? "Peaks" : "Peak"
-    }
-        </h2>
-        <span class="preview-list__label-secondary">${entry.peakString}</span>
-      </div>
-              
-              <button class="btn btn--green btn-view btn-view-log">VIEW</button>
-            </li>`;
+      <li class="preview-list__entry">
+        ${this._generateDeleteButtonMarkup(entry)}
+        <div class="preview-list__info">
+          <h2 class="preview-list__label-primary"><strong>${
+            entry.date.month.alpha
+          } ${entry.date.day}, ${entry.date.year}</strong> - ${
+      entry.peaks.length
+    } ${entry.peaks.length > 1 ? "Peaks" : "Peak"}
+          </h2>
+          <span class="preview-list__label-secondary">${entry.peakString}</span>
+        </div>
+        <button class="btn btn--green btn-view btn-view-log" data-log-id="${
+          entry.logID
+        }">VIEW</button>
+      </li>`;
     return markup;
   }
 
@@ -223,12 +215,3 @@ class LogPreviewView extends LogView {
 }
 
 export default new LogPreviewView();
-
-`<button data-page="1" class="btn btn-pagination btn-pagination--prev">
-  <span>Page 1</span>
-</button>
-<label for="select-list-log-preview">Filter by list:</label>
-
-<button data-page="2" class="btn btn-pagination btn-pagination--next">
-  <span>Page 2</span>
-</button>`;

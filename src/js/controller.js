@@ -14,14 +14,16 @@ import statsView from "./views/statsView.js";
 // MAIN VIEW
 
 const controlPageLoad = function () {
-  const href = window.location.pathname.slice(1);
-  href === "map" && controlMap();
-  href === "peak-list-preview" && controlPeakListPreview();
-  href === "peak-list-table" && controlPeakListTable();
-  href === "log-preview" && controlLogPreview();
-  href === "log-entry" && controlLogEntry();
-  href === "stats" && controlStats();
-  href === "new-entry" && controlNewEntry();
+  window.location.hash.slice(1) ||
+    this.window.history.replaceState(null, "", "#map");
+  const hash = window.location.hash.slice(1);
+  hash === "map" && controlMap();
+  hash === "peak-list-preview" && controlPeakListPreview();
+  hash === "peak-list-table" && controlPeakListTable();
+  hash === "log-preview" && controlLogPreview();
+  hash === "log-entry" && controlLogEntry();
+  hash === "stats" && controlStats();
+  hash === "new-entry" && controlNewEntry();
 };
 
 const controlGoBack = function (containerID) {
@@ -41,14 +43,29 @@ const controlGoBack = function (containerID) {
   mapView.clearMap();
 };
 
+// SIDEBAR
+
+const controlSidebar = function () {
+  model.updateSidebarState();
+  sidebarView.toggleSidebar(model.state.sidebarHidden);
+};
+
+// MODAL
+
 const controlLoadTestData = function () {
-  model.loadTestData();
-  logPreviewView.render(model.getLogPreviewPage());
-  logPreviewView.showContainer();
+  if (model.loadTestData()) {
+    logPreviewView.render(model.getLogPreviewPage());
+    logPreviewView.showContainer();
+    location.reload();
+  }
 };
 
 const controlClearAllData = function () {
-  model.clearAllData();
+  if (model.clearAllData()) {
+    logPreviewView.render(model.getLogPreviewPage());
+    logPreviewView.showContainer();
+    location.reload();
+  }
 };
 
 const controlOpenModal = function () {
@@ -60,17 +77,14 @@ const controlFirstVisit = function () {
   model.setSessionStorage();
 };
 
-const controlSidebar = function () {
-  model.updateSidebarHidden();
-  sidebarView.toggleSidebar(model.state.sidebarHidden);
-};
-
 /////////////////////////////////////////////////////////////////////////////////
 // MAP
 
 const controlMap = function () {
-  mainView.closeContainer();
-  mapView.clearMap();
+  if (controlClearForm()) {
+    window.history.replaceState(null, "", "#map");
+    mainView.closeContainer();
+  }
 };
 
 const controlLocation = async function () {
@@ -103,10 +117,11 @@ const controlPeakListPreview = function (
   previewType = model.state.peakPreview.previewType,
   page = 1
 ) {
-  mapView.clearMap();
-  model.loadPeakListPreviewData();
-  peakListPreviewView.render(model.getListPreviewPage(previewType, page));
-  peakListPreviewView.showContainer();
+  if (controlClearForm()) {
+    model.loadPeakListPreviewData();
+    peakListPreviewView.render(model.getListPreviewPage(previewType, page));
+    peakListPreviewView.showContainer();
+  }
 };
 
 const controlLogTrip = function (listID, checkedID) {
@@ -161,9 +176,10 @@ const controlLogPreview = function (
   curSelectValues = model.state.logPreview.curSelectValues,
   page = 1
 ) {
-  mapView.clearMap();
-  logPreviewView.render(model.getLogPreviewPage(curSelectValues, page));
-  logPreviewView.showContainer();
+  if (controlClearForm()) {
+    logPreviewView.render(model.getLogPreviewPage(curSelectValues, page));
+    logPreviewView.showContainer();
+  }
 };
 
 const controlDeleteLogEntry = function (logID) {
@@ -197,9 +213,10 @@ const controlLogViewBtns = function (type, id) {
 // STATS
 
 const controlStats = function () {
-  mapView.clearMap();
-  statsView.render(model.getStatsData());
-  statsView.showContainer();
+  if (controlClearForm()) {
+    statsView.render(model.getStatsData());
+    statsView.showContainer();
+  }
 };
 
 const controlStatsSelects = function (selectValues) {
@@ -210,28 +227,26 @@ const controlStatsSelects = function (selectValues) {
 // NEW ENTRY
 
 const controlNewEntry = function () {
-  if (model.state.newEntry.curSelectValue) {
-    model.loadMapData("list", model.state.newEntry.curSelectValue);
-    newEntryView.displayCheckboxes(
-      model.getCheckboxData(model.state.newEntry.curSelectValue)
-    );
-    mapView.plotPeaksOnMap(model.state.map);
-  }
   newEntryView.showContainer();
 };
 
 const controlClearForm = function () {
-  model.resetNewEntryState();
+  const message =
+    "You have unsaved changes that will be discarded by this action. Do you want to continue?";
+  if (!newEntryView.isFormEmpty() && !confirm(message)) return false;
   newEntryView.clearForm();
   mapView.clearMap();
+  return true;
 };
 
 const controlFormAddEntry = function (formData) {
-  model.addLogEntry(formData);
-  model.loadMapData("log", model.state.curLogEntry.logID);
-  logEntryView.render(model.state.curLogEntry);
-  mapView.plotPeaksOnMap(model.state.map);
-  logEntryView.showContainer();
+  if (model.addLogEntry(formData)) {
+    newEntryView.clearForm();
+    model.loadMapData("log", model.state.curLogEntry.logID);
+    mapView.plotPeaksOnMap(model.state.map);
+    logEntryView.render(model.state.curLogEntry);
+    logEntryView.showContainer();
+  }
 };
 
 const controlNewEntryDate = function (date) {
@@ -244,57 +259,59 @@ const controlFormSelect = function (listID) {
   mapView.plotPeaksOnMap(model.state.map);
 };
 
+/////////////////////////////////////////////////////////////////////////////////
+// INIT
+
 const init = function () {
+  controlFirstVisit();
+  // MAP
   mapView.loadMap();
   mapView.addHandlerNavClick(controlMap);
   mapView.addHandlerGetLocation(controlLocation);
   mapView.addHandlerLoadData(controlLoadTestData);
   mapView.addHandlerClearAllData(controlClearAllData);
-
+  // MODAL
   modalView.addHandlerLoadData(controlLoadTestData);
-
+  // MAIN
   mainView.addHandlerCloseContainer(controlMap);
   mainView.addHandlerBtnBack(controlGoBack);
-
   mainView.addHandlerPageLoad(controlPageLoad);
-
+  // SIDEBAR
   sidebarView.addHandlerBtnAbout(controlOpenModal);
   sidebarView.addHandlerSidebar(controlSidebar);
   sidebarView.toggleSidebar(model.state.sidebarHidden);
-
+  // PEAK LIST PREVIEW
   peakListPreviewView.addHandlerViewTable(controlPeakListTable);
   peakListPreviewView.addHandlerSavedLists(controlSavedListsPreview);
   peakListPreviewView.addHandlerPreviewType(controlPeakListPreview);
   peakListPreviewView.addHandlerPagination(controlPeakListPreview);
-
   peakListPreviewView.addHandlerNavClick(controlPeakListPreview);
+  // PEAK LIST TABLE
   peakListTableView.addHandlerSortTable(controlTableSort);
   peakListTableView.addHandlerRowHover(controlTableRowHover);
   peakListTableView.addHandlerSavedLists(controlSavedListsTable);
   peakListTableView.addHandlerLogTrip(controlLogTrip);
-
+  // LOG PREVIEW
   logPreviewView.addHandlerNavClick(controlLogPreview);
   logPreviewView.addHandlerShowEntry(controlLogEntry);
   logPreviewView.addHandlerDeleteEntry(controlDeleteLogEntry);
   logPreviewView.addHandlerAddEntry(controlNewEntry);
   logPreviewView.addHandlerLogSelects(controlLogSelects);
   logPreviewView.addHandlerPagination(controlLogPreview);
-
+  // LOG ENTRY
   logEntryView.addHandlerDeleteEntry(controlDeleteLogEntry);
   logEntryView.addHandlerViewMap(controlLogViewBtns);
-
+  // NEW ENTRY
   newEntryView.initializeListSelect(model.getListSelectData());
   newEntryView.addHandlerNavClick(controlNewEntry);
   newEntryView.addHandlerDate(controlNewEntryDate);
   newEntryView.addHandlerPeakListSelect(controlFormSelect);
   newEntryView.addHandlerAddEntry(controlFormAddEntry);
   newEntryView.addHandlerClearForm(controlClearForm);
-
+  // STATS
   statsView.addHandlerLogSelects(controlStatsSelects);
   statsView.addHandlerAddEntry(controlNewEntry);
   statsView.addHandlerNavClick(controlStats);
-
-  controlFirstVisit();
 };
 
 init();
