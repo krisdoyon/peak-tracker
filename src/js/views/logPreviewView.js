@@ -2,13 +2,20 @@ import LogView from "./logView.js";
 
 class LogPreviewView extends LogView {
   #data;
+  #entries;
   #noEntries;
+  #curSelectValues;
+  #allSelectValues;
+  #page;
+  #numPages;
+  href = "/log-preview";
   _container = document.querySelector(".container-log-preview");
-  #logEntriesPreviewEl = document.querySelector(".log-entries-preview");
-  #listSelect = document.querySelector("#select-list-log-preview");
-  #monthSelect = document.querySelector("#select-month-log-preview");
-  #yearSelect = document.querySelector("#select-year-log-preview");
-  #allSelects = [this.#listSelect, this.#monthSelect, this.#yearSelect];
+  #previewGrid = document.querySelector(".preview-list--log-entries");
+  #listSelect;
+  #monthSelect;
+  #yearSelect;
+  #allSelects;
+  #selectWrapper = this._container.querySelector(".preview-wrapper");
 
   #btnAddEntry = this._container.querySelector(".btn-add-entry");
   #noEntriesMessage = this._container.querySelector(".no-data__message");
@@ -33,65 +40,60 @@ class LogPreviewView extends LogView {
   }
 
   addHandlerLogSelects(handler) {
-    this.#allSelects.forEach((select) =>
-      select.addEventListener(
-        "change",
-        function () {
-          const listID = this.#listSelect.value;
-          const month = this.#monthSelect.value;
-          const year = this.#yearSelect.value;
-          const currentSelectValues = { listID, month, year };
-          handler(currentSelectValues);
-        }.bind(this)
-      )
+    this.#selectWrapper.addEventListener(
+      "change",
+      function () {
+        const listID = this.#listSelect.value;
+        const month = this.#monthSelect.value;
+        const year = this.#yearSelect.value;
+        const currentSelectValues = { listID, month, year };
+        handler(currentSelectValues);
+      }.bind(this)
     );
   }
 
-  initializeListSelect(data) {
-    this.#listSelect.insertAdjacentHTML(
-      "beforeend",
-      data.map((list) => this.#generateListSelectRowMarkup(list)).join("")
+  addHandlerPagination(handler) {
+    this.#selectWrapper.addEventListener(
+      "click",
+      function (e) {
+        const clicked = e.target.closest(".btn-pagination");
+        if (!clicked) return;
+        handler(this.#curSelectValues, +clicked.dataset.page);
+      }.bind(this)
     );
-  }
-
-  updateYearSelect(logYears) {
-    if (logYears.length) {
-      this.#yearSelect.options.length = 0;
-      this.#yearSelect.insertAdjacentHTML(
-        "beforeend",
-        this.#generateYearSelectRowMarkup("all", "All years")
-      );
-      this.#yearSelect.insertAdjacentHTML(
-        "beforeend",
-        logYears
-          .map((year) => this.#generateYearSelectRowMarkup(year, year))
-          .join("")
-      );
-    }
   }
 
   render(data) {
     this.#data = data;
+    this.#entries = data.entries;
     this.#noEntries = data.noEntries;
-    this.#listSelect.value = data.selectValues.listID;
-    this.#monthSelect.value = data.selectValues.month;
-    this.#yearSelect.value = data.selectValues.year;
-    this.#logEntriesPreviewEl.innerHTML = "";
-    if (this.#data.entries.length) {
+    this.#curSelectValues = data.curSelectValues;
+    this.#allSelectValues = data.allSelectValues;
+    this.#selectWrapper.innerHTML = this.#generateSelectWrapperMarkup();
+    this.#previewGrid.innerHTML = "";
+    if (data.entries.length) {
       this.#noLogEntries.classList.add("hidden");
-      this.#logEntriesPreviewEl.insertAdjacentHTML(
+      this.#previewGrid.classList.remove("hidden");
+      this.#previewGrid.insertAdjacentHTML(
         "beforeend",
         this.#generatePreviewMarkup()
       );
     } else {
       this.#showNoEntriesMessage();
+      this.#previewGrid.classList.add("hidden");
     }
+    this.#listSelect = document.querySelector("#select-list-log-preview");
+    this.#monthSelect = document.querySelector("#select-month-log-preview");
+    this.#yearSelect = document.querySelector("#select-year-log-preview");
+    this.#listSelect.value = this.#curSelectValues.listID;
+    this.#monthSelect.value = this.#curSelectValues.month;
+    this.#yearSelect.value = this.#curSelectValues.year;
   }
 
   // PRIVATE METHODS
 
   #generatePreviewMarkup() {
-    return this.#data.entries
+    return this.#entries
       .map((entry) => this.#generateSinglePreviewMarkup(entry))
       .join("");
   }
@@ -123,8 +125,88 @@ class LogPreviewView extends LogView {
     return markup;
   }
 
-  #generateYearSelectRowMarkup(value, text) {
-    const markup = `<option value="${value}">${text}</option>`;
+  #generateMonthSelectRowMarkup(month) {
+    const markup = `<option value="${month.numeric}">${month.alpha}</option>`;
+    return markup;
+  }
+
+  #generateYearSelectRowMarkup(year) {
+    const markup = `<option value="${year}">${year}</option>`;
+    return markup;
+  }
+
+  #generateSelectWrapperMarkup() {
+    const curPage = this.#data.page;
+    const numPages = this.#data.numPages;
+
+    // First page, other pages
+    if (curPage === 1 && numPages > 1) {
+      const markup = `
+      ${this.#generateSelectMarkup()}
+        <button data-page="2" class="btn btn-pagination btn-pagination--next">
+          <span>Page 2</span>
+        </button>`;
+      return markup;
+    }
+
+    // Last page, other pages
+    if (curPage === numPages && numPages > 1) {
+      const markup = `
+        <button data-page="${
+          numPages - 1
+        }" class="btn btn-pagination btn-pagination--prev">
+          <span>Page ${numPages - 1}</span>
+        </button>
+        ${this.#generateSelectMarkup()}`;
+      return markup;
+    }
+
+    // First page, no other pages
+    if (curPage === 1 && numPages === 1) {
+      const markup = this.#generateSelectMarkup();
+      return markup;
+    }
+
+    // Other page
+    if (curPage < numPages) {
+      const markup = `
+      <button data-page="${
+        curPage - 1
+      }" class="btn btn-pagination btn-pagination--prev">
+          <span>Page ${curPage - 1}</span>
+        </button>
+      ${this.#generateSelectMarkup()}
+        <button data-page="${
+          curPage + 1
+        }" class="btn btn-pagination btn-pagination--next">
+          <span>Page ${curPage + 1}</span>
+        </button>`;
+      return markup;
+    }
+  }
+
+  #generateSelectMarkup() {
+    const markup = `
+      <label for="select-list-log-preview">Filter by list:</label>
+      <select class="select-list" id="select-list-log-preview">
+        <option value="all" selected>All lists</option>
+        ${this.#allSelectValues.lists
+          .map(this.#generateListSelectRowMarkup)
+          .join("")}
+      </select>
+      <label for="select-month-log-preview">Filter by date:</label>
+      <select id="select-month-log-preview">
+        <option value="all" selected>All Months</option>
+        ${this.#allSelectValues.months
+          .map(this.#generateMonthSelectRowMarkup)
+          .join("")}
+      </select>
+      <select id="select-year-log-preview">
+        <option value="all" selected>All years</option>
+        ${this.#allSelectValues.years
+          .map(this.#generateYearSelectRowMarkup)
+          .join("")}
+      </select>`;
     return markup;
   }
 
@@ -141,3 +223,12 @@ class LogPreviewView extends LogView {
 }
 
 export default new LogPreviewView();
+
+`<button data-page="1" class="btn btn-pagination btn-pagination--prev">
+  <span>Page 1</span>
+</button>
+<label for="select-list-log-preview">Filter by list:</label>
+
+<button data-page="2" class="btn btn-pagination btn-pagination--next">
+  <span>Page 2</span>
+</button>`;
