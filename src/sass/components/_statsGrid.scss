@@ -1,11 +1,11 @@
 .stats-grid {
   display: grid;
-  row-gap: 2rem;
-  column-gap: 3.6rem;
+  row-gap: 3.2rem;
+  column-gap: 4.4rem;
   grid-template-columns: max-content 1fr;
   border-top: 1px solid rgba(0, 0, 0, 0.3);
-  padding: 2.4rem 4rem;
-  font-size: 1.6rem;
+  padding: 4rem 6.4rem;
+  font-size: 1.8rem;
 
   &__label {
     font-weight: 700;
