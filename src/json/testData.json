@@ -1,106 +1,415 @@
 {
-  "state": {
-    "completedPeaks": [
-      7, 871556, 1, 973340, 956573, 973355, 971754, 561737, 567535
-    ],
-    "logEntries": [
-      {
-        "peaks": [
-          {
-            "id": 561737,
-            "name": "Mt. Katahdin (Baxter Peak)",
-            "elevation": 5259
-          },
-          {
-            "id": 567535,
-            "name": "Mt. Katahdin (Hamlin Peak)",
-            "elevation": 4757
-          }
-        ],
-        "date": "2022-08-12T00:00:00.000Z",
-        "elevation": 5500,
-        "distance": 11,
-        "hours": 12,
-        "min": null,
-        "notes": "Brutal hike!",
-        "rating": 5,
-        "logID": 3,
-        "lists": {
-          "ids": ["me4k", "ne100", "ne4k", "neHigh"],
-          "titles": [
-            "Maine 4,000 Footers",
-            "New England 100 Highest",
-            "New England 4,000 Footers",
-            "New England State Highpoints"
-          ]
+  "listCounts": {
+    "adk46": 3,
+    "co14": 5,
+    "me4k": 0,
+    "ne100": 14,
+    "ne4k": 14,
+    "neHigh": 1,
+    "nh4k": 14,
+    "usHigh": 1,
+    "vt4k": 0
+  },
+  "allLogEntries": [
+    {
+      "peaks": [
+        {
+          "id": 872150,
+          "name": "Mt. Lafayette",
+          "lat": 44.1608182,
+          "long": -71.6444575,
+          "elevation": 5236,
+          "state": "NH"
         },
-        "mtnStr": "Mt. Katahdin (Baxter Peak) and Mt. Katahdin (Hamlin Peak)",
-        "shortDate": "08/11/2022",
-        "longDate": "August 11, 2022",
-        "avgElevation": 500
-      },
-      {
-        "peaks": [
-          { "id": 973340, "name": "Algonquin Peak", "elevation": 5105 },
-          { "id": 956573, "name": "Mt. Marshall", "elevation": 4380 },
-          { "id": 973355, "name": "Iroquois Peak", "elevation": 4829 },
-          { "id": 971754, "name": "Wright Peak", "elevation": 4564 }
-        ],
-        "date": "2022-06-22T00:00:00.000Z",
-        "elevation": 3500,
-        "distance": 9,
+        {
+          "id": 872176,
+          "name": "Mt. Lincoln",
+          "lat": 44.1489451,
+          "long": -71.6445258,
+          "elevation": 5085,
+          "state": "NH"
+        }
+      ],
+      "stats": {
+        "elevation": 3800,
+        "distance": 8.1,
+        "minutes": 15,
         "hours": 6,
-        "min": null,
-        "notes": "Rainy day!",
-        "rating": 4,
-        "logID": 2,
-        "lists": { "ids": ["adk46"], "titles": ["Adirondack High Peaks"] },
-        "mtnStr": "Algonquin Peak, Mt. Marshall, Iroquois Peak and Wright Peak",
-        "shortDate": "06/21/2022",
-        "longDate": "June 21, 2022",
-        "avgElevation": 389
+        "time": 6.3,
+        "avgSpeed": 1.3,
+        "avgElevation": 469
       },
-      {
-        "peaks": [
-          { "id": 7, "name": "Bondcliff", "elevation": 4265 },
-          { "id": 871556, "name": "Mt. Bond", "elevation": 4685 },
-          { "id": 1, "name": "West Bond Mountain", "elevation": 4540 }
-        ],
-        "date": "2021-09-04T00:00:00.000Z",
-        "elevation": 4500,
-        "distance": 12,
-        "hours": 8,
-        "min": null,
-        "notes": "Great trip!",
-        "rating": 5,
-        "logID": 1,
-        "lists": {
-          "ids": ["ne100", "ne4k", "nh4k"],
-          "titles": [
-            "New England 100 Highest",
-            "New England 4,000 Footers",
-            "New Hampshire 4,000 Footers"
-          ]
-        },
-        "mtnStr": "Bondcliff, Mt. Bond and West Bond Mountain",
-        "shortDate": "09/03/2021",
-        "longDate": "September 03, 2021",
-        "avgElevation": 375
+      "notes": "Hiked the Franconia Ridge Loop up Falling Waters Trail and down the Old Bridle Path. Chilly on the summits, saw a black bear on the way up!",
+      "rating": 5,
+      "logID": 7,
+      "lists": {
+        "ids": ["ne100", "ne4k", "nh4k"],
+        "titles": [
+          "New England 100 Highest",
+          "New England 4,000 Footers",
+          "New Hampshire 4,000 Footers"
+        ]
+      },
+      "peakString": "Mt. Lafayette and Mt. Lincoln",
+      "date": {
+        "fullDate": "2019-05-12T04:00:00.000Z",
+        "day": "12",
+        "month": { "numeric": "05", "alpha": "May" },
+        "year": "2019"
       }
-    ],
-    "savedLists": ["adk46", "me4k", "nh4k"],
-    "listCounts": {
-      "adk46": 4,
-      "co14": 0,
-      "me4k": 2,
-      "ne100": 5,
-      "ne4k": 5,
-      "neHigh": 1,
-      "nh4k": 3,
-      "vt4k": 0
     },
-    "currentPreviewView": "all",
-    "currentLogSelect": "all",
-    "currentTableSort": "elevation"
-  }
+    {
+      "peaks": [
+        {
+          "id": 872460,
+          "name": "Mt. Passaconaway",
+          "lat": 43.9547374,
+          "long": -71.3808824,
+          "elevation": 4045,
+          "state": "NH"
+        },
+        {
+          "id": 872833,
+          "name": "Mt. Tripyramid",
+          "lat": 43.9731659,
+          "long": -71.4427801,
+          "elevation": 4163,
+          "state": "NH"
+        },
+        {
+          "id": 872294,
+          "name": "Mt. Tripyramid (Middle Peak)",
+          "lat": 43.9646744,
+          "long": -71.4400968,
+          "elevation": 4114,
+          "state": "NH"
+        },
+        {
+          "id": 872920,
+          "name": "Mt. Whiteface",
+          "lat": 43.9339506,
+          "long": -71.4059066,
+          "elevation": 3993,
+          "state": "NH"
+        }
+      ],
+      "stats": {
+        "elevation": 4600,
+        "distance": 18,
+        "minutes": 30,
+        "hours": 12,
+        "time": 12.5,
+        "avgSpeed": 1.4,
+        "avgElevation": 256
+      },
+      "notes": "Completed the Kate Sleeper loop. Stayed overnight at Camp Rich off the summit of Mt. Passaconaway",
+      "rating": 4,
+      "logID": 6,
+      "lists": {
+        "ids": ["ne100", "ne4k", "nh4k"],
+        "titles": [
+          "New England 100 Highest",
+          "New England 4,000 Footers",
+          "New Hampshire 4,000 Footers"
+        ]
+      },
+      "peakString": "Mt. Passaconaway, Mt. Tripyramid, Mt. Tripyramid (Middle Peak) and Mt. Whiteface",
+      "date": {
+        "fullDate": "2021-07-10T04:00:00.000Z",
+        "day": "10",
+        "month": { "numeric": "07", "alpha": "July" },
+        "year": "2021"
+      }
+    },
+    {
+      "peaks": [
+        {
+          "id": 871851,
+          "name": "Mt. Eisenhower",
+          "lat": 44.2407341,
+          "long": -71.3501812,
+          "elevation": 4757,
+          "state": "NH"
+        },
+        {
+          "id": 872093,
+          "name": "Mt. Jackson",
+          "lat": 44.2032358,
+          "long": -71.3754007,
+          "elevation": 4042,
+          "state": "NH"
+        },
+        {
+          "id": 872313,
+          "name": "Mt. Monroe",
+          "lat": 44.2552125,
+          "long": -71.3214183,
+          "elevation": 5351,
+          "state": "NH"
+        },
+        {
+          "id": 872495,
+          "name": "Mt. Pierce",
+          "lat": 44.2265226,
+          "long": -71.3659732,
+          "elevation": 4304,
+          "state": "NH"
+        }
+      ],
+      "stats": {
+        "elevation": 2000,
+        "distance": 9,
+        "minutes": 20,
+        "hours": 7,
+        "time": 7.3,
+        "avgSpeed": 1.2,
+        "avgElevation": 222
+      },
+      "notes": "Second day of the presidential traverse. Day started off cloudy but cleared up about half way through.",
+      "rating": 4,
+      "logID": 5,
+      "lists": {
+        "ids": ["ne100", "ne4k", "nh4k"],
+        "titles": [
+          "New England 100 Highest",
+          "New England 4,000 Footers",
+          "New Hampshire 4,000 Footers"
+        ]
+      },
+      "peakString": "Mt. Eisenhower, Mt. Jackson, Mt. Monroe and Mt. Pierce",
+      "date": {
+        "fullDate": "2022-08-25T04:00:00.000Z",
+        "day": "25",
+        "month": { "numeric": "08", "alpha": "August" },
+        "year": "2022"
+      }
+    },
+    {
+      "peaks": [
+        {
+          "id": 871380,
+          "name": "Mt. Adams",
+          "lat": 44.3206546,
+          "long": -71.2915306,
+          "elevation": 5791,
+          "state": "NH"
+        },
+        {
+          "id": 872101,
+          "name": "Mt. Jefferson",
+          "lat": 44.304315,
+          "long": -71.3166955,
+          "elevation": 5699,
+          "state": "NH"
+        },
+        {
+          "id": 872247,
+          "name": "Mt. Madison",
+          "lat": 44.3288173,
+          "long": -71.2767796,
+          "elevation": 5351,
+          "state": "NH"
+        },
+        {
+          "id": 871352,
+          "name": "Mt. Washington",
+          "lat": 44.2705781,
+          "long": -71.3033287,
+          "elevation": 6273,
+          "state": "NH"
+        }
+      ],
+      "stats": {
+        "elevation": 5000,
+        "distance": 12,
+        "minutes": null,
+        "hours": 8,
+        "time": 8,
+        "avgSpeed": 1.5,
+        "avgElevation": 417
+      },
+      "notes": "First day of the presidential traverse, stayed the night at Lake of the Clouds Hut. ",
+      "rating": 5,
+      "logID": 4,
+      "lists": {
+        "ids": ["ne100", "ne4k", "nh4k", "neHigh", "usHigh"],
+        "titles": [
+          "New England 100 Highest",
+          "New England 4,000 Footers",
+          "New Hampshire 4,000 Footers",
+          "New England State Highpoints",
+          "USA State Highpoints"
+        ]
+      },
+      "peakString": "Mt. Adams, Mt. Jefferson, Mt. Madison and Mt. Washington",
+      "date": {
+        "fullDate": "2022-08-24T04:00:00.000Z",
+        "day": "24",
+        "month": { "numeric": "08", "alpha": "August" },
+        "year": "2022"
+      }
+    },
+    {
+      "peaks": [
+        {
+          "id": 204979,
+          "name": "Longs Peak",
+          "lat": 40.2548614,
+          "long": -105.6162397,
+          "elevation": 14262,
+          "state": "CO"
+        }
+      ],
+      "stats": {
+        "elevation": 5000,
+        "distance": 15,
+        "minutes": null,
+        "hours": 12,
+        "time": 12,
+        "avgSpeed": 1.3,
+        "avgElevation": 333
+      },
+      "notes": "Epic day...the keyhole route was intense!",
+      "rating": 5,
+      "logID": 3,
+      "lists": { "ids": ["co14"], "titles": ["Colorado 14ers"] },
+      "peakString": "Longs Peak",
+      "date": {
+        "fullDate": "2017-08-20T04:00:00.000Z",
+        "day": "20",
+        "month": { "numeric": "08", "alpha": "August" },
+        "year": "2017"
+      }
+    },
+    {
+      "peaks": [
+        {
+          "id": 179961,
+          "name": "Mt. Bross",
+          "lat": 39.3349948,
+          "long": -106.1071665,
+          "elevation": 14176,
+          "state": "CO"
+        },
+        {
+          "id": 179957,
+          "name": "Mt. Cameron",
+          "lat": 39.3463459,
+          "long": -106.1189002,
+          "elevation": 14232,
+          "state": "CO"
+        },
+        {
+          "id": 204685,
+          "name": "Mt. Democrat",
+          "lat": 39.3394723,
+          "long": -106.1398604,
+          "elevation": 14144,
+          "state": "CO"
+        },
+        {
+          "id": 179956,
+          "name": "Mt. Lincoln",
+          "lat": 39.351504,
+          "long": -106.1113773,
+          "elevation": 14285,
+          "state": "CO"
+        }
+      ],
+      "stats": {
+        "elevation": 3100,
+        "distance": 7,
+        "minutes": 45,
+        "hours": 5,
+        "time": 5.8,
+        "avgSpeed": 1.2,
+        "avgElevation": 443
+      },
+      "notes": "Had a great day, warm weather and saw lots of mountain goats!",
+      "rating": 5,
+      "logID": 2,
+      "lists": { "ids": ["co14"], "titles": ["Colorado 14ers"] },
+      "peakString": "Mt. Bross, Mt. Cameron, Mt. Democrat and Mt. Lincoln",
+      "date": {
+        "fullDate": "2016-06-24T04:00:00.000Z",
+        "day": "24",
+        "month": { "numeric": "06", "alpha": "June" },
+        "year": "2016"
+      }
+    },
+    {
+      "peaks": [
+        {
+          "id": 973340,
+          "name": "Algonquin Peak",
+          "lat": 44.1436636,
+          "long": -73.9865357,
+          "elevation": 5105,
+          "state": "NY"
+        },
+        {
+          "id": 973355,
+          "name": "Iroquois Peak",
+          "lat": 44.1369973,
+          "long": -73.9982027,
+          "elevation": 4829,
+          "state": "NY"
+        },
+        {
+          "id": 971754,
+          "name": "Wright Peak",
+          "lat": 44.1517187,
+          "long": -73.9801468,
+          "elevation": 4564,
+          "state": "NY"
+        }
+      ],
+      "stats": {
+        "elevation": 4400,
+        "distance": 10.8,
+        "minutes": 30,
+        "hours": 8,
+        "time": 8.5,
+        "avgSpeed": 1.3,
+        "avgElevation": 407
+      },
+      "notes": "Great first trip to the Adirondacks!",
+      "rating": 5,
+      "logID": 1,
+      "lists": { "ids": ["adk46"], "titles": ["Adirondack High Peaks"] },
+      "peakString": "Algonquin Peak, Iroquois Peak and Wright Peak",
+      "date": {
+        "fullDate": "2021-08-15T04:00:00.000Z",
+        "day": "15",
+        "month": { "numeric": "08", "alpha": "August" },
+        "year": "2021"
+      }
+    }
+  ],
+  "completedPeaks": [
+    973340, 973355, 971754, 179961, 179957, 204685, 179956, 204979, 871380,
+    872101, 872247, 871352, 871851, 872093, 872313, 872495, 872460, 872833,
+    872294, 872920, 872150, 872176
+  ],
+  "savedLists": ["adk46", "neHigh", "nh4k", "co14"],
+  "sidebarHidden": false,
+  "peakPreview": {
+    "previewType": "all",
+    "data": "",
+    "page": 1,
+    "resPerPage": 6
+  },
+  "peakTable": { "sortType": "elevation", "data": "" },
+  "logPreview": {
+    "selectValues": { "listID": "all", "month": "all", "year": "all" },
+    "page": 1,
+    "data": "",
+    "resPerPage": 6
+  },
+  "curLogEntry": {},
+  "stats": {
+    "selectValues": { "listID": "all", "month": "all", "year": "all" },
+    "data": ""
+  },
+  "map": { "data": "" }
 }
