@@ -17,8 +17,8 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link href="./src/sass/main.scss" rel="stylesheet" />
-    <!-- <link href="./src/css/styles.css" rel="stylesheet" /> -->
+    <!-- <link href="./src/sass/main.scss" rel="stylesheet" /> -->
+    <link href="./src/css/styles.css" rel="stylesheet" />
     <link href="./node_modules/leaflet/dist/leaflet.css" rel="stylesheet" />
     <script defer src="./node_modules/leaflet/dist/leaflet.js"></script>
     <script type="module" src="./src/js/controller.js"></script>
@@ -43,7 +43,10 @@
             <h2 class="modal__sub-heading">
               An app to track progress of mountain summit peakbagging lists
             </h2>
-            <button class="btn btn-icon btn-question">
+            <button
+              class="btn btn-icon btn-question"
+              aria-label="Question button: hover for definition of peakbagging list"
+            >
               <svg class="btn-icon__icon--sm">
                 <use href="./src/img/sprite.svg#icon-question"></use>
               </svg>
@@ -138,7 +141,7 @@
       <nav class="nav">
         <ul class="nav__list">
           <li class="nav__list-item">
-            <button id="nav-btn-map" class="btn nav__btn" data-display="map">
+            <button id="nav-btn-map" class="btn nav__btn">
               <span>Map</span>
               <svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-earth"></use>
@@ -146,11 +149,7 @@
             </button>
           </li>
           <li class="nav__list-item">
-            <button
-              id="nav-btn-peak-lists"
-              class="btn nav__btn"
-              data-display="peak-list-preview"
-            >
+            <button id="nav-btn-peak-lists" class="btn nav__btn">
               <span>Peak Lists</span
               ><svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-mountain"></use>
@@ -158,11 +157,7 @@
             </button>
           </li>
           <li class="nav__list-item">
-            <button
-              id="nav-btn-log"
-              class="btn nav__btn"
-              data-display="log-preview"
-            >
+            <button id="nav-btn-log" class="btn nav__btn">
               <span>Trip Log</span>
               <svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-book"></use>
@@ -170,11 +165,7 @@
             </button>
           </li>
           <li class="nav__list-item">
-            <button
-              id="nav-btn-stats"
-              class="btn nav__btn"
-              data-display="stats"
-            >
+            <button id="nav-btn-stats" class="btn nav__btn">
               <span>Stats</span>
               <svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-chart"></use>
@@ -182,11 +173,7 @@
             </button>
           </li>
           <li class="nav__list-item">
-            <button
-              id="nav-btn-new-entry"
-              class="btn nav__btn"
-              data-display="new-entry"
-            >
+            <button id="nav-btn-new-entry" class="btn nav__btn">
               <span>New Entry</span
               ><svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-pencil"></use>
@@ -224,11 +211,8 @@
 
       <!-- PEAK LIST PREVIEW CONTAINER -->
 
-      <div
-        class="container container-peak-list-preview hidden"
-        data-nav-active="peak-list-preview"
-      >
-        <div class="container__heading-wrapper no-border">
+      <div class="container container-peak-list-preview hidden">
+        <div class="container__heading-wrapper">
           <h2 class="container__heading">Peak Lists</h2>
         </div>
         <div class="preview-wrapper preview-wrapper--peak-list"></div>
@@ -243,14 +227,11 @@
 
       <!-- SINGLE PEAK LISTS CONTAINER -->
 
-      <div
-        class="container container-peak-list-table hidden"
-        data-nav-active="peak-list-preview"
-      >
+      <div class="container container-peak-list-table hidden">
         <div class="container__heading-grid">
           <button
             class="btn btn-icon btn-back"
-            data-display="peak-list-preview"
+            data-container-id="peak-list-preview"
           >
             <svg class="btn-icon__icon">
               <use href="./src/img/sprite.svg#icon-arrow-left"></use>
@@ -290,11 +271,8 @@
 
       <!-- LOG PREVIEW CONTAINER -->
 
-      <div
-        class="container container-log-preview hidden"
-        data-nav-active="log-preview"
-      >
-        <div class="container__heading-wrapper no-border">
+      <div class="container container-log-preview hidden">
+        <div class="container__heading-wrapper">
           <h2 class="container__heading">Trip Log</h2>
         </div>
         <div
@@ -314,12 +292,9 @@
 
       <!-- LOG ENTRY CONTAINER -->
 
-      <div
-        class="container container-log-entry hidden"
-        data-nav-active="log-preview"
-      >
+      <div class="container container-log-entry hidden">
         <div class="container__heading-grid">
-          <button class="btn btn-icon btn-back" data-display="log-preview">
+          <button class="btn btn-icon btn-back" data-container-id="log-preview">
             <svg class="btn-icon__icon">
               <use href="./src/img/sprite.svg#icon-arrow-left"></use>
             </svg>
@@ -334,8 +309,8 @@
         <div class="log-entry"></div>
       </div>
 
-      <div class="container container-stats hidden" data-nav-active="stats">
-        <div class="container__heading-wrapper no-border">
+      <div class="container container-stats hidden">
+        <div class="container__heading-wrapper">
           <h2 class="container__heading">Stats</h2>
         </div>
         <div
@@ -355,10 +330,7 @@
 
       <!-- NEW ENTRY CONTAINER -->
 
-      <div
-        class="container container-new-entry hidden"
-        data-nav-active="new-entry"
-      >
+      <div class="container container-new-entry hidden">
         <div class="container__heading-wrapper">
           <h2 class="container__heading">New Log Entry</h2>
         </div>
@@ -375,14 +347,7 @@
             </div>
 
             <div class="form-new-entry__date-grid">
-              <input
-                id="date"
-                name="date"
-                type="date"
-                min="1900-01-01"
-                max="9999-01-01"
-                required
-              />
+              <input id="date" name="date" type="date" required />
               <button class="btn btn--green btn-date btn-today">Today</button>
               <button class="btn btn--green btn-date btn-yesterday">
                 Yesterday
@@ -536,16 +501,14 @@
     </div>
 
     <div id="map"></div>
-    <div class="wrapper">
+    <div class="logo-wrapper">
       <img class="logo" src="./src/img/logo.png" alt="Peak Tracker logo" />
-      <div class="button-wrapper">
-        <button id="btn-load-data-map" class="btn btn--green btn-data">
-          Load test data
-        </button>
-        <button id="btn-clear-data-map" class="btn btn--green btn-data">
-          Clear all data
-        </button>
-      </div>
+      <button id="btn-load-data-map" class="btn btn--green btn-data">
+        Load test data
+      </button>
+      <button id="btn-clear-data-map" class="btn btn--green btn-data">
+        Clear all data
+      </button>
     </div>
     <button
       class="btn btn--green btn-location"
