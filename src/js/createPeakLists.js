@@ -16,6 +16,7 @@ class PeakList {
     this.zoom = data.zoom;
     this.peakCount = data.peakCount;
     this.peaks = data.peaks;
+    this.description = data.description;
   }
 }
 
