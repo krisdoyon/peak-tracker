@@ -21,7 +21,6 @@ class MapView {
     this.#navBtn.addEventListener(
       "click",
       function () {
-        window.history.replaceState(null, "", this.href);
         this.#allNavBtns.forEach((btn) =>
           btn.classList.remove("nav__btn--active")
         );
