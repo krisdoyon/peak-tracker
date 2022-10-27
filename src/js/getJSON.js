@@ -79,7 +79,7 @@ const writeJSON = function (title, listID, description) {
 };
 
 writeJSON(
-  "Colorado 14ers",
+  "Colorado Fourteeners",
   "co14",
   `The Colorado Fourteeners (14ers) are a collection of all summits over 14,000 ft. in elevation with at least 300 ft of topographic prominence across seven mountain ranges within the state of Colorado. Colorado is home to more fourteeners than any other state in the US. The tallest peak, Mt. Elbert, is the second tallest mountain in the lower 48 states.`
 );
@@ -93,7 +93,7 @@ writeJSON(
 writeJSON(
   "New Hampshire 4,000 Footers",
   "nh4k",
-  `The New Hampshire 4,000 Footers (NH 48) are a collection of summits over 4,000 ft. in elevation with at least 200 ft of topographic prominence within the state of New Hampshire. All summits are located within the White Mountain National Forest. More than 1/3 of the peaks are located directly along or in close proximity to the Appalachian Trail.`
+  `The New Hampshire 4,000 Footers (NH 48) are a collection of summits over 4,000 ft. in elevation with at least 200 ft of topographic prominence within the state of New Hampshire. All summits are located within the 800,000 acre White Mountain National Forest. More than 1/3 of the peaks are located directly along or in close proximity to the Appalachian Trail.`
 );
 
 writeJSON(
@@ -130,4 +130,29 @@ writeJSON(
   "USA State Highpoints",
   "usHigh",
   `The USA State Highpoints are a collection of the highest points in each of the 50 United States plus the District of Columbia. Those actively attempting to complete this list are known as “highpointers”. Eight of the state highpoints are found in National Parks`
+);
+
+writeJSON(
+  "California Fourteeners",
+  "ca14",
+  `The California Fourteeners (14ers) are a collection of all summits over 14,000 ft. in elevation with at least 300 ft of topographic prominence within the state of California. The majority of the peaks (10) reside in a concentrated area in the Sierra Nevada Range. California is one of only three states with multiple mountains that meet this criteria (CO and AK being the other two).`
+);
+
+writeJSON(
+  "Southern Sixers",
+  "south6",
+  `The Southern Sixers (6ers) are a collection of summits over 6,000 ft. in elevation in the southern Appalachian mountains. All of the peaks are located within 32 miles of the TN/NC border. All mountains have at least 200 ft. of topographic prominence, or there is a distance of at least 0.75 miles between peaks. Other than Mount Washington in New Hampshire, these mountains are the only 6,000 footers east of the Mississippi.`
+);
+
+writeJSON(
+  "Catskill High Peaks",
+  "cat35",
+  `The Catskill High Peaks are a collection of summits over 3,500 ft. in elevation located within the 700,000 acre Catskill Park, a forest preserve in the state of New York. All mountains have a topographic prominence of at least 250 ft. or there is a distance of at least 0.5 miles between peaks. 
+`
+);
+
+writeJSON(
+  "New Hampshire 52 With a View",
+  "nh52",
+  `The New Hampshire 52 With a View are a collection of summits in the state of New Hampshire that are under 4,000 feet in elevation and have excellent views from the summit. This peak list was created by the “Over the Hill Hikers” group as an alternative to the New Hampshire 4,000 footers list. The majority of the peaks reside within the 800,000 acre White Mountain National Forest.`
 );
