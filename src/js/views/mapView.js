@@ -1,16 +1,43 @@
 import mtnIconRed from "url:../../img/mtn-icon-red.png";
 import mtnIconGreen from "url:../../img/mtn-icon-green.png";
 import markerIcon from "url:../../img/marker-icon.png";
-import icon from "leaflet";
 
 class MapView {
+  href = "/map";
+  #navBtn = document.querySelector("#nav-btn-map");
+  #allNavBtns = document.querySelectorAll(".nav__btn");
   #map;
   #markersArr = [];
   #markersLayer;
   #data;
+  #locationMarker;
   #btnLocation = document.querySelector(".btn-location");
+  #btnLoadData = document.querySelector("#btn-load-data-map");
+  #btnClearData = document.querySelector("#btn-clear-data-map");
 
   // PUBLIC METHODS
+
+  addHandlerNavClick(handler) {
+    this.#navBtn.addEventListener(
+      "click",
+      function () {
+        window.history.replaceState(null, "", this.href);
+        this.#allNavBtns.forEach((btn) =>
+          btn.classList.remove("nav__btn--active")
+        );
+        this.#navBtn.classList.add("nav__btn--active");
+        handler();
+      }.bind(this)
+    );
+  }
+
+  addHandlerLoadData(handler) {
+    this.#btnLoadData.addEventListener("click", handler);
+  }
+
+  addHandlerClearAllData(handler) {
+    this.#btnClearData.addEventListener("click", handler);
+  }
 
   addHandlerGetLocation(handler) {
     this.#btnLocation.addEventListener("click", handler);
@@ -41,21 +68,28 @@ class MapView {
       iconAnchor: [0, 41],
       popupAnchor: [12, -20],
     });
-    const marker = new L.Marker(coords, {
+    this.#locationMarker = new L.Marker(coords, {
       icon: icon,
     });
-    marker.bindPopup(L.popup({})).setPopupContent("Your location");
-    marker.on("mouseover", function () {
+
+    this.#locationMarker.addTo(this.#map);
+  }
+
+  addLocationPopup(address) {
+    this.#locationMarker
+      .bindPopup(L.popup({}))
+      .setPopupContent(`<div class='location-popup'>${address}</div>`);
+    this.#locationMarker.on("mouseover", function () {
       this.openPopup();
     });
-    marker.on("click", function () {
+    this.#locationMarker.on("click", function () {
       this.openPopup();
     });
-    marker.addTo(this.#map);
+    this.#locationMarker.openPopup();
   }
 
   plotPeaksOnMap(data) {
-    this.#data = data;
+    this.#data = data.data;
     this.clearMap();
     this.#createMarkerLayer();
     this.#map.addLayer(this.#markersLayer);
@@ -126,7 +160,7 @@ class MapView {
   #generateLogTripButtonMarkup(peak) {
     const markup = `<button class='btn btn-text btn-text-green btn-log-trip' data-peak-id='${
       peak.id
-    }' data-list-id='${this.#data.listID}'>LOG TRIP</button>`;
+    }' data-list-id='${this.#data.id}'>LOG TRIP</button>`;
     return markup;
   }
 
