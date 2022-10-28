@@ -78,9 +78,9 @@ class PeakListPreviewView extends PeakListView {
 
   #generateSinglePreviewMarkup(list) {
     const markup = `<li class="preview-list__entry">
-      <button class="btn btn-icon btn-save-peak-list" data-list-id='${
+      <button class="btn btn-icon btn-save-peak-list" data-list-id="${
         list.listID
-      }'>
+      }" aria-label="button to save peak list to saved lists">
         <svg class="btn-icon__icon">
           <use href="${icons}#icon-${list.saved ? "remove" : "add"}"></use>
         </svg>

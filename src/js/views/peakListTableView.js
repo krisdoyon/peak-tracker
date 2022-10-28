@@ -94,9 +94,9 @@ class PeakListTableView extends PeakListView {
 
   #generateSaveButtonMarkup() {
     const markup = `
-      <button class="btn btn-icon btn-save-peak-list" data-list-id='${
+      <button class="btn btn-icon btn-save-peak-list" data-list-id="${
         this.#data.listID
-      }'>
+      }" aria-label="button to save peak list to saved lists">
         <svg class="btn-icon__icon">
           <use href="${icons}#icon-${
       this.#data.saved ? "remove" : "add"
