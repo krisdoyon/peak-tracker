@@ -4,12 +4,19 @@ class ModalView {
   #btnClose = this.#modal.querySelector(".btn-close");
   #btnLoadData = this.#modal.querySelector(".btn-load-data");
   #btnStartScratch = this.#modal.querySelector(".btn-start-scratch");
+  #navBtn = document.querySelector("#nav-btn-about");
+  #body = document.querySelector("body");
 
   constructor() {
     this.#addHandlerCloseModal();
+    this.#addHandlerNav();
   }
 
   // PUBLIC METHODS
+
+  #addHandlerNav() {
+    this.#navBtn.addEventListener("click", this.openModal.bind(this));
+  }
 
   addHandlerLoadData(handler) {
     this.#btnLoadData.addEventListener(
