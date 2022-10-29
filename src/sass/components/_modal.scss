@@ -148,6 +148,7 @@
 
     @include respond(800) {
       grid-template-columns: 1fr;
+      gap: 3rem;
     }
   }
 
@@ -175,6 +176,7 @@
 
     @include respond(600) {
       font-size: 1.6rem;
+      line-height: 1.3;
     }
   }
 
