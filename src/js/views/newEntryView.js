@@ -31,9 +31,19 @@ class newEntryView extends View {
     this.#addHandlerStarMouseover();
     this.#addHandlerStarMouseout();
     this.#addHandlerStarClick();
+    this.#addHandlerDatePicker();
   }
 
   // PUBLIC METHODS
+
+  #addHandlerDatePicker() {
+    this.#inputDate.addEventListener(
+      "click",
+      function () {
+        this.#inputDate.showPicker();
+      }.bind(this)
+    );
+  }
 
   addHandlerClearForm(handler) {
     this.#btnClearForm.addEventListener("click", handler);
