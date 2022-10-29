@@ -3,12 +3,12 @@
     "adk46": 3,
     "ca14": 0,
     "cat35": 0,
-    "co14": 5,
+    "co14": 7,
     "me4k": 0,
-    "ne100": 14,
-    "ne4k": 14,
+    "ne100": 17,
+    "ne4k": 17,
     "neHigh": 2,
-    "nh4k": 14,
+    "nh4k": 17,
     "nh52": 2,
     "south6": 0,
     "usHigh": 3,
@@ -323,6 +323,58 @@
     {
       "peaks": [
         {
+          "id": 7,
+          "name": "Bondcliff",
+          "lat": 44.1405773,
+          "long": -71.5409195,
+          "elevation": 4265,
+          "state": "NH"
+        },
+        {
+          "id": 871556,
+          "name": "Mt. Bond",
+          "lat": 44.1528345,
+          "long": -71.5311895,
+          "elevation": 4685,
+          "state": "NH"
+        },
+        {
+          "id": 1,
+          "name": "West Bond Mountain",
+          "lat": 44.1547633,
+          "long": -71.5436295,
+          "elevation": 4540,
+          "state": "NH"
+        }
+      ],
+      "stats": {
+        "elevation": 3800,
+        "distance": 18,
+        "minutes": 15,
+        "hours": 13,
+        "time": 13.3,
+        "avgSpeed": 1.4,
+        "avgElevation": 211
+      },
+      "notes": "First backpacking trip in the White Mountains, saw an incredible sunset from West Bond!",
+      "rating": 5,
+      "logID": 12,
+      "lists": [
+        { "listID": "ne100", "title": "New England 100 Highest" },
+        { "listID": "ne4k", "title": "New England 4,000 Footers" },
+        { "listID": "nh4k", "title": "New Hampshire 4,000 Footers" }
+      ],
+      "peakString": "Bondcliff, Mt. Bond and West Bond Mountain",
+      "date": {
+        "fullDate": "2020-07-16T04:00:00.000Z",
+        "day": "16",
+        "month": { "numeric": "07", "alpha": "July" },
+        "year": "2020"
+      }
+    },
+    {
+      "peaks": [
+        {
           "id": 872150,
           "name": "Mt. Lafayette",
           "lat": 44.1608182,
@@ -396,6 +448,46 @@
         "fullDate": "2018-09-04T04:00:00.000Z",
         "day": "04",
         "month": { "numeric": "09", "alpha": "September" },
+        "year": "2018"
+      }
+    },
+    {
+      "peaks": [
+        {
+          "id": 181827,
+          "name": "Grays Peak",
+          "lat": 39.6337372,
+          "long": -105.8173702,
+          "elevation": 14275,
+          "state": "CO"
+        },
+        {
+          "id": 181829,
+          "name": "Torreys Peak",
+          "lat": 39.6426923,
+          "long": -105.8211948,
+          "elevation": 14265,
+          "state": "CO"
+        }
+      ],
+      "stats": {
+        "elevation": 3600,
+        "distance": 8.1,
+        "minutes": null,
+        "hours": 14,
+        "time": 14,
+        "avgSpeed": 0.6,
+        "avgElevation": 444
+      },
+      "notes": "First winter 14er trip!",
+      "rating": 5,
+      "logID": 11,
+      "lists": [{ "listID": "co14", "title": "Colorado Fourteeners" }],
+      "peakString": "Grays Peak and Torreys Peak",
+      "date": {
+        "fullDate": "2018-01-06T05:00:00.000Z",
+        "day": "06",
+        "month": { "numeric": "01", "alpha": "January" },
         "year": "2018"
       }
     },
@@ -484,7 +576,8 @@
   "completedPeaks": [
     204979, 179961, 204685, 179956, 973340, 973355, 971754, 872460, 872833,
     872294, 872920, 871380, 872101, 872247, 871352, 871851, 872093, 872313,
-    872495, 872150, 872176, 871418, 872947, 607428, 180381
+    872495, 872150, 872176, 871418, 872947, 607428, 180381, 181827, 181829, 7,
+    871556, 1
   ],
   "savedLists": ["adk46", "co14", "nh52", "nh4k", "neHigh"],
   "sidebarHidden": false,
@@ -500,6 +593,7 @@
       { "listID": "usHigh", "title": "USA State Highpoints" }
     ],
     "months": [
+      { "numeric": "01", "alpha": "January" },
       { "numeric": "05", "alpha": "May" },
       { "numeric": "06", "alpha": "June" },
       { "numeric": "07", "alpha": "July" },
