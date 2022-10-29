@@ -15,7 +15,7 @@ import statsView from "./views/statsView.js";
 
 const controlPageLoad = function () {
   window.location.hash.slice(1) ||
-    this.window.history.replaceState(null, "", "#map");
+    this.window.history.pushState(null, "", "#map");
   const hash = window.location.hash.slice(1);
   hash === "map" && controlMap();
   hash === "peak-list-preview" && controlPeakListPreview();
@@ -28,19 +28,20 @@ const controlPageLoad = function () {
 
 const controlGoBack = function (containerID) {
   if (containerID === "peak-list-preview") {
-    model.loadPeakListPreviewData();
-    peakListPreviewView.render(
-      model.getListPreviewPage(model.state.peakPreview.previewType, 1)
-    );
-    peakListPreviewView.showContainer();
+    window.history.pushState(null, "", "#peak-list-preview");
+    controlPeakListPreview();
   }
   if (containerID === "log-preview") {
-    logPreviewView.render(
-      model.getLogPreviewPage(model.state.logPreview.curSelectValues, 1)
-    );
-    logPreviewView.showContainer();
+    window.history.pushState(null, "", "#log-preview");
+    controlLogPreview();
   }
-  mapView.clearMap();
+};
+
+const controlCloseContainer = function () {
+  if (controlClearForm()) {
+    window.history.pushState(null, "", "#map");
+    mainView.closeContainer();
+  }
 };
 
 // SIDEBAR
@@ -68,9 +69,9 @@ const controlClearAllData = function () {
   }
 };
 
-const controlOpenModal = function () {
-  modalView.openModal();
-};
+// const controlOpenModal = function () {
+//   modalView.openModal();
+// };
 
 const controlFirstVisit = function () {
   model.firstVisit && modalView.openModal();
@@ -82,7 +83,6 @@ const controlFirstVisit = function () {
 
 const controlMap = function () {
   if (controlClearForm()) {
-    window.history.replaceState(null, "", "#map");
     mainView.closeContainer();
   }
 };
@@ -145,6 +145,7 @@ const controlSavedListsPreview = function (listID) {
 const controlPeakListTable = function (
   listID = model.state.peakTable.data.listID
 ) {
+  window.history.pushState(null, "", "#peak-list-table");
   model.loadTableData(listID);
   model.loadMapData("list", listID);
   peakListTableView.render(model.state.peakTable);
@@ -197,6 +198,7 @@ const controlLogSelects = function (curSelectValues, page = 1) {
 // LOG ENTRY
 
 const controlLogEntry = function (logID = model.state.curLogEntry.logID) {
+  window.history.pushState(null, "", "#log-entry");
   model.loadLogEntry(logID);
   model.loadMapData("log", logID);
   logEntryView.render(model.state.curLogEntry);
@@ -273,11 +275,11 @@ const init = function () {
   // MODAL
   modalView.addHandlerLoadData(controlLoadTestData);
   // MAIN
-  mainView.addHandlerCloseContainer(controlMap);
+  mainView.addHandlerCloseContainer(controlCloseContainer);
   mainView.addHandlerBtnBack(controlGoBack);
   mainView.addHandlerPageLoad(controlPageLoad);
   // SIDEBAR
-  sidebarView.addHandlerBtnAbout(controlOpenModal);
+  // sidebarView.addHandlerBtnAbout(controlOpenModal);
   sidebarView.addHandlerSidebar(controlSidebar);
   sidebarView.toggleSidebar(model.state.sidebarHidden);
   // PEAK LIST PREVIEW

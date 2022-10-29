@@ -13,7 +13,9 @@ class MainView {
   // PUBLIC METHODS
 
   addHandlerPageLoad(handler) {
-    window.addEventListener("load", handler);
+    ["load", "hashchange"].forEach((ev) =>
+      window.addEventListener(ev, handler)
+    );
   }
 
   addHandlerCloseContainer(handler) {
