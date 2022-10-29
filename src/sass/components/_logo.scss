@@ -15,15 +15,12 @@
   }
 
   @include respond(800) {
-    top: 8.8rem;
-    right: 1rem;
-    height: 10rem;
+    top: 9.4rem;
   }
 
   @include respond(600) {
-    height: 7.4rem;
-    top: 8rem;
-    right: 0.6rem;
+    top: 9rem;
+    // right: 0.6rem;
   }
 }
 
@@ -39,9 +36,12 @@
     top: 19.2rem;
   }
 
+  @include respond(800) {
+    top: 22.5rem;
+  }
+
   @include respond(600) {
-    top: 16rem;
-    right: 0.6rem;
+    top: 22rem;
   }
 
 }
