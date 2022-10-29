@@ -12,6 +12,7 @@ class MapView {
   #btnLocation = document.querySelector(".btn-location");
   #btnLoadData = document.querySelector("#btn-load-data-map");
   #btnClearData = document.querySelector("#btn-clear-data-map");
+  #mapDiv = document.querySelector("#map");
 
   // PUBLIC METHODS
 
@@ -47,6 +48,8 @@ class MapView {
         position: "bottomright",
       })
       .addTo(this.#map);
+
+    this.#setMapHeight();
   }
 
   setMapView(coords) {
@@ -157,6 +160,12 @@ class MapView {
   #generateCompletedDateMarkup(peak) {
     const markup = `<span class="peak-popup__label-date"><strong>Hiked On:</strong><br/>${peak.completedDate}</span>`;
     return markup;
+  }
+
+  #setMapHeight() {
+    if (window.matchMedia("(max-width: 800px)").matches) {
+      this.#mapDiv.style.height = window.innerHeight;
+    }
   }
 }
 

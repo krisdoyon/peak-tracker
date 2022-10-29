@@ -4,12 +4,15 @@ class MainView {
   #allContainers = document.querySelectorAll(".container");
   #mapNavBtn = document.querySelector("#nav-btn-map");
   #allNavBtns = document.querySelectorAll(".nav__btn");
+  #body = document.querySelector("body");
+  #html = document.querySelector("html");
+  #dragBar = document.querySelector(".mobile-drag-bar");
+  #sidebar = document.querySelector(".sidebar");
 
   constructor() {
     this.#addHandlerEscapeKeydown();
     this.#addHandlerRemovePreload();
     this.#addHandlerMarginTop();
-    this.#setMarginTop();
   }
 
   // PUBLIC METHODS
@@ -66,12 +69,18 @@ class MainView {
 
   #setMarginTop() {
     if (window.matchMedia("(max-width: 800px)").matches) {
+      const innerHeight = `${window.innerHeight}px`;
+      const dragBarHeight = `6rem`;
+      const sidebarHeight = `${this.#sidebar.offsetHeight}px`;
+      this.#containerMain.style.height = `calc(${innerHeight} - ${dragBarHeight} - ${sidebarHeight})`;
       this.#containerMain.style.marginTop = `${window.innerHeight}px`;
     }
   }
 
   #addHandlerMarginTop() {
-    window.addEventListener("resize", this.#setMarginTop.bind(this));
+    ["load", "resize"].forEach((ev) =>
+      window.addEventListener(ev, this.#setMarginTop.bind(this))
+    );
   }
 }
 
