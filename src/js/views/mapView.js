@@ -72,8 +72,11 @@ class MapView {
     this.clearMap();
     this.#createMarkerLayer();
     this.#map.addLayer(this.#markersLayer);
+    const padding = window.matchMedia("(max-width: 800px)").matches
+      ? [0, 0]
+      : [650, 0];
     this.#map.fitBounds(this.#markersLayer.getBounds(), {
-      paddingTopLeft: [650, 0],
+      paddingTopLeft: padding,
       maxZoom: 10,
     });
   }
