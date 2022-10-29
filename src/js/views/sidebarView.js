@@ -5,7 +5,6 @@ class SidebarView {
   #sidebar = document.querySelector(".sidebar");
   #btnSidebar = document.querySelector(".sidebar__btn");
   #btnSidebarIcon = this.#btnSidebar.querySelector("use");
-  #btnAbout = document.querySelector(".btn-about");
 
   // PUBLIC METHODS
 
@@ -15,10 +14,6 @@ class SidebarView {
 
   addHandlerSidebar(handler) {
     this.#btnSidebar.addEventListener("click", handler);
-  }
-
-  addHandlerBtnAbout(handler) {
-    this.#btnAbout.addEventListener("click", handler);
   }
 
   toggleSidebar(sidebarHidden) {
