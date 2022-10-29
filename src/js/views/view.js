@@ -13,7 +13,6 @@ export default class View {
   }
 
   showContainer() {
-    window.history.replaceState(null, "", this.hash);
     this._allContainers.forEach((container) =>
       container.classList.add("hidden")
     );
