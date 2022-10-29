@@ -55,7 +55,7 @@ class LogEntryView extends LogView {
       <span>${
         this.#entry.stats.distance ? this.#entry.stats.distance + ` mi` : "n/a"
       }</span>
-      <span class="log-entry__label">Elevation Gain:</span>
+      <span class="log-entry__label">Elevation:</span>
       <span>${
         this.#entry.stats.elevation
           ? this.#entry.stats.elevation.toLocaleString() + ` ft`
@@ -71,7 +71,7 @@ class LogEntryView extends LogView {
           ? this.#entry.stats.avgSpeed + ` mi/hr`
           : "n/a"
       }</span>
-      <span class="log-entry__label">Avg Elevation Gain:</span>
+      <span class="log-entry__label">Avg Elevation:</span>
       <span>${
         this.#entry.stats.avgElevation
           ? this.#entry.stats.avgElevation.toLocaleString() + ` ft/mi`
