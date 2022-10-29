@@ -136,14 +136,20 @@
     bottom: 11rem;
   }
 
-  @include respond(800) {
-    bottom: 13.8rem;
+  @include respond(1000) {
+    top:20.5rem;
+    right: 16.5rem;
+    bottom:auto;
   }
 
   @include respond(800) {
-    bottom: 15rem;
-    right:1.2rem;
-    padding:1.2rem;
+    right:14rem;
+    padding:0.8rem;
+  }
+
+  @include respond(600) {
+    top: 23.5rem;
+    right: 0.6rem;
   }
 
   &__icon {
