@@ -36,10 +36,10 @@
     position: relative;
     width: 100%;
     transform: translate(0, 0);
-    margin-top: calc(100vh - 48px);
+    margin-top: 100vh;
     overflow: visible;
     height: 80vh;
-    border:none;
+    border: none;
   }
 }
 
@@ -107,7 +107,7 @@
   position: absolute;
   top: 0;
   transform: translateY(-100%);
-  height: 4.4rem;
+  height: 6rem;
   width: 100%;
   background-color: var(--color-green-primary);
   z-index: 100;
