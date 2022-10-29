@@ -24,8 +24,28 @@
     <script type="module" src="./src/js/controller.js"></script>
   </head>
 
-  <!-- WELCOME MODAL -->
   <body>
+    <div id="map"></div>
+    <img class="logo" src="./src/img/logo.png" alt="Peak Tracker logo" />
+    <div class="data-button-wrapper">
+      <button id="btn-load-data-map" class="btn btn--green btn-data">
+        Load test data
+      </button>
+      <button id="btn-clear-data-map" class="btn btn--green btn-data">
+        Clear all data
+      </button>
+    </div>
+    <button
+      class="btn btn--green btn-location"
+      aria-label="Get user location button"
+    >
+      <svg class="btn-location__icon">
+        <use href="./src/img/sprite.svg#icon-location"></use>
+      </svg>
+    </button>
+
+    <!-- WELCOME MODAL -->
+
     <div class="modal hidden">
       <div class="modal__container">
         <button class="btn btn-close">&times;</button>
@@ -141,42 +161,54 @@
       <nav class="nav">
         <ul class="nav__list">
           <li class="nav__list-item">
-            <button id="nav-btn-map" class="btn nav__btn">
+            <a href="#map" id="nav-btn-map" class="btn nav__btn">
               <span>Map</span>
               <svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-earth"></use>
               </svg>
-            </button>
+            </a>
           </li>
           <li class="nav__list-item">
-            <button id="nav-btn-peak-lists" class="btn nav__btn">
+            <a
+              href="#peak-list-preview"
+              id="nav-btn-peak-lists"
+              class="btn nav__btn"
+            >
               <span>Peak Lists</span
               ><svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-mountain"></use>
               </svg>
-            </button>
+            </a>
           </li>
           <li class="nav__list-item">
-            <button id="nav-btn-log" class="btn nav__btn">
+            <a href="#log-preview" id="nav-btn-log" class="btn nav__btn">
               <span>Trip Log</span>
               <svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-book"></use>
               </svg>
-            </button>
+            </a>
           </li>
           <li class="nav__list-item">
-            <button id="nav-btn-stats" class="btn nav__btn">
+            <a href="#stats" id="nav-btn-stats" class="btn nav__btn">
               <span>Stats</span>
               <svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-chart"></use>
               </svg>
-            </button>
+            </a>
           </li>
           <li class="nav__list-item">
-            <button id="nav-btn-new-entry" class="btn nav__btn">
+            <a href="#new-entry" id="nav-btn-new-entry" class="btn nav__btn">
               <span>New Entry</span
               ><svg class="nav__icon">
                 <use href="./src/img/sprite.svg#icon-pencil"></use>
+              </svg>
+            </a>
+          </li>
+          <li class="nav__list-item">
+            <button id="nav-btn-about" class="btn nav__btn">
+              <span>About</span
+              ><svg class="nav__icon">
+                <use href="./src/img/sprite.svg#icon-info"></use>
               </svg>
             </button>
           </li>
@@ -192,21 +224,17 @@
           </svg>
         </button>
         <p class="sidebar__copyright">&copy; 2022 Kris Doyon</p>
-        <a
-          class="btn-inline btn-inline--light"
-          href="https://krisdoyon.com"
-          target="_blank"
-          >Visit my personal site</a
-        >
-        <button class="btn btn-inline btn-inline--light btn-about">
-          About Peak Tracker
-        </button>
       </div>
     </div>
 
     <!-- MAIN CONTAINER -->
 
     <div class="container-main preload hidden">
+      <div class="mobile-drag-bar">
+        <svg class="nav__icon">
+          <use href="./src/img/sprite.svg#icon-arrows-up"></use>
+        </svg>
+      </div>
       <button class="btn btn-close">&times;</button>
 
       <!-- PEAK LIST PREVIEW CONTAINER -->
@@ -216,11 +244,14 @@
           <h2 class="container__heading">Peak Lists</h2>
         </div>
         <div class="preview-wrapper preview-wrapper--peak-list"></div>
-        <ul class="preview-list preview-list--peak-lists"></ul>
-        <div class="no-data no-saved-lists hidden">
-          <div class="no-data__message">
-            You haven't saved any peak lists yet. <br />
-            Click "all lists" above to get started!
+
+        <div class="container__body">
+          <ul class="preview-list preview-list--peak-lists"></ul>
+          <div class="no-data no-saved-lists hidden">
+            <div class="no-data__message">
+              You haven't saved any peak lists yet. <br />
+              Click "all lists" above to get started!
+            </div>
           </div>
         </div>
       </div>
@@ -253,20 +284,23 @@
           </div>
           <div class="container__heading-progress-wrapper"></div>
         </div>
-        <div class="peak-list-description"></div>
 
-        <table class="peak-list-table">
-          <thead>
-            <tr>
-              <th class="peak-list-table__head-number">#</th>
-              <th class="peak-list-table__head-name">Name</th>
-              <th class="peak-list-table__head-state">State</th>
-              <th class="peak-list-table__head-elevation">Elevation (ft)</th>
-              <th class="peak-list-table__head-date">Hiked On</th>
-            </tr>
-          </thead>
-          <tbody class="peak-list-table__body"></tbody>
-        </table>
+        <div class="container__body">
+          <div class="peak-list-description"></div>
+
+          <table class="peak-list-table">
+            <thead>
+              <tr>
+                <th class="peak-list-table__head-number">#</th>
+                <th class="peak-list-table__head-name">Name</th>
+                <th class="peak-list-table__head-state">State</th>
+                <th class="peak-list-table__head-elevation">Elevation (ft)</th>
+                <th class="peak-list-table__head-date">Hiked On</th>
+              </tr>
+            </thead>
+            <tbody class="peak-list-table__body"></tbody>
+          </table>
+        </div>
       </div>
 
       <!-- LOG PREVIEW CONTAINER -->
@@ -278,15 +312,17 @@
         <div
           class="preview-wrapper preview-wrapper--select preview-wrapper--log-preview"
         ></div>
-        <ul class="preview-list preview-list--log-entries"></ul>
-        <div class="no-data no-log-entries hidden">
-          <div class="no-data__message"></div>
-          <button class="btn btn--green btn-add-entry">
-            <span>Add</span>
-            <svg class="btn-add-entry__icon">
-              <use href="./src/img/sprite.svg#icon-plus"></use>
-            </svg>
-          </button>
+        <div class="container__body">
+          <ul class="preview-list preview-list--log-entries"></ul>
+          <div class="no-data no-log-entries hidden">
+            <div class="no-data__message"></div>
+            <button class="btn btn--green btn-add-entry">
+              <span>Add</span>
+              <svg class="btn-add-entry__icon">
+                <use href="./src/img/sprite.svg#icon-plus"></use>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -306,7 +342,9 @@
             <div class="container__heading-button-wrapper"></div>
           </div>
         </div>
-        <div class="log-entry"></div>
+        <div class="container__body">
+          <div class="log-entry"></div>
+        </div>
       </div>
 
       <div class="container container-stats hidden">
@@ -316,207 +354,200 @@
         <div
           class="preview-wrapper preview-wrapper--select preview-wrapper--stats"
         ></div>
-        <div class="stats-grid"></div>
-        <div class="no-data no-stats hidden">
-          <div class="no-data__message"></div>
-          <button class="btn btn--green btn-add-entry">
-            <span>Add</span>
-            <svg class="btn-add-entry__icon">
-              <use href="./src/img/sprite.svg#icon-plus"></use>
-            </svg>
-          </button>
+        <div class="container__body">
+          <div class="stats-grid"></div>
+          <div class="no-data no-stats hidden">
+            <div class="no-data__message"></div>
+            <button class="btn btn--green btn-add-entry">
+              <span>Add</span>
+              <svg class="btn-add-entry__icon">
+                <use href="./src/img/sprite.svg#icon-plus"></use>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- NEW ENTRY CONTAINER -->
 
       <div class="container container-new-entry hidden">
-        <div class="container__heading-wrapper">
+        <div class="container__heading-wrapper border-bottom">
           <h2 class="container__heading">New Log Entry</h2>
         </div>
-
-        <form id="form-new-entry" class="form-new-entry">
-          <div class="form-new-entry__row">
-            <div class="form-new-entry__heading-wrapper">
-              <svg class="form-new-entry__icon">
-                <use href="./src/img/sprite.svg#icon-calendar"></use>
-              </svg>
-              <label for="date" class="form-new-entry__label-primary"
-                >When did you go?</label
-              >
-            </div>
-
-            <div class="form-new-entry__date-grid">
-              <input id="date" name="date" type="date" required />
-              <button class="btn btn--green btn-date btn-today">Today</button>
-              <button class="btn btn--green btn-date btn-yesterday">
-                Yesterday
-              </button>
-            </div>
-          </div>
-          <div class="form-new-entry__row">
-            <div class="form-new-entry__heading-wrapper">
-              <svg class="form-new-entry__icon">
-                <use href="./src/img/sprite.svg#icon-mountain"></use>
-              </svg>
-              <h3 class="form-new-entry__heading">Add peaks</h3>
-            </div>
-
-            <div class="form-new-entry__peaks-grid">
-              <label
-                for="choose-list-new-entry"
-                class="form-new-entry__label-secondary"
-                >Choose a peak list:</label
-              >
-              <select id="choose-list-new-entry">
-                <option value="" disabled selected>Choose a list</option>
-              </select>
-            </div>
-
-            <ul class="form-new-entry__checkbox-grid hidden"></ul>
-          </div>
-
-          <div class="form-new-entry__row">
-            <div class="form-new-entry__heading-wrapper">
-              <svg class="form-new-entry__icon">
-                <use href="./src/img/sprite.svg#icon-chart"></use>
-              </svg>
-              <h3 class="form-new-entry__heading">Add stats</h3>
-            </div>
-            <div class="form-new-entry__stats-grid">
-              <label for="elevation" class="form-new-entry__label-secondary"
-                >Elevation:</label
-              >
-              <button class="btn btn-icon btn-add-stat" data-stat="elevation">
-                <svg class="btn-icon__icon">
-                  <use href="./src/img/sprite.svg#icon-add"></use>
+        <div class="container__body">
+          <form id="form-new-entry" class="form-new-entry">
+            <div class="form-new-entry__row">
+              <div class="form-new-entry__heading-wrapper">
+                <svg class="form-new-entry__icon">
+                  <use href="./src/img/sprite.svg#icon-calendar"></use>
                 </svg>
-              </button>
-              <div
-                class="form-new-entry__stat-row invisible"
-                data-stat="elevation"
-              >
-                <input id="elevation" min="0" max="99999" type="number" />
-                <label class="form-new-entry__label-units">ft</label>
+                <label for="date" class="form-new-entry__label-primary"
+                  >When did you go?</label
+                >
               </div>
-              <label for="distance" class="form-new-entry__label-secondary"
-                >Distance:</label
-              >
-              <button class="btn btn-icon btn-add-stat" data-stat="distance">
-                <svg class="btn-icon__icon">
-                  <use href="./src/img/sprite.svg#icon-add"></use>
-                </svg>
-              </button>
-              <div
-                class="form-new-entry__stat-row invisible"
-                data-stat="distance"
-              >
-                <input id="distance" min="0" max="9999" type="number" step='0.01'/>
-                <label class="form-new-entry__label-units">mi</label>
-              </div>
-              <label class="form-new-entry__label-secondary">Time:</label>
-              <button class="btn btn-icon btn-add-stat" data-stat="time">
-                <svg class="btn-icon__icon">
-                  <use href="./src/img/sprite.svg#icon-add"></use>
-                </svg>
-              </button>
-              <div class="form-new-entry__stat-row invisible" data-stat="time">
-                <input id="hours" min="0" max="99" type="number" />
-                <label class="form-new-entry__label-units">hrs</label>
-                <input id="minutes" min="0" max="59" type="number" />
-                <label class="form-new-entry__label-units">min</label>
+
+              <div class="form-new-entry__date-grid">
+                <input id="date" name="date" type="date" required />
+                <button class="btn btn--green btn-date btn-today">Today</button>
+                <button class="btn btn--green btn-date btn-yesterday">
+                  Yesterday
+                </button>
               </div>
             </div>
-          </div>
+            <div class="form-new-entry__row">
+              <div class="form-new-entry__heading-wrapper">
+                <svg class="form-new-entry__icon">
+                  <use href="./src/img/sprite.svg#icon-mountain"></use>
+                </svg>
+                <h3 class="form-new-entry__heading">Add peaks</h3>
+              </div>
 
-          <div class="form-new-entry__row">
-            <div class="form-new-entry__heading-wrapper">
-              <svg class="form-new-entry__icon">
-                <use href="./src/img/sprite.svg#icon-pencil"></use>
+              <div class="form-new-entry__peaks-grid">
+                <label
+                  for="choose-list-new-entry"
+                  class="form-new-entry__label-secondary"
+                  >Choose a peak list:</label
+                >
+                <select id="choose-list-new-entry">
+                  <option value="" disabled selected>Choose a list</option>
+                </select>
+              </div>
+
+              <ul class="form-new-entry__checkbox-grid hidden"></ul>
+            </div>
+
+            <div class="form-new-entry__row">
+              <div class="form-new-entry__heading-wrapper">
+                <svg class="form-new-entry__icon">
+                  <use href="./src/img/sprite.svg#icon-chart"></use>
+                </svg>
+                <h3 class="form-new-entry__heading">Add stats</h3>
+              </div>
+              <div class="form-new-entry__stats-grid">
+                <label for="elevation" class="form-new-entry__label-secondary"
+                  >Elevation:</label
+                >
+                <button class="btn btn-icon btn-add-stat" data-stat="elevation">
+                  <svg class="btn-icon__icon">
+                    <use href="./src/img/sprite.svg#icon-add"></use>
+                  </svg>
+                </button>
+                <div
+                  class="form-new-entry__stat-row invisible"
+                  data-stat="elevation"
+                >
+                  <input id="elevation" min="0" max="99999" type="number" />
+                  <label class="form-new-entry__label-units">ft</label>
+                </div>
+                <label for="distance" class="form-new-entry__label-secondary"
+                  >Distance:</label
+                >
+                <button class="btn btn-icon btn-add-stat" data-stat="distance">
+                  <svg class="btn-icon__icon">
+                    <use href="./src/img/sprite.svg#icon-add"></use>
+                  </svg>
+                </button>
+                <div
+                  class="form-new-entry__stat-row invisible"
+                  data-stat="distance"
+                >
+                  <input
+                    id="distance"
+                    min="0"
+                    max="9999"
+                    type="number"
+                    step="0.01"
+                  />
+                  <label class="form-new-entry__label-units">mi</label>
+                </div>
+                <label class="form-new-entry__label-secondary">Time:</label>
+                <button class="btn btn-icon btn-add-stat" data-stat="time">
+                  <svg class="btn-icon__icon">
+                    <use href="./src/img/sprite.svg#icon-add"></use>
+                  </svg>
+                </button>
+                <div
+                  class="form-new-entry__stat-row invisible"
+                  data-stat="time"
+                >
+                  <input id="hours" min="0" max="99" type="number" />
+                  <label class="form-new-entry__label-units">hrs</label>
+                  <input id="minutes" min="0" max="59" type="number" />
+                  <label class="form-new-entry__label-units">min</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-new-entry__row">
+              <div class="form-new-entry__heading-wrapper">
+                <svg class="form-new-entry__icon">
+                  <use href="./src/img/sprite.svg#icon-pencil"></use>
+                </svg>
+                <label for="notes" class="form-new-entry__label-primary"
+                  >Notes</label
+                >
+              </div>
+
+              <textarea
+                id="notes"
+                placeholder="Record details about the weather, wildlife, trail conditions or anything else!"
+              ></textarea>
+            </div>
+
+            <div class="form-new-entry__row form-new-entry__row-rating">
+              <div class="form-new-entry__heading-wrapper">
+                <svg class="form-new-entry__icon">
+                  <use href="./src/img/sprite.svg#icon-star-solid"></use>
+                </svg>
+
+                <label class="form-new-entry__heading">Rating</label>
+              </div>
+              <div class="form-new-entry__wrapper-stars">
+                <button class="btn btn-star" data-num="1" data-filled="false">
+                  <svg class="btn-star__icon">
+                    <use href="./src/img/sprite.svg#icon-star"></use>
+                  </svg>
+                </button>
+                <button class="btn btn-star" data-num="2" data-filled="false">
+                  <svg class="btn-star__icon">
+                    <use href="./src/img/sprite.svg#icon-star"></use>
+                  </svg>
+                </button>
+                <button class="btn btn-star" data-num="3" data-filled="false">
+                  <svg class="btn-star__icon">
+                    <use href="./src/img/sprite.svg#icon-star"></use>
+                  </svg>
+                </button>
+                <button class="btn btn-star" data-num="4" data-filled="false">
+                  <svg class="btn-star__icon">
+                    <use href="./src/img/sprite.svg#icon-star"></use>
+                  </svg>
+                </button>
+                <button class="btn btn-star" data-num="5" data-filled="false">
+                  <svg class="btn-star__icon">
+                    <use href="./src/img/sprite.svg#icon-star"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div class="form-new-entry__footer">
+            <button class="btn btn-text btn-clear-form">Clear form</button>
+            <button
+              type="submit"
+              form="form-new-entry"
+              class="btn btn--green btn-add-entry"
+              id="add-entry"
+            >
+              <span>Add</span>
+              <svg class="btn-add-entry__icon">
+                <use href="./src/img/sprite.svg#icon-plus"></use>
               </svg>
-              <label for="notes" class="form-new-entry__label-primary"
-                >Notes</label
-              >
-            </div>
-
-            <textarea
-              id="notes"
-              placeholder="Record details about the weather, wildlife, trail conditions or anything else!"
-            ></textarea>
+            </button>
           </div>
-
-          <div class="form-new-entry__row form-new-entry__row-rating">
-            <div class="form-new-entry__heading-wrapper">
-              <svg class="form-new-entry__icon">
-                <use href="./src/img/sprite.svg#icon-star-solid"></use>
-              </svg>
-
-              <label class="form-new-entry__heading">Rating</label>
-            </div>
-            <div class="form-new-entry__wrapper-stars">
-              <button class="btn btn-star" data-num="1" data-filled="false">
-                <svg class="btn-star__icon">
-                  <use href="./src/img/sprite.svg#icon-star"></use>
-                </svg>
-              </button>
-              <button class="btn btn-star" data-num="2" data-filled="false">
-                <svg class="btn-star__icon">
-                  <use href="./src/img/sprite.svg#icon-star"></use>
-                </svg>
-              </button>
-              <button class="btn btn-star" data-num="3" data-filled="false">
-                <svg class="btn-star__icon">
-                  <use href="./src/img/sprite.svg#icon-star"></use>
-                </svg>
-              </button>
-              <button class="btn btn-star" data-num="4" data-filled="false">
-                <svg class="btn-star__icon">
-                  <use href="./src/img/sprite.svg#icon-star"></use>
-                </svg>
-              </button>
-              <button class="btn btn-star" data-num="5" data-filled="false">
-                <svg class="btn-star__icon">
-                  <use href="./src/img/sprite.svg#icon-star"></use>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </form>
-
-        <div class="form-new-entry__footer">
-          <button class="btn btn-text btn-clear-form">Clear form</button>
-          <button
-            type="submit"
-            form="form-new-entry"
-            class="btn btn--green btn-add-entry"
-            id="add-entry"
-          >
-            <span>Add</span>
-            <svg class="btn-add-entry__icon">
-              <use href="./src/img/sprite.svg#icon-plus"></use>
-            </svg>
-          </button>
         </div>
       </div>
     </div>
-
-    <div id="map"></div>
-    <div class="logo-wrapper">
-      <img class="logo" src="./src/img/logo.png" alt="Peak Tracker logo" />
-      <button id="btn-load-data-map" class="btn btn--green btn-data">
-        Load test data
-      </button>
-      <button id="btn-clear-data-map" class="btn btn--green btn-data">
-        Clear all data
-      </button>
-    </div>
-    <button
-      class="btn btn--green btn-location"
-      aria-label="Get user location button"
-    >
-      <svg class="btn-location__icon">
-        <use href="./src/img/sprite.svg#icon-location"></use>
-      </svg>
-    </button>
   </body>
 </html>
