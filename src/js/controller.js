@@ -55,16 +55,16 @@ const controlSidebar = function () {
 
 const controlLoadTestData = function () {
   if (model.loadTestData()) {
-    logPreviewView.render(model.getLogPreviewPage());
-    logPreviewView.showContainer();
+    window.history.pushState(null, "", "#log-preview");
+    controlLogPreview();
     location.reload();
   }
 };
 
 const controlClearAllData = function () {
   if (model.clearAllData()) {
-    logPreviewView.render(model.getLogPreviewPage());
-    logPreviewView.showContainer();
+    window.history.pushState(null, "", "#log-preview");
+    controlLogPreview();
     location.reload();
   }
 };
