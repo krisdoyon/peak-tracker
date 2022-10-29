@@ -10,3 +10,7 @@
 .preload {
   transition: none !important;
 }
+
+.border-bottom {
+  border-bottom: var(--border-grey-dark);
+}

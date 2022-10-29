@@ -1,3 +1,5 @@
+@use "../abstracts/mixins" as *;
+
 .peak-list-table {
   border-collapse: collapse;
   padding: 5rem;
@@ -70,6 +72,26 @@
 }
 
 .peak-list-description {
-  border-top: var(--border-grey-dark);
   padding: 1.6rem 3rem 2rem 3rem;
+}
+
+.container-peak-list-table {
+  @include respond(600) {
+    .container__heading-grid {
+      column-gap: 2.4rem;
+      .btn-back {
+        grid-row: 1;
+      }
+      .container__heading-row {
+        grid-column: span 2;
+        select {
+          font-size: 1.3rem;
+        }
+      }
+      .container__heading-progress-wrapper {
+        grid-row: 3;
+        grid-column: span 2;
+      }
+    }
+  }
 }

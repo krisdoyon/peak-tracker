@@ -1,8 +1,12 @@
+@use "../abstracts/mixins" as *;
+
 #map {
   height: 100vh;
   width: 100vw;
-  z-index: 1;
+  z-index: -1;
   font-family: inherit;
+  position: fixed;
+  top: 0;
 }
 
 .peak-popup {
@@ -34,4 +38,10 @@
 
 .location-popup {
   font-size: 1.2rem;
+}
+
+.leaflet-control {
+  @include respond(800) {
+    margin-bottom: 2rem !important;
+  }
 }

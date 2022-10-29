@@ -1,3 +1,5 @@
+@use "../abstracts/mixins" as *;
+
 /*//////////////////////////////////////////////////////////////////////////////////
 // SIDEBAR */
 .sidebar {
@@ -13,6 +15,16 @@
   box-shadow: 1rem 0rem 4rem rgba(0, 0, 0, 0.25);
   font-size: 1.5rem;
 
+  @include respond(1000) {
+    margin-left: 0 !important;
+    height: max-content;
+    width: 100vw;
+    flex-direction: row;
+    top: 0;
+    font-size: 1.2rem;
+    align-items: center;
+  }
+
   &__btn {
     border: none;
     background-color: transparent;
@@ -20,31 +32,73 @@
     grid-column: 2;
     grid-row: 1/-1;
     padding: 1.2rem 2.4rem 1.2rem 0;
+
+    @include respond(1000) {
+      display: none;
+    }
   }
 
   &__wrapper {
     display: grid;
     grid-template-columns: 1fr max-content;
-    grid-template-rows: repeat(3, max-content);
-    flex-direction: column;
     justify-items: center;
     row-gap: 0.6rem;
-    margin-bottom: 2.4rem;
+    margin-bottom: 2rem;
+    align-items: center;
+
+    @include respond(1000) {
+      grid-template-columns: 1fr;
+      margin-bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      row-gap: 0.2rem;
+      margin-right: 2.4rem;
+    }
+
+    @include respond(600) {
+      display: none;
+    }
   }
 
   &__copyright {
     color: var(--color-grey-light-1);
-    font-size: 1.5rem;
+    margin-bottom: 0.6rem;
+
+    @include respond(1000) {
+      margin-bottom: 0;
+    }
   }
 }
 
 .nav {
+  @include respond(1000) {
+    height: 100%;
+  }
+
+  @include respond(600) {
+    width: 100vw;
+  }
+
   &__list {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
     margin-top: 1.2rem;
+
+    @include respond(1000) {
+      flex-direction: row;
+      margin: 0;
+      height: 100%;
+    }
+
+    @include respond(600) {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0;
+      width: 100%;
+    }
   }
 
   &__btn {
@@ -55,6 +109,8 @@
     font-size: 1.8rem;
     color: var(--color-grey-light-1);
     background-color: transparent;
+    text-decoration: none;
+    font-weight: 400;
     padding: 2.4rem;
     width: 100%;
     border-radius: 0;
@@ -64,7 +120,27 @@
       transparent 50%,
       var(--color-grey-light-1) 50%
     );
-    background-size: 225%;
+    background-size: 235%;
+
+    @include respond(1000) {
+      height: 100%;
+      font-size: 1.6rem;
+      background-image: none;
+      padding: 1.6rem 2rem;
+      gap: 1rem;
+    }
+
+    @include respond(800) {
+      flex-direction: column;
+      gap: 0.6rem;
+      justify-content: space-between;
+    }
+
+    @include respond(600) {
+      text-align: center;
+      font-size: 1.3rem;
+      padding: 1.6rem 0.6rem;
+    }
 
     &:hover {
       color: var(--color-green-primary);
@@ -90,5 +166,10 @@
     width: 2.2rem;
     fill: #fff;
     transition: all 0.3s;
+
+    @include respond(1000) {
+      height: 1.8rem;
+      width: 1.8rem;
+    }
   }
 }

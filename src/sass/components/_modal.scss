@@ -2,6 +2,7 @@
 
 .modal {
   @include absolute-center;
+  position: fixed;
   background-color: var(--color-grey-light-1);
   height: 80vh;
   width: 60vw;
@@ -10,16 +11,37 @@
   border-radius: 1.2rem;
   box-shadow: var(--box-shadow-dark);
 
+  @include respond(1200) {
+    height: 70vh;
+    min-width: 90rem;
+    width: 75vw;
+  }
+
+  @include respond(1200) {
+    min-width: 90rem;
+  }
+
+  @include respond(800) {
+    min-width: 0rem;
+    width: 90vw;
+    height: 90vh;
+  }
+
   &__container {
     display: flex;
     flex-direction: column;
-    gap: 6.4rem;
-    width: 80%;
+    justify-content: space-between;
+    gap: 2.4rem;
     padding: 4.4rem 8%;
     font-size: 1.8rem;
     overflow-y: overlay;
-    height: 80vh;
+    overflow-x: hidden;
+    height: 100%;
     width: 100%;
+
+    @include respond(800) {
+      gap: 3.6rem;
+    }
 
     &::-webkit-scrollbar {
       width: 0.6rem;
@@ -38,6 +60,13 @@
     align-self: center;
     column-gap: 2rem;
     row-gap: 1.2rem;
+
+    @include respond(800) {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+      row-gap: 2rem;
+    }
   }
 
   &__icon {
@@ -46,13 +75,21 @@
     border-radius: 1000rem;
     border: 1px solid var(--color-grey-light-3);
     box-shadow: var(--box-shadow-light);
+
+    @include respond(800) {
+      justify-self: center;
+    }
   }
 
   &__heading {
     font-size: 3.6rem;
     font-weight: 700;
-    gap: 2rem;
     align-self: center;
+
+    @include respond(600) {
+      font-weight: 600;
+      font-size: 3rem;
+    }
   }
 
   &__sub-heading-wrapper {
@@ -60,6 +97,10 @@
     grid-column: span 2;
     position: relative;
     gap: 0.6rem;
+
+    @include respond(800) {
+      grid-column: 1;
+    }
   }
 
   .btn-question:hover ~ .modal__question-bubble {
@@ -71,10 +112,16 @@
     align-self: center;
     font-size: 2rem;
     font-weight: 500;
+
+    @include respond(600) {
+      font-size: 1.8rem;
+      font-weight: 400;
+    }
   }
 
   &__question-bubble {
     border: var(--border-grey-dark);
+    background-color: var(--color-grey-light-1);
     border-radius: 1.2rem;
     padding: 0.6rem;
     font-size: 1.2rem;
@@ -86,12 +133,22 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s;
+    z-index: 999;
+
+    @include respond(1000) {
+      transform: translate(0%, 15%);
+      z-index: 9999;
+    }
   }
 
   &__features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 4rem;
+
+    @include respond(800) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__feature {
@@ -115,6 +172,10 @@
   &__feature-text {
     grid-column: span 2;
     line-height: 1.7;
+
+    @include respond(600) {
+      font-size: 1.6rem;
+    }
   }
 
   &__list {
@@ -125,11 +186,6 @@
   }
 
   &__list-item {
-    span {
-      display: inline-block;
-      margin-bottom: 2.4rem;
-    }
-
     &::before {
       content: "";
       display: inline-block;
@@ -141,12 +197,17 @@
       -webkit-mask-box-image: url(../img/icons/chevron-right-solid.svg);
       mask-size: cover;
     }
+
+    @include respond(600) {
+      font-size: 1.6rem;
+    }
   }
 
   &__btn-wrapper {
     display: flex;
     justify-content: center;
     gap: 2rem;
+    margin-top: 2.4rem;
   }
 }
 
@@ -155,6 +216,8 @@
   width: 100vw;
   height: 100vh;
   backdrop-filter: blur(7px);
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   z-index: 14;
 }

@@ -1,3 +1,5 @@
+@use "../abstracts/mixins" as *;
+
 *,
 *::before,
 *::after {
@@ -11,10 +13,27 @@
 
 html {
   font-size: 62.5%;
+
+  @include respond(1400) {
+    font-size: 56.25%;
+  }
+
+  @include respond(1200) {
+    font-size: 50%;
+  }
+
+  @include respond(600) {
+    font-size: 43.75%;
+  }
 }
 
 body {
   box-sizing: border-box;
+  // position:relative;
+
+  @include respond(800) {
+    overflow: auto;
+  }
 }
 
 ::selection {

@@ -1,3 +1,5 @@
+@use "../abstracts/mixins" as *;
+
 .btn {
   border: none;
   cursor: pointer;
@@ -43,6 +45,7 @@
   border-radius: 0;
   display: inline-block;
   text-transform: uppercase;
+  font-size:1.4rem;
 
   &--light {
     color: var(--color-grey-light-1);
@@ -67,6 +70,7 @@
   border-radius: 0 1.2rem 0 1.2rem;
   margin: 1.2rem 2.4rem;
   font-size: 4.8rem;
+  z-index: 10;
 
   &:hover {
     color: var(--color-green-light);
@@ -76,6 +80,10 @@
 .btn-view {
   padding: 0.8rem 1.8rem;
 
+  @include respond(1000) {
+    font-size: 1.4rem;
+  }
+
   &--sm {
     font-size: 1.2rem;
     padding: 0.5rem 1.4rem;
@@ -84,6 +92,10 @@
 
 .btn-back {
   grid-row: 1/-1;
+
+  @include respond(600) {
+    // grid-row: 1;
+  }
 }
 
 .btn-add-entry {
@@ -106,15 +118,33 @@
 .btn-log-trip {
   font-weight: 400;
   color: var(--color-green-primary);
+
+  @include respond(1200) {
+    font-size:1.4rem;
+  }
 }
 
 .btn-location {
-  position: absolute;
-  z-index: 10;
+  position: fixed;
   right: 5.5rem;
   bottom: 2.8rem;
   padding: 1rem;
   display: flex;
+
+  @include respond(1200) {
+    right: 1rem;
+    bottom: 11rem;
+  }
+
+  @include respond(800) {
+    bottom: 13.8rem;
+  }
+
+  @include respond(800) {
+    bottom: 15rem;
+    right:1.2rem;
+    padding:1.2rem;
+  }
 
   &__icon {
     height: 3rem;
@@ -151,12 +181,13 @@
   border-radius: 3px;
   text-transform: uppercase;
   font-weight: 500;
+  font-size:1.4rem;
 }
 
 .btn-pagination {
   background-color: var(--color-grey-light-1);
   color: var(--color-grey-dark-2);
-  padding: 0.2rem 1rem;
+  padding: 0.4rem 1rem;
   font-size: 1.2rem;
   grid-row: 1/-1;
 
@@ -177,5 +208,12 @@
 
 #btn-load-data-map,
 #btn-clear-data-map {
-  grid-column: 2;
+
+  @include respond(800) {
+    font-size:1.4rem;
+  }
+
+  @include respond(800) {
+    font-size:1.2rem;
+  }
 }
