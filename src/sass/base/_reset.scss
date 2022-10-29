@@ -31,13 +31,6 @@ body {
   box-sizing: border-box;
 }
 
-html,
-body {
-  @include respond(800) {
-    height: 100%;
-  }
-}
-
 ::selection {
   background-color: var(--color-green-hilight);
 }

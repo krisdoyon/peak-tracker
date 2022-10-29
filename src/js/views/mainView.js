@@ -8,6 +8,8 @@ class MainView {
   constructor() {
     this.#addHandlerEscapeKeydown();
     this.#addHandlerRemovePreload();
+    this.#addHandlerMarginTop();
+    this.#setMarginTop();
   }
 
   // PUBLIC METHODS
@@ -60,6 +62,16 @@ class MainView {
         this.#containerMain.classList.remove("preload");
       }.bind(this)
     );
+  }
+
+  #setMarginTop() {
+    if (window.matchMedia("(max-width: 800px)").matches) {
+      this.#containerMain.style.marginTop = `${window.innerHeight}px`;
+    }
+  }
+
+  #addHandlerMarginTop() {
+    window.addEventListener("resize", this.#setMarginTop.bind(this));
   }
 }
 
