@@ -69,10 +69,6 @@ const controlClearAllData = function () {
   }
 };
 
-// const controlOpenModal = function () {
-//   modalView.openModal();
-// };
-
 const controlFirstVisit = function () {
   model.firstVisit && modalView.openModal();
   model.setSessionStorage();
