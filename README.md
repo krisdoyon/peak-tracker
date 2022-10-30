@@ -6,7 +6,7 @@
 
 - The live app is available to view and use at: https://peaktracker.krisdoyon.com
 
-- You can view my personal website to learn more about me and see my other projects at: https://kris.doyon.com
+- You can view my personal website to learn more about me and see my other projects at: https://krisdoyon.com
 
 ![Peak Tracker demo gif](./src/img/screenshots/demo.gif)
 
@@ -66,19 +66,19 @@ Users of the app can:
 
 <a href="#architecture"></a>
 
-## Model-View-Controller
+#### Model-View-Controller
 
 I designed the app using the model-view-controller architectural pattern. I separated the views into classes (such as peak list previews, stats, log entries, etc.) and views that share similar functionality are extended from common view classes. Each view class that is rendered to the user is imported into the controller. The publisher/subscriber pattern is used for all event handlers with controller functions passed into event handlers published by the view as callbacks and a controller init function is called on the initial page load. The controller module is the only script linked into the HTML head to minimize the number of HTTP requests.
 
-## State Management
+#### State Management
 
 The app state is stored in a state variable which is exported from the model to the controller and stored in local storage. When a user takes actions such as adding a log entry or saving a peak list, the appropriate functions in the model are called by the controller which in turn updates the state and pushes changes to local storage. Examples of values tracked by the state include an object containing key value pairs of peak list IDs with corresponding peak counts, and arrays of user log entries, completed peaks and saved peak lists.
 
-## Class Components
+#### Class Components
 
 In addition to the view classes, I used additional ES6 class components to organize peak lists and log entries, with these classes imported for use into the model. The constructor function for the log entry class calls methods which calculate additional stats based on user provided data (such as average speed) and set information for use in the view. Each instance of a peak list class is created from an imported JSON file (more about source data and peak list creation below). I used native JavaScript private fields for privacy encapsulation where applicable.
 
-## Sass
+#### Sass
 
 I used the 7-1 pattern for organizing Sass code by creating partials within each folder to separate abstacts, layout, components, etc. I used an index partial in each folder, @forward for each partial and finally @use for each folder in the main.scss file which is the single stylesheet linked into the HTML head. I used BEM methodology for naming css classes with the goal of creating reusable components wherever possible.
 
@@ -90,7 +90,7 @@ One challenge that I faced while working on this project was keeping track of th
 
 My solution was to:
 
-- Maintain an array of all completed peak IDs in the model state, independent of peak lists (Mt. Washington appears only once in this array).
+- Maintain an array of all completed peak IDs (a unique number for each peak) in the model state, independent of peak lists (Mt. Washington appears only once in this array).
 - Create 3 functions which each take the peak ID as an argument:
 
 1. getMatchingLists, which returns an array of all matching peak lists to potentially increase/decrease counts for.
@@ -169,26 +169,26 @@ const vt4k = new PeakList(vt4kJSON);
 
 <a href="#screenshots"></a>
 
-## Mobile:
+#### Mobile:
 
 ![Peak Tracker mobile demo gif](./src/img/screenshots/mobile-demo.gif)
 
-## Welcome Modal:
+#### Welcome Modal:
 
 <img alt="peak list table screenshot" src="./src/img/screenshots/modal-screenshot.png" style="height:400px">
 
-## Peak List Preview:
+#### Peak List Preview:
 
 <img alt="peak list table screenshot" src="./src/img/screenshots/peak-list-preview-screenshot.png" style="height:400px">
 
-## Peak List Table:
+#### Peak List Table:
 
 <img alt="peak list table screenshot" src="./src/img/screenshots/peak-list-table-screenshot.png" style="height:400px">
 
-## Stats:
+#### Stats:
 
 <img alt="peak list table screenshot" src="./src/img/screenshots/stats-screenshot.png" style="height:400px">
 
-## New Entry Form:
+#### New Entry Form:
 
 <img alt="peak list table screenshot" src="./src/img/screenshots/new-entry-screenshot.png" style="height:400px">
