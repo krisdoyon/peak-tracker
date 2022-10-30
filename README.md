@@ -1,19 +1,36 @@
-<div style="display:flex; align-items:center; flex-direction: column; gap:16px">
-  <img src="./src/img/logo.png" alt="Peak Tracker logo" style="background-color:#f7f7f7; display:flex; padding:20px; height:100px; justify-self:center">
-  <p style="font-size: 18px; text-align:center">Peak Tracker is a JavaScript application designed <br/>to track progress of mountain summit peakbagging lists.</p>
-</div>
+<p align="center">
+  <img src="./src/img/logo-background.png" alt="Peak Tracker logo" style="height:150px">
+</p>
+
+**Peak Tracker is a JavaScript application designed to track progress of mountain summit peakbagging lists.**
 
 - The live app is available to view and use at: https://peaktracker.krisdoyon.com
 
 - You can view my personal website to learn more about me and see my other projects at: https://kris.doyon.com
 
+![Peak Tracker demo gif](./src/img/screenshots/demo.gif)
+
+# Table of Contents
+
+1. [Overview](#overview)
+2. [Features](#features)
+3. [Technologies used](#technologies)
+4. [Project architecture](#architecture)
+5. [Challenges](#challenges)
+6. [Data](#data)
+7. [Screenshots](#screenshots)
+
 # Overview
+
+<a href="#overview"></a>
 
 I designed this app as a personal project to practice and improve my frontend web development skills using HTML, CSS and JavaScript. I did not use any frameworks as my goal was to focus on fundamentals. I practiced many concepts including DOM manipulation, event delegation, state management, and modern ES6 features such as destructuring, array methods and default parameters.
 
-My motivation for this project was my interest as an avid hiker who is working towards completion of several of the peak lists included in the app. The target user would be someone like myself who has particular hiking and peakbagging goals.
+My motivation for this project was my interest as an avid hiker who is working towards completion of several of the peak lists included in the app. The target user would be someone like myself who has particular hiking and peakbagging goals. Instead of keeping track of peak lists progress manually (on paper, in an Excel spreadsheet, etc.) this app would provide the user with graphical representations of their progress and a more streamlined experience.
 
-## Features
+# Features
+
+<a href="#features"></a>
 
 Users of the app can:
 
@@ -26,6 +43,8 @@ Users of the app can:
 - Track progress of all included peak lists simultaneously; when a log entry is added or removed progress towards every peak list is updated automatically.
 
 # Technologies Used
+
+<a href="#technologies"></a>
 
 - JavaScript
 
@@ -45,6 +64,8 @@ Users of the app can:
 
 # Project Architecture
 
+<a href="#architecture"></a>
+
 ## Model-View-Controller
 
 I designed the app using the model-view-controller architectural pattern. I separated the views into classes (such as peak list previews, stats, log entries, etc.) and views that share similar functionality are extended from common view classes. Each view class that is rendered to the user is imported into the controller. The publisher/subscriber pattern is used for all event handlers with controller functions passed into event handlers published by the view as callbacks and a controller init function is called on the initial page load. The controller module is the only script linked into the HTML head to minimize the number of HTTP requests.
@@ -61,16 +82,9 @@ In addition to the view classes, I used additional ES6 class components to organ
 
 I used the 7-1 pattern for organizing Sass code by creating partials within each folder to separate abstacts, layout, components, etc. I used an index partial in each folder, @forward for each partial and finally @use for each folder in the main.scss file which is the single stylesheet linked into the HTML head. I used BEM methodology for naming css classes with the goal of creating reusable components wherever possible.
 
-# Things Learned
-
-Working with forms:
-
-- Form validation
-- Customizing checkboxes
-- Warning users about saved progress
-  Maintaining state on refresh
-
 # Challenges
+
+<a href="#challenges"></a>
 
 One challenge that I faced while working on this project was keeping track of the list counts. This was partially due to the fact that some peaks appear on multiple peak lists (for example, Mt. Washington in New Hampshire is on both the NH 4,000 Footers and USA State Highpoints lists along with 3 others lists). Additionally, a user may create multiple log entries with the same peak so adding or removing a log entry does not necessarily mean that the list count should be increased or decreased.
 
@@ -80,12 +94,14 @@ My solution was to:
 - Create 3 functions which each take the peak ID as an argument:
 
 1. getMatchingLists, which returns an array of all matching peak lists to potentially increase/decrease counts for.
-2. increaseListCounts, which is called when a user adds a new entry. This function checks if the peak ID already exists in the completed peaks array for each peak and increases each list count in the model state by 1 for each matching list if it does not.
-3. decreaseListCounts, which is called when a user removes an existing entry. This function flat maps the completed peak IDs of all log entries into an array, checks if the peak ID exists in this array, and decreases the list counts in the model state by 1 for each matching list if it does not.
+2. increaseListCounts, which is called when a user adds a new entry. This function first checks if the peak ID already exists in the completed peaks array. If it does not, it adds the peak ID to the completed peaks array and increases each list count in the model state by 1 for each matching list.
+3. decreaseListCounts, which is called when a user removes an existing entry. This function flat maps the completed peak IDs of all log entries into an array and checks if the peak ID exists in this array. If it does not, it decreases the list counts in the model state by 1 for each matching list.
 
 - The increaseListCounts and decreaseListCounts functions are called for each peak ID in the new or removed entry if there are multiple peaks in the entry.
 
 # Data
+
+<a href="#data"></a>
 
 The data for all mountains (latitude, longitude, elevation, etc.) comes from the U.S. Geological Survey (USGS) Geographic Names Information System (GNIS) which maintains a database of natural features in the United States.
 
@@ -149,8 +165,30 @@ const vt4k = new PeakList(vt4kJSON);
 
 5. Add each peak list created using steps 1-4 into a single array which is exported and then imported into the model.
 
-SCREENSHOTS / GIFS?
+# Screenshots
 
-- Viewing a peak list (hover)
-- Logging a trip
-- Viewing stats
+<a href="#screenshots"></a>
+
+## Mobile:
+
+![Peak Tracker mobile demo gif](./src/img/screenshots/mobile-demo.gif)
+
+## Welcome Modal:
+
+<img alt="peak list table screenshot" src="./src/img/screenshots/modal-screenshot.png" style="height:400px">
+
+## Peak List Preview:
+
+<img alt="peak list table screenshot" src="./src/img/screenshots/peak-list-preview-screenshot.png" style="height:400px">
+
+## Peak List Table:
+
+<img alt="peak list table screenshot" src="./src/img/screenshots/peak-list-table-screenshot.png" style="height:400px">
+
+## Stats:
+
+<img alt="peak list table screenshot" src="./src/img/screenshots/stats-screenshot.png" style="height:400px">
+
+## New Entry Form:
+
+<img alt="peak list table screenshot" src="./src/img/screenshots/new-entry-screenshot.png" style="height:400px">
