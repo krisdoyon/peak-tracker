@@ -16,8 +16,6 @@ class PeakList {
   constructor(data) {
     this.title = data.title;
     this.listID = data.listID;
-    this.center = data.center;
-    this.zoom = data.zoom;
     this.peakCount = data.peakCount;
     this.peaks = data.peaks;
     this.description = data.description;
