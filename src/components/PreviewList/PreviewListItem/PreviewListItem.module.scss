@@ -1,0 +1,28 @@
+.item {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  border-top: var(--border-grey-light);
+  padding: 2rem;
+  gap: 2.4rem;
+  align-items: center;
+}
+
+.item:first-child {
+  border-top: none;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.heading {
+  font-size: 1.5rem;
+  font-weight: 300;
+
+  strong {
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+}

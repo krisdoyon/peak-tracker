@@ -1,0 +1,25 @@
+@use "../../../assets/mixins.scss" as *;
+
+.btn {
+  background-color: var(--color-green-primary);
+  color: var(--color-grey-light-1);
+  border-radius: 1000rem;
+  text-transform: uppercase;
+
+  &:hover {
+    background-color: var(--color-green-light);
+  }
+}
+
+.view {
+  padding: 0.8rem 1.8rem;
+
+  @include respond(1000) {
+    font-size: 1.4rem;
+  }
+
+  &--sm {
+    font-size: 1.2rem;
+    padding: 0.5rem 1.4rem;
+  }
+}

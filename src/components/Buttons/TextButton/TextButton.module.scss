@@ -1,0 +1,25 @@
+.btn {
+  background-color: transparent;
+  font-weight: 400;
+  transition: none;
+  border-radius: 0;
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: 1.4rem;
+
+  &:hover {
+    font-weight: 700;
+  }
+}
+
+.active {
+  font-weight: 700;
+}
+
+.light {
+  color: var(--color-grey-light-1);
+}
+
+.green {
+  color: var(--color-green-primary);
+}

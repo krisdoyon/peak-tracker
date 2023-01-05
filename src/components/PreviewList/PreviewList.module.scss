@@ -1,0 +1,5 @@
+.list {
+  display: grid;
+  height: 100%;
+  grid-template-rows: repeat(6, 1fr);
+}
