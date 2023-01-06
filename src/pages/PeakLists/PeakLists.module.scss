@@ -1,24 +1,5 @@
 @use "../../assets/mixins.scss" as *;
 
-.controls {
-  display: grid;
-  padding: 0.8rem 1.6rem;
-  position: sticky;
-  top: 0;
-
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-green-primary);
-
-  grid-template-columns: 1fr 9.5rem 9.5rem 1fr;
-  justify-content: space-between;
-  grid-template-rows: 2.4rem;
-
-  @include respond(1200) {
-    grid-template-columns: 1fr 11rem 11rem 1fr;
-  }
-}
-
 .btn-all {
   grid-column: 2;
 }

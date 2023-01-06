@@ -2,8 +2,11 @@ import styles from "./PeakLists.module.scss";
 import { useState } from "react";
 import { Card, CardBody, CardHeading } from "components/Card";
 import { TextButton } from "components/Buttons";
-import { PreviewList } from "components/PreviewList/PreviewList";
-import { PreviewListItem } from "components/PreviewList/PreviewListItem/PreviewListItem";
+import {
+  PreviewList,
+  PreviewListItem,
+  PreviewControls,
+} from "components/PreviewList";
 
 export const PeakLists = () => {
   const [previewType, setPreviewType] = useState<"all" | "saved">("all");
@@ -11,7 +14,7 @@ export const PeakLists = () => {
   return (
     <Card>
       <CardHeading title="Peak Lists" />
-      <div className={styles.controls}>
+      <PreviewControls variant="peak-lists">
         <TextButton
           className={styles["btn-all"]}
           color="light"
@@ -28,7 +31,7 @@ export const PeakLists = () => {
         >
           saved lists
         </TextButton>
-      </div>
+      </PreviewControls>
       <CardBody>
         <PreviewList>
           <PreviewListItem
