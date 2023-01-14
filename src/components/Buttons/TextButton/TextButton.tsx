@@ -1,7 +1,7 @@
 import styles from "./TextButton.module.scss";
 
 interface Props {
-  color: "light" | "green";
+  color?: "light" | "green";
   children?: React.ReactNode;
   className?: string;
   active?: boolean;
@@ -19,7 +19,7 @@ export const TextButton = ({
     <button
       className={`${styles.btn} ${className ? className : ""} ${
         active ? styles.active : ""
-      } ${styles[color]}`}
+      } ${color ? styles[color] : ""}`}
       onClick={onClick}
     >
       {children}
