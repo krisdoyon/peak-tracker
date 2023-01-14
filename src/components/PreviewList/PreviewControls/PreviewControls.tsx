@@ -15,9 +15,6 @@ export const PreviewControls = ({ children, variant }: Props) => {
       ${variant === "log" ? styles.log : ""}
       ${variant === "stats" ? styles.stats : ""}`}
     >
-      {(variant === "log" || variant === "stats") && (
-        <FilterSelects card={variant} />
-      )}
       {children}
     </div>
   );
