@@ -1,0 +1,31 @@
+.stats-grid {
+  display: grid;
+  grid-template-columns: min-content min-content 1fr;
+  grid-template-rows: repeat(3, 4.2rem);
+  gap: 1.2rem;
+  align-items: center;
+
+  label {
+    grid-column: 1;
+  }
+}
+
+.stat-row {
+  grid-column: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  input {
+    flex: 1;
+  }
+}
+
+.btn-stat {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  grid-column: 2;
+}

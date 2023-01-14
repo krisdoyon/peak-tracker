@@ -1,0 +1,24 @@
+.row-rating {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wrapper-stars {
+  display: flex;
+}
+
+.btn-star {
+  background-color: transparent;
+  transition: none;
+}
+
+.star-icon {
+  height: 2.4rem;
+  width: 2.4rem;
+  pointer-events: none;
+}
+
+.full {
+  fill: #ffd61e;
+}

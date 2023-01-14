@@ -1,0 +1,53 @@
+@use "../../assets/mixins.scss" as *;
+
+.form-new-entry {
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+select {
+  padding: 1.2rem;
+  border-radius: 1rem;
+  border: none;
+  font-family: inherit;
+  background-color: #fff;
+
+  @include respond(1000) {
+    font-size: 1.3rem;
+  }
+
+  &:focus {
+    outline: 1px solid var(--color-green-light);
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  border-top: var(--border-grey-dark);
+  padding: 2.4rem 1.8rem;
+  width: 100%;
+}
+
+.heading-wrapper {
+  display: flex;
+  gap: 1.8rem;
+  align-items: center;
+}
+
+.label-primary,
+.heading {
+  font-size: 1.8rem;
+  font-weight: 300;
+}
+
+.label-secondary {
+  font-size: 1.4rem;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+}
