@@ -7,7 +7,7 @@ interface Props {
 export const CardHeading = ({ title }: Props) => {
   return (
     <div className={styles.wrapper}>
-      <h2 className={styles.heading}>{title}</h2>
+      <h2>{title}</h2>
     </div>
   );
 };
