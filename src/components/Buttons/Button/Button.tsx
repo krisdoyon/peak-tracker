@@ -1,23 +1,23 @@
 import styles from "./Button.module.scss";
 
 interface Props {
-  variant?: "add" | "view";
   className?: string;
   children?: React.ReactNode;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export const Button = ({ variant, className, children, onClick }: Props) => {
+export const Button = ({
+  className,
+  children,
+  onClick,
+  ...rest
+}: Props & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
-      className={`${styles.btn} ${className ? className : ""} ${
-        variant ? styles[variant] : ""
-      }`}
+      className={`${styles.btn} ${className ? className : ""}`}
       onClick={onClick}
+      {...rest}
     >
-      {variant === "add" && <></>}
-      {variant === "view" && <>view</>}
-
       {children}
     </button>
   );
