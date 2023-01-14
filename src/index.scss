@@ -80,6 +80,10 @@ body {
 
 // GLOBAL STYLES
 
+h2 {
+  font-size: 2.4rem;
+}
+
 a {
   text-decoration: none;
 }
@@ -95,4 +99,19 @@ button {
 input,
 select {
   font-family: inherit;
+}
+
+#sort-table-select-label {
+  font-weight: 500;
+}
+
+#sort-table-select {
+  width: 50%;
+  flex: 1;
+  padding: 0.2rem 0.8rem;
+  border-radius: 0.4rem;
+  border: none;
+  font-family: inherit;
+  background-color: #fff;
+  border: var(--border-grey-dark);
 }
