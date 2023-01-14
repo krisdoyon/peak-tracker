@@ -1,0 +1,14 @@
+@use "../../../assets/mixins.scss" as *;
+
+.view {
+  padding: 0.8rem 1.8rem;
+
+  @include respond(1000) {
+    font-size: 1.4rem;
+  }
+}
+
+.small {
+  font-size: 1.2rem;
+  padding: 0.5rem 1.4rem;
+}

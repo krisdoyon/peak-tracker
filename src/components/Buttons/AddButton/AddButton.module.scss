@@ -1,0 +1,17 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  font-size: 1.6rem;
+  color: var(--color-grey-light-1);
+  padding: 0.8rem 2rem;
+  border-radius: 1000rem;
+  text-transform: capitalize;
+}
+
+.icon {
+  fill: var(--color-grey-light-1);
+  height: 1.8rem;
+  width: 1.8rem;
+}

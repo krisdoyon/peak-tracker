@@ -1,0 +1,22 @@
+.btn {
+  background-color: var(--color-grey-light-1);
+  color: var(--color-grey-dark-2);
+  padding: 0.4rem 1rem;
+  font-size: 1.2rem;
+  grid-row: 1/-1;
+  text-transform: capitalize;
+
+  &:hover {
+    background-color: var(--color-grey-light-2);
+  }
+}
+
+.next {
+  justify-self: end;
+  grid-column: -2/-1;
+}
+
+.prev {
+  justify-self: start;
+  grid-column: 1 / 2;
+}
