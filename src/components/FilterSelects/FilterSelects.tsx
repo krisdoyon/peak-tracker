@@ -8,21 +8,19 @@ export const FilterSelects = ({ card }: Props) => {
   return (
     <>
       <label htmlFor={`select-list-${card}`}>Filter by list:</label>
-      <select className={styles["select-list"]} id={`select-list-${card}`}>
-        <option value="all" selected>
-          All lists
-        </option>
+      <select
+        className={styles["select-list"]}
+        id={`select-list-${card}`}
+        defaultValue="all"
+      >
+        <option value="all">All lists</option>
       </select>
       <label htmlFor={`select-month-${card}`}>Filter by date:</label>
-      <select id={`select-month-${card}`}>
-        <option value="all" selected>
-          All Months
-        </option>
+      <select id={`select-month-${card}`} defaultValue="all">
+        <option value="all">All Months</option>
       </select>
-      <select id={`select-year-${card}`}>
-        <option value="all" selected>
-          All years
-        </option>
+      <select id={`select-year-${card}`} defaultValue="all">
+        <option value="all">All years</option>
       </select>
     </>
   );
