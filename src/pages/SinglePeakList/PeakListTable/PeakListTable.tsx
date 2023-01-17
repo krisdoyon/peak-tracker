@@ -1,8 +1,12 @@
 import styles from "./PeakListTable.module.scss";
 import { IPeak } from "models/interfaces";
 import { TextButton } from "components/Buttons";
-import { useNewEntryContext } from "context/newEntryContext";
+import {
+  NewEntryActionKind,
+  useNewEntryContext,
+} from "context/newEntryContext";
 import { useNavigate } from "react-router-dom";
+import { usePeakListContext } from "context/peakListContext";
 
 interface Props {
   peaks: IPeak[];
@@ -10,11 +14,18 @@ interface Props {
 }
 
 export const PeakListTable = ({ listID, peaks }: Props) => {
-  const { setCheckedPeaks, setListID } = useNewEntryContext();
+  const { dispatch } = useNewEntryContext();
+  const { isPeakCompleted } = usePeakListContext();
   const navigate = useNavigate();
   const handleLogTrip = (peakID: number) => {
-    setCheckedPeaks([peakID]);
-    setListID(listID);
+    dispatch({
+      type: NewEntryActionKind.TOGGLE_CHECKED_PEAK,
+      payload: { checked: true, peakID },
+    });
+    dispatch({
+      type: NewEntryActionKind.SET_LIST_ID,
+      payload: listID,
+    });
     navigate("/new-entry");
   };
 
@@ -31,8 +42,12 @@ export const PeakListTable = ({ listID, peaks }: Props) => {
       </thead>
       <tbody>
         {peaks.map((peak, i) => {
+          const isCompleted = isPeakCompleted(peak.id);
           return (
-            <tr key={peak.id} className={styles.row}>
+            <tr
+              key={peak.id}
+              className={`${styles.row} ${isCompleted ? styles.complete : ""}`}
+            >
               <td>
                 <strong>{i + 1}</strong>
               </td>

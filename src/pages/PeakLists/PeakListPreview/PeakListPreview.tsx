@@ -2,7 +2,10 @@ import styles from "components/PreviewList/PreviewListItem/PreviewListItem.modul
 import { PreviewListItem } from "components/PreviewList";
 import { IconButton, ViewButton } from "components/Buttons";
 import { ProgressBar } from "components/ProgressBar/ProgressBar";
-import { usePeakListContext } from "context/peakListContext";
+import {
+  PeakListActionType,
+  usePeakListContext,
+} from "context/peakListContext";
 
 interface Props {
   title: string;
@@ -17,14 +20,23 @@ export const PeakListPreview = ({
   peakCount,
   listID,
 }: Props) => {
-  const { savedListIds, toggleSavedList } = usePeakListContext();
+  const {
+    state: { savedListIds },
+    dispatch,
+  } = usePeakListContext();
+
   const isSaved = savedListIds.some((savedID) => savedID === listID);
 
   return (
     <PreviewListItem>
       <IconButton
         icon={isSaved ? "remove" : "add"}
-        onClick={() => toggleSavedList(listID)}
+        onClick={() =>
+          dispatch({
+            type: PeakListActionType.TOGGLE_SAVED_LIST,
+            payload: listID,
+          })
+        }
       ></IconButton>
       <div className={styles.info}>
         <h2 className={styles.heading}>

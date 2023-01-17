@@ -2,7 +2,10 @@ import styles from "./SinglePeakList.module.scss";
 import headingStyles from "components/Card/CardHeadingGrid/CardHeadingGrid.module.scss";
 import { Card, CardHeadingGrid, CardBody } from "components/Card";
 import { ProgressBar } from "components/ProgressBar/ProgressBar";
-import { usePeakListContext } from "context/peakListContext";
+import {
+  PeakListActionType,
+  usePeakListContext,
+} from "context/peakListContext";
 
 import { useParams } from "react-router-dom";
 import { IconButton } from "components/Buttons";
@@ -12,10 +15,13 @@ import { useEffect, useState } from "react";
 import { sortPeaks, SortType } from "utils/sortPeaks";
 
 export const SinglePeakList = () => {
-  const { listID } = useParams();
-  const { getPeakListById, savedListIds, toggleSavedList } =
-    usePeakListContext();
   const [sort, setSort] = useState<SortType>(SortType.ELEVATION);
+  const { listID } = useParams();
+  const {
+    state: { savedListIds, listCounts },
+    dispatch,
+    getPeakListById,
+  } = usePeakListContext();
   let list: IPeakList | undefined;
   let displayPeaks: IPeak[] = [];
   if (listID) {
@@ -24,7 +30,6 @@ export const SinglePeakList = () => {
   if (list) {
     displayPeaks = sortPeaks(list.peaks, sort);
   }
-  const numCompleted = 3;
   const isSaved = savedListIds.some((savedID) => savedID === listID);
 
   useEffect(() => {
@@ -38,12 +43,17 @@ export const SinglePeakList = () => {
       <Card>
         <CardHeadingGrid title={list.title} backTo={"peak-lists"}>
           <div className={headingStyles.row}>
-            <span>{`${numCompleted} of ${list.peakCount} peaks`}</span>
+            <span>{`${listCounts[listID]} of ${list.peakCount} peaks`}</span>
             <span>|</span>
             <div className={headingStyles["btn-wrapper"]}>
               <IconButton
                 icon={isSaved ? "remove" : "add"}
-                onClick={() => toggleSavedList(listID)}
+                onClick={() =>
+                  dispatch({
+                    type: PeakListActionType.TOGGLE_SAVED_LIST,
+                    payload: listID,
+                  })
+                }
               />
               <span>{`${isSaved ? "Remove from" : "Add to"} my lists`}</span>
             </div>
@@ -70,7 +80,7 @@ export const SinglePeakList = () => {
           <div className={headingStyles["progress-wrapper"]}>
             <ProgressBar
               peakCount={list.peakCount}
-              numCompleted={numCompleted}
+              numCompleted={listCounts[listID]}
             />
           </div>
         </CardHeadingGrid>

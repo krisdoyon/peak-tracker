@@ -17,7 +17,9 @@ const noDataMessage = (
 
 export const PeakLists = () => {
   const [previewType, setPreviewType] = useState<"all" | "saved">("all");
-  const { allPeakLists, savedListIds } = usePeakListContext();
+  const {
+    state: { allPeakLists, savedListIds, listCounts },
+  } = usePeakListContext();
 
   const displayLists =
     previewType === "all"
@@ -75,7 +77,7 @@ export const PeakLists = () => {
                   title={title}
                   peakCount={peakCount}
                   listID={listID}
-                  numCompleted={3}
+                  numCompleted={listCounts[listID]}
                 />
               );
             })}
