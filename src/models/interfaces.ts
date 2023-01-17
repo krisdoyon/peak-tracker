@@ -16,7 +16,9 @@ export interface IPeakList {
 }
 
 export interface ILogEntry {
-  peaks: IPeak[];
+  peakIds: number[];
+  // peaks: IPeak[];
+  // lists: { listID: string; title: string }[];
   stats: {
     elevation: number | null;
     distance: number | null;
@@ -29,7 +31,12 @@ export interface ILogEntry {
   notes: string | null;
   rating: number | null;
   logID: string;
-  timestamp: number;
-  displayDate: string;
-  lists: { listID: string; title: string }[];
+  // displayDate: string;
+  date: string;
+}
+
+export enum FilterType {
+  LIST_ID = "listID",
+  MONTH = "month",
+  YEAR = "year",
 }
