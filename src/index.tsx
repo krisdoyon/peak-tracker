@@ -11,15 +11,15 @@ import { BrowserRouter as Router } from "react-router-dom";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Router>
-      <NewEntryProvider>
-        <LogProvider>
-          <StatsProvider>
-            <PeakListProvider>
+      <PeakListProvider>
+        <NewEntryProvider>
+          <LogProvider>
+            <StatsProvider>
               <App />
-            </PeakListProvider>
-          </StatsProvider>
-        </LogProvider>
-      </NewEntryProvider>
+            </StatsProvider>
+          </LogProvider>
+        </NewEntryProvider>
+      </PeakListProvider>
     </Router>
   </React.StrictMode>
 );
