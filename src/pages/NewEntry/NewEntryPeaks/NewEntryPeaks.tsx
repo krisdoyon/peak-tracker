@@ -11,7 +11,10 @@ import {
 import { sortPeaks, SortType } from "utils/sortPeaks";
 
 export const NewEntryPeaks = () => {
-  const { allPeakLists, getPeakListById } = usePeakListContext();
+  const {
+    state: { allPeakLists },
+    getPeakListById,
+  } = usePeakListContext();
   const [peaks, setPeaks] = useState<IPeak[]>([]);
   const {
     state: { listID, checkedPeaks },
@@ -23,18 +26,10 @@ export const NewEntryPeaks = () => {
     if (listMatch) {
       const sortedPeaks = sortPeaks(listMatch.peaks, SortType.NAME);
       setPeaks(sortedPeaks);
+    } else {
+      setPeaks([]);
     }
   }, [listID]);
-
-  // const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.checked) {
-  //     setCheckedPeaks([...checkedPeaks, +e.target.value]);
-  //   } else {
-  //     setCheckedPeaks((prevCheckedPeaks) =>
-  //       prevCheckedPeaks.filter((peakID) => peakID !== +e.target.value)
-  //     );
-  //   }
-  // };
 
   return (
     <div className={formStyles.row}>
@@ -78,7 +73,7 @@ export const NewEntryPeaks = () => {
       {peaks.length > 0 && (
         <ul className={styles["checkbox-grid"]}>
           {peaks.map((peak) => {
-            // const isChecked = checkedPeaks.some((peakID) => peakID === peak.id);
+            const isChecked = checkedPeaks.some((peakID) => peakID === peak.id);
             return (
               <li key={peak.id}>
                 <label className={styles["checkbox-container"]}>
@@ -86,8 +81,13 @@ export const NewEntryPeaks = () => {
                   <input
                     type="checkbox"
                     value={peak.id}
-                    // onChange={handleCheck}
-                    // checked={isChecked}
+                    onChange={(e) =>
+                      dispatch({
+                        type: NewEntryActionKind.TOGGLE_CHECKED_PEAK,
+                        payload: { checked: e.target.checked, peakID: peak.id },
+                      })
+                    }
+                    checked={isChecked}
                   />
                   <span className={styles.checkmark}></span>
                 </label>

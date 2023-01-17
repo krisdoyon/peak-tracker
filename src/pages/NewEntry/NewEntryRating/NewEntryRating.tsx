@@ -1,11 +1,16 @@
 import styles from "./NewEntryRating.module.scss";
 import formStyles from "../NewEntry.module.scss";
 import sprite from "assets/img/sprite.svg";
-import { useState } from "react";
+import {
+  NewEntryActionKind,
+  useNewEntryContext,
+} from "context/newEntryContext";
 
 export const NewEntryRating = () => {
-  const [starNumHover, setStarNumHover] = useState(0);
-  const [rating, setRating] = useState(0);
+  const {
+    state: { rating, filledStar },
+    dispatch,
+  } = useNewEntryContext();
 
   return (
     <div className={`${formStyles.row} ${styles["row-rating"]}`}>
@@ -22,23 +27,32 @@ export const NewEntryRating = () => {
             <button
               key={i}
               className={`${styles["btn-star"]} ${
-                starNumHover >= i + 1 ? styles.full : ""
+                filledStar >= i + 1 ? styles.full : ""
               }`}
               onMouseOver={() => {
-                setStarNumHover(i + 1);
+                dispatch({
+                  type: NewEntryActionKind.SET_FILLED_STAR,
+                  payload: i + 1,
+                });
               }}
               onMouseOut={() => {
-                setStarNumHover(rating);
+                dispatch({
+                  type: NewEntryActionKind.SET_FILLED_STAR,
+                  payload: rating,
+                });
               }}
               onClick={(e) => {
                 e.preventDefault();
-                setRating(i + 1);
+                dispatch({
+                  type: NewEntryActionKind.SET_RATING,
+                  payload: i + 1,
+                });
               }}
             >
               <svg className={styles["star-icon"]}>
                 <use
                   href={`${sprite}${
-                    starNumHover >= i + 1 ? "#icon-star-solid" : "#icon-star"
+                    filledStar >= i + 1 ? "#icon-star-solid" : "#icon-star"
                   }`}
                 ></use>
               </svg>

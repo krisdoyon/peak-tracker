@@ -8,15 +8,18 @@ import { NewEntryPeaks } from "./NewEntryPeaks/NewEntryPeaks";
 import { NewEntryRating } from "./NewEntryRating/NewEntryRating";
 import { NewEntryStats } from "./NewEntryStats/NewEntryStats";
 import { ILogEntry } from "models/interfaces";
+import { useNewEntryContext } from "context/newEntryContext";
+import { LogActionKind, useLogContext } from "context/logContext";
 
 export const NewEntry = () => {
-  const formRef = useRef<HTMLFormElement>(null);
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const { dispatch, addLogEntry } = useLogContext();
+  const { state } = useNewEntryContext();
+
+  const handleSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (formRef.current) {
-      const data = Object.fromEntries(new FormData(formRef.current));
-      console.log(data);
-    }
+    addLogEntry();
+
+    // const newEntry: ILogEntry = {};
   };
 
   return (
@@ -27,7 +30,6 @@ export const NewEntry = () => {
           id="form-new-entry"
           className={styles.form}
           onSubmit={handleSubmit}
-          ref={formRef}
         >
           <NewEntryDate />
           <NewEntryPeaks />

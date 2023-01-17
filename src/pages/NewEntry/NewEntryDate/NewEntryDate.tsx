@@ -2,7 +2,6 @@ import styles from "./NewEntryDate.module.scss";
 import formStyles from "../NewEntry.module.scss";
 import { Button } from "components/Buttons";
 import sprite from "assets/img/sprite.svg";
-import React, { useRef } from "react";
 import {
   NewEntryActionKind,
   useNewEntryContext,
@@ -57,7 +56,7 @@ export const NewEntryDate = () => {
             );
             dispatch({ type: NewEntryActionKind.SET_DATE, payload: date });
           }}
-          value={date || ""}
+          value={date}
           required
         />
         <Button
