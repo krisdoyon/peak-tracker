@@ -1,18 +1,24 @@
 import styles from "./LogEntryGrid.module.scss";
 import { ILogEntry } from "models/interfaces";
 import { ViewButton } from "components/Buttons";
+import { usePeakListContext } from "context/peakListContext";
+import { Fragment } from "react";
 
-export const LogEntryGrid = ({ peaks, lists, stats, notes }: ILogEntry) => {
+export const LogEntryGrid = ({ peakIds, stats, notes }: ILogEntry) => {
+  const { getListTitleById, getLogListIds, getPeakById } = usePeakListContext();
+  const listIds = getLogListIds(peakIds);
+
   return (
     <div className={styles.grid}>
       <span className={styles.label}>Peak Lists:</span>
       <div className={styles.lists}>
-        {lists.map((list) => {
+        {listIds.map((listId) => {
+          const title = getListTitleById(listId);
           return (
-            <>
-              <span>{list.title}</span>
+            <Fragment key={listId}>
+              <span>{title}</span>
               <ViewButton small={true} to={""} />
-            </>
+            </Fragment>
           );
         })}
       </div>
@@ -20,15 +26,18 @@ export const LogEntryGrid = ({ peaks, lists, stats, notes }: ILogEntry) => {
       <div
         className={styles.peaks}
         style={{
-          gridTemplateRows: `repeat(${peaks.length}, max-content`,
+          gridTemplateRows: `repeat(${peakIds.length}, max-content`,
         }}
       >
-        {peaks.map((peak) => {
-          return (
-            <span className={styles.peak}>{`${
-              peak.name
-            } - ${peak.elevation.toLocaleString()} ft`}</span>
-          );
+        {peakIds.map((peakId) => {
+          const peak = getPeakById(peakId);
+          if (peak) {
+            return (
+              <span key={peakId} className={styles.peak}>{`${
+                peak.name
+              } - ${peak.elevation.toLocaleString()} ft`}</span>
+            );
+          }
         })}
         <ViewButton small={true} to={""} />
       </div>

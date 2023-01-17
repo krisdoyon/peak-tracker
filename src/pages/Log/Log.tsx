@@ -1,23 +1,28 @@
 import { Card, CardBody, CardHeading } from "components/Card";
 import { PreviewList, PreviewControls } from "components/PreviewList";
 import { LogPreview } from "./LogPreview/LogPreview";
-import { useLogContext } from "context/logContext";
+import { LogActionKind, useLogContext } from "context/logContext";
 import { PaginationButton } from "components/Buttons";
 import { FilterSelects } from "components/FilterSelects/FilterSelects";
 import { usePagination } from "hooks/usePagination";
 import { NoData } from "components/NoData/NoData";
+import { FilterType, ILogEntry } from "models/interfaces";
 
 export const Log = () => {
   const {
     state: { logEntries },
+    dispatch,
+    filterLogEntries,
   } = useLogContext();
 
+  const filteredEntries = filterLogEntries();
+
   const { page, maxPage, nextPage, prevPage, displayArr } = usePagination(
-    logEntries,
+    filteredEntries,
     6
   );
 
-  const message = (
+  const noDataMessage = (
     <p>
       {`You haven't added any log entries ${
         logEntries.length === 0 ? "yet" : "that match the selected filters"
@@ -29,6 +34,13 @@ export const Log = () => {
     </p>
   );
 
+  const updateFilters = (filter: FilterType, value: string) => {
+    dispatch({
+      type: LogActionKind.UPDATE_FILTERS,
+      payload: { filter, value },
+    });
+  };
+
   return (
     <Card>
       <CardHeading title={"Trip Log"} />
@@ -38,7 +50,7 @@ export const Log = () => {
             page - 1
           }`}</PaginationButton>
         )}
-        <FilterSelects card="log" />
+        <FilterSelects card="log" updateFilters={updateFilters} />
         {page < maxPage && (
           <PaginationButton variant="next" onClick={nextPage}>{`Page ${
             page + 1
@@ -54,7 +66,7 @@ export const Log = () => {
           </PreviewList>
         )}
         {displayArr.length === 0 && (
-          <NoData message={message} hasAddButton={true} />
+          <NoData message={noDataMessage} hasAddButton={true} />
         )}
       </CardBody>
     </Card>
