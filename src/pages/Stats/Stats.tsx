@@ -2,15 +2,27 @@ import { Card, CardHeading, CardBody } from "components/Card";
 import { PreviewControls } from "components/PreviewList";
 import { FilterSelects } from "components/FilterSelects/FilterSelects";
 import { StatsGrid } from "./StatsGrid/StatsGrid";
-import { useStatsContext } from "context/statsContext";
 import { useLogContext } from "context/logContext";
 import { NoData } from "components/NoData/NoData";
+import { getStats } from "utils/getStats";
+import { FilterType } from "models/interfaces";
+import { useState } from "react";
 
 export const Stats = () => {
-  const { numberEntries } = useStatsContext();
+  const [filters, setFilters] = useState({
+    listID: "all",
+    month: "all",
+    year: "all",
+  });
+
   const {
     state: { logEntries },
+    filterLogEntries,
   } = useLogContext();
+
+  const filteredEntries = filterLogEntries(filters);
+
+  const stats = getStats(filteredEntries);
 
   const message = (
     <p>
@@ -23,15 +35,24 @@ export const Stats = () => {
     </p>
   );
 
+  const updateFilters = (filter: FilterType, value: string) => {
+    const newFilters = { ...filters, [filter]: value };
+    setFilters(newFilters);
+  };
+
   return (
     <Card>
       <CardHeading title={"Stats"} />
       <PreviewControls variant="stats">
-        <FilterSelects card="stats" />
+        <FilterSelects
+          card="stats"
+          updateFilters={updateFilters}
+          filterValues={filters}
+        />
       </PreviewControls>
       <CardBody>
-        {numberEntries > 0 && <StatsGrid />}
-        {numberEntries === 0 && (
+        {stats.numEntries > 0 && <StatsGrid {...stats} />}
+        {stats.numEntries === 0 && (
           <NoData message={message} hasAddButton={true} />
         )}
       </CardBody>
