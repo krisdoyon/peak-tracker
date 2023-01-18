@@ -6,21 +6,52 @@ import { PaginationButton } from "components/Buttons";
 import { FilterSelects } from "components/FilterSelects/FilterSelects";
 import { usePagination } from "hooks/usePagination";
 import { NoData } from "components/NoData/NoData";
-import { FilterType, ILogEntry } from "models/interfaces";
+import { FilterType } from "models/interfaces";
+import { useEffect } from "react";
 
 export const Log = () => {
   const {
-    state: { logEntries },
+    state: { logEntries, filters },
     dispatch,
     filterLogEntries,
+    getFilterSelectOptions,
   } = useLogContext();
 
-  const filteredEntries = filterLogEntries();
+  const { lists, months, years } = getFilterSelectOptions();
+
+  const filteredEntries = filterLogEntries(filters);
 
   const { page, maxPage, nextPage, prevPage, displayArr } = usePagination(
     filteredEntries,
     6
   );
+
+  useEffect(() => {
+    if (
+      filters.listID !== "all" &&
+      !lists.some((list) => list.listID === filters.listID)
+    ) {
+      dispatch({
+        type: LogActionKind.UPDATE_FILTERS,
+        payload: { filter: "listID", value: "all" },
+      });
+    }
+    if (
+      filters.month !== "all" &&
+      !months.some((month) => month.numeric === filters.month)
+    ) {
+      dispatch({
+        type: LogActionKind.UPDATE_FILTERS,
+        payload: { filter: "month", value: "all" },
+      });
+    }
+    if (filters.year !== "all" && !years.includes(filters.year)) {
+      dispatch({
+        type: LogActionKind.UPDATE_FILTERS,
+        payload: { filter: "year", value: "all" },
+      });
+    }
+  }, [lists, months, years]);
 
   const noDataMessage = (
     <p>
@@ -50,7 +81,11 @@ export const Log = () => {
             page - 1
           }`}</PaginationButton>
         )}
-        <FilterSelects card="log" updateFilters={updateFilters} />
+        <FilterSelects
+          card="log"
+          updateFilters={updateFilters}
+          filterValues={filters}
+        />
         {page < maxPage && (
           <PaginationButton variant="next" onClick={nextPage}>{`Page ${
             page + 1
