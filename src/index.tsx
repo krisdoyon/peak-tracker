@@ -7,6 +7,7 @@ import { StatsProvider } from "context/statsContext";
 import { PeakListProvider } from "context/peakListContext";
 import { NewEntryProvider } from "context/newEntryContext";
 import { BrowserRouter as Router } from "react-router-dom";
+import { MapProvider } from "context/mapContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -15,7 +16,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <NewEntryProvider>
           <LogProvider>
             <StatsProvider>
-              <App />
+              <MapProvider>
+                <App />
+              </MapProvider>
             </StatsProvider>
           </LogProvider>
         </NewEntryProvider>
