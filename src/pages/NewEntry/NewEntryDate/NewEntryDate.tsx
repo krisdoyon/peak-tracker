@@ -33,7 +33,6 @@ export const NewEntryDate = () => {
       dispatch({ type: NewEntryActionKind.SET_DATE, payload: date });
     }
   };
-
   return (
     <div className={formStyles.row}>
       <div className={formStyles["heading-wrapper"]}>
@@ -52,7 +51,7 @@ export const NewEntryDate = () => {
           type="date"
           onChange={(e) => {
             const date = new Intl.DateTimeFormat("en-CA", dateOptions).format(
-              new Date(e.target.value)
+              new Date(`${e.target.value}T00:00`)
             );
             dispatch({ type: NewEntryActionKind.SET_DATE, payload: date });
           }}
