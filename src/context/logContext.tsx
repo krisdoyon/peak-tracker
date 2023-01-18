@@ -1,7 +1,7 @@
 import { useContext, createContext, useReducer, useMemo } from "react";
-import { ILogEntry } from "models/interfaces";
+import { FilterType, ILogEntry } from "models/interfaces";
 import { testLogEntries } from "assets/testLogEntries";
-import { useNewEntryContext } from "./newEntryContext";
+import { NewEntryActionKind, useNewEntryContext } from "./newEntryContext";
 import { usePeakListContext } from "./peakListContext";
 
 interface Props {
@@ -12,13 +12,19 @@ interface ILogContext {
   state: LogState;
   dispatch: React.Dispatch<LogAction>;
   getLogEntryById: (logID: string) => ILogEntry | undefined;
-  addLogEntry: () => void;
-  filterLogEntries: () => ILogEntry[];
+  addLogEntry: (logID: string) => boolean;
+  filterLogEntries: (filter: {
+    listID: string;
+    month: string;
+    year: string;
+  }) => ILogEntry[];
   getFilterSelectOptions: () => {
     lists: { listID: string; title: string | undefined }[];
     months: { alpha: string; numeric: string }[];
     years: string[];
   };
+  setLogEntryId: () => string;
+  getCompletedDate: (peakId: number) => string;
 }
 
 export enum LogActionKind {
@@ -69,7 +75,6 @@ const initialState: LogState = {
 
 const logReducer = (state: LogState, action: LogAction) => {
   if (action.type === LogActionKind.ADD_ENTRY) {
-    console.log(action.payload);
     return { ...state, logEntries: [...state.logEntries, action.payload] };
   }
   if (action.type === LogActionKind.REMOVE_ENTRY) {
@@ -88,36 +93,81 @@ const logReducer = (state: LogState, action: LogAction) => {
 
 export const LogProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(logReducer, initialState);
-  const { state: newEntryState } = useNewEntryContext();
+  const {
+    state: {
+      checkedPeaks,
+      elevation,
+      distance,
+      minutes,
+      hours,
+      notes,
+      rating,
+      date,
+    },
+    dispatch: newEntryDispatch,
+  } = useNewEntryContext();
   const {
     state: { listCounts },
     getLogListIds,
     getListTitleById,
   } = usePeakListContext();
 
-  const addLogEntry = () => {
-    const newEntry = {
-      logID: "55",
-      peakIds: [],
+  const setLogEntryId = () => {
+    const logID =
+      state.logEntries.length > 0
+        ? Math.max(...state.logEntries.map((entry) => +entry.logID)) + 1
+        : 1;
+    return logID.toString();
+  };
+
+  const getLogStats = () => {
+    const time =
+      hours || minutes
+        ? Math.round(((hours || 0) + (minutes || 0) / 60) * 10) / 10
+        : null;
+    const avgSpeed =
+      distance && time ? Math.round((distance / time) * 10) / 10 : null;
+    const avgElevation =
+      elevation && distance ? Math.round(elevation / distance) : null;
+    return { time, avgSpeed, avgElevation };
+  };
+
+  const addLogEntry = (logID: string) => {
+    const { time, avgSpeed, avgElevation } = getLogStats();
+    const newEntry: ILogEntry = {
+      logID,
+      peakIds: checkedPeaks,
       stats: {
-        elevation: 3,
-        distance: 3,
-        minutes: 3,
-        hours: 3,
-        time: 3,
-        avgSpeed: 3,
-        avgElevation: 3,
+        elevation: elevation || null,
+        distance: distance || null,
+        minutes: minutes || null,
+        hours: hours || null,
+        time,
+        avgSpeed,
+        avgElevation,
       },
-      notes: "",
-      rating: 3,
-      date: "",
+      notes: notes || null,
+      rating: rating || null,
+      date,
     };
-    if (newEntryState.checkedPeaks.length === 0) {
-      alert("Please choose at least one peak from a list");
-      return;
+    if (!date) {
+      alert("Please enter a complete date in the format MM-DD-YYY");
+      return false;
     }
-    console.log(newEntry);
+    if (
+      +date.slice(0, 4) < 1900 ||
+      new Date(date).getTime() > new Date().getTime()
+    ) {
+      alert(`Please enter a date between 01-01-1900 and today`);
+      return false;
+    }
+    if (checkedPeaks.length === 0) {
+      alert("Please choose at least one peak from a list");
+      return false;
+    }
     dispatch({ type: LogActionKind.ADD_ENTRY, payload: newEntry });
+    newEntryDispatch({ type: NewEntryActionKind.RESET_FORM });
+    return true;
   };
 
   const getLogEntryById = (logID: string) => {
@@ -125,40 +175,46 @@ export const LogProvider = ({ children }: Props) => {
     return entry;
   };
 
-  const filterLogEntries = () => {
+  const filterLogEntries = (filters: {
+    listID: string;
+    month: string;
+    year: string;
+  }) => {
     let filteredEntries = state.logEntries;
-    if (state.filters.listID !== "all") {
+    if (filters.listID !== "all") {
       filteredEntries = filteredEntries.filter((entry) => {
         const listMatchIds = getLogListIds(entry.peakIds);
-        return listMatchIds.some((listID) => listID === state.filters.listID);
+        return listMatchIds.some((listID) => listID === filters.listID);
       });
     }
-    if (state.filters.month !== "all") {
+    if (filters.month !== "all") {
       filteredEntries = filteredEntries.filter((entry) => {
         const month = new Intl.DateTimeFormat("en-US", {
           month: "numeric",
         }).format(new Date(`${entry.date}T00:00:00`));
-        return month === state.filters.month;
+        return month === filters.month;
       });
     }
-    if (state.filters.year !== "all") {
+    if (filters.year !== "all") {
       filteredEntries = filteredEntries.filter((entry) => {
         const year = new Intl.DateTimeFormat("en-US", {
           year: "numeric",
         }).format(new Date(`${entry.date}T00:00:00`));
-        return year === state.filters.year;
+        return year === filters.year;
       });
     }
-    return filteredEntries;
+    return filteredEntries.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
   };
 
   const getFilterSelectOptions = () => {
-    const lists: { listID: string; title: string | undefined }[] = [];
+    const lists: { listID: string; title: string }[] = [];
     const years: string[] = [];
     const months: { alpha: string; numeric: string }[] = [];
     for (const listID in listCounts) {
       if (listCounts[listID] !== 0) {
-        const title = getListTitleById(listID);
+        const title = getListTitleById(listID)!;
         lists.push({ listID, title });
       }
     }
@@ -181,7 +237,28 @@ export const LogProvider = ({ children }: Props) => {
       }
     }
     months.sort((a, b) => +a.numeric - +b.numeric);
+    years.sort((a, b) => +b - +a);
+    lists.sort((a, b) => a.title.localeCompare(b.title));
     return { lists, months, years };
+  };
+
+  const getCompletedDate = (peakId: number) => {
+    const dateMatches = state.logEntries
+      .filter((entry) => entry.peakIds.includes(peakId))
+      .map((entry) => entry.date);
+    const mostRecent = dateMatches.reduce((max, cur) => {
+      if (cur.localeCompare(max) > 0) {
+        return cur;
+      } else {
+        return max;
+      }
+    }, dateMatches[0]);
+
+    return new Intl.DateTimeFormat("en-us", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    }).format(new Date(`${mostRecent}T00:00`));
   };
 
   const contextValue = useMemo(() => {
@@ -192,6 +269,8 @@ export const LogProvider = ({ children }: Props) => {
       addLogEntry,
       filterLogEntries,
       getFilterSelectOptions,
+      setLogEntryId,
+      getCompletedDate,
     };
   }, [
     dispatch,
@@ -200,6 +279,8 @@ export const LogProvider = ({ children }: Props) => {
     getLogEntryById,
     filterLogEntries,
     getFilterSelectOptions,
+    setLogEntryId,
+    getCompletedDate,
   ]);
 
   return (

@@ -7,6 +7,7 @@ import {
 } from "context/newEntryContext";
 import { useNavigate } from "react-router-dom";
 import { usePeakListContext } from "context/peakListContext";
+import { useLogContext } from "context/logContext";
 
 interface Props {
   peaks: IPeak[];
@@ -16,6 +17,7 @@ interface Props {
 export const PeakListTable = ({ listID, peaks }: Props) => {
   const { dispatch } = useNewEntryContext();
   const { isPeakCompleted } = usePeakListContext();
+  const { getCompletedDate } = useLogContext();
   const navigate = useNavigate();
   const handleLogTrip = (peakID: number) => {
     dispatch({
@@ -43,6 +45,10 @@ export const PeakListTable = ({ listID, peaks }: Props) => {
       <tbody>
         {peaks.map((peak, i) => {
           const isCompleted = isPeakCompleted(peak.id);
+          let completedDate;
+          if (isCompleted) {
+            completedDate = getCompletedDate(peak.id);
+          }
           return (
             <tr
               key={peak.id}
@@ -56,13 +62,16 @@ export const PeakListTable = ({ listID, peaks }: Props) => {
 
               <td>{peak.elevation.toLocaleString()}</td>
               <td>
-                <TextButton
-                  color="green"
-                  className={styles["btn-log-trip"]}
-                  onClick={() => handleLogTrip(peak.id)}
-                >
-                  LOG TRIP
-                </TextButton>
+                {!isCompleted && (
+                  <TextButton
+                    color="green"
+                    className={styles["btn-log-trip"]}
+                    onClick={() => handleLogTrip(peak.id)}
+                  >
+                    LOG TRIP
+                  </TextButton>
+                )}
+                {isCompleted && completedDate}
               </td>
             </tr>
           );
