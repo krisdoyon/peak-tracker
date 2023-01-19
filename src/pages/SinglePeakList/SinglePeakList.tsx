@@ -13,30 +13,40 @@ import { PeakListTable } from "pages/SinglePeakList/PeakListTable/PeakListTable"
 import { IPeak, IPeakList } from "models/interfaces";
 import { useEffect, useState } from "react";
 import { sortPeaks, SortType } from "utils/sortPeaks";
+import { useMapContext } from "context/mapContext";
 
 export const SinglePeakList = () => {
   const [sort, setSort] = useState<SortType>(SortType.ELEVATION);
+  const [displayPeaks, setDisplayPeaks] = useState<IPeak[]>([]);
   const { listID } = useParams();
   const {
     state: { savedListIds, listCounts },
     dispatch,
     getPeakListById,
   } = usePeakListContext();
-  let list: IPeakList | undefined;
-  let displayPeaks: IPeak[] = [];
-  if (listID) {
-    list = getPeakListById(listID);
-  }
-  if (list) {
-    displayPeaks = sortPeaks(list.peaks, sort);
-  }
+  const { dispatch: mapDispatch, plotPeakList } = useMapContext();
+  const [list, setList] = useState<IPeakList | undefined>();
+
   const isSaved = savedListIds.some((savedID) => savedID === listID);
 
   useEffect(() => {
     if (list) {
-      displayPeaks = sortPeaks(list.peaks, sort);
+      setDisplayPeaks(() => [...sortPeaks(list.peaks, sort)]);
     }
   }, [sort]);
+
+  useEffect(() => {
+    if (listID) {
+      setList(getPeakListById(listID));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (list && listID) {
+      setDisplayPeaks(sortPeaks(list.peaks, sort));
+      plotPeakList(listID);
+    }
+  }, [list]);
 
   if (list && listID) {
     return (

@@ -1,13 +1,8 @@
 import styles from "./PeakListTable.module.scss";
 import { IPeak } from "models/interfaces";
-import { TextButton } from "components/Buttons";
-import {
-  NewEntryActionKind,
-  useNewEntryContext,
-} from "context/newEntryContext";
-import { useNavigate } from "react-router-dom";
 import { usePeakListContext } from "context/peakListContext";
 import { useLogContext } from "context/logContext";
+import { LogTripButton } from "components/Buttons/";
 
 interface Props {
   peaks: IPeak[];
@@ -15,21 +10,8 @@ interface Props {
 }
 
 export const PeakListTable = ({ listID, peaks }: Props) => {
-  const { dispatch } = useNewEntryContext();
   const { isPeakCompleted } = usePeakListContext();
   const { getCompletedDate } = useLogContext();
-  const navigate = useNavigate();
-  const handleLogTrip = (peakID: number) => {
-    dispatch({
-      type: NewEntryActionKind.TOGGLE_CHECKED_PEAK,
-      payload: { checked: true, peakID },
-    });
-    dispatch({
-      type: NewEntryActionKind.SET_LIST_ID,
-      payload: listID,
-    });
-    navigate("/new-entry");
-  };
 
   return (
     <table className={styles.table}>
@@ -63,13 +45,7 @@ export const PeakListTable = ({ listID, peaks }: Props) => {
               <td>{peak.elevation.toLocaleString()}</td>
               <td>
                 {!isCompleted && (
-                  <TextButton
-                    color="green"
-                    className={styles["btn-log-trip"]}
-                    onClick={() => handleLogTrip(peak.id)}
-                  >
-                    LOG TRIP
-                  </TextButton>
+                  <LogTripButton listID={listID} peakID={peak.id} />
                 )}
                 {isCompleted && completedDate}
               </td>
