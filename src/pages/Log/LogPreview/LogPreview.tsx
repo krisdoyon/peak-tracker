@@ -5,6 +5,7 @@ import { ILogEntry } from "models/interfaces";
 import { useLogContext, LogActionKind } from "context/logContext";
 import { usePeakListContext } from "context/peakListContext";
 import { getDisplayDate } from "utils/getDisplayDate";
+import { useNavigate } from "react-router-dom";
 
 export const LogPreview = ({ peakIds, logID, date }: ILogEntry) => {
   const { getPeakNames } = usePeakListContext();
@@ -15,6 +16,7 @@ export const LogPreview = ({ peakIds, logID, date }: ILogEntry) => {
       : peakNamesArr[0];
   const { dispatch } = useLogContext();
   const displayDate = getDisplayDate(date);
+  const navigate = useNavigate();
 
   const handleRemove = () => {
     if (confirm("Are you sure you want to delete this entry?")) {
@@ -32,7 +34,7 @@ export const LogPreview = ({ peakIds, logID, date }: ILogEntry) => {
         </h3>
         <span>{peakString}</span>
       </div>
-      <ViewButton to={logID.toString()} />
+      <ViewButton onClick={() => navigate(`/log/${logID.toString()}`)} />
     </PreviewListItem>
   );
 };
