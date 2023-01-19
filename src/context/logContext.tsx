@@ -1,5 +1,5 @@
 import { useContext, createContext, useReducer, useMemo } from "react";
-import { FilterType, ILogEntry } from "models/interfaces";
+import { ILogEntry } from "models/interfaces";
 import { testLogEntries } from "assets/testLogEntries";
 import { NewEntryActionKind, useNewEntryContext } from "./newEntryContext";
 import { usePeakListContext } from "./peakListContext";
@@ -24,7 +24,7 @@ interface ILogContext {
     years: string[];
   };
   setLogEntryId: () => string;
-  getCompletedDate: (peakId: number) => string;
+  getCompletedDate: (peakId: number) => string | undefined;
 }
 
 export enum LogActionKind {
@@ -254,11 +254,13 @@ export const LogProvider = ({ children }: Props) => {
       }
     }, dateMatches[0]);
 
-    return new Intl.DateTimeFormat("en-us", {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-    }).format(new Date(`${mostRecent}T00:00`));
+    if (mostRecent) {
+      return new Intl.DateTimeFormat("en-us", {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+      }).format(new Date(`${mostRecent}T00:00`));
+    }
   };
 
   const contextValue = useMemo(() => {
