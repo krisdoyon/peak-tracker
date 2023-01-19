@@ -7,7 +7,6 @@ import {
   usePeakListContext,
 } from "context/peakListContext";
 import { useNavigate } from "react-router-dom";
-import { MapActionType, useMapContext } from "context/mapContext";
 
 interface Props {
   title: string;
@@ -25,20 +24,10 @@ export const PeakListPreview = ({
   const {
     state: { savedListIds },
     dispatch,
-    getPeakListById,
   } = usePeakListContext();
-
-  const { dispatch: mapDispatch } = useMapContext();
-
   const navigate = useNavigate();
 
   const isSaved = savedListIds.some((savedID) => savedID === listID);
-
-  const onViewClick = () => {
-    const peaksArr = getPeakListById(listID)?.peaks;
-    mapDispatch({ type: MapActionType.PLOT_PEAKS, payload: peaksArr });
-    navigate(`/peak-lists/${listID}`);
-  };
 
   return (
     <PreviewListItem>
@@ -58,7 +47,7 @@ export const PeakListPreview = ({
         <span>{`${numCompleted} of ${peakCount} peaks`}</span>
         <ProgressBar numCompleted={numCompleted} peakCount={peakCount} />
       </div>
-      <ViewButton onClick={onViewClick} />
+      <ViewButton onClick={() => navigate(`/peak-lists/${listID}`)} />
     </PreviewListItem>
   );
 };
