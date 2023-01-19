@@ -3,21 +3,23 @@ import { ILogEntry } from "models/interfaces";
 import { ViewButton } from "components/Buttons";
 import { usePeakListContext } from "context/peakListContext";
 import { Fragment } from "react";
+import { useMapContext } from "context/mapContext";
 
-export const LogEntryGrid = ({ peakIds, stats, notes }: ILogEntry) => {
+export const LogEntryGrid = ({ peakIds, stats, notes, logID }: ILogEntry) => {
   const { getListTitleById, getLogListIds, getPeakById } = usePeakListContext();
   const listIds = getLogListIds(peakIds);
+  const { plotLogEntry, plotPeakList } = useMapContext();
 
   return (
     <div className={styles.grid}>
       <span className={styles.label}>Peak Lists:</span>
       <div className={styles.lists}>
-        {listIds.map((listId) => {
-          const title = getListTitleById(listId);
+        {listIds.map((listID) => {
+          const title = getListTitleById(listID);
           return (
-            <Fragment key={listId}>
+            <Fragment key={listID}>
               <span>{title}</span>
-              <ViewButton small={true} to={""} />
+              <ViewButton small={true} onClick={() => plotPeakList(listID)} />
             </Fragment>
           );
         })}
@@ -39,7 +41,7 @@ export const LogEntryGrid = ({ peakIds, stats, notes }: ILogEntry) => {
             );
           }
         })}
-        <ViewButton small={true} to={""} />
+        <ViewButton small={true} onClick={() => plotLogEntry(logID)} />
       </div>
       <span className={styles.label}>Distance:</span>
       <span>{stats.distance ? stats.distance + ` mi` : "n/a"}</span>

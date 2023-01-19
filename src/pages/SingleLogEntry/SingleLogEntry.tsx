@@ -1,23 +1,29 @@
-import styles from "./SingleLogEntry.module.scss";
 import headingStyles from "components/Card/CardHeadingGrid/CardHeadingGrid.module.scss";
 import { Card, CardBody, CardHeadingGrid } from "components/Card";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLogContext, LogActionKind } from "context/logContext";
 import { IconButton } from "components/Buttons";
 import { LogEntryGrid } from "./LogEntryGrid/LogEntryGrid";
-import { usePeakListContext } from "context/peakListContext";
 import { getDisplayDate } from "utils/getDisplayDate";
+import { useMapContext } from "context/mapContext";
+import { useEffect } from "react";
 
 export const SingleLogEntry = () => {
   const { logID } = useParams();
   const navigate = useNavigate();
-  const { getLogEntryById, dispatch: logDispatch } = useLogContext();
-  const { dispatch: peakListDispatch } = usePeakListContext();
+  const { getLogEntryById, dispatch } = useLogContext();
+  const { plotLogEntry } = useMapContext();
+
+  useEffect(() => {
+    if (logID) {
+      plotLogEntry(logID);
+    }
+  }, [logID]);
 
   if (logID) {
     const handleRemove = () => {
       if (confirm("Are you sure you want to delete this entry?")) {
-        logDispatch({ type: LogActionKind.REMOVE_ENTRY, payload: logID });
+        dispatch({ type: LogActionKind.REMOVE_ENTRY, payload: logID });
         navigate("/log");
       }
     };
