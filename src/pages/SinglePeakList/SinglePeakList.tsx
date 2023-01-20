@@ -53,7 +53,7 @@ export const SinglePeakList = () => {
       <Card>
         <CardHeadingGrid title={list.title} backTo={"peak-lists"}>
           <div className={headingStyles.row}>
-            <span>{`${listCounts[listID]} of ${list.peakCount} peaks`}</span>
+            <span>{`${listCounts[listID]} of ${list.peaks.length} peaks`}</span>
             <span>|</span>
             <div className={headingStyles["btn-wrapper"]}>
               <IconButton
@@ -89,7 +89,7 @@ export const SinglePeakList = () => {
           </div>
           <div className={headingStyles["progress-wrapper"]}>
             <ProgressBar
-              peakCount={list.peakCount}
+              peakCount={list.peaks.length}
               numCompleted={listCounts[listID]}
             />
           </div>

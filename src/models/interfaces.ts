@@ -10,15 +10,12 @@ export interface IPeak {
 export interface IPeakList {
   title: string;
   listID: string;
-  peakCount: number;
   peaks: IPeak[];
   description: string;
 }
 
 export interface ILogEntry {
   peakIds: number[];
-  // peaks: IPeak[];
-  // lists: { listID: string; title: string }[];
   stats: {
     elevation: number | null;
     distance: number | null;
@@ -31,7 +28,6 @@ export interface ILogEntry {
   notes: string | null;
   rating: number | null;
   logID: string;
-  // displayDate: string;
   date: string;
 }
 

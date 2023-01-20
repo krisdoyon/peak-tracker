@@ -70,12 +70,12 @@ export const PeakLists = () => {
         {displayArr.length > 0 && (
           <PreviewList>
             {displayArr.map((peakList) => {
-              const { title, peakCount, listID } = peakList;
+              const { title, listID } = peakList;
               return (
                 <PeakListPreview
                   key={listID}
                   title={title}
-                  peakCount={peakCount}
+                  peakCount={peakList.peaks.length}
                   listID={listID}
                   numCompleted={listCounts[listID]}
                 />

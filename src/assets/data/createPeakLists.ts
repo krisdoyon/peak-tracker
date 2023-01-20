@@ -11,35 +11,18 @@ import nh52JSON from "./json/nh52.json";
 import south6JSON from "./json/south6.json";
 import vt4kJSON from "./json/vt4k.json";
 import usHighJSON from "./json/usHigh.json";
+import { IPeakList, IPeak } from "models/interfaces";
 
-interface Data {
-  title: string;
-}
-
-interface Peak {
-  id: number;
-  name: string;
-  lat: number;
-  long: number;
-  elevation: number;
-  state: string;
-}
-
-interface PeakList {
+class PeakList implements IPeakList {
   title: string;
   listID: string;
-  peakCount: number;
-  peaks: Peak[];
+  peaks: IPeak[];
   description: string;
-}
-
-class PeakList {
-  constructor(data: PeakList) {
-    this.title = data.title;
-    this.listID = data.listID;
-    this.peakCount = data.peakCount;
-    this.peaks = data.peaks;
-    this.description = data.description;
+  constructor(jsonData: IPeakList) {
+    this.title = jsonData.title;
+    this.listID = jsonData.listID;
+    this.peaks = jsonData.peaks;
+    this.description = jsonData.description;
   }
 }
 
