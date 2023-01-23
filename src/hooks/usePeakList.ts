@@ -1,8 +1,10 @@
-import { useAllPeakLists } from "./usePeakLists";
+import { usePeakListsQuery } from "./usePeakListsQuery";
 
 export const usePeakList = (listID: string) => {
-  const lists = useAllPeakLists();
-  if (lists) {
-    return lists.find((list) => list.listID === listID);
-  }
+  const { allPeakLists, isLoading, isError } = usePeakListsQuery();
+  return {
+    peakList: allPeakLists.find((list) => list.listID === listID),
+    isLoading,
+    isError,
+  };
 };
