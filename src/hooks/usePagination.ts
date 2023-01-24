@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ILogEntry, IPeakList } from "models/interfaces";
 
 export const usePagination = <T extends IPeakList | ILogEntry>(
-  arr: T[],
+  arr: T[] = [],
   itemsPerPage: number
 ) => {
   const [page, setPage] = useState(1);

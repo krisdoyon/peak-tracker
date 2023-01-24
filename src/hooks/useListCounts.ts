@@ -1,10 +1,13 @@
-import { usePeakListsQuery } from "./usePeakListsQuery";
-import { useLogEntriesQuery } from "./useLogEntriesQuery";
 import { calculateListCounts } from "utils/peakUtils";
+import { useGetListsQuery, useGetLogEntriesQuery } from "features/apiSlice";
+import { useMemo } from "react";
 
-export const useListCounts = () => {
-  const { allPeakLists, isLoading: isPeakListLoading } = usePeakListsQuery();
-  const { allLogEntries, isLoading: isLogEntryLoading } = useLogEntriesQuery();
-  const listCounts = calculateListCounts(allPeakLists, allLogEntries);
-  return { listCounts, isLoading: isPeakListLoading || isLogEntryLoading };
+export const useListCounts = (userId: string) => {
+  const { data: allPeakLists } = useGetListsQuery();
+  const { data: allLogEntries } = useGetLogEntriesQuery(userId);
+  const listCounts = useMemo(
+    () => calculateListCounts(allPeakLists, allLogEntries),
+    [allPeakLists, allLogEntries]
+  );
+  return { listCounts };
 };

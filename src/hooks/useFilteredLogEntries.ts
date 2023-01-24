@@ -1,20 +1,21 @@
-import { getLogListIds } from "utils/peakUtils";
-import { useLogEntriesQuery } from "./useLogEntriesQuery";
-import { usePeakListsQuery } from "./usePeakListsQuery";
+import { useGetListsQuery, useGetLogEntriesQuery } from "features/apiSlice";
+import { getLogLists } from "utils/peakUtils";
+
+const USER_ID = "abc123";
 
 export const useFilteredLogEntries = (filters: {
   listID: string;
   month: string;
   year: string;
 }) => {
-  const { allLogEntries } = useLogEntriesQuery();
-  const { allPeakLists } = usePeakListsQuery();
+  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_ID);
+  const { data: allPeakLists = [] } = useGetListsQuery();
 
-  let filteredEntries = allLogEntries;
+  let filteredEntries = [...allLogEntries];
   if (filters.listID !== "all") {
     filteredEntries = filteredEntries.filter((entry) => {
-      const listIdMatches = getLogListIds(entry.peakIds, allPeakLists);
-      return listIdMatches.some((listID) => listID === filters.listID);
+      const listIdMatchIds = getLogLists(entry.peakIds, allPeakLists);
+      return listIdMatchIds.some((listID) => listID === filters.listID);
     });
   }
   if (filters.month !== "all") {

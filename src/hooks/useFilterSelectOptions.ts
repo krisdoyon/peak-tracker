@@ -1,11 +1,12 @@
+import { useGetListsQuery, useGetLogEntriesQuery } from "features/apiSlice";
 import { useListCounts } from "./useListCounts";
-import { useLogEntriesQuery } from "./useLogEntriesQuery";
-import { usePeakListsQuery } from "./usePeakListsQuery";
+
+const USER_ID = "abc123";
 
 export const useFilterSelectOptions = () => {
-  const { allLogEntries } = useLogEntriesQuery();
-  const { allPeakLists } = usePeakListsQuery();
-  const { listCounts } = useListCounts();
+  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_ID);
+  const { data: allPeakLists = [] } = useGetListsQuery();
+  const { listCounts } = useListCounts(USER_ID);
   const lists: { listID: string; title: string }[] = [];
   const years: string[] = [];
   const months: { alpha: string; numeric: string }[] = [];
