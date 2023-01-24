@@ -1,24 +1,21 @@
-import styles from "./PeakLayer.module.scss";
 import { useMapContext } from "context/mapContext";
 import { useEffect, useRef } from "react";
-import { FeatureGroup, Marker, useMap, Popup } from "react-leaflet";
+import { FeatureGroup, useMap } from "react-leaflet";
 import L from "leaflet";
-import { usePeakListContext } from "context/peakListContext";
-import mtnIconGreen from "assets/img/mtn-icon-green.png";
-import mtnIconRed from "assets/img/mtn-icon-red.png";
-import { useLogContext } from "context/logContext";
-import { LogTripButton } from "components/Buttons";
+import { useGetListsQuery } from "features/apiSlice";
+import { PeakMarker } from "./PeakMarker";
 
 export const PeakLayer = () => {
-  console.log("render");
   const {
-    state: { peaks, listID },
+    state: { peakIds },
   } = useMapContext();
 
   const map = useMap();
 
+  const { isLoading } = useGetListsQuery();
+
   useEffect(() => {
-    if (peaks.length > 0 && featureGroupRef.current) {
+    if (peakIds.length > 0 && featureGroupRef.current && !isLoading) {
       const padding = window.matchMedia("(max-width: 800px)").matches
         ? new L.Point(0, 0)
         : new L.Point(650, 0);
@@ -27,55 +24,17 @@ export const PeakLayer = () => {
         maxZoom: 10,
       });
     }
-  }, [peaks]);
+  }, [peakIds, isLoading]);
 
   const featureGroupRef = useRef<L.FeatureGroup | null>(null);
 
-  const { isPeakCompleted } = usePeakListContext();
-  const { getCompletedDate } = useLogContext();
   return (
     <FeatureGroup ref={featureGroupRef}>
-      {peaks.map((peak) => {
-        const isCompleted = isPeakCompleted(peak.id);
-        const icon = new L.Icon({
-          iconUrl: isCompleted ? mtnIconGreen : mtnIconRed,
-          iconSize: [25, 20],
-        });
-        let completedDate;
-        if (isCompleted) {
-          completedDate = getCompletedDate(peak.id);
-        }
-
-        return (
-          <Marker
-            key={peak.id}
-            position={[peak.lat, peak.long]}
-            icon={icon}
-            eventHandlers={{
-              mouseover: (e) => e.target.openPopup(),
-              click: (e) => e.target.openPopup(),
-            }}
-          >
-            <Popup>
-              <div className={styles["peak-popup"]}>
-                <span className={styles.name}>{peak.name}</span>
-                <span className={styles.elevation}>
-                  {`${peak.elevation.toLocaleString()} ft.`}
-                </span>
-                {isCompleted ? (
-                  <span className={styles.date}>
-                    <strong>Hiked On:</strong>
-                    <br />
-                    {completedDate}
-                  </span>
-                ) : (
-                  <LogTripButton listID={listID} peakID={peak.id} />
-                )}
-              </div>
-            </Popup>
-          </Marker>
-        );
-      })}
+      {peakIds.length > 0 &&
+        !isLoading &&
+        peakIds.map((peakID) => {
+          return <PeakMarker key={peakID} peakID={peakID} />;
+        })}
     </FeatureGroup>
   );
 };
