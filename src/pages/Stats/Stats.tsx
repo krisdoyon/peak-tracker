@@ -5,20 +5,18 @@ import { StatsGrid } from "./StatsGrid/StatsGrid";
 import { NoData } from "components/NoData/NoData";
 import { getStats } from "utils/getStats";
 import { useFilteredLogEntries } from "hooks/useFilteredLogEntries";
-import { useFilterContext } from "context/filterContext";
 import { useGetLogEntriesQuery } from "features/apiSlice";
 import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
 
 const USER_ID = "abc123";
 
 export const Stats = () => {
-  const { statsFilters, setStatsFilters } = useFilterContext();
   const {
     data: allLogEntries,
     isLoading,
     error,
   } = useGetLogEntriesQuery(USER_ID);
-  const filteredEntries = useFilteredLogEntries(statsFilters);
+  const filteredEntries = useFilteredLogEntries();
   const stats = getStats(filteredEntries);
 
   const message = (
@@ -54,11 +52,7 @@ export const Stats = () => {
     <Card>
       <CardHeading title={"Stats"} />
       <PreviewControls variant="stats">
-        <FilterSelects
-          card="stats"
-          setFilters={setStatsFilters}
-          filters={statsFilters}
-        />
+        <FilterSelects card="stats" />
       </PreviewControls>
       <CardBody>
         {stats.numEntries > 0 && <StatsGrid {...stats} />}
