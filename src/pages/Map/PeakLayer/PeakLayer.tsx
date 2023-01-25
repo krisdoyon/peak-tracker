@@ -7,7 +7,7 @@ import { PeakMarker } from "./PeakMarker";
 
 export const PeakLayer = () => {
   const {
-    state: { peakIds },
+    state: { peaks },
   } = useMapContext();
 
   const map = useMap();
@@ -15,7 +15,7 @@ export const PeakLayer = () => {
   const { isLoading } = useGetListsQuery();
 
   useEffect(() => {
-    if (peakIds.length > 0 && featureGroupRef.current && !isLoading) {
+    if (peaks.length > 0 && featureGroupRef.current && !isLoading) {
       const padding = window.matchMedia("(max-width: 800px)").matches
         ? new L.Point(0, 0)
         : new L.Point(650, 0);
@@ -24,16 +24,16 @@ export const PeakLayer = () => {
         maxZoom: 10,
       });
     }
-  }, [peakIds, isLoading]);
+  }, [peaks, isLoading]);
 
   const featureGroupRef = useRef<L.FeatureGroup | null>(null);
 
   return (
     <FeatureGroup ref={featureGroupRef}>
-      {peakIds.length > 0 &&
+      {peaks.length > 0 &&
         !isLoading &&
-        peakIds.map((peakID) => {
-          return <PeakMarker key={peakID} peakID={peakID} />;
+        peaks.map((peak) => {
+          return <PeakMarker key={peak.id} {...peak} />;
         })}
     </FeatureGroup>
   );

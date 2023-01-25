@@ -2,11 +2,8 @@ import styles from "components/PreviewList/PreviewListItem/PreviewListItem.modul
 import { PreviewListItem } from "components/PreviewList";
 import { IconButton, ViewButton } from "components/Buttons";
 import { ProgressBar } from "components/ProgressBar/ProgressBar";
-import {
-  PeakListActionType,
-  usePeakListContext,
-} from "context/peakListContext";
 import { useNavigate } from "react-router-dom";
+import { useSavedListToggle } from "hooks/useSavedListToggle";
 
 interface Props {
   title: string;
@@ -21,24 +18,14 @@ export const PeakListPreview = ({
   peakCount,
   listID,
 }: Props) => {
-  const {
-    state: { savedListIds },
-    dispatch,
-  } = usePeakListContext();
   const navigate = useNavigate();
-
-  const isSaved = savedListIds.some((savedID) => savedID === listID);
+  const { isSaved, toggleSavedList } = useSavedListToggle(listID);
 
   return (
     <PreviewListItem>
       <IconButton
         icon={isSaved ? "remove" : "add"}
-        onClick={() =>
-          dispatch({
-            type: PeakListActionType.TOGGLE_SAVED_LIST,
-            payload: listID,
-          })
-        }
+        onClick={toggleSavedList}
       ></IconButton>
       <div className={styles.info}>
         <h2 className={styles.heading}>

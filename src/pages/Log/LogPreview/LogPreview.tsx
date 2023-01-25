@@ -2,25 +2,27 @@ import styles from "components/PreviewList/PreviewListItem/PreviewListItem.modul
 import { PreviewListItem } from "components/PreviewList";
 import { IconButton, ViewButton } from "components/Buttons";
 import { ILogEntry } from "models/interfaces";
-import { useLogContext, LogActionKind } from "context/logContext";
-import { usePeakListContext } from "context/peakListContext";
 import { getDisplayDate } from "utils/getDisplayDate";
 import { useNavigate } from "react-router-dom";
+import { getPeakNames } from "utils/peakUtils";
+import { useGetListsQuery, useRemoveLogEntryMutation } from "features/apiSlice";
+
+const USER_ID = "abc123";
 
 export const LogPreview = ({ peakIds, logID, date }: ILogEntry) => {
-  const { getPeakNames } = usePeakListContext();
-  const peakNamesArr = getPeakNames(peakIds);
+  const { data: allPeakLists } = useGetListsQuery();
+  const peakNamesArr = getPeakNames(peakIds, allPeakLists);
   const peakString =
     peakNamesArr.length > 1
       ? peakNamesArr.slice(0, -1).join(", ") + " and " + peakNamesArr.slice(-1)
       : peakNamesArr[0];
-  const { dispatch } = useLogContext();
   const displayDate = getDisplayDate(date);
   const navigate = useNavigate();
+  const [removeLogEntry] = useRemoveLogEntryMutation();
 
   const handleRemove = () => {
     if (confirm("Are you sure you want to delete this entry?")) {
-      dispatch({ type: LogActionKind.REMOVE_ENTRY, payload: logID });
+      removeLogEntry({ userId: USER_ID, logId: logID });
     }
   };
 

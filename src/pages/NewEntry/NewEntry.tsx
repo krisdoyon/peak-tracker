@@ -6,31 +6,15 @@ import { NewEntryNotes } from "./NewEntryNotes/NewEntryNotes";
 import { NewEntryPeaks } from "./NewEntryPeaks/NewEntryPeaks";
 import { NewEntryRating } from "./NewEntryRating/NewEntryRating";
 import { NewEntryStats } from "./NewEntryStats/NewEntryStats";
-import { useLogContext } from "context/logContext";
-import { useNavigate } from "react-router-dom";
+import { useAddLogEntry } from "hooks/useAddLogEntry";
 
 export const NewEntry = () => {
-  const { addLogEntry, setLogEntryId } = useLogContext();
-  const navigate = useNavigate();
-
-  const handleSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const logId = setLogEntryId();
-    const isAdded = addLogEntry(logId);
-    if (isAdded) {
-      navigate(`/log/${logId}`);
-    }
-  };
-
+  const { handleAdd } = useAddLogEntry();
   return (
     <Card>
       <CardHeading title={"New Log Entry"} />
       <CardBody>
-        <form
-          id="form-new-entry"
-          className={styles.form}
-          onSubmit={handleSubmit}
-        >
+        <form id="form-new-entry" className={styles.form} onSubmit={handleAdd}>
           <NewEntryDate />
           <NewEntryPeaks />
           <NewEntryStats />

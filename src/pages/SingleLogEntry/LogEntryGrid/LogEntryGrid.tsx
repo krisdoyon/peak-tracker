@@ -1,27 +1,53 @@
 import styles from "./LogEntryGrid.module.scss";
 import { ILogEntry } from "models/interfaces";
 import { ViewButton } from "components/Buttons";
-import { usePeakListContext } from "context/peakListContext";
 import { Fragment } from "react";
-import { useMapContext } from "context/mapContext";
+import { getPeakById } from "utils/peakUtils";
+import { useGetListsQuery } from "features/apiSlice";
+import { peakListsArr } from "assets/data/createPeakLists";
+import { getLogLists } from "utils/peakUtils";
+import { MapActionType, useMapContext } from "context/mapContext";
+import { usePeakList } from "hooks/usePeakList";
+
+interface Props {
+  listID: string;
+}
+
+const ListMatchRow = ({ listID }: Props) => {
+  const { data: list, isLoading } = usePeakList(listID);
+  const { dispatch: mapDispatch } = useMapContext();
+
+  return (
+    <Fragment key={listID}>
+      <span>{list?.title}</span>
+      <ViewButton
+        small={true}
+        onClick={() => {
+          mapDispatch({
+            type: MapActionType.SET_LIST_ID,
+            payload: listID,
+          });
+          mapDispatch({
+            type: MapActionType.SET_PEAK_IDS,
+            payload: list?.peaks.map((peak) => peak.id),
+          });
+        }}
+      />
+    </Fragment>
+  );
+};
 
 export const LogEntryGrid = ({ peakIds, stats, notes, logID }: ILogEntry) => {
-  const { getListTitleById, getLogListIds, getPeakById } = usePeakListContext();
-  const listIds = getLogListIds(peakIds);
-  const { plotLogEntry, plotPeakList } = useMapContext();
+  const { data: allPeakLists = [] } = useGetListsQuery();
+  const listMatchIds = getLogLists(peakIds, allPeakLists);
+  const { dispatch: mapDispatch } = useMapContext();
 
   return (
     <div className={styles.grid}>
       <span className={styles.label}>Peak Lists:</span>
       <div className={styles.lists}>
-        {listIds.map((listID) => {
-          const title = getListTitleById(listID);
-          return (
-            <Fragment key={listID}>
-              <span>{title}</span>
-              <ViewButton small={true} onClick={() => plotPeakList(listID)} />
-            </Fragment>
-          );
+        {listMatchIds.map((listID) => {
+          return <ListMatchRow key={listID} listID={listID} />;
         })}
       </div>
       <span className={styles.label}>Peaks:</span>
@@ -32,7 +58,7 @@ export const LogEntryGrid = ({ peakIds, stats, notes, logID }: ILogEntry) => {
         }}
       >
         {peakIds.map((peakId) => {
-          const peak = getPeakById(peakId);
+          const peak = getPeakById(peakId, peakListsArr);
           if (peak) {
             return (
               <span key={peakId} className={styles.peak}>{`${
@@ -41,7 +67,12 @@ export const LogEntryGrid = ({ peakIds, stats, notes, logID }: ILogEntry) => {
             );
           }
         })}
-        <ViewButton small={true} onClick={() => plotLogEntry(logID)} />
+        <ViewButton
+          small={true}
+          onClick={() =>
+            mapDispatch({ type: MapActionType.SET_PEAK_IDS, payload: peakIds })
+          }
+        />
       </div>
       <span className={styles.label}>Distance:</span>
       <span>{stats.distance ? stats.distance + ` mi` : "n/a"}</span>

@@ -1,6 +1,6 @@
 import { AddButton, TextButton } from "components/Buttons";
 import {
-  NewEntryActionKind,
+  NewEntryActionType,
   useNewEntryContext,
 } from "context/newEntryContext";
 import styles from "./NewEntryFooter.module.scss";
@@ -11,7 +11,7 @@ export const NewEntryFooter = () => {
     <div className={styles.footer}>
       <TextButton
         onClick={() => {
-          dispatch({ type: NewEntryActionKind.RESET_FORM });
+          dispatch({ type: NewEntryActionType.RESET_FORM });
         }}
       >
         Clear form

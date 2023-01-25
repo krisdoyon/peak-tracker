@@ -6,53 +6,53 @@ import { usePeak } from "hooks/usePeak";
 import { useMapContext } from "context/mapContext";
 import { Marker, Popup } from "react-leaflet";
 import L from "leaflet";
+import { IPeak } from "models/interfaces";
+import { getCompletedDate, isPeakCompleted } from "utils/peakUtils";
+import { useGetLogEntriesQuery } from "features/apiSlice";
 
-interface Props {
-  peakID: number;
-}
+const USER_ID = "abc123";
 
-export const PeakMarker = ({ peakID }: Props) => {
+export const PeakMarker = ({ id, lat, long, name, elevation }: IPeak) => {
   const {
     state: { listID },
   } = useMapContext();
 
-  const { peak, isCompleted, completedDate } = usePeak(peakID);
+  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_ID);
+  const isCompleted = isPeakCompleted(id, allLogEntries);
+  const completedDate = getCompletedDate(id, allLogEntries);
 
   const icon = new L.Icon({
     iconUrl: isCompleted ? mtnIconGreen : mtnIconRed,
     iconSize: [25, 20],
   });
 
-  if (peak) {
-    return (
-      <Marker
-        key={peak.id}
-        position={[peak.lat, peak.long]}
-        icon={icon}
-        eventHandlers={{
-          mouseover: (e) => e.target.openPopup(),
-          click: (e) => e.target.openPopup(),
-        }}
-      >
-        <Popup>
-          <div className={styles["peak-popup"]}>
-            <span className={styles.name}>{peak.name}</span>
-            <span className={styles.elevation}>
-              {`${peak.elevation.toLocaleString()} ft.`}
+  return (
+    <Marker
+      key={id}
+      position={[lat, long]}
+      icon={icon}
+      eventHandlers={{
+        mouseover: (e) => e.target.openPopup(),
+        click: (e) => e.target.openPopup(),
+      }}
+    >
+      <Popup>
+        <div className={styles["peak-popup"]}>
+          <span className={styles.name}>{name}</span>
+          <span className={styles.elevation}>
+            {`${elevation.toLocaleString()} ft.`}
+          </span>
+          {isCompleted ? (
+            <span className={styles.date}>
+              <strong>Hiked On:</strong>
+              <br />
+              {completedDate}
             </span>
-            {isCompleted ? (
-              <span className={styles.date}>
-                <strong>Hiked On:</strong>
-                <br />
-                {completedDate}
-              </span>
-            ) : (
-              <LogTripButton listID={listID} peakID={peak.id} />
-            )}
-          </div>
-        </Popup>
-      </Marker>
-    );
-  }
-  return <></>;
+          ) : (
+            <LogTripButton listID={listID} peakID={id} />
+          )}
+        </div>
+      </Popup>
+    </Marker>
+  );
 };

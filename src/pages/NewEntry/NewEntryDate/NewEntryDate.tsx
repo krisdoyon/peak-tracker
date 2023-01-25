@@ -3,7 +3,7 @@ import formStyles from "../NewEntry.module.scss";
 import { Button } from "components/Buttons";
 import sprite from "assets/img/sprite.svg";
 import {
-  NewEntryActionKind,
+  NewEntryActionType,
   useNewEntryContext,
 } from "context/newEntryContext";
 
@@ -24,13 +24,13 @@ export const NewEntryDate = () => {
     const now = new Date().getTime();
     if (day === "today") {
       const date = new Intl.DateTimeFormat("en-CA", dateOptions).format(now);
-      dispatch({ type: NewEntryActionKind.SET_DATE, payload: date });
+      dispatch({ type: NewEntryActionType.SET_DATE, payload: date });
     }
     if (day === "yesterday") {
       const date = new Intl.DateTimeFormat("en-CA", dateOptions).format(
         now - 86400000
       );
-      dispatch({ type: NewEntryActionKind.SET_DATE, payload: date });
+      dispatch({ type: NewEntryActionType.SET_DATE, payload: date });
     }
   };
   return (
@@ -53,7 +53,7 @@ export const NewEntryDate = () => {
             const date = new Intl.DateTimeFormat("en-CA", dateOptions).format(
               new Date(`${e.target.value}T00:00`)
             );
-            dispatch({ type: NewEntryActionKind.SET_DATE, payload: date });
+            dispatch({ type: NewEntryActionType.SET_DATE, payload: date });
           }}
           value={date}
           required

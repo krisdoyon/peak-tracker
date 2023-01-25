@@ -2,68 +2,80 @@ import styles from "./SinglePeakList.module.scss";
 import headingStyles from "components/Card/CardHeadingGrid/CardHeadingGrid.module.scss";
 import { Card, CardHeadingGrid, CardBody } from "components/Card";
 import { ProgressBar } from "components/ProgressBar/ProgressBar";
-import {
-  PeakListActionType,
-  usePeakListContext,
-} from "context/peakListContext";
-
 import { useParams } from "react-router-dom";
 import { IconButton } from "components/Buttons";
-import { PeakListTable } from "pages/SinglePeakList/PeakListTable/PeakListTable";
-import { IPeak, IPeakList } from "models/interfaces";
+import { PeakListTable } from "./PeakListTable/PeakListTable";
 import { useEffect, useState } from "react";
 import { sortPeaks, SortType } from "utils/sortPeaks";
-import { useMapContext } from "context/mapContext";
+import { MapActionType, useMapContext } from "context/mapContext";
+import { useListCounts } from "hooks/useListCounts";
+import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
+import { useGetListsQuery, useGetSavedListsQuery } from "features/apiSlice";
+import { useSavedListToggle } from "hooks/useSavedListToggle";
+
+const USER_ID = "abc123";
 
 export const SinglePeakList = () => {
   const [sort, setSort] = useState<SortType>(SortType.ELEVATION);
-  const [displayPeaks, setDisplayPeaks] = useState<IPeak[]>([]);
-  const { listID } = useParams();
-  const {
-    state: { savedListIds, listCounts },
-    dispatch,
-    getPeakListById,
-  } = usePeakListContext();
-  const { dispatch: mapDispatch, plotPeakList } = useMapContext();
-  const [list, setList] = useState<IPeakList | undefined>();
+  const { listID } = useParams() as { listID: string };
+  const { dispatch } = useMapContext();
 
-  const isSaved = savedListIds.some((savedID) => savedID === listID);
+  const savedListsQuery = useGetSavedListsQuery(USER_ID);
+  const peakListsQuery = useGetListsQuery(undefined, {
+    selectFromResult: ({ data, isLoading, isError }) => ({
+      data: data?.find((list) => list.listID === listID),
+      isLoading,
+      isError,
+    }),
+  });
 
-  useEffect(() => {
-    if (list) {
-      setDisplayPeaks(() => [...sortPeaks(list.peaks, sort)]);
-    }
-  }, [sort]);
+  const { isSaved, toggleSavedList } = useSavedListToggle(listID);
 
-  useEffect(() => {
-    if (listID) {
-      setList(getPeakListById(listID));
-    }
-  }, []);
+  const { listCounts } = useListCounts(USER_ID);
+
+  const savedLists = savedListsQuery.data;
+  const peakList = peakListsQuery.data;
+
+  const displayPeaks = sortPeaks(peakList?.peaks, sort);
+  const numCompleted = listCounts[listID] || 0;
 
   useEffect(() => {
-    if (list && listID) {
-      setDisplayPeaks(sortPeaks(list.peaks, sort));
-      plotPeakList(listID);
+    if (peakList) {
+      dispatch({ type: MapActionType.SET_LIST_ID, payload: listID });
+      dispatch({
+        type: MapActionType.SET_PEAKS,
+        payload: peakList.peaks,
+      });
     }
-  }, [list]);
+  }, [peakList]);
 
-  if (list && listID) {
+  if (peakListsQuery.isLoading || savedListsQuery.isLoading) {
     return (
       <Card>
-        <CardHeadingGrid title={list.title} backTo={"peak-lists"}>
+        <LoadingSpinner />
+      </Card>
+    );
+  }
+
+  if (peakListsQuery.isError || savedListsQuery.isError) {
+    return (
+      <Card>
+        <p>Error, couldn't find list</p>
+      </Card>
+    );
+  }
+
+  if (peakList && savedLists) {
+    return (
+      <Card>
+        <CardHeadingGrid title={peakList.title} backTo={"peak-lists"}>
           <div className={headingStyles.row}>
-            <span>{`${listCounts[listID]} of ${list.peaks.length} peaks`}</span>
+            <span>{`${numCompleted} of ${peakList.peaks.length} peaks`}</span>
             <span>|</span>
             <div className={headingStyles["btn-wrapper"]}>
               <IconButton
                 icon={isSaved ? "remove" : "add"}
-                onClick={() =>
-                  dispatch({
-                    type: PeakListActionType.TOGGLE_SAVED_LIST,
-                    payload: listID,
-                  })
-                }
+                onClick={toggleSavedList}
               />
               <span>{`${isSaved ? "Remove from" : "Add to"} my lists`}</span>
             </div>
@@ -89,18 +101,17 @@ export const SinglePeakList = () => {
           </div>
           <div className={headingStyles["progress-wrapper"]}>
             <ProgressBar
-              peakCount={list.peaks.length}
-              numCompleted={listCounts[listID]}
+              peakCount={peakList.peaks.length}
+              numCompleted={numCompleted}
             />
           </div>
         </CardHeadingGrid>
         <CardBody>
-          <p className={styles.description}>{list.description}</p>
+          <p className={styles.description}>{peakList.description}</p>
           <PeakListTable peaks={displayPeaks} listID={listID} />
         </CardBody>
       </Card>
     );
-  } else {
-    return <></>;
   }
+  return <></>;
 };

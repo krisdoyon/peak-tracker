@@ -1,44 +1,41 @@
 import styles from "./NewEntryPeaks.module.scss";
 import formStyles from "../NewEntry.module.scss";
 import sprite from "assets/img/sprite.svg";
-import { usePeakListContext } from "context/peakListContext";
-import React, { useEffect, useState } from "react";
-import { IPeak } from "models/interfaces";
+import { useEffect } from "react";
 import {
-  NewEntryActionKind,
+  NewEntryActionType,
   useNewEntryContext,
 } from "context/newEntryContext";
 import { sortPeaks, SortType } from "utils/sortPeaks";
-import { useMapContext } from "context/mapContext";
+import { MapActionType, useMapContext } from "context/mapContext";
+import { usePeakList } from "hooks/usePeakList";
+import { useGetListsQuery } from "features/apiSlice";
 
 export const NewEntryPeaks = () => {
-  const {
-    state: { allPeakLists },
-    getPeakListById,
-  } = usePeakListContext();
-  const [peaks, setPeaks] = useState<IPeak[]>([]);
   const {
     state: { listID, checkedPeaks },
     dispatch,
   } = useNewEntryContext();
-  const { plotPeakList } = useMapContext();
+  const { dispatch: mapDispatch } = useMapContext();
+
+  const { data: allPeakLists = [] } = useGetListsQuery();
+  const { data: peakList } = usePeakList(listID);
+
+  const sortedPeaks = sortPeaks(peakList?.peaks, SortType.NAME);
 
   useEffect(() => {
-    const listMatch = getPeakListById(listID);
-    if (listMatch) {
-      const sortedPeaks = sortPeaks(listMatch.peaks, SortType.NAME);
-      setPeaks(sortedPeaks);
-    } else {
-      setPeaks([]);
+    if (listID && peakList) {
+      mapDispatch({ type: MapActionType.SET_LIST_ID, payload: listID });
+      mapDispatch({
+        type: MapActionType.SET_PEAK_IDS,
+        payload: peakList.peaks.map((peak) => peak.id),
+      });
     }
-    if (listID) {
-      plotPeakList(listID);
-    }
-  }, [listID]);
+  }, [listID, peakList]);
 
   const handleListChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch({
-      type: NewEntryActionKind.SET_LIST_ID,
+      type: NewEntryActionType.SET_LIST_ID,
       payload: e.target.value,
     });
   };
@@ -77,9 +74,9 @@ export const NewEntryPeaks = () => {
         </select>
       </div>
 
-      {peaks.length > 0 && (
+      {sortedPeaks.length > 0 && (
         <ul className={styles["checkbox-grid"]}>
-          {peaks.map((peak) => {
+          {sortedPeaks.map((peak) => {
             const isChecked = checkedPeaks.some((peakID) => peakID === peak.id);
             return (
               <li key={peak.id}>
@@ -90,7 +87,7 @@ export const NewEntryPeaks = () => {
                     value={peak.id}
                     onChange={(e) =>
                       dispatch({
-                        type: NewEntryActionKind.TOGGLE_CHECKED_PEAK,
+                        type: NewEntryActionType.TOGGLE_CHECKED_PEAK,
                         payload: { checked: e.target.checked, peakID: peak.id },
                       })
                     }

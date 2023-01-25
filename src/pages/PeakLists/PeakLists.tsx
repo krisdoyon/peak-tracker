@@ -4,9 +4,15 @@ import { Card, CardBody, CardHeading } from "components/Card";
 import { TextButton, PaginationButton } from "components/Buttons";
 import { PreviewList, PreviewControls } from "components/PreviewList";
 import { PeakListPreview } from "./PeakListPreview/PeakListPreview";
-import { usePeakListContext } from "context/peakListContext";
 import { usePagination } from "hooks/usePagination";
 import { NoData } from "components/NoData/NoData";
+import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
+import {
+  useGetListsQuery,
+  useGetLogEntriesQuery,
+  useGetSavedListsQuery,
+} from "features/apiSlice";
+import { useListCounts } from "hooks/useListCounts";
 
 const noDataMessage = (
   <p>
@@ -15,16 +21,38 @@ const noDataMessage = (
   </p>
 );
 
+const USER_ID = "abc123";
+
 export const PeakLists = () => {
   const [previewType, setPreviewType] = useState<"all" | "saved">("all");
+
   const {
-    state: { allPeakLists, savedListIds, listCounts },
-  } = usePeakListContext();
+    data: allPeakLists = [],
+    isLoading: isListsLoading,
+    isError: isListsError,
+  } = useGetListsQuery();
+
+  const {
+    data: allLogEntries = [],
+    isLoading: isLogLoading,
+    isError: isLogError,
+  } = useGetLogEntriesQuery(USER_ID);
+
+  const {
+    data: savedLists = [],
+    isLoading: isSavedListsLoading,
+    isError: isSavedListsError,
+  } = useGetSavedListsQuery(USER_ID);
+
+  const isLoading = isListsLoading || isLogLoading || isSavedListsLoading;
+  const isError = isListsError || isLogError || isSavedListsError;
 
   const displayLists =
     previewType === "all"
       ? allPeakLists
-      : allPeakLists.filter((list) => savedListIds.includes(list.listID));
+      : allPeakLists.filter((list) => savedLists.includes(list.listID));
+
+  const { listCounts } = useListCounts(USER_ID);
 
   const { page, maxPage, displayArr, nextPage, prevPage, setPage } =
     usePagination(displayLists, 6);
@@ -34,6 +62,22 @@ export const PeakLists = () => {
       setPage(1);
     }
   }, [previewType]);
+
+  if (isLoading) {
+    return (
+      <Card>
+        <LoadingSpinner />
+      </Card>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Card>
+        <p>ERROR</p>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -71,19 +115,20 @@ export const PeakLists = () => {
           <PreviewList>
             {displayArr.map((peakList) => {
               const { title, listID } = peakList;
+              const numCompleted = listCounts[listID] || 0;
               return (
                 <PeakListPreview
                   key={listID}
                   title={title}
                   peakCount={peakList.peaks.length}
                   listID={listID}
-                  numCompleted={listCounts[listID]}
+                  numCompleted={numCompleted}
                 />
               );
             })}
           </PreviewList>
         )}
-        {previewType === "saved" && displayLists.length === 0 && (
+        {previewType === "saved" && displayLists?.length === 0 && (
           <NoData message={noDataMessage} />
         )}
       </CardBody>

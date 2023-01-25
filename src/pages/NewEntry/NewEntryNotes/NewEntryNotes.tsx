@@ -2,7 +2,7 @@ import styles from "./NewEntryNotes.module.scss";
 import formStyles from "../NewEntry.module.scss";
 import sprite from "assets/img/sprite.svg";
 import {
-  NewEntryActionKind,
+  NewEntryActionType,
   useNewEntryContext,
 } from "context/newEntryContext";
 
@@ -30,7 +30,7 @@ export const NewEntryNotes = () => {
         placeholder="Record details about the weather, wildlife, trail conditions or anything else!"
         onChange={(e) =>
           dispatch({
-            type: NewEntryActionKind.SET_NOTES,
+            type: NewEntryActionType.SET_NOTES,
             payload: e.target.value,
           })
         }

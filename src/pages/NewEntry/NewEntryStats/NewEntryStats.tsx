@@ -3,7 +3,7 @@ import formStyles from "../NewEntry.module.scss";
 import { IconButton } from "components/Buttons";
 import sprite from "assets/img/sprite.svg";
 import {
-  NewEntryActionKind,
+  NewEntryActionType,
   useNewEntryContext,
 } from "context/newEntryContext";
 
@@ -32,7 +32,7 @@ export const NewEntryStats = () => {
           onClick={(e) => {
             e.preventDefault();
             dispatch({
-              type: NewEntryActionKind.TOGGLE_STAT_OPEN,
+              type: NewEntryActionType.TOGGLE_STAT_OPEN,
               payload: "elevation",
             });
           }}
@@ -47,7 +47,7 @@ export const NewEntryStats = () => {
               type="number"
               onChange={(e) => {
                 dispatch({
-                  type: NewEntryActionKind.SET_STAT,
+                  type: NewEntryActionType.SET_STAT,
                   payload: { stat: "elevation", value: +e.target.value },
                 });
               }}
@@ -66,7 +66,7 @@ export const NewEntryStats = () => {
           onClick={(e) => {
             e.preventDefault();
             dispatch({
-              type: NewEntryActionKind.TOGGLE_STAT_OPEN,
+              type: NewEntryActionType.TOGGLE_STAT_OPEN,
               payload: "distance",
             });
           }}
@@ -82,7 +82,7 @@ export const NewEntryStats = () => {
               step="0.01"
               onChange={(e) => {
                 dispatch({
-                  type: NewEntryActionKind.SET_STAT,
+                  type: NewEntryActionType.SET_STAT,
                   payload: { stat: "distance", value: +e.target.value },
                 });
               }}
@@ -99,7 +99,7 @@ export const NewEntryStats = () => {
           onClick={(e) => {
             e.preventDefault();
             dispatch({
-              type: NewEntryActionKind.TOGGLE_STAT_OPEN,
+              type: NewEntryActionType.TOGGLE_STAT_OPEN,
               payload: "time",
             });
           }}
@@ -114,7 +114,7 @@ export const NewEntryStats = () => {
               type="number"
               onChange={(e) => {
                 dispatch({
-                  type: NewEntryActionKind.SET_STAT,
+                  type: NewEntryActionType.SET_STAT,
                   payload: { stat: "hours", value: +e.target.value },
                 });
               }}
@@ -129,7 +129,7 @@ export const NewEntryStats = () => {
               type="number"
               onChange={(e) => {
                 dispatch({
-                  type: NewEntryActionKind.SET_STAT,
+                  type: NewEntryActionType.SET_STAT,
                   payload: { stat: "minutes", value: +e.target.value },
                 });
               }}

@@ -2,7 +2,7 @@ import styles from "./NewEntryRating.module.scss";
 import formStyles from "../NewEntry.module.scss";
 import sprite from "assets/img/sprite.svg";
 import {
-  NewEntryActionKind,
+  NewEntryActionType,
   useNewEntryContext,
 } from "context/newEntryContext";
 
@@ -31,20 +31,20 @@ export const NewEntryRating = () => {
               }`}
               onMouseOver={() => {
                 dispatch({
-                  type: NewEntryActionKind.SET_FILLED_STAR,
+                  type: NewEntryActionType.SET_FILLED_STAR,
                   payload: i + 1,
                 });
               }}
               onMouseOut={() => {
                 dispatch({
-                  type: NewEntryActionKind.SET_FILLED_STAR,
+                  type: NewEntryActionType.SET_FILLED_STAR,
                   payload: rating,
                 });
               }}
               onClick={(e) => {
                 e.preventDefault();
                 dispatch({
-                  type: NewEntryActionKind.SET_RATING,
+                  type: NewEntryActionType.SET_RATING,
                   payload: i + 1,
                 });
               }}
