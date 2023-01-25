@@ -15,7 +15,7 @@ export const testLogEntries: ILogEntry[] = [
     notes:
       "Second day of the presidential traverse. Day started off cloudy but cleared up about half way through.",
     rating: 4,
-    logID: "6",
+    logID: "0",
     date: "2022-08-29",
   },
   {
@@ -23,7 +23,7 @@ export const testLogEntries: ILogEntry[] = [
     stats: {
       elevation: 5000,
       distance: 12,
-      minutes: null,
+      minutes: "",
       hours: 8,
       time: 8,
       avgSpeed: 1.5,
@@ -32,7 +32,7 @@ export const testLogEntries: ILogEntry[] = [
     notes:
       "First day of the presidential traverse, stayed the night at Lake of the Clouds Hut. Incredible views!",
     rating: 5,
-    logID: "5",
+    logID: "1",
     date: "2022-08-28",
   },
   {
@@ -48,7 +48,7 @@ export const testLogEntries: ILogEntry[] = [
     },
     notes: "Awesome first trip to the Adirondacks!",
     rating: 5,
-    logID: "3",
+    logID: "2",
     date: "2021-08-15",
   },
   {
@@ -65,7 +65,7 @@ export const testLogEntries: ILogEntry[] = [
     notes:
       "Completed the Kate Sleeper loop, stayed overnight at Camp Rich off the summit of Mt. Passaconaway.",
     rating: 4,
-    logID: "4",
+    logID: "3",
     date: "2021-06-25",
   },
   {
@@ -82,7 +82,7 @@ export const testLogEntries: ILogEntry[] = [
     notes:
       "Great views of the fall foliage from both summits. Got some great photos of Crawford Notch from Mt. Willard and of the southern Presidential Range from Mt. Avalon!",
     rating: 5,
-    logID: "8",
+    logID: "4",
     date: "2020-10-11",
   },
   {
@@ -99,7 +99,7 @@ export const testLogEntries: ILogEntry[] = [
     notes:
       "Finally made it to the Connecticut state high point. Hit Brace Mountain and Round Mountain on the loop as well!",
     rating: 4,
-    logID: "9",
+    logID: "5",
     date: "2020-08-10",
   },
   {
@@ -116,7 +116,7 @@ export const testLogEntries: ILogEntry[] = [
     notes:
       "First backpacking trip in the White Mountains, saw an incredible sunset from West Bond!",
     rating: 5,
-    logID: "12",
+    logID: "6",
     date: "2020-07-16",
   },
   {
@@ -150,7 +150,7 @@ export const testLogEntries: ILogEntry[] = [
     notes:
       "Difficult hike but well worth it. Cold at the top but 360 degree views from the summit!",
     rating: 5,
-    logID: "10",
+    logID: "8",
     date: "2018-09-04",
   },
   {
@@ -158,7 +158,7 @@ export const testLogEntries: ILogEntry[] = [
     stats: {
       elevation: 3600,
       distance: 8.1,
-      minutes: null,
+      minutes: "",
       hours: 14,
       time: 14,
       avgSpeed: 0.6,
@@ -166,7 +166,7 @@ export const testLogEntries: ILogEntry[] = [
     },
     notes: "First winter 14er trip!",
     rating: 5,
-    logID: "11",
+    logID: "9",
     date: "2018-01-01",
   },
   {
@@ -174,7 +174,7 @@ export const testLogEntries: ILogEntry[] = [
     stats: {
       elevation: 5000,
       distance: 15,
-      minutes: null,
+      minutes: "",
       hours: 12,
       time: 12,
       avgSpeed: 1.3,
@@ -182,7 +182,7 @@ export const testLogEntries: ILogEntry[] = [
     },
     notes: "Epic day, the keyhole route was intense!",
     rating: 5,
-    logID: "1",
+    logID: "10",
     date: "2017-07-24",
   },
   {
@@ -198,7 +198,7 @@ export const testLogEntries: ILogEntry[] = [
     },
     notes: "Had a great day, warm weather and saw lots of mountain goats!",
     rating: 4,
-    logID: "2",
+    logID: "11",
     date: "2016-06-06",
   },
 ];
