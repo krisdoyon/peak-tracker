@@ -121,7 +121,7 @@
   );
   background-size: 235%;
   transition: var(--transition);
- 
+
   @include respond(1000) {
     height: 100%;
     font-size: 1.6rem;
@@ -175,4 +175,8 @@
     height: 1.8rem;
     width: 1.8rem;
   }
+}
+
+.hidden {
+  margin-left: -18.2rem;
 }

@@ -1,17 +1,15 @@
 import styles from "./Sidebar.module.scss";
 
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import sprite from "assets/img/sprite.svg";
 import { navLinks } from "./navLinks";
+import { useSidebarContext } from "context/sidebarContext";
 
 export const Sidebar = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-
-  const toggleSidebar = () => {};
+  const { sidebarOpen, setSidebarOpen } = useSidebarContext();
 
   return (
-    <div className={styles.sidebar}>
+    <div className={`${styles.sidebar} ${sidebarOpen ? "" : styles.hidden}`}>
       <nav className={styles.nav}>
         <ul className={styles.list}>
           {navLinks.map((link, i) => {
@@ -44,9 +42,15 @@ export const Sidebar = () => {
         </ul>
       </nav>
       <div className={styles["sidebar-wrapper"]}>
-        <button className={styles["sidebar-btn"]} aria-label="toggle sidebar">
+        <button
+          className={styles["sidebar-btn"]}
+          aria-label="toggle sidebar"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
           <svg className={styles.icon}>
-            <use href={`${sprite}#icon-chevron-left`}></use>
+            <use
+              href={`${sprite}#icon-chevron-${sidebarOpen ? "left" : "right"}`}
+            ></use>
           </svg>
         </button>
         <p className={styles.copyright}>&copy; 2022 Kris Doyon</p>
