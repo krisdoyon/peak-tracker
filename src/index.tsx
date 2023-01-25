@@ -2,27 +2,28 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.scss";
-import { LogProvider } from "context/logContext";
-import { StatsProvider } from "context/statsContext";
-import { PeakListProvider } from "context/peakListContext";
 import { NewEntryProvider } from "context/newEntryContext";
 import { BrowserRouter as Router } from "react-router-dom";
 import { MapProvider } from "context/mapContext";
+import { FilterProvider } from "context/filterContext";
+import { ApiProvider } from "@reduxjs/toolkit/dist/query/react";
+import { apiSlice } from "features/apiSlice";
+import { SidebarProvider } from "context/sidebarContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Router>
-      <PeakListProvider>
+      <ApiProvider api={apiSlice}>
         <NewEntryProvider>
-          <LogProvider>
-            <StatsProvider>
-              <MapProvider>
+          <MapProvider>
+            <FilterProvider>
+              <SidebarProvider>
                 <App />
-              </MapProvider>
-            </StatsProvider>
-          </LogProvider>
+              </SidebarProvider>
+            </FilterProvider>
+          </MapProvider>
         </NewEntryProvider>
-      </PeakListProvider>
+      </ApiProvider>
     </Router>
   </React.StrictMode>
 );
