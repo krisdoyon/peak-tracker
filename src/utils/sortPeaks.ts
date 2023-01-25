@@ -6,19 +6,20 @@ export enum SortType {
   STATE = "state",
 }
 
-export const sortPeaks = (peaksArr: IPeak[], sortType: SortType) => {
+export const sortPeaks = (peaksArr: IPeak[] = [], sortType: SortType) => {
+  const arrCopy = [...peaksArr];
   if (sortType === SortType.ELEVATION) {
-    peaksArr.sort((a, b) => b.elevation - a.elevation);
+    arrCopy.sort((a, b) => b.elevation - a.elevation);
   }
   if (sortType === SortType.NAME) {
-    peaksArr.sort((a, b) =>
+    arrCopy.sort((a, b) =>
       a.name.toLowerCase().localeCompare(b.name.toLowerCase())
     );
   }
   if (sortType === SortType.STATE) {
-    peaksArr.sort((a, b) =>
+    arrCopy.sort((a, b) =>
       a.state.toLowerCase().localeCompare(b.state.toLowerCase())
     );
   }
-  return peaksArr;
+  return arrCopy;
 };
