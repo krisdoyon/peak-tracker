@@ -1,17 +1,24 @@
-import { LogActionKind, useLogContext } from "context/logContext";
-import { FilterType } from "models/interfaces";
-import { useEffect } from "react";
 import styles from "./FilterSelects.module.scss";
+import { useFilterSelectOptions } from "hooks/useFilterSelectOptions";
+import { useFilterContext } from "context/filterContext";
 
 interface Props {
   card: "stats" | "log";
-  updateFilters: (filter: FilterType, value: string) => void;
-  filterValues: { listID: string; month: string; year: string };
 }
 
-export const FilterSelects = ({ card, updateFilters, filterValues }: Props) => {
-  const { getFilterSelectOptions } = useLogContext();
-  const { lists, months, years } = getFilterSelectOptions();
+export enum FilterType {
+  LIST_ID = "listID",
+  MONTH = "month",
+  YEAR = "year",
+}
+
+export const FilterSelects = ({ card }: Props) => {
+  const { lists, months, years } = useFilterSelectOptions();
+  const { filters, setFilters } = useFilterContext();
+
+  const updateFilters = (filter: string, value: string) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [filter]: value }));
+  };
 
   return (
     <>
@@ -22,7 +29,7 @@ export const FilterSelects = ({ card, updateFilters, filterValues }: Props) => {
         onChange={(e) => {
           updateFilters(FilterType.LIST_ID, e.target.value);
         }}
-        value={filterValues.listID}
+        value={filters.listID}
       >
         <option value="all">All lists</option>
         {lists.map((list) => {
@@ -39,7 +46,7 @@ export const FilterSelects = ({ card, updateFilters, filterValues }: Props) => {
         onChange={(e) => {
           updateFilters(FilterType.MONTH, e.target.value);
         }}
-        value={filterValues.month}
+        value={filters.month}
       >
         <option value="all">All Months</option>
         {months.map((month) => {
@@ -55,7 +62,7 @@ export const FilterSelects = ({ card, updateFilters, filterValues }: Props) => {
         onChange={(e) => {
           updateFilters(FilterType.YEAR, e.target.value);
         }}
-        value={filterValues.year}
+        value={filters.year}
       >
         <option value="all">All years</option>
         {years.map((year) => {
