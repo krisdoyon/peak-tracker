@@ -1,7 +1,5 @@
 import { IPeak } from "models/interfaces";
 import { createContext, useContext, useMemo, useReducer } from "react";
-import { useLogContext } from "./logContext";
-import { usePeakListContext } from "./peakListContext";
 
 interface Props {
   children: React.ReactNode;
@@ -10,8 +8,6 @@ interface Props {
 interface IMapContext {
   state: IMapState;
   dispatch: React.Dispatch<MapAction>;
-  plotPeakList: (listID: string) => void;
-  plotLogEntry: (logID: string) => void;
 }
 
 interface IMapState {
@@ -64,33 +60,9 @@ const mapReducer = (state: IMapState, action: MapAction) => {
 export const MapProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(mapReducer, initialState);
 
-  const { getPeakListById, getPeakById } = usePeakListContext();
-
-  const { getLogEntryById } = useLogContext();
-
-  const plotPeakList = (listID: string) => {
-    const peaks = getPeakListById(listID)?.peaks;
-    dispatch({
-      type: MapActionType.SET_PEAKS,
-      payload: peaks,
-    });
-    dispatch({
-      type: MapActionType.SET_LIST_ID,
-      payload: listID,
-    });
-  };
-
-  const plotLogEntry = (logID: string) => {
-    const entry = getLogEntryById(logID)!;
-    const peaksArr = entry.peakIds.map((peakID) => {
-      return getPeakById(peakID)!;
-    });
-    dispatch({ type: MapActionType.SET_PEAKS, payload: peaksArr });
-  };
-
   const contextValue = useMemo(() => {
-    return { state, dispatch, plotPeakList, plotLogEntry };
-  }, [state, dispatch, plotPeakList, plotLogEntry]);
+    return { state, dispatch };
+  }, [state, dispatch]);
   return (
     <mapContext.Provider value={contextValue}>{children}</mapContext.Provider>
   );
