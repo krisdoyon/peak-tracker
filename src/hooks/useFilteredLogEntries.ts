@@ -1,13 +1,11 @@
+import { useFilterContext } from "context/filterContext";
 import { useGetListsQuery, useGetLogEntriesQuery } from "features/apiSlice";
 import { getLogLists } from "utils/peakUtils";
 
 const USER_ID = "abc123";
 
-export const useFilteredLogEntries = (filters: {
-  listID: string;
-  month: string;
-  year: string;
-}) => {
+export const useFilteredLogEntries = () => {
+  const { filters } = useFilterContext();
   const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_ID);
   const { data: allPeakLists = [] } = useGetListsQuery();
 

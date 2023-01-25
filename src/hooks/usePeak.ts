@@ -1,10 +1,5 @@
 import { useGetListsQuery, useGetLogEntriesQuery } from "features/apiSlice";
-import { IPeak, IPeakList } from "models/interfaces";
-import {
-  getPeakById,
-  isPeakCompleted,
-  getCompletedDate,
-} from "utils/peakUtils";
+import { isPeakCompleted, getCompletedDate } from "utils/peakUtils";
 
 const USER_ID = "abc123";
 
