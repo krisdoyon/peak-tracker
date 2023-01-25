@@ -17,22 +17,16 @@ export interface IPeakList {
 export interface ILogEntry {
   peakIds: number[];
   stats: {
-    elevation: number | null;
-    distance: number | null;
-    minutes: number | null;
-    hours: number | null;
-    time: number | null;
-    avgSpeed: number | null;
-    avgElevation: number | null;
+    elevation: number | "";
+    distance: number | "";
+    minutes: number | "";
+    hours: number | "";
+    time: number | "";
+    avgSpeed: number | "";
+    avgElevation: number | "";
   };
-  notes: string | null;
-  rating: number | null;
+  notes: string | "";
+  rating: number | "";
   logID: string;
   date: string;
-}
-
-export enum FilterType {
-  LIST_ID = "listID",
-  MONTH = "month",
-  YEAR = "year",
 }
