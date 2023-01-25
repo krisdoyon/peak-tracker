@@ -1,5 +1,5 @@
 import {
-  NewEntryActionKind,
+  NewEntryActionType,
   useNewEntryContext,
 } from "context/newEntryContext";
 import { useNavigate } from "react-router-dom";
@@ -16,11 +16,11 @@ export const LogTripButton = ({ listID, peakID }: Props) => {
 
   const handleLogTrip = () => {
     dispatch({
-      type: NewEntryActionKind.TOGGLE_CHECKED_PEAK,
+      type: NewEntryActionType.TOGGLE_CHECKED_PEAK,
       payload: { checked: true, peakID },
     });
     dispatch({
-      type: NewEntryActionKind.SET_LIST_ID,
+      type: NewEntryActionType.SET_LIST_ID,
       payload: listID,
     });
     navigate("/new-entry");

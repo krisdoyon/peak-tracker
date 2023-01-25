@@ -4,7 +4,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export enum NewEntryActionKind {
+export enum NewEntryActionType {
   RESET_FORM,
   SET_DATE,
   SET_LIST_ID,
@@ -40,34 +40,34 @@ interface INewEntryContext {
   dispatch: React.Dispatch<NewEntryAction>;
 }
 
-type SetDate = { type: NewEntryActionKind.SET_DATE; payload: string };
-type SetRating = { type: NewEntryActionKind.SET_RATING; payload: number };
-type SetListID = { type: NewEntryActionKind.SET_LIST_ID; payload: string };
+type SetDate = { type: NewEntryActionType.SET_DATE; payload: string };
+type SetRating = { type: NewEntryActionType.SET_RATING; payload: number };
+type SetListID = { type: NewEntryActionType.SET_LIST_ID; payload: string };
 type ToggleCheckedPeak = {
-  type: NewEntryActionKind.TOGGLE_CHECKED_PEAK;
+  type: NewEntryActionType.TOGGLE_CHECKED_PEAK;
   payload: { checked: boolean; peakID: number };
 };
-type SetNotes = { type: NewEntryActionKind.SET_NOTES; payload: string };
-type ResetForm = { type: NewEntryActionKind.RESET_FORM };
+type SetNotes = { type: NewEntryActionType.SET_NOTES; payload: string };
+type ResetForm = { type: NewEntryActionType.RESET_FORM };
 type SetStat = {
-  type: NewEntryActionKind.SET_STAT;
+  type: NewEntryActionType.SET_STAT;
   payload: {
     stat: "elevation" | "distance" | "hours" | "minutes";
     value: number;
   };
 };
 type SetFilledStar = {
-  type: NewEntryActionKind.SET_FILLED_STAR;
+  type: NewEntryActionType.SET_FILLED_STAR;
   payload: number;
 };
 
 type SetValue<T> = {
-  type: NewEntryActionKind.SET_VALUE;
+  type: NewEntryActionType.SET_VALUE;
   payload: { input: string; value: T };
 };
 
 type ToggleStatOpen = {
-  type: NewEntryActionKind.TOGGLE_STAT_OPEN;
+  type: NewEntryActionType.TOGGLE_STAT_OPEN;
   payload: "elevation" | "distance" | "time";
 };
 
@@ -85,13 +85,13 @@ type NewEntryAction =
 const newEntryContext = createContext<INewEntryContext | null>(null);
 
 function newEntryReducer(state: INewEntryState, action: NewEntryAction) {
-  if (action.type === NewEntryActionKind.SET_DATE) {
+  if (action.type === NewEntryActionType.SET_DATE) {
     return { ...state, date: action.payload };
   }
-  if (action.type === NewEntryActionKind.SET_LIST_ID) {
+  if (action.type === NewEntryActionType.SET_LIST_ID) {
     return { ...state, listID: action.payload };
   }
-  if (action.type === NewEntryActionKind.TOGGLE_CHECKED_PEAK) {
+  if (action.type === NewEntryActionType.TOGGLE_CHECKED_PEAK) {
     const { checked, peakID } = action.payload;
     let newCheckedPeaks;
     if (checked) {
@@ -103,23 +103,23 @@ function newEntryReducer(state: INewEntryState, action: NewEntryAction) {
     }
     return { ...state, checkedPeaks: newCheckedPeaks };
   }
-  if (action.type === NewEntryActionKind.SET_RATING) {
+  if (action.type === NewEntryActionType.SET_RATING) {
     return { ...state, rating: action.payload };
   }
-  if (action.type === NewEntryActionKind.SET_NOTES) {
+  if (action.type === NewEntryActionType.SET_NOTES) {
     return { ...state, notes: action.payload };
   }
-  if (action.type === NewEntryActionKind.SET_STAT) {
+  if (action.type === NewEntryActionType.SET_STAT) {
     const { stat, value } = action.payload;
     return { ...state, [stat]: value };
   }
-  if (action.type === NewEntryActionKind.RESET_FORM) {
+  if (action.type === NewEntryActionType.RESET_FORM) {
     return { ...state, ...initialState };
   }
-  if (action.type === NewEntryActionKind.SET_FILLED_STAR) {
+  if (action.type === NewEntryActionType.SET_FILLED_STAR) {
     return { ...state, filledStar: action.payload };
   }
-  if (action.type === NewEntryActionKind.TOGGLE_STAT_OPEN) {
+  if (action.type === NewEntryActionType.TOGGLE_STAT_OPEN) {
     const currentlyOpen = state.isStatOpen[action.payload];
     return {
       ...state,
