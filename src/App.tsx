@@ -5,49 +5,17 @@ import { SinglePeakList } from "pages/SinglePeakList/SinglePeakList";
 import { SingleLogEntry } from "pages/SingleLogEntry/SingleLogEntry";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import {
-  NewEntryActionKind,
-  useNewEntryContext,
-} from "context/newEntryContext";
-import {
-  PeakListActionType,
-  usePeakListContext,
-} from "context/peakListContext";
-import { useLogContext } from "context/logContext";
 import { MapActionType, useMapContext } from "context/mapContext";
 
 function App() {
   const { pathname } = useLocation();
 
-  const { state, dispatch: newEntryDispatch } = useNewEntryContext();
-  const {
-    state: { peaks },
-    dispatch: mapDispatch,
-  } = useMapContext();
-
-  console.log({ peaks });
-  const {
-    state: { logEntries },
-  } = useLogContext();
-
-  const {
-    state: { completedPeaks },
-    setCompletedPeaks,
-    calculateListCounts,
-  } = usePeakListContext();
-
-  useEffect(() => {
-    setCompletedPeaks(logEntries);
-  }, [logEntries]);
-
-  useEffect(() => {
-    calculateListCounts();
-  }, [completedPeaks]);
+  const { dispatch: mapDispatch } = useMapContext();
 
   useEffect(() => {
     if (!pathname.includes("/peak-lists/") && !pathname.includes("/log/"))
       mapDispatch({ type: MapActionType.CLEAR_MAP });
-    // newEntryDispatch({ type: NewEntryActionKind.RESET_FORM });
+    // newEntryDispatch({ type: NewEntryActionType.RESET_FORM });
     // If form is not empty, confirm navigate away
   }, [pathname]);
 
