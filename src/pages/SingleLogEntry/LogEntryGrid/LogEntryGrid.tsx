@@ -28,8 +28,8 @@ const ListMatchRow = ({ listID }: Props) => {
             payload: listID,
           });
           mapDispatch({
-            type: MapActionType.SET_PEAK_IDS,
-            payload: list?.peaks.map((peak) => peak.id),
+            type: MapActionType.SET_PEAKS,
+            payload: list?.peaks,
           });
         }}
       />
@@ -70,7 +70,7 @@ export const LogEntryGrid = ({ peakIds, stats, notes, logID }: ILogEntry) => {
         <ViewButton
           small={true}
           onClick={() =>
-            mapDispatch({ type: MapActionType.SET_PEAK_IDS, payload: peakIds })
+            mapDispatch({ type: MapActionType.SET_PEAKS, payload: [] })
           }
         />
       </div>
