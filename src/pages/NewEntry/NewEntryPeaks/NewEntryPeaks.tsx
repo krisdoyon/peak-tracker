@@ -27,8 +27,8 @@ export const NewEntryPeaks = () => {
     if (listID && peakList) {
       mapDispatch({ type: MapActionType.SET_LIST_ID, payload: listID });
       mapDispatch({
-        type: MapActionType.SET_PEAK_IDS,
-        payload: peakList.peaks.map((peak) => peak.id),
+        type: MapActionType.SET_PEAKS,
+        payload: peakList.peaks,
       });
     }
   }, [listID, peakList]);
