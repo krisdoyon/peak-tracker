@@ -1,37 +1,32 @@
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 interface Props {
   children: React.ReactNode;
 }
 
-interface IFilterState {
+export interface IFilterState {
   listID: string;
   year: string;
   month: string;
 }
 
 interface IFilterContext {
-  logFilters: IFilterState;
-  setLogFilters: React.Dispatch<React.SetStateAction<IFilterState>>;
-  statsFilters: IFilterState;
-  setStatsFilters: React.Dispatch<React.SetStateAction<IFilterState>>;
+  filters: IFilterState;
+  setFilters: React.Dispatch<React.SetStateAction<IFilterState>>;
 }
 
 const filterContext = createContext<IFilterContext | null>(null);
 
 export const FilterProvider = ({ children }: Props) => {
-  const initialFilters = {
+  const initialFilters: IFilterState = {
     listID: "all",
     year: "all",
     month: "all",
   };
-  const [logFilters, setLogFilters] = useState(initialFilters);
-  const [statsFilters, setStatsFilters] = useState(initialFilters);
+  const [filters, setFilters] = useState(initialFilters);
 
   return (
-    <filterContext.Provider
-      value={{ logFilters, setLogFilters, statsFilters, setStatsFilters }}
-    >
+    <filterContext.Provider value={{ filters, setFilters }}>
       {children}
     </filterContext.Provider>
   );
