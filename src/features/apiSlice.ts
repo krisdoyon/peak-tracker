@@ -17,6 +17,7 @@ export const apiSlice = createApi({
     getLogEntries: builder.query<ILogEntry[], string>({
       query: (userId) => `/users/${userId}/logEntries.json`,
       transformResponse: (res: ILogEntry[]) => {
+        if (res === null) return [];
         return Object.keys(res)
           .map((key) => res[+key])
           .filter((entry) => entry != null);
