@@ -49,11 +49,16 @@ export const NewEntryDate = () => {
           id="date"
           name="date"
           type="date"
+          // dateFormat="dd-MM-yyyy"
           onChange={(e) => {
-            const date = new Intl.DateTimeFormat("en-CA", dateOptions).format(
-              new Date(`${e.target.value}T00:00`)
-            );
-            dispatch({ type: NewEntryActionType.SET_DATE, payload: date });
+            // const date = new Intl.DateTimeFormat("en-CA", dateOptions).format(
+            //   new Date(`${e.target.value}T00:00`)
+            // );
+            console.log(e.target.value);
+            dispatch({
+              type: NewEntryActionType.SET_DATE,
+              payload: e.target.value,
+            });
           }}
           value={date}
           required

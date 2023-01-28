@@ -68,7 +68,11 @@ export const useAddLogEntry = () => {
       },
       notes: notes,
       rating: rating || "",
-      date,
+      date: new Intl.DateTimeFormat("en-CA", {
+        day: "numeric",
+        month: "numeric",
+        year: "numeric",
+      }).format(new Date(`${date}T00:00`)),
     };
     addLogEntry({ userId: USER_ID, newEntry });
     navigate(`/log/${logID}`);
