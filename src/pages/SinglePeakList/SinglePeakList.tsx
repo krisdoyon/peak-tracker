@@ -20,21 +20,26 @@ export const SinglePeakList = () => {
   const { listID } = useParams() as { listID: string };
   const { dispatch } = useMapContext();
 
-  const savedListsQuery = useGetSavedListsQuery(USER_ID);
-  const peakListsQuery = useGetListsQuery(undefined, {
-    selectFromResult: ({ data, isLoading, isError }) => ({
+  const {
+    data: savedLists,
+    isLoading: isListsLoading,
+    error: listsError,
+  } = useGetSavedListsQuery(USER_ID);
+  const {
+    data: peakList,
+    isLoading: isPeaksLoading,
+    error: peaksError,
+  } = useGetListsQuery(undefined, {
+    selectFromResult: ({ data, isLoading, error }) => ({
       data: data?.find((list) => list.listID === listID),
       isLoading,
-      isError,
+      error,
     }),
   });
 
   const { isSaved, toggleSavedList } = useSavedListToggle(listID);
 
   const { listCounts } = useListCounts(USER_ID);
-
-  const savedLists = savedListsQuery.data;
-  const peakList = peakListsQuery.data;
 
   const displayPeaks = sortPeaks(peakList?.peaks, sort);
   const numCompleted = listCounts[listID] || 0;
@@ -49,7 +54,7 @@ export const SinglePeakList = () => {
     }
   }, [peakList]);
 
-  if (peakListsQuery.isLoading || savedListsQuery.isLoading) {
+  if (isPeaksLoading || isListsLoading) {
     return (
       <Card>
         <LoadingSpinner />
@@ -57,7 +62,7 @@ export const SinglePeakList = () => {
     );
   }
 
-  if (peakListsQuery.isError || savedListsQuery.isError) {
+  if (peaksError || listsError) {
     return (
       <Card>
         <p>Error, couldn't find list</p>
