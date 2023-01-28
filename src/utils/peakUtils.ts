@@ -133,5 +133,7 @@ export const getLogStats = ({
 
 export const getPeaksById = (peakIds: number[], peakLists: IPeakList[]) => {
   const allPeaks = getAllUniquePeaks(peakLists);
-  return peakIds.map((peakID) => allPeaks.find((peak) => peak.id === peakID));
+  return peakIds
+    .map((peakID) => allPeaks.find((peak) => peak.id === peakID))
+    .filter((item) => item !== undefined);
 };
