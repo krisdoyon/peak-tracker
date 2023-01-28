@@ -110,8 +110,8 @@ function newEntryReducer(state: INewEntryState, action: NewEntryAction) {
     return { ...state, notes: action.payload };
   }
   if (action.type === NewEntryActionType.SET_STAT) {
-    const { stat, value } = action.payload;
-    return { ...state, [stat]: value };
+    let { stat, value } = action.payload;
+    return { ...state, [stat]: value || "" };
   }
   if (action.type === NewEntryActionType.RESET_FORM) {
     return { ...state, ...initialState };
