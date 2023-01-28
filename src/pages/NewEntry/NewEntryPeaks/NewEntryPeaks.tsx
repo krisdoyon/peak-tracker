@@ -79,7 +79,18 @@ export const NewEntryPeaks = () => {
           {sortedPeaks.map((peak) => {
             const isChecked = checkedPeaks.some((peakID) => peakID === peak.id);
             return (
-              <li key={peak.id}>
+              <li
+                key={peak.id}
+                onMouseOver={() =>
+                  mapDispatch({
+                    type: MapActionType.OPEN_POPUP,
+                    payload: peak.id,
+                  })
+                }
+                onMouseOut={() =>
+                  mapDispatch({ type: MapActionType.CLOSE_POPUP })
+                }
+              >
                 <label className={styles["checkbox-container"]}>
                   {peak.name}
                   <input
