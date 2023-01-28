@@ -13,12 +13,15 @@ interface IMapContext {
 interface IMapState {
   peaks: IPeak[];
   listID: string;
+  openPopupId: number | null;
 }
 
 export enum MapActionType {
   SET_PEAKS,
   SET_LIST_ID,
   CLEAR_MAP,
+  OPEN_POPUP,
+  CLOSE_POPUP,
 }
 
 type SetPeaks = {
@@ -35,13 +38,23 @@ type ClearMap = {
   type: MapActionType.CLEAR_MAP;
 };
 
-type MapAction = SetPeaks | SetListID | ClearMap;
+type OpenPopup = {
+  type: MapActionType.OPEN_POPUP;
+  payload: number;
+};
+
+type ClosePopup = {
+  type: MapActionType.CLOSE_POPUP;
+};
+
+type MapAction = SetPeaks | SetListID | ClearMap | OpenPopup | ClosePopup;
 
 const mapContext = createContext<IMapContext | null>(null);
 
 const initialState: IMapState = {
   peaks: [],
   listID: "",
+  openPopupId: null,
 };
 
 const mapReducer = (state: IMapState, action: MapAction) => {
@@ -53,6 +66,12 @@ const mapReducer = (state: IMapState, action: MapAction) => {
   }
   if (action.type === MapActionType.CLEAR_MAP) {
     return { ...state, peaks: [] };
+  }
+  if (action.type === MapActionType.OPEN_POPUP) {
+    return { ...state, openPopupId: action.payload };
+  }
+  if (action.type === MapActionType.CLOSE_POPUP) {
+    return { ...state, openPopupId: null };
   }
   return { ...state };
 };

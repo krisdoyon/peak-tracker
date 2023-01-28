@@ -9,13 +9,16 @@ import L from "leaflet";
 import { IPeak } from "models/interfaces";
 import { getCompletedDate, isPeakCompleted } from "utils/peakUtils";
 import { useGetLogEntriesQuery } from "features/apiSlice";
+import { useEffect, useRef } from "react";
 
 const USER_ID = "abc123";
 
 export const PeakMarker = ({ id, lat, long, name, elevation }: IPeak) => {
   const {
-    state: { listID },
+    state: { listID, openPopupId },
   } = useMapContext();
+
+  const ref = useRef<L.Marker | null>(null);
 
   const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_ID);
   const isCompleted = isPeakCompleted(id, allLogEntries);
@@ -26,11 +29,21 @@ export const PeakMarker = ({ id, lat, long, name, elevation }: IPeak) => {
     iconSize: [25, 20],
   });
 
+  useEffect(() => {
+    if (openPopupId === id) {
+      ref.current?.openPopup();
+    }
+    if (openPopupId === null) {
+      ref.current?.closePopup();
+    }
+  }, [openPopupId]);
+
   return (
     <Marker
       key={id}
       position={[lat, long]}
       icon={icon}
+      ref={ref}
       eventHandlers={{
         mouseover: (e) => e.target.openPopup(),
         click: (e) => e.target.openPopup(),
