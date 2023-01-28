@@ -64,6 +64,10 @@
   color: var(--color-grey-light-1);
   margin-bottom: 0.6rem;
 
+  &:hover {
+    text-decoration: underline;
+  }
+
   @include respond(1000) {
     margin-bottom: 0;
   }

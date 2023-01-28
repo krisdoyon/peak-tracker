@@ -53,7 +53,15 @@ export const Sidebar = () => {
             ></use>
           </svg>
         </button>
-        <p className={styles.copyright}>&copy; 2022 Kris Doyon</p>
+        {/* <p className={styles.copyright}> */}
+        <a
+          href="https://krisdoyon.com"
+          className={styles.copyright}
+          target="_blank"
+        >
+          &copy; 2022 Kris Doyon
+        </a>
+        {/* </p> */}
       </div>
     </div>
   );
