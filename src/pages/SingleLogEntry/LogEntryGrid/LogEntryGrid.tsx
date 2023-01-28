@@ -2,12 +2,13 @@ import styles from "./LogEntryGrid.module.scss";
 import { ILogEntry } from "models/interfaces";
 import { ViewButton } from "components/Buttons";
 import { Fragment } from "react";
-import { getPeakById } from "utils/peakUtils";
+import { getPeakById, getPeaksById } from "utils/peakUtils";
 import { useGetListsQuery } from "features/apiSlice";
 import { peakListsArr } from "assets/data/createPeakLists";
 import { getLogLists } from "utils/peakUtils";
 import { MapActionType, useMapContext } from "context/mapContext";
 import { usePeakList } from "hooks/usePeakList";
+import sprite from "assets/img/sprite.svg";
 
 interface Props {
   listID: string;
@@ -37,10 +38,12 @@ const ListMatchRow = ({ listID }: Props) => {
   );
 };
 
-export const LogEntryGrid = ({ peakIds, stats, notes, logID }: ILogEntry) => {
+export const LogEntryGrid = ({ peakIds, stats, notes, rating }: ILogEntry) => {
   const { data: allPeakLists = [] } = useGetListsQuery();
-  const listMatchIds = getLogLists(peakIds, allPeakLists);
   const { dispatch: mapDispatch } = useMapContext();
+  
+  const listMatchIds = getLogLists(peakIds, allPeakLists);
+  const logPeaks = getPeaksById(peakIds, allPeakLists);
 
   return (
     <div className={styles.grid}>
@@ -70,7 +73,7 @@ export const LogEntryGrid = ({ peakIds, stats, notes, logID }: ILogEntry) => {
         <ViewButton
           small={true}
           onClick={() =>
-            mapDispatch({ type: MapActionType.SET_PEAKS, payload: [] })
+            mapDispatch({ type: MapActionType.SET_PEAKS, payload: logPeaks })
           }
         />
       </div>
@@ -91,7 +94,24 @@ export const LogEntryGrid = ({ peakIds, stats, notes, logID }: ILogEntry) => {
           : "n/a"}
       </span>
       <span className={styles.label}>Rating:</span>
-      <span>RATING MARKUP</span>
+      <span>
+        {Array.from({ length: 5 }, (_, i) => {
+          const isFilled = rating >= i + 1;
+          return (
+            <svg
+              className={`${styles["star-icon"]} ${
+                isFilled ? styles.full : ""
+              }`}
+            >
+              <use
+                href={`${sprite}${
+                  isFilled ? "#icon-star-solid" : "#icon-star"
+                }`}
+              ></use>
+            </svg>
+          );
+        })}
+      </span>
       <span className={styles.label}>Notes:</span>
       <span>{notes ? notes : "n/a"}</span>
     </div>

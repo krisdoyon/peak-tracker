@@ -29,3 +29,13 @@
   align-items: center;
   gap: 0.6rem;
 }
+
+.star-icon {
+  height: 2.4rem;
+  width: 2.4rem;
+  pointer-events: none;
+}
+
+.full {
+  fill: #ffd61e;
+}
