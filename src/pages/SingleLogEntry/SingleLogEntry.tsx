@@ -26,11 +26,11 @@ export const SingleLogEntry = () => {
   const { data: entry, isLoading, error } = useLogEntry(logId, USER_Id);
 
   useEffect(() => {
-    if (entry) {
+    if (entry && allPeakLists) {
       const logPeaks = getPeaksById(entry.peakIds, allPeakLists);
       dispatch(plotLogEntry(logPeaks));
     }
-  }, [entry]);
+  }, [entry, allPeakLists]);
 
   const handleRemove = () => {
     if (confirm("Are you sure you want to delete this entry?")) {
