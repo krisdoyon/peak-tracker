@@ -1,20 +1,20 @@
 import { useGetListsQuery, useGetLogEntriesQuery } from "features/apiSlice";
 import { useListCounts } from "./useListCounts";
 
-const USER_ID = "abc123";
+const USER_Id = "abc123";
 
 export const useFilterSelectOptions = () => {
-  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_ID);
+  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_Id);
   const { data: allPeakLists = [] } = useGetListsQuery();
-  const { listCounts } = useListCounts(USER_ID);
-  const lists: { listID: string; title: string }[] = [];
+  const listCounts = useListCounts();
+  const lists: { listId: string; title: string }[] = [];
   const years: string[] = [];
   const months: { alpha: string; numeric: string }[] = [];
-  for (const listID in listCounts) {
-    if (listCounts[listID] !== 0) {
-      const peakList = allPeakLists.find((list) => list.listID === listID);
+  for (const listId in listCounts) {
+    if (listCounts[listId] !== 0) {
+      const peakList = allPeakLists.find((list) => list.listId === listId);
       const title = peakList?.title;
-      title != undefined && lists.push({ listID, title });
+      title != undefined && lists.push({ listId, title });
     }
   }
   for (const entry of allLogEntries) {

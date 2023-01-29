@@ -1,19 +1,19 @@
-import { useFilterContext } from "context/filterContext";
 import { useGetListsQuery, useGetLogEntriesQuery } from "features/apiSlice";
 import { getLogLists } from "utils/peakUtils";
+import { useAppSelector } from "./reduxHooks";
 
-const USER_ID = "abc123";
+const USER_Id = "abc123";
 
 export const useFilteredLogEntries = () => {
-  const { filters } = useFilterContext();
-  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_ID);
+  const filters = useAppSelector((state) => state.filters);
+  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_Id);
   const { data: allPeakLists = [] } = useGetListsQuery();
 
   let filteredEntries = [...allLogEntries];
-  if (filters.listID !== "all") {
+  if (filters.listId !== "all") {
     filteredEntries = filteredEntries.filter((entry) => {
       const listIdMatchIds = getLogLists(entry.peakIds, allPeakLists);
-      return listIdMatchIds.some((listID) => listID === filters.listID);
+      return listIdMatchIds.some((listId) => listId === filters.listId);
     });
   }
   if (filters.month !== "all") {

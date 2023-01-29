@@ -3,19 +3,19 @@ import {
   useUpdateSavedListsMutation,
 } from "features/apiSlice";
 
-const USER_ID = "abc123";
+const USER_Id = "abc123";
 
-export const useSavedListToggle = (listID: string) => {
-  const { data: savedLists = [] } = useGetSavedListsQuery(USER_ID);
+export const useSavedListToggle = (listId: string) => {
+  const { data: savedLists = [] } = useGetSavedListsQuery(USER_Id);
   const [updateSavedLists] = useUpdateSavedListsMutation();
 
-  const isSaved = savedLists?.some((savedID) => savedID === listID);
+  const isSaved = savedLists?.some((savedId) => savedId === listId);
 
   const toggleSavedList = () => {
     const newSavedLists = isSaved
-      ? savedLists.filter((id) => id !== listID)
-      : [...savedLists, listID];
-    updateSavedLists({ userId: USER_ID, savedLists: newSavedLists });
+      ? savedLists.filter((id) => id !== listId)
+      : [...savedLists, listId];
+    updateSavedLists({ userId: USER_Id, savedLists: newSavedLists });
   };
 
   return { isSaved, toggleSavedList };

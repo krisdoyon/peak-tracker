@@ -1,13 +1,13 @@
 import { useGetListsQuery, useGetLogEntriesQuery } from "features/apiSlice";
 import { isPeakCompleted, getCompletedDate } from "utils/peakUtils";
 
-const USER_ID = "abc123";
+const USER_Id = "abc123";
 
-export const usePeak = (peakID: number) => {
+export const usePeak = (peakId: number) => {
   const { data: peak } = useGetListsQuery(undefined, {
     selectFromResult: ({ data, isLoading, isError }) => {
       const uniquePeaks = data?.flatMap((list) => list.peaks);
-      const peak = uniquePeaks?.find((peak) => peak.id === peakID);
+      const peak = uniquePeaks?.find((peak) => peak.id === peakId);
       return {
         data: peak,
         isLoading,
@@ -15,8 +15,8 @@ export const usePeak = (peakID: number) => {
       };
     },
   });
-  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_ID);
-  const isCompleted = isPeakCompleted(peakID, allLogEntries);
-  const completedDate = getCompletedDate(peakID, allLogEntries);
+  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_Id);
+  const isCompleted = isPeakCompleted(peakId, allLogEntries);
+  const completedDate = getCompletedDate(peakId, allLogEntries);
   return { peak, isCompleted, completedDate };
 };
