@@ -1,28 +1,20 @@
-import {
-  NewEntryActionType,
-  useNewEntryContext,
-} from "context/newEntryContext";
+import { toggleCheckedPeak, updateListId } from "features/newEntrySlice";
+import { useAppDispatch } from "hooks/reduxHooks";
 import { useNavigate } from "react-router-dom";
 import { TextButton } from "../TextButton/TextButton";
 
 interface Props {
-  listID: string;
-  peakID: number;
+  listId: string;
+  peakId: number;
 }
 
-export const LogTripButton = ({ listID, peakID }: Props) => {
-  const { dispatch } = useNewEntryContext();
+export const LogTripButton = ({ listId, peakId }: Props) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleLogTrip = () => {
-    dispatch({
-      type: NewEntryActionType.TOGGLE_CHECKED_PEAK,
-      payload: { checked: true, peakID },
-    });
-    dispatch({
-      type: NewEntryActionType.SET_LIST_ID,
-      payload: listID,
-    });
+    dispatch(toggleCheckedPeak({ peakId, checked: true }));
+    dispatch(updateListId(listId));
     navigate("/new-entry");
   };
 

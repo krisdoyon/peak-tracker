@@ -1,42 +1,20 @@
-import { ILogEntry, IPeakList } from "models/interfaces";
+import { ILogEntry, IPeak, IPeakList } from "models/interfaces";
 
-const getAllCompletedPeaks = (logEntries: ILogEntry[]) => {
-  return [...new Set(logEntries.flatMap((entry) => entry.peakIds))];
-};
-
-export const getAllUniquePeaks = (peakLists: IPeakList[]) => {
+export const getAllUniquePeaks = (peakLists: IPeakList[]): IPeak[] => {
   const allPeaks = peakLists.flatMap((list) => list.peaks);
   return [...new Set(allPeaks.map((peak) => JSON.stringify(peak)))].map(
     (string) => JSON.parse(string)
   );
 };
 
-const getMatchingListIds = (peakID: number, peakLists: IPeakList[]) => {
+export const getMatchingListIds = (peakId: number, peakLists: IPeakList[]) => {
   const listMatchIds: string[] = [];
   peakLists.forEach((peakList) => {
-    if (peakList.peaks.some((peak) => peak.id === peakID)) {
-      listMatchIds.push(peakList.listID);
+    if (peakList.peaks.some((peak) => peak.id === peakId)) {
+      listMatchIds.push(peakList.listId);
     }
   });
   return listMatchIds;
-};
-
-export const calculateListCounts = (
-  peakLists: IPeakList[] = [],
-  logEntries: ILogEntry[] = []
-) => {
-  const completedPeaks = getAllCompletedPeaks(logEntries);
-  const listCounts: { [listID: string]: number } = {};
-  peakLists.forEach((peakList) => {
-    listCounts[peakList.listID] = 0;
-  });
-  completedPeaks.forEach((peakID) => {
-    const listMatchIds = getMatchingListIds(peakID, peakLists);
-    listMatchIds.forEach((listID) => {
-      listCounts[listID]++;
-    });
-  });
-  return listCounts;
 };
 
 export const getLogLists = (peakIds: number[], peakLists: IPeakList[]) => {
@@ -53,13 +31,13 @@ export const getPeakById = (peakId: number, peakLists: IPeakList[]) => {
 };
 
 export const isPeakCompleted = (
-  peakID: number,
+  peakId: number,
   logEntries: ILogEntry[] = []
 ) => {
   const allCompletedPeaks = [
     ...new Set(logEntries.flatMap((entry) => entry.peakIds)),
   ];
-  return allCompletedPeaks.includes(peakID);
+  return allCompletedPeaks.includes(peakId);
 };
 
 export const getCompletedDate = (peakId: number, logEntries: ILogEntry[]) => {
@@ -96,11 +74,11 @@ export const getPeakNames = (
 };
 
 export const setLogEntryId = (logEntries: ILogEntry[]) => {
-  const logID =
+  const logId =
     logEntries.length > 0
-      ? Math.max(...logEntries.map((entry) => +entry.logID)) + 1
+      ? Math.max(...logEntries.map((entry) => +entry.logId)) + 1
       : 1;
-  return logID.toString();
+  return logId.toString();
 };
 
 interface GetLogStatsProps {
@@ -134,6 +112,6 @@ export const getLogStats = ({
 export const getPeaksById = (peakIds: number[], peakLists: IPeakList[]) => {
   const allPeaks = getAllUniquePeaks(peakLists);
   return peakIds
-    .map((peakID) => allPeaks.find((peak) => peak.id === peakID))
-    .filter((item) => item !== undefined);
+    .map((peakId) => allPeaks.find((peak) => peak.id === peakId))
+    .filter((item): item is IPeak => !!item);
 };
