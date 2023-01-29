@@ -1,12 +1,13 @@
 import styles from "./Sidebar.module.scss";
-
 import { NavLink } from "react-router-dom";
 import sprite from "assets/img/sprite.svg";
 import { navLinks } from "./navLinks";
-import { useSidebarContext } from "context/sidebarContext";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { toggleSidebar } from "features/sidebarSlice";
 
 export const Sidebar = () => {
-  const { sidebarOpen, setSidebarOpen } = useSidebarContext();
+  const { sidebarOpen } = useAppSelector((state) => state.sidebar);
+  const dispatch = useAppDispatch();
 
   return (
     <div className={`${styles.sidebar} ${sidebarOpen ? "" : styles.hidden}`}>
@@ -45,7 +46,7 @@ export const Sidebar = () => {
         <button
           className={styles["sidebar-btn"]}
           aria-label="toggle sidebar"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
+          onClick={() => dispatch(toggleSidebar())}
         >
           <svg className={styles.icon}>
             <use
@@ -53,7 +54,6 @@ export const Sidebar = () => {
             ></use>
           </svg>
         </button>
-        {/* <p className={styles.copyright}> */}
         <a
           href="https://krisdoyon.com"
           className={styles.copyright}
@@ -61,7 +61,6 @@ export const Sidebar = () => {
         >
           &copy; 2022 Kris Doyon
         </a>
-        {/* </p> */}
       </div>
     </div>
   );

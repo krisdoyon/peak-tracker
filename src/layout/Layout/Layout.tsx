@@ -6,12 +6,13 @@ import { LoadTestButton } from "./loadTestButton";
 import { useGetListsQuery } from "features/apiSlice";
 import { getAllUniquePeaks } from "utils/peakUtils";
 import { Button } from "components/Buttons";
-import { MapActionType, useMapContext } from "context/mapContext";
+import { useAppDispatch } from "hooks/reduxHooks";
+import { plotLogEntry } from "features/mapSlice";
 
 export const PlotAllButton = () => {
   const { data: allPeakLists = [] } = useGetListsQuery();
   const allPeaks = getAllUniquePeaks(allPeakLists);
-  const { dispatch } = useMapContext();
+  const dispatch = useAppDispatch();
 
   return (
     <Button
@@ -21,9 +22,7 @@ export const PlotAllButton = () => {
         padding: "1rem 2rem",
         top: "20rem",
       }}
-      onClick={() =>
-        dispatch({ type: MapActionType.SET_PEAKS, payload: allPeaks })
-      }
+      onClick={() => dispatch(plotLogEntry(allPeaks))}
     >
       PLOT ALL
     </Button>

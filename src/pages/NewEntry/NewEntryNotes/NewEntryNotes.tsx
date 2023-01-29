@@ -1,16 +1,12 @@
 import styles from "./NewEntryNotes.module.scss";
 import formStyles from "../NewEntry.module.scss";
 import sprite from "assets/img/sprite.svg";
-import {
-  NewEntryActionType,
-  useNewEntryContext,
-} from "context/newEntryContext";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { updateNotes } from "features/newEntrySlice";
 
 export const NewEntryNotes = () => {
-  const {
-    state: { notes },
-    dispatch,
-  } = useNewEntryContext();
+  const dispatch = useAppDispatch();
+  const { notes } = useAppSelector((state) => state.newEntry);
 
   return (
     <div className={formStyles.row}>
@@ -28,12 +24,7 @@ export const NewEntryNotes = () => {
         name="notes"
         className={styles.notes}
         placeholder="Record details about the weather, wildlife, trail conditions or anything else!"
-        onChange={(e) =>
-          dispatch({
-            type: NewEntryActionType.SET_NOTES,
-            payload: e.target.value,
-          })
-        }
+        onChange={(e) => dispatch(updateNotes(e.target.value))}
         value={notes}
       ></textarea>
     </div>

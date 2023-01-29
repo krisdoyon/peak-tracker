@@ -4,10 +4,10 @@ import { PeakListTableRow } from "./PeakListTableRow";
 
 interface Props {
   peaks: IPeak[];
-  listID: string;
+  listId: string;
 }
 
-export const PeakListTable = ({ listID, peaks }: Props) => {
+export const PeakListTable = ({ listId, peaks }: Props) => {
   return (
     <table className={styles.table}>
       <thead>
@@ -25,8 +25,8 @@ export const PeakListTable = ({ listID, peaks }: Props) => {
             <PeakListTableRow
               key={peak.id}
               num={i}
-              listID={listID}
-              peakID={peak.id}
+              listId={listId}
+              peakId={peak.id}
             />
           );
         })}

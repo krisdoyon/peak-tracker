@@ -2,42 +2,29 @@ import styles from "./NewEntryPeaks.module.scss";
 import formStyles from "../NewEntry.module.scss";
 import sprite from "assets/img/sprite.svg";
 import { useEffect } from "react";
-import {
-  NewEntryActionType,
-  useNewEntryContext,
-} from "context/newEntryContext";
 import { sortPeaks, SortType } from "utils/sortPeaks";
-import { MapActionType, useMapContext } from "context/mapContext";
 import { usePeakList } from "hooks/usePeakList";
 import { useGetListsQuery } from "features/apiSlice";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { closePopup, openPopup, plotList } from "features/mapSlice";
+import { toggleCheckedPeak, updateListId } from "features/newEntrySlice";
 
 export const NewEntryPeaks = () => {
-  const {
-    state: { listID, checkedPeaks },
-    dispatch,
-  } = useNewEntryContext();
-  const { dispatch: mapDispatch } = useMapContext();
-
+  const dispatch = useAppDispatch();
+  const { listId, checkedPeaks } = useAppSelector((state) => state.newEntry);
   const { data: allPeakLists = [] } = useGetListsQuery();
-  const { data: peakList } = usePeakList(listID);
+  const { data: peakList } = usePeakList(listId);
 
   const sortedPeaks = sortPeaks(peakList?.peaks, SortType.NAME);
 
   useEffect(() => {
-    if (listID && peakList) {
-      mapDispatch({ type: MapActionType.SET_LIST_ID, payload: listID });
-      mapDispatch({
-        type: MapActionType.SET_PEAKS,
-        payload: peakList.peaks,
-      });
+    if (listId && peakList) {
+      dispatch(plotList({ listId, peaks: peakList.peaks }));
     }
-  }, [listID, peakList]);
+  }, [listId, peakList]);
 
   const handleListChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch({
-      type: NewEntryActionType.SET_LIST_ID,
-      payload: e.target.value,
-    });
+    dispatch(updateListId(e.target.value));
   };
 
   return (
@@ -59,14 +46,14 @@ export const NewEntryPeaks = () => {
         <select
           id="choose-list-new-entry"
           onChange={handleListChange}
-          value={listID}
+          value={listId}
         >
           <option value="" disabled>
             Choose a list
           </option>
           {allPeakLists.map((list) => {
             return (
-              <option key={list.listID} value={list.listID}>
+              <option key={list.listId} value={list.listId}>
                 {list.title}
               </option>
             );
@@ -77,19 +64,12 @@ export const NewEntryPeaks = () => {
       {sortedPeaks.length > 0 && (
         <ul className={styles["checkbox-grid"]}>
           {sortedPeaks.map((peak) => {
-            const isChecked = checkedPeaks.some((peakID) => peakID === peak.id);
+            const isChecked = checkedPeaks.some((peakId) => peakId === peak.id);
             return (
               <li
                 key={peak.id}
-                onMouseOver={() =>
-                  mapDispatch({
-                    type: MapActionType.OPEN_POPUP,
-                    payload: peak.id,
-                  })
-                }
-                onMouseOut={() =>
-                  mapDispatch({ type: MapActionType.CLOSE_POPUP })
-                }
+                onMouseEnter={() => dispatch(openPopup(peak.id))}
+                onMouseLeave={() => dispatch(closePopup())}
               >
                 <label className={styles["checkbox-container"]}>
                   {peak.name}
@@ -97,10 +77,12 @@ export const NewEntryPeaks = () => {
                     type="checkbox"
                     value={peak.id}
                     onChange={(e) =>
-                      dispatch({
-                        type: NewEntryActionType.TOGGLE_CHECKED_PEAK,
-                        payload: { checked: e.target.checked, peakID: peak.id },
-                      })
+                      dispatch(
+                        toggleCheckedPeak({
+                          peakId: peak.id,
+                          checked: e.target.checked,
+                        })
+                      )
                     }
                     checked={isChecked}
                   />

@@ -2,37 +2,34 @@ import styles from "./NewEntryDate.module.scss";
 import formStyles from "../NewEntry.module.scss";
 import { Button } from "components/Buttons";
 import sprite from "assets/img/sprite.svg";
-import {
-  NewEntryActionType,
-  useNewEntryContext,
-} from "context/newEntryContext";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { updateDate } from "features/newEntrySlice";
 
 export const NewEntryDate = () => {
-  const {
-    state: { date },
-    dispatch,
-  } = useNewEntryContext();
+  const { date } = useAppSelector((state) => state.newEntry);
+  const dispatch = useAppDispatch();
   const dateOptions = {
     day: "numeric",
     month: "numeric",
     year: "numeric",
   } as const;
+
   const setDate = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const day = (e.target as HTMLElement).textContent?.toLowerCase();
-
     const now = new Date().getTime();
     if (day === "today") {
       const date = new Intl.DateTimeFormat("en-CA", dateOptions).format(now);
-      dispatch({ type: NewEntryActionType.SET_DATE, payload: date });
+      dispatch(updateDate(date));
     }
     if (day === "yesterday") {
       const date = new Intl.DateTimeFormat("en-CA", dateOptions).format(
         now - 86400000
       );
-      dispatch({ type: NewEntryActionType.SET_DATE, payload: date });
+      dispatch(updateDate(date));
     }
   };
+
   return (
     <div className={formStyles.row}>
       <div className={formStyles["heading-wrapper"]}>
@@ -49,16 +46,8 @@ export const NewEntryDate = () => {
           id="date"
           name="date"
           type="date"
-          // dateFormat="dd-MM-yyyy"
           onChange={(e) => {
-            // const date = new Intl.DateTimeFormat("en-CA", dateOptions).format(
-            //   new Date(`${e.target.value}T00:00`)
-            // );
-            console.log(e.target.value);
-            dispatch({
-              type: NewEntryActionType.SET_DATE,
-              payload: e.target.value,
-            });
+            dispatch(updateDate(e.target.value));
           }}
           value={date}
           required

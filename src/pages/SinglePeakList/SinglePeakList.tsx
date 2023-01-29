@@ -7,50 +7,43 @@ import { IconButton } from "components/Buttons";
 import { PeakListTable } from "./PeakListTable/PeakListTable";
 import { useEffect, useState } from "react";
 import { sortPeaks, SortType } from "utils/sortPeaks";
-import { MapActionType, useMapContext } from "context/mapContext";
 import { useListCounts } from "hooks/useListCounts";
 import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
-import { useGetListsQuery, useGetSavedListsQuery } from "features/apiSlice";
+import { useGetSavedListsQuery } from "features/apiSlice";
 import { useSavedListToggle } from "hooks/useSavedListToggle";
+import { usePeakList } from "hooks/usePeakList";
+import { plotList } from "features/mapSlice";
+import { useAppDispatch } from "hooks/reduxHooks";
 
-const USER_ID = "abc123";
+const USER_Id = "abc123";
 
 export const SinglePeakList = () => {
   const [sort, setSort] = useState<SortType>(SortType.ELEVATION);
-  const { listID } = useParams() as { listID: string };
-  const { dispatch } = useMapContext();
+  const { listId } = useParams() as { listId: string };
+  const dispatch = useAppDispatch();
 
   const {
     data: savedLists,
     isLoading: isListsLoading,
     error: listsError,
-  } = useGetSavedListsQuery(USER_ID);
+  } = useGetSavedListsQuery(USER_Id);
+
   const {
     data: peakList,
     isLoading: isPeaksLoading,
     error: peaksError,
-  } = useGetListsQuery(undefined, {
-    selectFromResult: ({ data, isLoading, error }) => ({
-      data: data?.find((list) => list.listID === listID),
-      isLoading,
-      error,
-    }),
-  });
+  } = usePeakList(listId);
 
-  const { isSaved, toggleSavedList } = useSavedListToggle(listID);
+  const { isSaved, toggleSavedList } = useSavedListToggle(listId);
 
-  const { listCounts } = useListCounts(USER_ID);
+  const listCounts = useListCounts();
 
   const displayPeaks = sortPeaks(peakList?.peaks, sort);
-  const numCompleted = listCounts[listID] || 0;
+  const numCompleted = listCounts[listId] || 0;
 
   useEffect(() => {
     if (peakList) {
-      dispatch({ type: MapActionType.SET_LIST_ID, payload: listID });
-      dispatch({
-        type: MapActionType.SET_PEAKS,
-        payload: peakList.peaks,
-      });
+      dispatch(plotList({ peaks: peakList.peaks, listId }));
     }
   }, [peakList]);
 
@@ -113,7 +106,7 @@ export const SinglePeakList = () => {
         </CardHeadingGrid>
         <CardBody>
           <p className={styles.description}>{peakList.description}</p>
-          <PeakListTable peaks={displayPeaks} listID={listID} />
+          <PeakListTable peaks={displayPeaks} listId={listId} />
         </CardBody>
       </Card>
     );

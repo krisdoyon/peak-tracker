@@ -2,16 +2,13 @@ import styles from "./NewEntryStats.module.scss";
 import formStyles from "../NewEntry.module.scss";
 import { IconButton } from "components/Buttons";
 import sprite from "assets/img/sprite.svg";
-import {
-  NewEntryActionType,
-  useNewEntryContext,
-} from "context/newEntryContext";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { toggleStatOpen, updateStat } from "features/newEntrySlice";
 
 export const NewEntryStats = () => {
-  const {
-    state: { elevation, distance, hours, minutes, isStatOpen },
-    dispatch,
-  } = useNewEntryContext();
+  const { isStatOpen, stats } = useAppSelector((state) => state.newEntry);
+
+  const dispatch = useAppDispatch();
 
   return (
     <div className={formStyles.row}>
@@ -31,10 +28,7 @@ export const NewEntryStats = () => {
           aria-label="Toggle elevation input"
           onClick={(e) => {
             e.preventDefault();
-            dispatch({
-              type: NewEntryActionType.TOGGLE_STAT_OPEN,
-              payload: "elevation",
-            });
+            dispatch(toggleStatOpen("elevation"));
           }}
         ></IconButton>
         {isStatOpen.elevation && (
@@ -45,13 +39,15 @@ export const NewEntryStats = () => {
               min="0"
               max="99999"
               type="number"
-              onChange={(e) => {
-                dispatch({
-                  type: NewEntryActionType.SET_STAT,
-                  payload: { stat: "elevation", value: +e.target.value },
-                });
-              }}
-              value={elevation}
+              onChange={(e) =>
+                dispatch(
+                  updateStat({
+                    stat: "elevation",
+                    value: e.target.valueAsNumber,
+                  })
+                )
+              }
+              value={stats.elevation}
             />
             <span>ft</span>
           </div>
@@ -65,10 +61,7 @@ export const NewEntryStats = () => {
           aria-label="Toggle distance input"
           onClick={(e) => {
             e.preventDefault();
-            dispatch({
-              type: NewEntryActionType.TOGGLE_STAT_OPEN,
-              payload: "distance",
-            });
+            dispatch(toggleStatOpen("distance"));
           }}
         ></IconButton>
         {isStatOpen.distance && (
@@ -80,13 +73,15 @@ export const NewEntryStats = () => {
               max="9999"
               type="number"
               step="0.01"
-              onChange={(e) => {
-                dispatch({
-                  type: NewEntryActionType.SET_STAT,
-                  payload: { stat: "distance", value: +e.target.value },
-                });
-              }}
-              value={distance}
+              onChange={(e) =>
+                dispatch(
+                  updateStat({
+                    stat: "distance",
+                    value: e.target.valueAsNumber,
+                  })
+                )
+              }
+              value={stats.distance}
             />
             <span>mi</span>
           </div>
@@ -98,10 +93,7 @@ export const NewEntryStats = () => {
           aria-label="Toggle time input"
           onClick={(e) => {
             e.preventDefault();
-            dispatch({
-              type: NewEntryActionType.TOGGLE_STAT_OPEN,
-              payload: "time",
-            });
+            dispatch(toggleStatOpen("time"));
           }}
         ></IconButton>
         {isStatOpen.time && (
@@ -112,13 +104,15 @@ export const NewEntryStats = () => {
               min="0"
               max="99"
               type="number"
-              onChange={(e) => {
-                dispatch({
-                  type: NewEntryActionType.SET_STAT,
-                  payload: { stat: "hours", value: +e.target.value },
-                });
-              }}
-              value={hours}
+              onChange={(e) =>
+                dispatch(
+                  updateStat({
+                    stat: "hours",
+                    value: e.target.valueAsNumber,
+                  })
+                )
+              }
+              value={stats.hours}
             />
             <span>hrs</span>
             <input
@@ -127,13 +121,15 @@ export const NewEntryStats = () => {
               min="0"
               max="59"
               type="number"
-              onChange={(e) => {
-                dispatch({
-                  type: NewEntryActionType.SET_STAT,
-                  payload: { stat: "minutes", value: +e.target.value },
-                });
-              }}
-              value={minutes}
+              onChange={(e) =>
+                dispatch(
+                  updateStat({
+                    stat: "minutes",
+                    value: e.target.valueAsNumber,
+                  })
+                )
+              }
+              value={stats.minutes}
             />
             <span>min</span>
           </div>

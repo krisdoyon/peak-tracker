@@ -1,17 +1,17 @@
 import { AddButton, TextButton } from "components/Buttons";
-import {
-  NewEntryActionType,
-  useNewEntryContext,
-} from "context/newEntryContext";
+import { clearMap } from "features/mapSlice";
+import { resetForm } from "features/newEntrySlice";
+import { useAppDispatch } from "hooks/reduxHooks";
 import styles from "./NewEntryFooter.module.scss";
 
 export const NewEntryFooter = () => {
-  const { state, dispatch } = useNewEntryContext();
+  const dispatch = useAppDispatch();
   return (
     <div className={styles.footer}>
       <TextButton
         onClick={() => {
-          dispatch({ type: NewEntryActionType.RESET_FORM });
+          dispatch(resetForm());
+          dispatch(clearMap());
         }}
       >
         Clear form

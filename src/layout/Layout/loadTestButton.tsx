@@ -2,7 +2,7 @@ import { Button } from "components/Buttons";
 import { useSetTestLogEntriesMutation } from "features/apiSlice";
 import { useNavigate } from "react-router-dom";
 
-const USER_ID = "abc123";
+const USER_Id = "abc123";
 
 export const LoadTestButton = () => {
   const [setTestLogEntries] = useSetTestLogEntriesMutation();
@@ -12,7 +12,7 @@ export const LoadTestButton = () => {
     if (
       confirm("This action will overwrite all existing log entries. Continue?")
     ) {
-      setTestLogEntries(USER_ID);
+      setTestLogEntries(USER_Id);
       navigate("/log");
     }
   };

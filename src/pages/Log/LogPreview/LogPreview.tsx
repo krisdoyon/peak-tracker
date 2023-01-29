@@ -7,9 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { getPeakNames } from "utils/peakUtils";
 import { useGetListsQuery, useRemoveLogEntryMutation } from "features/apiSlice";
 
-const USER_ID = "abc123";
+const USER_Id = "abc123";
 
-export const LogPreview = ({ peakIds, logID, date }: ILogEntry) => {
+export const LogPreview = ({ peakIds, logId, date }: ILogEntry) => {
   const { data: allPeakLists } = useGetListsQuery();
   const peakNamesArr = getPeakNames(peakIds, allPeakLists);
   const peakString =
@@ -22,7 +22,7 @@ export const LogPreview = ({ peakIds, logID, date }: ILogEntry) => {
 
   const handleRemove = () => {
     if (confirm("Are you sure you want to delete this entry?")) {
-      removeLogEntry({ userId: USER_ID, logId: logID });
+      removeLogEntry({ userId: USER_Id, logId: logId });
     }
   };
 
@@ -36,7 +36,7 @@ export const LogPreview = ({ peakIds, logID, date }: ILogEntry) => {
         </h3>
         <span>{peakString}</span>
       </div>
-      <ViewButton onClick={() => navigate(`/log/${logID.toString()}`)} />
+      <ViewButton onClick={() => navigate(`/log/${logId.toString()}`)} />
     </PreviewListItem>
   );
 };

@@ -1,16 +1,12 @@
 import styles from "./NewEntryRating.module.scss";
 import formStyles from "../NewEntry.module.scss";
 import sprite from "assets/img/sprite.svg";
-import {
-  NewEntryActionType,
-  useNewEntryContext,
-} from "context/newEntryContext";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { updateFilledStar, updateRating } from "features/newEntrySlice";
 
 export const NewEntryRating = () => {
-  const {
-    state: { rating, filledStar },
-    dispatch,
-  } = useNewEntryContext();
+  const { rating, filledStar } = useAppSelector((state) => state.newEntry);
+  const dispatch = useAppDispatch();
 
   return (
     <div className={`${formStyles.row} ${styles["row-rating"]}`}>
@@ -30,23 +26,14 @@ export const NewEntryRating = () => {
                 filledStar >= i + 1 ? styles.full : ""
               }`}
               onMouseOver={() => {
-                dispatch({
-                  type: NewEntryActionType.SET_FILLED_STAR,
-                  payload: i + 1,
-                });
+                dispatch(updateFilledStar(i + 1));
               }}
               onMouseOut={() => {
-                dispatch({
-                  type: NewEntryActionType.SET_FILLED_STAR,
-                  payload: rating,
-                });
+                dispatch(updateFilledStar(rating));
               }}
               onClick={(e) => {
                 e.preventDefault();
-                dispatch({
-                  type: NewEntryActionType.SET_RATING,
-                  payload: i + 1,
-                });
+                dispatch(updateRating(i + 1));
               }}
             >
               <svg className={styles["star-icon"]}>

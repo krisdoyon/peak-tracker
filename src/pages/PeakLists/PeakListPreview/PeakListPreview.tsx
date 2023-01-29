@@ -9,17 +9,17 @@ interface Props {
   title: string;
   numCompleted: number;
   peakCount: number;
-  listID: string;
+  listId: string;
 }
 
 export const PeakListPreview = ({
   title,
   numCompleted,
   peakCount,
-  listID,
+  listId,
 }: Props) => {
   const navigate = useNavigate();
-  const { isSaved, toggleSavedList } = useSavedListToggle(listID);
+  const { isSaved, toggleSavedList } = useSavedListToggle(listId);
 
   return (
     <PreviewListItem>
@@ -34,7 +34,7 @@ export const PeakListPreview = ({
         <span>{`${numCompleted} of ${peakCount} peaks`}</span>
         <ProgressBar numCompleted={numCompleted} peakCount={peakCount} />
       </div>
-      <ViewButton onClick={() => navigate(`/peak-lists/${listID}`)} />
+      <ViewButton onClick={() => navigate(`/peak-lists/${listId}`)} />
     </PreviewListItem>
   );
 };

@@ -10,14 +10,14 @@ import { useFiltersReset } from "hooks/useFiltersReset";
 import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
 import { useGetLogEntriesQuery } from "features/apiSlice";
 
-const USER_ID = "abc123";
+const USER_Id = "abc123";
 
 export const Log = () => {
   const {
     data: allLogEntries,
     isLoading,
     isError,
-  } = useGetLogEntriesQuery(USER_ID);
+  } = useGetLogEntriesQuery(USER_Id);
 
   const filteredEntries = useFilteredLogEntries();
 
@@ -78,7 +78,7 @@ export const Log = () => {
         {displayArr.length > 0 && (
           <PreviewList>
             {displayArr.map((entry) => {
-              return <LogPreview key={entry.logID} {...entry} />;
+              return <LogPreview key={entry.logId} {...entry} />;
             })}
           </PreviewList>
         )}

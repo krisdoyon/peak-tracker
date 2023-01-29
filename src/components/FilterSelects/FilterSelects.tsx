@@ -1,24 +1,16 @@
 import styles from "./FilterSelects.module.scss";
 import { useFilterSelectOptions } from "hooks/useFilterSelectOptions";
-import { useFilterContext } from "context/filterContext";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { updateFilters } from "features/filtersSlice";
 
 interface Props {
   card: "stats" | "log";
 }
 
-export enum FilterType {
-  LIST_ID = "listID",
-  MONTH = "month",
-  YEAR = "year",
-}
-
 export const FilterSelects = ({ card }: Props) => {
   const { lists, months, years } = useFilterSelectOptions();
-  const { filters, setFilters } = useFilterContext();
-
-  const updateFilters = (filter: string, value: string) => {
-    setFilters((prevFilters) => ({ ...prevFilters, [filter]: value }));
-  };
+  const filters = useAppSelector((state) => state.filters);
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -26,15 +18,15 @@ export const FilterSelects = ({ card }: Props) => {
       <select
         className={styles["select-list"]}
         id={`select-list-${card}`}
-        onChange={(e) => {
-          updateFilters(FilterType.LIST_ID, e.target.value);
-        }}
-        value={filters.listID}
+        onChange={(e) =>
+          dispatch(updateFilters({ filter: "listId", value: e.target.value }))
+        }
+        value={filters.listId}
       >
         <option value="all">All lists</option>
         {lists.map((list) => {
           return (
-            <option key={list.listID} value={list.listID}>
+            <option key={list.listId} value={list.listId}>
               {list.title}
             </option>
           );
@@ -44,7 +36,7 @@ export const FilterSelects = ({ card }: Props) => {
       <select
         id={`select-month-${card}`}
         onChange={(e) => {
-          updateFilters(FilterType.MONTH, e.target.value);
+          dispatch(updateFilters({ filter: "month", value: e.target.value }));
         }}
         value={filters.month}
       >
@@ -60,7 +52,7 @@ export const FilterSelects = ({ card }: Props) => {
       <select
         id={`select-year-${card}`}
         onChange={(e) => {
-          updateFilters(FilterType.YEAR, e.target.value);
+          dispatch(updateFilters({ filter: "year", value: e.target.value }));
         }}
         value={filters.year}
       >

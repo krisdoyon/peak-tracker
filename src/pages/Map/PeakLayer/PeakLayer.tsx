@@ -1,17 +1,14 @@
-import { useMapContext } from "context/mapContext";
 import { useEffect, useRef } from "react";
 import { FeatureGroup, useMap } from "react-leaflet";
 import L from "leaflet";
 import { useGetListsQuery } from "features/apiSlice";
 import { PeakMarker } from "./PeakMarker";
+import { useAppSelector } from "hooks/reduxHooks";
 
 export const PeakLayer = () => {
-  const {
-    state: { peaks },
-  } = useMapContext();
-
+  const peaks = useAppSelector((state) => state.map.peaks);
+  const openPopupId = useAppSelector((state) => state.map.openPopupId);
   const map = useMap();
-
   const { isLoading } = useGetListsQuery();
 
   useEffect(() => {
@@ -33,7 +30,10 @@ export const PeakLayer = () => {
       {peaks.length > 0 &&
         !isLoading &&
         peaks.map((peak) => {
-          return <PeakMarker key={peak.id} {...peak} />;
+          const isPopupOpen = peak.id === openPopupId;
+          return (
+            <PeakMarker key={peak.id} {...peak} isPopupOpen={isPopupOpen} />
+          );
         })}
     </FeatureGroup>
   );

@@ -21,7 +21,7 @@ const noDataMessage = (
   </p>
 );
 
-const USER_ID = "abc123";
+const USER_Id = "abc123";
 
 export const PeakLists = () => {
   const [previewType, setPreviewType] = useState<"all" | "saved">("all");
@@ -36,13 +36,13 @@ export const PeakLists = () => {
     data: allLogEntries = [],
     isLoading: isLogLoading,
     isError: isLogError,
-  } = useGetLogEntriesQuery(USER_ID);
+  } = useGetLogEntriesQuery(USER_Id);
 
   const {
     data: savedLists = [],
     isLoading: isSavedListsLoading,
     isError: isSavedListsError,
-  } = useGetSavedListsQuery(USER_ID);
+  } = useGetSavedListsQuery(USER_Id);
 
   const isLoading = isListsLoading || isLogLoading || isSavedListsLoading;
   const isError = isListsError || isLogError || isSavedListsError;
@@ -50,9 +50,9 @@ export const PeakLists = () => {
   const displayLists =
     previewType === "all"
       ? allPeakLists
-      : allPeakLists.filter((list) => savedLists.includes(list.listID));
+      : allPeakLists.filter((list) => savedLists.includes(list.listId));
 
-  const { listCounts } = useListCounts(USER_ID);
+  const listCounts = useListCounts();
 
   const { page, maxPage, displayArr, nextPage, prevPage, setPage } =
     usePagination(displayLists, 6);
@@ -114,14 +114,14 @@ export const PeakLists = () => {
         {displayArr.length > 0 && (
           <PreviewList>
             {displayArr.map((peakList) => {
-              const { title, listID } = peakList;
-              const numCompleted = listCounts[listID] || 0;
+              const { title, listId } = peakList;
+              const numCompleted = listCounts[listId] || 0;
               return (
                 <PeakListPreview
-                  key={listID}
+                  key={listId}
                   title={title}
                   peakCount={peakList.peaks.length}
-                  listID={listID}
+                  listId={listId}
                   numCompleted={numCompleted}
                 />
               );
