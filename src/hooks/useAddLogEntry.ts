@@ -1,34 +1,29 @@
 import {
-  NewEntryActionType,
-  useNewEntryContext,
-} from "context/newEntryContext";
-import {
   useAddLogEntryMutation,
   useGetLogEntriesQuery,
 } from "features/apiSlice";
+import { resetForm } from "features/newEntrySlice";
 import { ILogEntry } from "models/interfaces";
 import { useNavigate } from "react-router-dom";
 import { getLogStats, setLogEntryId } from "utils/peakUtils";
+import { useAppDispatch, useAppSelector } from "./reduxHooks";
 
-const USER_ID = "abc123";
+const USER_Id = "abc123";
 
 export const useAddLogEntry = () => {
   const navigate = useNavigate();
-  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_ID);
+  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_Id);
   const [addLogEntry] = useAddLogEntryMutation();
+
   const {
-    state: {
-      distance,
-      elevation,
-      hours,
-      minutes,
-      checkedPeaks,
-      rating,
-      notes,
-      date,
-    },
-    dispatch: newEntryDispatch,
-  } = useNewEntryContext();
+    date,
+    checkedPeaks,
+    stats: { elevation, distance, hours, minutes },
+    rating,
+    notes,
+  } = useAppSelector((state) => state.newEntry);
+
+  const dispatch = useAppDispatch();
 
   const handleAdd = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,36 +42,23 @@ export const useAddLogEntry = () => {
       alert("Please choose at least one peak from a list");
       return;
     }
-    const logID = setLogEntryId(allLogEntries);
-    const { time, avgElevation, avgSpeed } = getLogStats({
-      distance,
-      elevation,
-      hours,
-      minutes,
-    });
+    const logId = setLogEntryId(allLogEntries);
     const newEntry: ILogEntry = {
-      logID,
+      logId,
       peakIds: checkedPeaks,
       stats: {
         elevation,
         distance,
         minutes,
         hours,
-        time,
-        avgSpeed,
-        avgElevation,
       },
       notes: notes,
       rating: rating || "",
-      date: new Intl.DateTimeFormat("en-CA", {
-        day: "numeric",
-        month: "numeric",
-        year: "numeric",
-      }).format(new Date(`${date}T00:00`)),
+      date,
     };
-    addLogEntry({ userId: USER_ID, newEntry });
-    navigate(`/log/${logID}`);
-    newEntryDispatch({ type: NewEntryActionType.RESET_FORM });
+    addLogEntry({ userId: USER_Id, newEntry });
+    navigate(`/log/${logId}`);
+    dispatch(resetForm());
   };
 
   return { handleAdd };

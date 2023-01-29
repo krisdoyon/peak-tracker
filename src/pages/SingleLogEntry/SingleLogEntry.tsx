@@ -4,40 +4,37 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IconButton } from "components/Buttons";
 import { LogEntryGrid } from "./LogEntryGrid/LogEntryGrid";
 import { getDisplayDate } from "utils/getDisplayDate";
-import { MapActionType, useMapContext } from "context/mapContext";
 import { useEffect } from "react";
 import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
 import { useGetListsQuery, useRemoveLogEntryMutation } from "features/apiSlice";
 import { useLogEntry } from "hooks/useLogEntry";
 import { getPeaksById } from "utils/peakUtils";
+import { plotLogEntry } from "features/mapSlice";
+import { useAppDispatch } from "hooks/reduxHooks";
 
-const USER_ID = "abc123";
+const USER_Id = "abc123";
 
 export const SingleLogEntry = () => {
-  const { logID } = useParams() as { logID: string };
+  const { logId } = useParams() as { logId: string };
   const navigate = useNavigate();
-  const { dispatch: mapDispatch } = useMapContext();
+  const dispatch = useAppDispatch();
 
   const [removeLogEntry] = useRemoveLogEntryMutation();
 
   const { data: allPeakLists = [] } = useGetListsQuery();
 
-  const { data: entry, isLoading, error } = useLogEntry(logID, USER_ID);
+  const { data: entry, isLoading, error } = useLogEntry(logId, USER_Id);
 
   useEffect(() => {
     if (entry) {
       const logPeaks = getPeaksById(entry.peakIds, allPeakLists);
-
-      mapDispatch({
-        type: MapActionType.SET_PEAKS,
-        payload: logPeaks,
-      });
+      dispatch(plotLogEntry(logPeaks));
     }
   }, [entry]);
 
   const handleRemove = () => {
     if (confirm("Are you sure you want to delete this entry?")) {
-      removeLogEntry({ userId: USER_ID, logId: logID });
+      removeLogEntry({ userId: USER_Id, logId: logId });
       navigate("/log");
     }
   };

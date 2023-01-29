@@ -8,14 +8,14 @@ import { useFilteredLogEntries } from "hooks/useFilteredLogEntries";
 import { useGetLogEntriesQuery } from "features/apiSlice";
 import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
 
-const USER_ID = "abc123";
+const USER_Id = "abc123";
 
 export const Stats = () => {
   const {
     data: allLogEntries,
     isLoading,
     error,
-  } = useGetLogEntriesQuery(USER_ID);
+  } = useGetLogEntriesQuery(USER_Id);
   const filteredEntries = useFilteredLogEntries();
   const stats = getStats(filteredEntries);
 

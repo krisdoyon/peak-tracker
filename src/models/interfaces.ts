@@ -9,7 +9,7 @@ export interface IPeak {
 
 export interface IPeakList {
   title: string;
-  listID: string;
+  listId: string;
   peaks: IPeak[];
   description: string;
 }
@@ -21,12 +21,9 @@ export interface ILogEntry {
     distance: number | "";
     minutes: number | "";
     hours: number | "";
-    time: number | "";
-    avgSpeed: number | "";
-    avgElevation: number | "";
   };
   notes: string | "";
   rating: number | "";
-  logID: string;
+  logId: string;
   date: string;
 }
