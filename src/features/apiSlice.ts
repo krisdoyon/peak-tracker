@@ -60,7 +60,7 @@ export const apiSlice = createApi({
       { userId: string; newEntry: ILogEntry }
     >({
       query: ({ userId, newEntry }) => ({
-        url: `/users/${userId}/logEntries/${newEntry.logID}.json`,
+        url: `/users/${userId}/logEntries/${newEntry.logId}.json`,
         method: "PUT",
         body: newEntry,
       }),
@@ -87,7 +87,7 @@ export const apiSlice = createApi({
       async onQueryStarted({ userId, logId }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           apiSlice.util.updateQueryData("getLogEntries", userId, (draft) => {
-            return draft.filter((entry) => entry.logID !== logId);
+            return draft.filter((entry) => entry.logId !== logId);
           })
         );
         try {
