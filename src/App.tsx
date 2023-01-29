@@ -17,8 +17,8 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // if (!pathname.includes("/peak-lists/") && !pathname.includes("/log/"))
-    dispatch(clearMap());
+    if (!pathname.includes("/peak-lists/") && !pathname.includes("/log/"))
+      dispatch(clearMap());
     // newEntryDispatch({ type: NewEntryActionType.RESET_FORM });
     // If form is not empty, confirm navigate away
   }, [pathname]);
