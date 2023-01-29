@@ -4,7 +4,7 @@ import { ViewButton } from "components/Buttons";
 import { Fragment } from "react";
 import { getLogStats, getPeakById, getPeaksById } from "utils/peakUtils";
 import { useGetListsQuery } from "features/apiSlice";
-import { peakListsArr } from "assets/data/createPeakLists";
+// import { peakListsArr } from "assets/data/createPeakLists";
 import { getLogLists } from "utils/peakUtils";
 import { usePeakList } from "hooks/usePeakList";
 import sprite from "assets/img/sprite.svg";
@@ -58,7 +58,7 @@ export const LogEntryGrid = ({ peakIds, stats, notes, rating }: ILogEntry) => {
         }}
       >
         {peakIds.map((peakId) => {
-          const peak = getPeakById(peakId, peakListsArr);
+          const peak = getPeakById(peakId, allPeakLists);
           if (peak) {
             return (
               <span key={peakId} className={styles.peak}>{`${
