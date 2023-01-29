@@ -9,7 +9,7 @@ export const getStats = (logEntries: ILogEntry[]) => {
       return {
         distance: acc.distance + (cur.stats.distance || 0),
         elevation: acc.elevation + (cur.stats.elevation || 0),
-        time: acc.time + (cur.stats.time || 0),
+        time: acc.time + (cur.stats.hours || 0) + (cur.stats.minutes || 0) / 60,
       };
     },
     { distance: 0, elevation: 0, time: 0 }
