@@ -4,7 +4,6 @@ import { ViewButton } from "components/Buttons";
 import { Fragment } from "react";
 import { getLogStats, getPeakById, getPeaksById } from "utils/peakUtils";
 import { useGetListsQuery } from "features/apiSlice";
-// import { peakListsArr } from "assets/data/createPeakLists";
 import { getLogLists } from "utils/peakUtils";
 import { usePeakList } from "hooks/usePeakList";
 import sprite from "assets/img/sprite.svg";
