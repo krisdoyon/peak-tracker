@@ -18,7 +18,7 @@ export const PeakLayer = () => {
         : new L.Point(650, 0);
       map.fitBounds(featureGroupRef.current.getBounds(), {
         paddingTopLeft: padding,
-        maxZoom: 10,
+        maxZoom: 13,
       });
     }
   }, [peaks, isLoading]);
