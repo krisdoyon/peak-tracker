@@ -3,7 +3,7 @@ import sprite from "assets/img/sprite.svg";
 
 interface Props {
   icon: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   className?: string;
   small?: boolean;
 }
