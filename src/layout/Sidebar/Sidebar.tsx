@@ -4,6 +4,7 @@ import sprite from "assets/img/sprite.svg";
 import { navLinks } from "./navLinks";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { toggleSidebar } from "features/sidebarSlice";
+import { ModalType, openModal } from "features/modalSlice";
 
 export const Sidebar = () => {
   const { sidebarOpen } = useAppSelector((state) => state.sidebar);
@@ -33,7 +34,11 @@ export const Sidebar = () => {
             );
           })}
           <li className={styles["list-item"]}>
-            <button id="nav-btn-about" className={styles["nav-btn"]}>
+            <button
+              id="nav-btn-about"
+              className={styles["nav-btn"]}
+              onClick={() => dispatch(openModal(ModalType.WELCOME))}
+            >
               <span>About</span>
               <svg className={styles.icon}>
                 <use href={`${sprite}#icon-info`}></use>
