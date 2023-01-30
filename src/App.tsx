@@ -9,31 +9,37 @@ import {
   SingleLogEntry,
   SinglePeakList,
 } from "./pages";
-import { useAppDispatch } from "hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { clearMap } from "features/mapSlice";
+import { WelcomeModal } from "components/WelcomeModal/WelcomeModal";
+import { ModalType } from "features/modalSlice";
 
 function App() {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
+  const { listId } = useAppSelector((state) => state.newEntry);
+  const { openModal } = useAppSelector((state) => state.modal);
 
   useEffect(() => {
+    if (pathname.includes("/new-entry") && listId) return;
     if (!pathname.includes("/peak-lists/") && !pathname.includes("/log/"))
       dispatch(clearMap());
-    // newEntryDispatch({ type: NewEntryActionType.RESET_FORM });
-    // If form is not empty, confirm navigate away
   }, [pathname]);
 
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route path="/peak-lists" element={<PeakLists />} />
-        <Route path="/peak-lists/:listId" element={<SinglePeakList />} />
-        <Route path="/log" element={<Log />} />
-        <Route path="/log/:logId" element={<SingleLogEntry />} />
-        <Route path="/stats" element={<Stats />} />
-        <Route path="/new-entry" element={<NewEntry />} />
-      </Route>
-    </Routes>
+    <>
+      {openModal === ModalType.WELCOME && <WelcomeModal />}
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/peak-lists" element={<PeakLists />} />
+          <Route path="/peak-lists/:listId" element={<SinglePeakList />} />
+          <Route path="/log" element={<Log />} />
+          <Route path="/log/:logId" element={<SingleLogEntry />} />
+          <Route path="/stats" element={<Stats />} />
+          <Route path="/new-entry" element={<NewEntry />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 
