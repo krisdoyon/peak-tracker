@@ -1,0 +1,47 @@
+.wrapper {
+  position: fixed;
+  top: 1.2rem;
+  right: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 22rem;
+}
+
+.controls {
+  width: 100%;
+}
+
+.btn-expand {
+  width: 100%;
+  background-color: var(--color-green-primary);
+  color: #f7f7f7;
+}
+
+.btn-wrapper {
+  overflow: hidden;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(1, max-content);
+  justify-content: center;
+  padding: 1.4rem 0;
+  gap: 0.6rem;
+  background-color: #f7f7f7;
+  transform: translateY(-100%);
+  transition: all 0.5s;
+  background-color: var(--color-grey-light-1);
+  border: 2px solid var(--color-grey-light-2);
+}
+
+.open {
+  transform: translateY(0);
+}
+
+.btn {
+  padding: 1rem 2rem;
+  width: 100%;
+}

@@ -1,14 +1,11 @@
 @use "../../assets/mixins.scss" as *;
 
 .logo {
-  height: 12rem;
+  width: 100%;
   padding: 1.6rem 2.4rem;
   background-color: var(--color-grey-light-1);
   border: 2px solid var(--color-grey-light-2);
   box-shadow: var(--box-shadow-light);
-  position: fixed;
-  right: 1.2rem;
-  top: 1.2rem;
 
   @include respond(1000) {
     top: 6.4rem;
