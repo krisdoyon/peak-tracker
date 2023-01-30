@@ -1,0 +1,66 @@
+@use "../../assets/mixins.scss" as *;
+
+.modal {
+  @include absolute-center;
+  position: fixed;
+  background-color: var(--color-grey-light-1);
+  height: min-content;
+  max-height: 80vh;
+  width: 60vw;
+  min-width: 110rem;
+  z-index: 15;
+  border-radius: 1.2rem;
+  box-shadow: var(--box-shadow-dark);
+  overflow-y: auto;
+  @include respond(1200) {
+    min-width: 90rem;
+    width: 75vw;
+  }
+
+  &::-webkit-scrollbar {
+    width: 0.6rem;
+    background-color: var(--color-grey-light-2);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-grey-dark-1);
+    border-radius: 1.2rem;
+  }
+
+  @include respond(1200) {
+    min-width: 90rem;
+  }
+
+  @include respond(800) {
+    min-width: 0rem;
+    width: 90vw;
+    max-height: 90vh;
+  }
+}
+
+.btn-close {
+  color: #555;
+  background-color: transparent;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-radius: 0 1.2rem 0 1.2rem;
+  margin: 1.2rem 2.4rem;
+  font-size: 4.8rem;
+  z-index: 10;
+
+  &:hover {
+    color: var(--color-green-light);
+  }
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(7px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 14;
+}
