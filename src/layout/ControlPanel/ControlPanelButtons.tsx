@@ -6,9 +6,11 @@ import {
   useSetTestLogEntriesMutation,
 } from "features/apiSlice";
 import { clearMap, plotLogEntry } from "features/mapSlice";
-import { useAppDispatch } from "hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { useNavigate } from "react-router-dom";
 import { getAllUniquePeaks, isPeakCompleted } from "utils/peakUtils";
+import { ModalType, openModal } from "features/modalSlice";
+import { logout } from "features/authSlice";
 
 export const LoadTestButton = () => {
   const [setTestLogEntries] = useSetTestLogEntriesMutation();
@@ -75,6 +77,25 @@ export const PlotCompletedButton = () => {
       onClick={() => dispatch(plotLogEntry(completedPeaks))}
     >
       PLOT COMPLETED
+    </Button>
+  );
+};
+
+export const LoginButton = () => {
+  const dispatch = useAppDispatch();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
+
+  const handleClick = () => {
+    if (isLoggedIn) {
+      dispatch(logout());
+      return;
+    }
+    dispatch(openModal(ModalType.LOGIN));
+  };
+
+  return (
+    <Button className={styles.btn} onClick={handleClick}>
+      {isLoggedIn ? "LOG OUT" : "LOG IN"}
     </Button>
   );
 };

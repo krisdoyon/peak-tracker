@@ -47,7 +47,12 @@ export const Log = () => {
     </p>
   );
 
-  const loginMessage = <p>Login to start recording log entries!</p>;
+  const loginMessage = (
+    <p>
+      Login or create an account <br />
+      to start recording log entries!
+    </p>
+  );
 
   if (isLoading) {
     return (

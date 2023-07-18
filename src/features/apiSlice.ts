@@ -179,4 +179,5 @@ export const {
   useRemoveLogEntryMutation,
   useAddLogEntryMutation,
   useSetTestLogEntriesMutation,
+  useSendAuthRequestMutation,
 } = apiSlice;

@@ -4,6 +4,7 @@ import styles from "./ControlPanel.module.scss";
 import {
   ClearMapButton,
   LoadTestButton,
+  LoginButton,
   PlotAllButton,
   PlotCompletedButton,
 } from "./ControlPanelButtons";
@@ -30,6 +31,7 @@ export const ControlPanel = () => {
             <PlotAllButton />
             <PlotCompletedButton />
             <ClearMapButton />
+            <LoginButton />
           </div>
         </div>
       </div>

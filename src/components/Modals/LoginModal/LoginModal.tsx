@@ -31,7 +31,6 @@ export const LoginModal = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    debugger;
     const requestType = isLogin ? "login" : "signup";
     const test = await sendRequest({
       email,
