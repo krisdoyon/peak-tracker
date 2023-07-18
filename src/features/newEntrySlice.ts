@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ILogEntry } from "models/interfaces";
 
 interface INewEntryState {
   date: string;
@@ -18,6 +19,9 @@ interface INewEntryState {
   notes: string;
   rating: number;
   filledStar: number;
+  isEditing: boolean;
+  editLogId: number | null;
+  hasUnsavedChanges: boolean;
 }
 
 const initialState: INewEntryState = {
@@ -38,6 +42,9 @@ const initialState: INewEntryState = {
   notes: "",
   rating: 0,
   filledStar: 0,
+  isEditing: false,
+  editLogId: null,
+  hasUnsavedChanges: false,
 };
 
 const newEntrySlice = createSlice({
@@ -46,6 +53,7 @@ const newEntrySlice = createSlice({
   reducers: {
     updateDate: (state, action: PayloadAction<string>) => {
       state.date = action.payload;
+      state.hasUnsavedChanges = true;
     },
     updateListId: (state, action: PayloadAction<string>) => {
       state.listId = action.payload;
@@ -62,6 +70,7 @@ const newEntrySlice = createSlice({
           (checkedId) => checkedId !== peakId
         );
       }
+      state.hasUnsavedChanges = true;
     },
     toggleStatOpen: (
       state,
@@ -79,15 +88,45 @@ const newEntrySlice = createSlice({
     ) => {
       const { stat, value } = action.payload;
       state.stats[stat] = value;
+      state.hasUnsavedChanges = true;
     },
     updateNotes: (state, action: PayloadAction<string>) => {
       state.notes = action.payload;
+      state.hasUnsavedChanges = true;
     },
     updateFilledStar: (state, action: PayloadAction<number>) => {
       state.filledStar = action.payload;
+      state.hasUnsavedChanges = true;
     },
     updateRating: (state, action: PayloadAction<number>) => {
       state.rating = action.payload;
+      state.hasUnsavedChanges = true;
+    },
+    resetRating: (state) => {
+      state.rating = 0;
+      state.filledStar = 0;
+      state.hasUnsavedChanges = true;
+    },
+    loadEntry: (state, action: PayloadAction<ILogEntry>) => {
+      const logEntry = action.payload;
+      state.date = logEntry.date;
+      state.stats = {
+        elevation: logEntry.stats.elevation,
+        distance: logEntry.stats.distance,
+        hours: logEntry.stats.hours,
+        minutes: logEntry.stats.minutes,
+      };
+      state.isStatOpen = {
+        elevation: logEntry.stats.elevation ? true : false,
+        distance: logEntry.stats.distance ? true : false,
+        time: logEntry.stats.hours || logEntry.stats.minutes ? true : false,
+      };
+      state.checkedPeaks = logEntry.peakIds;
+      state.rating = logEntry.rating || 0;
+      state.filledStar = logEntry.rating || 0;
+      state.notes = logEntry.notes;
+      state.isEditing = true;
+      state.editLogId = +logEntry.logId;
     },
     resetForm: () => initialState,
   },
@@ -103,6 +142,8 @@ export const {
   updateFilledStar,
   updateRating,
   resetForm,
+  resetRating,
+  loadEntry,
 } = newEntrySlice.actions;
 
 export default newEntrySlice.reducer;

@@ -4,7 +4,10 @@ import mapReducer from "features/mapSlice";
 import filtersReducer from "features/filtersSlice";
 import sidebarReducer from "features/sidebarSlice";
 import newEntryReducer from "features/newEntrySlice";
-import modalReducer from "features/modalSlice"; 
+import modalReducer from "features/modalSlice";
+import authReducer from "features/authSlice";
+import dialogReducer from "features/dialogSlice";
+
 export const store = configureStore({
   reducer: {
     map: mapReducer,
@@ -12,6 +15,8 @@ export const store = configureStore({
     sidebar: sidebarReducer,
     newEntry: newEntryReducer,
     modal: modalReducer,
+    auth: authReducer,
+    dialog: dialogReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

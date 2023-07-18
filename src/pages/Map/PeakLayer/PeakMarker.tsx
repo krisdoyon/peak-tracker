@@ -10,8 +10,6 @@ import { useGetLogEntriesQuery } from "features/apiSlice";
 import React, { useEffect, useRef } from "react";
 import { useAppSelector } from "hooks/reduxHooks";
 
-const USER_Id = "abc123";
-
 interface Props extends IPeak {
   isPopupOpen: boolean;
 }
@@ -19,10 +17,14 @@ interface Props extends IPeak {
 export const PeakMarker = React.memo(
   ({ id, lat, long, name, elevation, isPopupOpen }: Props) => {
     const listId = useAppSelector((state) => state.map.listId);
+    const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
 
     const ref = useRef<L.Marker | null>(null);
 
-    const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_Id);
+    const { data: allLogEntries = [] } = useGetLogEntriesQuery(
+      { userId, token },
+      { skip: userId === null || !isLoggedIn || token === null }
+    );
     const isCompleted = isPeakCompleted(id, allLogEntries);
     const completedDate = getCompletedDate(id, allLogEntries);
 

@@ -7,12 +7,14 @@ import { NewEntryPeaks } from "./NewEntryPeaks/NewEntryPeaks";
 import { NewEntryRating } from "./NewEntryRating/NewEntryRating";
 import { NewEntryStats } from "./NewEntryStats/NewEntryStats";
 import { useAddLogEntry } from "hooks/useAddLogEntry";
+import { useAppSelector } from "hooks/reduxHooks";
 
 export const NewEntry = () => {
   const { handleAdd } = useAddLogEntry();
+  const { isEditing } = useAppSelector((state) => state.newEntry);
   return (
     <Card>
-      <CardHeading title={"New Log Entry"} />
+      <CardHeading title={isEditing ? "Modify Log Entry" : "New Log Entry"} />
       <CardBody>
         <form id="form-new-entry" className={styles.form} onSubmit={handleAdd}>
           <NewEntryDate />

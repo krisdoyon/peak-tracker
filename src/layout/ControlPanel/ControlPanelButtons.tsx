@@ -10,23 +10,23 @@ import { useAppDispatch } from "hooks/reduxHooks";
 import { useNavigate } from "react-router-dom";
 import { getAllUniquePeaks, isPeakCompleted } from "utils/peakUtils";
 
-const USER_Id = "abc123";
-
 export const LoadTestButton = () => {
   const [setTestLogEntries] = useSetTestLogEntriesMutation();
   const navigate = useNavigate();
+
+  const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
 
   const handleLoad = () => {
     if (
       confirm("This action will overwrite all existing log entries. Continue?")
     ) {
-      setTestLogEntries(USER_Id);
+      setTestLogEntries({ userId, token });
       navigate("/log");
     }
   };
 
   return (
-    <Button className={styles.btn} onClick={handleLoad}>
+    <Button className={styles.btn} onClick={handleLoad} disabled={true}>
       LOAD TEST ENTRIES
     </Button>
   );
@@ -58,8 +58,13 @@ export const ClearMapButton = () => {
 
 export const PlotCompletedButton = () => {
   const dispatch = useAppDispatch();
+  const { isLoggedIn, token, userId } = useAppSelector((state) => state.auth);
+
   const { data: allPeakLists = [] } = useGetListsQuery();
-  const { data: logEntries = [] } = useGetLogEntriesQuery("abc123");
+  const { data: logEntries = [] } = useGetLogEntriesQuery(
+    { userId, token },
+    { skip: userId === null || !isLoggedIn || token === null }
+  );
   const allPeaks = getAllUniquePeaks(allPeakLists);
   const completedPeaks = allPeaks.filter((peak) =>
     isPeakCompleted(peak.id, logEntries)

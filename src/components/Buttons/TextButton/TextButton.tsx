@@ -14,13 +14,15 @@ export const TextButton = ({
   className,
   active,
   onClick,
-}: Props) => {
+  ...rest
+}: Props & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
       className={`${styles.btn} ${className ? className : ""} ${
         active ? styles.active : ""
       } ${color ? styles[color] : ""}`}
       onClick={onClick}
+      {...rest}
     >
       {children}
     </button>

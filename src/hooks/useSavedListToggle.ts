@@ -3,10 +3,15 @@ import {
   useUpdateSavedListsMutation,
 } from "features/apiSlice";
 
-const USER_Id = "abc123";
+import { useAppSelector } from "hooks/reduxHooks";
 
 export const useSavedListToggle = (listId: string) => {
-  const { data: savedLists = [] } = useGetSavedListsQuery(USER_Id);
+  const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
+
+  const { data: savedLists = [] } = useGetSavedListsQuery(
+    { userId, token },
+    { skip: userId === null || !isLoggedIn || token === null }
+  );
   const [updateSavedLists] = useUpdateSavedListsMutation();
 
   const isSaved = savedLists?.some((savedId) => savedId === listId);
@@ -15,7 +20,7 @@ export const useSavedListToggle = (listId: string) => {
     const newSavedLists = isSaved
       ? savedLists.filter((id) => id !== listId)
       : [...savedLists, listId];
-    updateSavedLists({ userId: USER_Id, savedLists: newSavedLists });
+    updateSavedLists({ userId, savedLists: newSavedLists, token });
   };
 
   return { isSaved, toggleSavedList };

@@ -1,9 +1,9 @@
 import { useGetListsQuery, useGetLogEntriesQuery } from "features/apiSlice";
 import { isPeakCompleted, getCompletedDate } from "utils/peakUtils";
-
-const USER_Id = "abc123";
+import { useAppSelector } from "hooks/reduxHooks";
 
 export const usePeak = (peakId: number) => {
+  const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
   const { data: peak } = useGetListsQuery(undefined, {
     selectFromResult: ({ data, isLoading, isError }) => {
       const uniquePeaks = data?.flatMap((list) => list.peaks);
@@ -15,7 +15,10 @@ export const usePeak = (peakId: number) => {
       };
     },
   });
-  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_Id);
+  const { data: allLogEntries = [] } = useGetLogEntriesQuery(
+    { userId, token },
+    { skip: userId === null || !isLoggedIn || token === null }
+  );
   const isCompleted = isPeakCompleted(peakId, allLogEntries);
   const completedDate = getCompletedDate(peakId, allLogEntries);
   return { peak, isCompleted, completedDate };

@@ -1,4 +1,4 @@
-@use "../../assets/mixins.scss" as *;
+@use "../../../assets/mixins.scss" as *;
 
 .modal {
   display: flex;
@@ -9,8 +9,6 @@
   font-size: 1.8rem;
   overflow-y: overlay;
   overflow-x: hidden;
-  height: 100%;
-  width: 100%;
 
   @include respond(800) {
     gap: 4.4rem;
@@ -178,4 +176,10 @@
   &:hover {
     font-weight: 400;
   }
+}
+
+.btn-login {
+  width: max-content;
+  padding: 1rem 2rem;
+  align-self: center;
 }

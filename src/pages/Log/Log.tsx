@@ -9,15 +9,20 @@ import { useFilteredLogEntries } from "hooks/useFilteredLogEntries";
 import { useFiltersReset } from "hooks/useFiltersReset";
 import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
 import { useGetLogEntriesQuery } from "features/apiSlice";
-
-const USER_Id = "abc123";
+import { useAppSelector } from "hooks/reduxHooks";
 
 export const Log = () => {
+  const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
+
   const {
     data: allLogEntries,
     isLoading,
     isError,
-  } = useGetLogEntriesQuery(USER_Id);
+    error,
+  } = useGetLogEntriesQuery(
+    { userId, token },
+    { skip: userId === null || !isLoggedIn || token === null }
+  );
 
   const filteredEntries = useFilteredLogEntries();
 
@@ -41,6 +46,8 @@ export const Log = () => {
         `}
     </p>
   );
+
+  const loginMessage = <p>Login to start recording log entries!</p>;
 
   if (isLoading) {
     return (
@@ -83,7 +90,11 @@ export const Log = () => {
           </PreviewList>
         )}
         {displayArr.length === 0 && (
-          <NoData message={noDataMessage} hasAddButton={true} />
+          <NoData
+            message={isLoggedIn ? noDataMessage : loginMessage}
+            hasAddButton={isLoggedIn ? true : false}
+            hasLoginButton={isLoggedIn ? false : true}
+          />
         )}
       </CardBody>
     </Card>

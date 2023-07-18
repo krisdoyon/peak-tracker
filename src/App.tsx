@@ -9,26 +9,23 @@ import {
   SingleLogEntry,
   SinglePeakList,
 } from "./pages";
-import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
-import { clearMap } from "features/mapSlice";
-import { WelcomeModal } from "components/WelcomeModal/WelcomeModal";
-import { ModalType } from "features/modalSlice";
+import { useFirstVisit } from "hooks/useFirstVisit";
+import { useClearMap } from "hooks/useClearMap";
+import { useLogin } from "hooks/useLogin";
+import { useToken } from "hooks/useToken";
+import Modals from "components/Modals/Modals";
+import { useActiveNav } from "hooks/useActiveNav";
 
 function App() {
-  const { pathname } = useLocation();
-  const dispatch = useAppDispatch();
-  const { listId } = useAppSelector((state) => state.newEntry);
-  const { openModal } = useAppSelector((state) => state.modal);
-
-  useEffect(() => {
-    if (pathname.includes("/new-entry") && listId) return;
-    if (!pathname.includes("/peak-lists/") && !pathname.includes("/log/"))
-      dispatch(clearMap());
-  }, [pathname]);
+  useClearMap();
+  useFirstVisit();
+  useToken();
+  useLogin();
+  useActiveNav();
 
   return (
     <>
-      {openModal === ModalType.WELCOME && <WelcomeModal />}
+      <Modals />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/peak-lists" element={<PeakLists />} />

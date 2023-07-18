@@ -1,11 +1,20 @@
 import styles from "./WelcomeModal.module.scss";
-import { Modal } from "components/Modal/Modal";
+import { Modal } from "components/Modals/Modal";
 import features from "./features.json";
 import { ModalFeature } from "./ModalFeature";
 import logoIcon from "assets/img/logo-icon.png";
 import { Button, IconButton } from "components/Buttons";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { ModalType, openModal } from "features/modalSlice";
 
 export const WelcomeModal = () => {
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  const handleLoginClick = () => {
+    dispatch(openModal(ModalType.LOGIN));
+  };
+
   return (
     <Modal className={styles.modal}>
       <header className={styles.header}>
@@ -35,23 +44,24 @@ export const WelcomeModal = () => {
         </div>
       </header>
       <div className={styles["features-grid"]}>
-        {features.map((feature) => (
-          <ModalFeature {...feature} />
+        {features.map((feature, i) => (
+          <ModalFeature key={i} {...feature} />
         ))}
       </div>
       <ul className={styles.list}>
-        <li className={styles["list-item"]}>
-          <span>
-            To get started, you can pre-load some test log entries to see how
-            the app works, or start from scratch:
-          </span>
-        </li>
-        {/* <Button
-          className="btn btn--green btn-data btn-load-data"
-          onClick={() => {}}
-        >
-          Create Account / Login
-        </Button> */}
+        {!isLoggedIn && (
+          <>
+            <li className={styles["list-item"]}>
+              <span>
+                To get started, log in or create an account using the button
+                below:
+              </span>
+            </li>
+            <Button className={styles["btn-login"]} onClick={handleLoginClick}>
+              Login
+            </Button>
+          </>
+        )}
         <li className={styles["list-item"]}>
           To read more about project architecture and view the code base you can{" "}
           <a

@@ -14,6 +14,8 @@ import {
 } from "features/apiSlice";
 import { useListCounts } from "hooks/useListCounts";
 
+import { useAppSelector } from "hooks/reduxHooks";
+
 const noDataMessage = (
   <p>
     You haven't saved any peak lists yet. <br />
@@ -21,31 +23,40 @@ const noDataMessage = (
   </p>
 );
 
-const USER_Id = "abc123";
-
 export const PeakLists = () => {
+  const { userId, isLoggedIn, token } = useAppSelector((state) => state.auth);
+
   const [previewType, setPreviewType] = useState<"all" | "saved">("all");
 
   const {
     data: allPeakLists = [],
     isLoading: isListsLoading,
     isError: isListsError,
+    error: listsError,
   } = useGetListsQuery();
 
-  const {
-    data: allLogEntries = [],
-    isLoading: isLogLoading,
-    isError: isLogError,
-  } = useGetLogEntriesQuery(USER_Id);
+  // const {
+  //   data: allLogEntries = [],
+  //   isLoading: isLogLoading,
+  //   isError: isLogError,
+  //   error: logError,
+  // } = useGetLogEntriesQuery(
+  //   { userId, token },
+  //   { skip: userId === null || !isLoggedIn }
+  // );
 
   const {
     data: savedLists = [],
     isLoading: isSavedListsLoading,
     isError: isSavedListsError,
-  } = useGetSavedListsQuery(USER_Id);
+  } = useGetSavedListsQuery(
+    { userId, token },
+    { skip: userId === null || !isLoggedIn }
+  );
 
-  const isLoading = isListsLoading || isLogLoading || isSavedListsLoading;
-  const isError = isListsError || isLogError || isSavedListsError;
+  const isLoading = isListsLoading || isSavedListsLoading;
+  const isError = isListsError || isSavedListsError;
+  // const isError = false;
 
   const displayLists =
     previewType === "all"

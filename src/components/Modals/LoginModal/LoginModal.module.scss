@@ -1,0 +1,24 @@
+.modal {
+  padding: 3rem;
+  width: max-content;
+  min-width: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+}
+
+.form {
+  display: grid;
+  width: 50rem;
+  gap: 2rem;
+
+  label {
+    font-size: 1.4rem;
+  }
+}
+
+.submit {
+  padding: 1rem 2rem;
+  // align-self: center;
+}

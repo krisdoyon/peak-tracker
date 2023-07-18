@@ -125,6 +125,7 @@
   );
   background-size: 235%;
   transition: var(--transition);
+  cursor: pointer;
 
   @include respond(1000) {
     height: 100%;

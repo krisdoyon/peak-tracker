@@ -4,26 +4,26 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IconButton } from "components/Buttons";
 import { LogEntryGrid } from "./LogEntryGrid/LogEntryGrid";
 import { getDisplayDate } from "utils/getDisplayDate";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
 import { useGetListsQuery, useRemoveLogEntryMutation } from "features/apiSlice";
 import { useLogEntry } from "hooks/useLogEntry";
 import { getPeaksById } from "utils/peakUtils";
 import { plotLogEntry } from "features/mapSlice";
-import { useAppDispatch } from "hooks/reduxHooks";
-
-const USER_Id = "abc123";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { loadEntry } from "features/newEntrySlice";
 
 export const SingleLogEntry = () => {
   const { logId } = useParams() as { logId: string };
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
 
   const [removeLogEntry] = useRemoveLogEntryMutation();
 
   const { data: allPeakLists = [] } = useGetListsQuery();
 
-  const { data: entry, isLoading, error } = useLogEntry(logId, USER_Id);
+  const { data: entry, isLoading, error } = useLogEntry(logId);
 
   useEffect(() => {
     if (entry && allPeakLists) {
@@ -34,9 +34,15 @@ export const SingleLogEntry = () => {
 
   const handleRemove = () => {
     if (confirm("Are you sure you want to delete this entry?")) {
-      removeLogEntry({ userId: USER_Id, logId: logId });
+      removeLogEntry({ userId, logId, token });
       navigate("/log");
     }
+  };
+
+  const handleModify = () => {
+    if (!entry) return;
+    dispatch(loadEntry(entry));
+    navigate("/new-entry");
   };
 
   if (isLoading) {
@@ -68,6 +74,11 @@ export const SingleLogEntry = () => {
           <div className={headingStyles["btn-wrapper"]}>
             <IconButton small={true} icon="trash" onClick={handleRemove} />
             <span>Delete entry</span>
+          </div>
+          <span>|</span>
+          <div className={headingStyles["btn-wrapper"]}>
+            <IconButton small={true} icon="pencil" onClick={handleModify} />
+            <span>Modify entry</span>
           </div>
         </div>
       </CardHeadingGrid>

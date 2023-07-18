@@ -2,11 +2,14 @@ import { useGetListsQuery, useGetLogEntriesQuery } from "features/apiSlice";
 import { getLogLists } from "utils/peakUtils";
 import { useAppSelector } from "./reduxHooks";
 
-const USER_Id = "abc123";
-
 export const useFilteredLogEntries = () => {
+  const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
+
   const filters = useAppSelector((state) => state.filters);
-  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_Id);
+  const { data: allLogEntries = [] } = useGetLogEntriesQuery(
+    { userId, token },
+    { skip: userId === null || !isLoggedIn || token === null }
+  );
   const { data: allPeakLists = [] } = useGetListsQuery();
 
   let filteredEntries = [...allLogEntries];

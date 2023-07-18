@@ -7,6 +7,11 @@
   &:hover {
     fill: var(--color-green-light);
   }
+
+  &:disabled {
+    fill: var(--color-grey-light-3);
+    cursor: default;
+  }
 }
 
 .icon {

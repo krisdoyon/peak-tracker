@@ -3,10 +3,10 @@ import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks
 import { useGetLogEntriesQuery } from "features/apiSlice";
 import { ILogEntry, IPeak } from "models/interfaces";
 import { useMemo } from "react";
-
-const USER_Id = "abc123";
+import { useAppSelector } from "hooks/reduxHooks";
 
 export const useAllCompletedPeaks = () => {
+  const { userId, isLoggedIn, token } = useAppSelector((state) => state.auth);
   const selectCompletedPeaks = useMemo(() => {
     return createSelector(
       (res: UseQueryHookResult<any, any>) => res.data,
@@ -15,10 +15,14 @@ export const useAllCompletedPeaks = () => {
       ]
     );
   }, []);
-  const { data: completedPeaks } = useGetLogEntriesQuery(USER_Id, {
-    selectFromResult: (res) => ({
-      data: selectCompletedPeaks(res),
-    }),
-  });
+  const { data: completedPeaks = [] } = useGetLogEntriesQuery(
+    { userId, token },
+    {
+      skip: userId === null || !isLoggedIn || token === null,
+      selectFromResult: (res) => ({
+        data: selectCompletedPeaks(res),
+      }),
+    }
+  );
   return completedPeaks;
 };

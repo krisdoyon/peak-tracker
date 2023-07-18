@@ -85,9 +85,9 @@ export const LogEntryGrid = ({ peakIds, stats, notes, rating }: ILogEntry) => {
       </span>
       <span className={styles.label}>Rating:</span>
       <span>
-        {rating > 0
+        {+rating > 0
           ? Array.from({ length: 5 }, (_, i) => {
-              const isFilled = rating >= i + 1;
+              const isFilled = +rating >= i + 1;
               return (
                 <svg
                   key={i}

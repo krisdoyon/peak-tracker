@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export enum ModalType {
   WELCOME,
   LOGIN,
+  UNSAVED_CHANGES,
 }
 
 interface IModalState {

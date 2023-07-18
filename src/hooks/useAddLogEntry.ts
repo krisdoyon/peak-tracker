@@ -4,15 +4,20 @@ import {
 } from "features/apiSlice";
 import { resetForm } from "features/newEntrySlice";
 import { ILogEntry } from "models/interfaces";
-import { useNavigate } from "react-router-dom";
 import { getLogStats, setLogEntryId } from "utils/peakUtils";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
-
-const USER_Id = "abc123";
+import { useAppNavigate } from "./useAppNaviage";
+import { useNavigate } from "react-router-dom";
 
 export const useAddLogEntry = () => {
+  const { userId, isLoggedIn, token } = useAppSelector((state) => state.auth);
+
   const navigate = useNavigate();
-  const { data: allLogEntries = [] } = useGetLogEntriesQuery(USER_Id);
+  const { data: allLogEntries = [] } = useGetLogEntriesQuery(
+    { userId, token },
+    { skip: userId === null || !isLoggedIn || token === null }
+  );
+
   const [addLogEntry] = useAddLogEntryMutation();
 
   const {
@@ -21,12 +26,18 @@ export const useAddLogEntry = () => {
     stats: { elevation, distance, hours, minutes },
     rating,
     notes,
+    isEditing,
+    editLogId,
   } = useAppSelector((state) => state.newEntry);
 
   const dispatch = useAppDispatch();
 
   const handleAdd = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (userId === null || !isLoggedIn || token === null) {
+      alert("You must be logged in to add a new entry.");
+      return;
+    }
     if (!date) {
       alert("Please enter a complete date in the format MM-DD-YYY");
       return;
@@ -42,7 +53,11 @@ export const useAddLogEntry = () => {
       alert("Please choose at least one peak from a list");
       return;
     }
-    const logId = setLogEntryId(allLogEntries);
+    const logId =
+      isEditing && editLogId
+        ? editLogId.toString()
+        : setLogEntryId(allLogEntries);
+
     const newEntry: ILogEntry = {
       logId,
       peakIds: checkedPeaks,
@@ -56,9 +71,9 @@ export const useAddLogEntry = () => {
       rating: rating || "",
       date,
     };
-    addLogEntry({ userId: USER_Id, newEntry });
-    navigate(`/log/${logId}`);
+    addLogEntry({ userId, newEntry, token });
     dispatch(resetForm());
+    navigate(`/log/${logId}`);
   };
 
   return { handleAdd };

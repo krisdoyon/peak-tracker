@@ -13,11 +13,13 @@ export const IconButton = ({
   onClick,
   className,
   small = false,
-}: Props) => {
+  ...rest
+}: Props & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
       className={`${styles.btn} ${className ? className : ""}`}
       onClick={onClick}
+      {...rest}
     >
       <svg className={`${styles.icon} ${small ? styles.small : ""}`}>
         <use href={`${sprite}#icon-${icon}`}></use>

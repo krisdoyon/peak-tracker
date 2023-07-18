@@ -13,20 +13,22 @@ import { useGetSavedListsQuery } from "features/apiSlice";
 import { useSavedListToggle } from "hooks/useSavedListToggle";
 import { usePeakList } from "hooks/usePeakList";
 import { plotList } from "features/mapSlice";
-import { useAppDispatch } from "hooks/reduxHooks";
-
-const USER_Id = "abc123";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 
 export const SinglePeakList = () => {
   const [sort, setSort] = useState<SortType>(SortType.ELEVATION);
+  const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
   const { listId } = useParams() as { listId: string };
   const dispatch = useAppDispatch();
 
   const {
-    data: savedLists,
+    data: savedLists = [],
     isLoading: isListsLoading,
     error: listsError,
-  } = useGetSavedListsQuery(USER_Id);
+  } = useGetSavedListsQuery(
+    { userId, token },
+    { skip: userId === null || !isLoggedIn || token === null }
+  );
 
   const {
     data: peakList,
@@ -74,6 +76,7 @@ export const SinglePeakList = () => {
               <IconButton
                 icon={isSaved ? "remove" : "add"}
                 onClick={toggleSavedList}
+                disabled={!isLoggedIn}
               />
               <span>{`${isSaved ? "Remove from" : "Add to"} my lists`}</span>
             </div>

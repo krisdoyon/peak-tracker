@@ -1,7 +1,7 @@
 import styles from "./AddButton.module.scss";
 import sprite from "assets/img/sprite.svg";
 import { Button } from "components/Buttons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 interface Props {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
