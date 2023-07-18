@@ -1,0 +1,21 @@
+@use "../../assets/mixins.scss" as *;
+
+.logo {
+  width: 100%;
+  padding: 1.6rem 2.4rem;
+  background-color: var(--color-grey-light-1);
+  border: 2px solid var(--color-grey-light-2);
+  box-shadow: var(--box-shadow-light);
+
+  @include respond(1000) {
+    top: 6.4rem;
+  }
+
+  @include respond(800) {
+    top: 9.4rem;
+  }
+
+  @include respond(600) {
+    top: 9rem;
+  }
+}

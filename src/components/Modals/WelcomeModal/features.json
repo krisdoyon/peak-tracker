@@ -1,0 +1,17 @@
+[
+  {
+    "icon": "book",
+    "heading": "Log Trips",
+    "text": "Add and delete log entries with trip information including date, completed peaks, hiking stats, notes and rating. Filter log entries by individual peak list or by date."
+  },
+  {
+    "icon": "chart",
+    "heading": "View Stats",
+    "text": "See all hiking stats at a glance, including total peak count, miles hiked, elevation gain, average speed and more. View overall stats or sort by individual list."
+  },
+  {
+    "icon": "mountain",
+    "heading": "Track Progress",
+    "text": "Save peak lists to your collection of saved lists. Progress towards all lists is automatically updated when a new entry is added and progress is displayed on the map."
+  }
+]

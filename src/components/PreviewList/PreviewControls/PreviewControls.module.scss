@@ -1,0 +1,58 @@
+@use "../../../assets/mixins.scss" as *;
+
+.wrapper {
+  display: grid;
+  padding: 0.8rem 1.6rem;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-green-primary);
+}
+
+.peak-lists {
+  grid-template-columns: 1fr 9.5rem 9.5rem 1fr;
+  // justify-content: space-between;
+  grid-template-rows: 2.4rem;
+
+  @include respond(1200) {
+    grid-template-columns: 1fr 11rem 11rem 1fr;
+  }
+}
+
+.selects {
+  gap: 1.2rem;
+
+  select {
+    padding: 0.2rem 0.8rem;
+    border-radius: 0.4rem;
+    border: none;
+    font-family: inherit;
+    background-color: #fff;
+
+    @include respond(800) {
+      font-size: 1.3rem;
+    }
+  }
+
+  label {
+    color: var(--color-grey-light-1);
+    font-weight: 400;
+    font-size: 1.4rem;
+
+    @include respond(800) {
+      font-size: 1.3rem;
+    }
+  }
+}
+
+.log {
+  grid-template-columns: 1fr max-content 23% 23% 1fr;
+  grid-template-rows: repeat(2, max-content);
+
+  label {
+    grid-column: 2 / 3;
+  }
+}
+
+.stats {
+  grid-template-columns: max-content 23% 23%;
+}

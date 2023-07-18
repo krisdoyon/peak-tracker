@@ -192,3 +192,10 @@ const vt4k = new PeakList(vt4kJSON);
 #### New Entry Form:
 
 <img alt="peak list table screenshot" src="./src/img/screenshots/new-entry-screenshot.png" style="height:400px">
+
+
+
+
+### Typescript
+
+- Enums, generics, type casting, interfaces

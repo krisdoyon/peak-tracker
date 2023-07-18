@@ -1,0 +1,9 @@
+@use "../../assets/mixins.scss" as *;
+
+.btn-all {
+  grid-column: 2;
+}
+
+.btn-saved {
+  grid-column: 3;
+}

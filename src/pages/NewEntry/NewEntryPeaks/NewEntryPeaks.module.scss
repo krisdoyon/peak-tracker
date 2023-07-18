@@ -1,0 +1,84 @@
+.grid {
+  display: grid;
+  grid-template-columns: max-content auto;
+  align-items: center;
+  gap: 1.2rem;
+  column-gap: 2.4rem;
+}
+
+.checkbox-grid {
+  column-count: 2;
+  justify-content: center;
+  row-gap: 0.6rem;
+  padding: 1rem 1rem;
+  list-style: none;
+  padding-bottom: 0;
+
+  li {
+    display: flex;
+    margin-bottom: 0.8rem;
+  }
+}
+
+// Customize the label (the container)
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 3.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+// Hide default checkbox
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+// Create custom checkbox
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2rem;
+  width: 2rem;
+  background-color: #eee;
+  border: 1px solid var(--color-grey-light-2);
+}
+
+// On mouse-over add background color
+.checkbox-container:hover input ~ .checkmark {
+  background-color: var(--color-grey-light-3);
+}
+
+// When the checkbox is checked, add colored background to container
+.checkbox-container input:checked ~ .checkmark {
+  background-color: var(--color-green-hilight-hover);
+  border: none;
+}
+
+// Create the checkmark
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+// Show the checkmark when checked
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+// Style the checkmark
+.checkbox-container .checkmark:after {
+  left: 0.8rem;
+  top: 0.4rem;
+  width: 0.5rem;
+  height: 1rem;
+  border: solid var(--color-grey-dark-1);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}

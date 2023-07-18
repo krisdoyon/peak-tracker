@@ -1,0 +1,30 @@
+.grid {
+  display: grid;
+  background-color: var(--color-grey-light-1);
+  border-bottom: var(--border-grey-dark);
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: repeat(2, max-content);
+  padding: 3rem 2.4rem 2rem 2.4rem;
+  column-gap: 1.8rem;
+  row-gap: 1.2rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.btn-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-back {
+  grid-row: 1/-1;
+}
+
+.progress-wrapper {
+  grid-column: 2;
+}

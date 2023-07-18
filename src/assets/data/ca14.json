@@ -1,0 +1,103 @@
+{
+  "title": "California Fourteeners",
+  "listID": "ca14",
+  "peaks": [
+    {
+      "id": 269051,
+      "name": "Mt. Whitney",
+      "lat": 36.57857,
+      "long": -118.2924218,
+      "elevation": 14478,
+      "state": "CA"
+    },
+    {
+      "id": 1654980,
+      "name": "Mt. Williamson",
+      "lat": 36.6559544,
+      "long": -118.3110851,
+      "elevation": 14383,
+      "state": "CA"
+    },
+    {
+      "id": 255232,
+      "name": "White Mountain Peak",
+      "lat": 37.6340283,
+      "long": -118.2556316,
+      "elevation": 14245,
+      "state": "CA"
+    },
+    {
+      "id": 264233,
+      "name": "North Palisade",
+      "lat": 37.0942428,
+      "long": -118.5144372,
+      "elevation": 14265,
+      "state": "CA"
+    },
+    {
+      "id": 266054,
+      "name": "Mt. Shasta",
+      "lat": 41.40917,
+      "long": -122.1948451,
+      "elevation": 14160,
+      "state": "CA"
+    },
+    {
+      "id": 1654943,
+      "name": "Mt. Sill",
+      "lat": 37.095985,
+      "long": -118.5033965,
+      "elevation": 14150,
+      "state": "CA"
+    },
+    {
+      "id": 265692,
+      "name": "Mt. Russell",
+      "lat": 36.5906707,
+      "long": -118.2890359,
+      "elevation": 14065,
+      "state": "CA"
+    },
+    {
+      "id": 235207,
+      "name": "Split Mountain",
+      "lat": 37.0209599,
+      "long": -118.4225361,
+      "elevation": 14052,
+      "state": "CA"
+    },
+    {
+      "id": 1654923,
+      "name": "Mt. Langley",
+      "lat": 36.5233668,
+      "long": -118.2394156,
+      "elevation": 14032,
+      "state": "CA"
+    },
+    {
+      "id": 1654979,
+      "name": "Mt. Tyndall",
+      "lat": 36.6557436,
+      "long": -118.3372726,
+      "elevation": 14025,
+      "state": "CA"
+    },
+    {
+      "id": 1654925,
+      "name": "Middle Palisade",
+      "lat": 37.0702899,
+      "long": -118.469138,
+      "elevation": 14018,
+      "state": "CA"
+    },
+    {
+      "id": 1654926,
+      "name": "Mt. Muir",
+      "lat": 36.5647386,
+      "long": -118.2913287,
+      "elevation": 14018,
+      "state": "CA"
+    }
+  ],
+  "description": "The California Fourteeners (14ers) are a collection of all summits over 14,000 ft. in elevation with at least 300 ft of topographic prominence within the state of California. The majority of the peaks (10) reside in a concentrated area in the Sierra Nevada Range. California is one of only three states with multiple mountains that meet this criteria (CO and AK being the other two)."
+}

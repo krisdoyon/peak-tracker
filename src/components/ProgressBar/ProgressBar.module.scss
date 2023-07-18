@@ -1,0 +1,20 @@
+@use "../../assets/mixins.scss" as *;
+
+.wrapper {
+  width: 100%;
+  height: 1.6rem;
+  border-radius: 100rem;
+  background-color: var(--color-grey-light-2);
+  position: relative;
+  overflow: hidden;
+  border: var(--border-grey-dark);
+}
+
+.label {
+  @include absolute-center;
+}
+
+.progress {
+  background-color: var(--color-green-hilight);
+  height: 100%;
+}

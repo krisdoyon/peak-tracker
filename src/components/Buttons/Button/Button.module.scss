@@ -1,0 +1,17 @@
+@use "../../../assets/mixins.scss" as *;
+
+.btn {
+  background-color: var(--color-green-primary);
+  color: var(--color-grey-light-1);
+  border-radius: 1000rem;
+  text-transform: uppercase;
+
+  &:hover {
+    background-color: var(--color-green-light);
+  }
+
+  &:disabled {
+    background-color: var(--color-grey-light-3);
+    cursor: default;
+  }
+}

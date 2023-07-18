@@ -1,0 +1,41 @@
+@use "../../../assets/mixins.scss" as *;
+
+.grid {
+  display: grid;
+  row-gap: 2rem;
+  column-gap: 3.6rem;
+  grid-template-columns: max-content 1fr;
+  padding: 2.4rem 4rem;
+  font-size: 1.6rem;
+
+  @include respond(1200) {
+    column-gap: 2.4rem;
+  }
+}
+
+.label {
+  font-weight: 700;
+}
+
+.peaks button {
+  grid-column: 2;
+  grid-row: 1/-1;
+}
+
+.lists,
+.peaks {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.star-icon {
+  height: 2.4rem;
+  width: 2.4rem;
+  pointer-events: none;
+}
+
+.full {
+  fill: #ffd61e;
+}

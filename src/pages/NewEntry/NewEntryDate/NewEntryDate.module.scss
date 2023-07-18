@@ -1,0 +1,16 @@
+.date-grid {
+  display: grid;
+  grid-template-columns: 1fr 25% 25%;
+  gap: 1.2rem;
+}
+
+.btn-date {
+  width: 90%;
+  justify-self: flex-start;
+  font-size: 1.4rem;
+  text-transform: capitalize;
+}
+
+.btn-today {
+  justify-self: flex-end;
+}

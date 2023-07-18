@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 80%;
+  font-size: 1.8rem;
+  flex-direction: column;
+  margin: 0 10rem;
+  gap: 2rem;
+
+  button {
+    width: auto;
+  }
+}

@@ -1,0 +1,38 @@
+@use "../../../assets//mixins.scss" as *;
+
+.peak-popup {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.elevation {
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+}
+
+.date {
+  font-size: 1.2rem;
+
+  strong {
+    font-weight: 500;
+    color: var(--color-grey-dark-2);
+    text-decoration: underline;
+  }
+}
+
+.location-popup {
+  font-size: 1.2rem;
+}
+
+.leaflet-control {
+  @include respond(800) {
+    margin-bottom: 2rem !important;
+  }
+}

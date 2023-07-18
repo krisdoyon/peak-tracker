@@ -1,0 +1,287 @@
+{
+  "title": "Catskill High Peaks",
+  "listID": "cat35",
+  "peaks": [
+    {
+      "id": 975759,
+      "name": "Slide Mountain",
+      "lat": 41.9987034,
+      "long": -74.3862617,
+      "elevation": 4167,
+      "state": "NY"
+    },
+    {
+      "id": 973354,
+      "name": "Hunter Mountain",
+      "lat": 42.1778662,
+      "long": -74.2304216,
+      "elevation": 4045,
+      "state": "NY"
+    },
+    {
+      "id": 973342,
+      "name": "Black Dome",
+      "lat": 42.2700864,
+      "long": -74.1226382,
+      "elevation": 3973,
+      "state": "NY"
+    },
+    {
+      "id": 973362,
+      "name": "Thomas Cole Mountain",
+      "lat": 42.2709196,
+      "long": -74.1365275,
+      "elevation": 3944,
+      "state": "NY"
+    },
+    {
+      "id": 973343,
+      "name": "Blackhead",
+      "lat": 42.2678644,
+      "long": -74.1045818,
+      "elevation": 3930,
+      "state": "NY"
+    },
+    {
+      "id": 973363,
+      "name": "West Kill Mountain",
+      "lat": 42.1678663,
+      "long": -74.2895904,
+      "elevation": 3891,
+      "state": "NY"
+    },
+    {
+      "id": 973350,
+      "name": "Graham Mountain",
+      "lat": 42.0392576,
+      "long": -74.5495986,
+      "elevation": 3848,
+      "state": "NY"
+    },
+    {
+      "id": 973348,
+      "name": "Doubletop Mountain",
+      "lat": 42.0275913,
+      "long": -74.5282095,
+      "elevation": 3875,
+      "state": "NY"
+    },
+    {
+      "id": 973346,
+      "name": "Cornell Mountain",
+      "lat": 42.0014812,
+      "long": -74.3568163,
+      "elevation": 3848,
+      "state": "NY"
+    },
+    {
+      "id": 973361,
+      "name": "Table Mountain",
+      "lat": 41.9587036,
+      "long": -74.4048739,
+      "elevation": 3819,
+      "state": "NY"
+    },
+    {
+      "id": 973358,
+      "name": "Peekamoose Mountain",
+      "lat": 41.9531481,
+      "long": -74.398207,
+      "elevation": 3812,
+      "state": "NY"
+    },
+    {
+      "id": 973359,
+      "name": "Plateau Mountain",
+      "lat": 42.1378671,
+      "long": -74.1743088,
+      "elevation": 3845,
+      "state": "NY"
+    },
+    {
+      "id": 966729,
+      "name": "Sugarloaf Mountain",
+      "lat": 42.1312006,
+      "long": -74.1501414,
+      "elevation": 3806,
+      "state": "NY"
+    },
+    {
+      "id": 971528,
+      "name": "Wittenberg Mountain",
+      "lat": 42.0081478,
+      "long": -74.3473716,
+      "elevation": 3766,
+      "state": "NY"
+    },
+    {
+      "id": 942952,
+      "name": "Balsam Lake Mountain",
+      "lat": 42.0459236,
+      "long": -74.5940438,
+      "elevation": 3707,
+      "state": "NY"
+    },
+    {
+      "id": 955819,
+      "name": "Lone Mountain",
+      "lat": 41.9692592,
+      "long": -74.3893177,
+      "elevation": 3697,
+      "state": "NY"
+    },
+    {
+      "id": 959820,
+      "name": "Panther Mountain",
+      "lat": 42.0564799,
+      "long": -74.3945946,
+      "elevation": 3714,
+      "state": "NY"
+    },
+    {
+      "id": 943907,
+      "name": "Big Indian Mountain",
+      "lat": 42.0350915,
+      "long": -74.4965421,
+      "elevation": 3694,
+      "state": "NY"
+    },
+    {
+      "id": 950728,
+      "name": "Friday Mountain",
+      "lat": 41.9875924,
+      "long": -74.3620944,
+      "elevation": 3681,
+      "state": "NY"
+    },
+    {
+      "id": 963108,
+      "name": "Rusk Mountain",
+      "lat": 42.2006434,
+      "long": -74.2770897,
+      "elevation": 3678,
+      "state": "NY"
+    },
+    {
+      "id": 952749,
+      "name": "Kaaterskill High Peak",
+      "lat": 42.1620334,
+      "long": -74.0801381,
+      "elevation": 3645,
+      "state": "NY"
+    },
+    {
+      "id": 968056,
+      "name": "Twin Mountain",
+      "lat": 42.1256453,
+      "long": -74.1290294,
+      "elevation": 3629,
+      "state": "NY"
+    },
+    {
+      "id": 942944,
+      "name": "Balsam Cap",
+      "lat": 41.9770369,
+      "long": -74.3573722,
+      "elevation": 3602,
+      "state": "NY"
+    },
+    {
+      "id": 950082,
+      "name": "Fir Mountain",
+      "lat": 42.0275916,
+      "long": -74.4690414,
+      "elevation": 3629,
+      "state": "NY"
+    },
+    {
+      "id": 958771,
+      "name": "North Dome",
+      "lat": 42.1734217,
+      "long": -74.3490366,
+      "elevation": 3596,
+      "state": "NY"
+    },
+    {
+      "id": 948930,
+      "name": "Eagle Mountain",
+      "lat": 42.0620352,
+      "long": -74.50932,
+      "elevation": 3573,
+      "state": "NY"
+    },
+    {
+      "id": 942953,
+      "name": "Balsam Mountain",
+      "lat": 42.0909235,
+      "long": -74.4882082,
+      "elevation": 3606,
+      "state": "NY"
+    },
+    {
+      "id": 943334,
+      "name": "Bearpen Mountain",
+      "lat": 42.2734189,
+      "long": -74.4840396,
+      "elevation": 3530,
+      "state": "NY"
+    },
+    {
+      "id": 953655,
+      "name": "Indian Head Mountain",
+      "lat": 42.116201,
+      "long": -74.1145846,
+      "elevation": 3553,
+      "state": "NY"
+    },
+    {
+      "id": 1829070,
+      "name": "Mt. Sherrill",
+      "lat": 42.1756439,
+      "long": -74.3729262,
+      "elevation": 3550,
+      "state": "NY"
+    },
+    {
+      "id": 952008,
+      "name": "Halcott Mountain",
+      "lat": 42.1800882,
+      "long": -74.4379281,
+      "elevation": 3524,
+      "state": "NY"
+    },
+    {
+      "id": 968592,
+      "name": "Vly Mountain",
+      "lat": 42.2453645,
+      "long": -74.4459834,
+      "elevation": 3530,
+      "state": "NY"
+    },
+    {
+      "id": 971464,
+      "name": "Windham High Peak",
+      "lat": 42.3148069,
+      "long": -74.1434718,
+      "elevation": 3527,
+      "state": "NY"
+    },
+    {
+      "id": 962784,
+      "name": "Rocky Mountain",
+      "lat": 41.9728703,
+      "long": -74.3726505,
+      "elevation": 3508,
+      "state": "NY"
+    },
+    {
+      "id": 50,
+      "name": "Southwest Hunter Mountain",
+      "lat": 42.16251,
+      "long": -74.24492,
+      "elevation": 3750,
+      "state": "NY"
+    }
+  ],
+  "description": "The Catskill High Peaks are a collection of summits over 3,500 ft. in elevation located within the 700,000 acre Catskill Park, a forest preserve in the state of New York. All mountains have a topographic prominence of at least 250 ft. or there is a distance of at least 0.5 miles between peaks. \n"
+}

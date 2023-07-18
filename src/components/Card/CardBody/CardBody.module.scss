@@ -1,0 +1,16 @@
+.wrapper {
+  overflow-y: overlay;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &::-webkit-scrollbar {
+    width: 0.6rem;
+    background-color: var(--color-grey-light-2);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-grey-dark-1);
+    border-radius: var(--border-radius);
+  }
+}
