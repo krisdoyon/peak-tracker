@@ -14,7 +14,15 @@
   @include absolute-center;
 }
 
+.label-complete {
+  color: var(--color-grey-light-1);
+}
+
 .progress {
   background-color: var(--color-green-hilight);
   height: 100%;
+}
+
+.complete {
+  background-color: var(--color-green-primary);
 }
