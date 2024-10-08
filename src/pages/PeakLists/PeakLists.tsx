@@ -14,7 +14,10 @@ import {
 } from "features/apiSlice";
 import { useListCounts } from "hooks/useListCounts";
 
-import { useAppSelector } from "hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { SerializedError } from "@reduxjs/toolkit";
+import { ModalType, openModal, setError } from "features/modalSlice";
 
 const noDataMessage = (
   <p>
@@ -28,11 +31,13 @@ export const PeakLists = () => {
 
   const [previewType, setPreviewType] = useState<"all" | "saved">("all");
 
+  const dispatch = useAppDispatch();
+
   const {
     data: allPeakLists = [],
     isLoading: isListsLoading,
     isError: isListsError,
-    error: listsError,
+    error,
   } = useGetListsQuery();
 
   // const {
@@ -49,6 +54,7 @@ export const PeakLists = () => {
     data: savedLists = [],
     isLoading: isSavedListsLoading,
     isError: isSavedListsError,
+    // error,
   } = useGetSavedListsQuery(
     { userId, token },
     { skip: userId === null || !isLoggedIn }
@@ -82,12 +88,26 @@ export const PeakLists = () => {
     );
   }
 
+  // if (error) {
+  //   if ("status" in error) {
+  //     const errMsg =
+  //       "error" in error ? error.error : JSON.stringify(error.data);
+  //   }
+  //   return (
+  //     <Card>
+  //       <p>errMsg</p>
+  //     </Card>
+  //   );
+  // }
+
   if (isError) {
-    return (
-      <Card>
-        <p>ERROR</p>
-      </Card>
-    );
+    // return (
+    //   <Card>
+    //     <p>ERROR</p>
+    //   </Card>
+    // );
+    dispatch(setError(error));
+    dispatch(openModal(ModalType.ERROR));
   }
 
   return (

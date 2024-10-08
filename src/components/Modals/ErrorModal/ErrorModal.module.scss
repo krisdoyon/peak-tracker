@@ -1,0 +1,29 @@
+.modal {
+  padding: 3rem;
+  width: max-content;
+  min-width: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+}
+
+.message {
+  margin-top: 4rem;
+  font-size: 1.6rem;
+}
+
+// .form {
+//   display: grid;
+//   width: 50rem;
+//   gap: 2rem;
+
+//   label {
+//     font-size: 1.4rem;
+//   }
+// }
+
+// .submit {
+//   padding: 1rem 2rem;
+//   // align-self: center;
+// }

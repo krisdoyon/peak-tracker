@@ -4,7 +4,12 @@ import { useState } from "react";
 import styles from "./LoginModal.module.scss";
 import { useSendAuthRequestMutation } from "features/apiSlice";
 import { useAppDispatch } from "hooks/reduxHooks";
-import { closeModal } from "features/modalSlice";
+import {
+  ModalType,
+  closeModal,
+  openModal,
+  setError,
+} from "features/modalSlice";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
 import { SerializedError } from "@reduxjs/toolkit";
@@ -38,14 +43,20 @@ export const LoginModal = () => {
       requestType,
     });
 
-    dispatch(closeModal());
+    dispatch(closeModal()); // TODO fix this problem, closing error modal before it loads
   };
+
+  if (isError) {
+    dispatch(setError(error));
+    dispatch(openModal(ModalType.ERROR));
+    return null;
+  }
 
   return (
     <Modal className={styles.modal}>
       {isLoading && <LoadingSpinner />}
       {/* {error && <p>{error?.data?.error.message}</p>} */}
-      {!isLoading && !error && (
+      {!isLoading && !isError && (
         <>
           <h2 className={styles.heading}>
             {isLogin ? "Log in" : "Create account"}
