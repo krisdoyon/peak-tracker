@@ -3,6 +3,7 @@ import { Button } from "components/Buttons";
 import {
   useGetListsQuery,
   useGetLogEntriesQuery,
+  useGetPeaksQuery,
   useSetTestLogEntriesMutation,
 } from "features/apiSlice";
 import { clearMap, plotLogEntry } from "features/mapSlice";
@@ -67,7 +68,6 @@ export const PlotCompletedButton = () => {
     { userId, token },
     { skip: userId === null || !isLoggedIn || token === null }
   );
-  const allPeaks = getAllUniquePeaks(allPeakLists);
   const completedPeaks = allPeaks.filter((peak) =>
     isPeakCompleted(peak.id, logEntries)
   );
