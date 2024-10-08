@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { testLogEntries } from "assets/testLogEntries";
-import { ILogEntry, IPeakList } from "models/interfaces";
+import { ILogEntry, IPeakList, IPeak } from "models/interfaces";
 import { API_URL, SIGNUP_URL, LOGIN_URL } from "assets/config";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 type userId = string | null;
 type token = string | null;
