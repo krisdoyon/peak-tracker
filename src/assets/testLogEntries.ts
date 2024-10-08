@@ -1,4 +1,5 @@
 import { ILogEntry } from "models/interfaces";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 export const testLogEntries: ILogEntry[] = [
   {
@@ -14,6 +15,7 @@ export const testLogEntries: ILogEntry[] = [
     rating: 4,
     logId: "0",
     date: "2022-08-29",
+    tripType: TripType.COMPLETED,
   },
   {
     peakIds: [871380, 872101, 872247, 871352],
@@ -28,6 +30,7 @@ export const testLogEntries: ILogEntry[] = [
     rating: 5,
     logId: "1",
     date: "2022-08-28",
+    tripType: TripType.COMPLETED,
   },
   {
     peakIds: [973340, 973355, 971754],
@@ -41,6 +44,7 @@ export const testLogEntries: ILogEntry[] = [
     rating: 5,
     logId: "2",
     date: "2021-08-15",
+    tripType: TripType.COMPLETED,
   },
   {
     peakIds: [872460, 872833, 872294, 872920],
@@ -55,6 +59,7 @@ export const testLogEntries: ILogEntry[] = [
     rating: 4,
     logId: "3",
     date: "2021-06-25",
+    tripType: TripType.COMPLETED,
   },
   {
     peakIds: [871418, 872947],
@@ -69,6 +74,7 @@ export const testLogEntries: ILogEntry[] = [
     rating: 5,
     logId: "4",
     date: "2020-10-11",
+    tripType: TripType.COMPLETED,
   },
   {
     peakIds: [607428],
@@ -83,6 +89,7 @@ export const testLogEntries: ILogEntry[] = [
     rating: 4,
     logId: "5",
     date: "2020-08-10",
+    tripType: TripType.COMPLETED,
   },
   {
     peakIds: [7, 871556, 1],
@@ -97,6 +104,7 @@ export const testLogEntries: ILogEntry[] = [
     rating: 5,
     logId: "6",
     date: "2020-07-16",
+    tripType: TripType.COMPLETED,
   },
   {
     peakIds: [872150, 872176],
@@ -111,6 +119,7 @@ export const testLogEntries: ILogEntry[] = [
     rating: 5,
     logId: "7",
     date: "2019-05-12",
+    tripType: TripType.COMPLETED,
   },
   {
     peakIds: [180381],
@@ -125,6 +134,7 @@ export const testLogEntries: ILogEntry[] = [
     rating: 5,
     logId: "8",
     date: "2018-09-04",
+    tripType: TripType.COMPLETED,
   },
   {
     peakIds: [181827, 181829],
@@ -138,6 +148,7 @@ export const testLogEntries: ILogEntry[] = [
     rating: 5,
     logId: "9",
     date: "2018-01-01",
+    tripType: TripType.COMPLETED,
   },
   {
     peakIds: [204979],
@@ -151,6 +162,7 @@ export const testLogEntries: ILogEntry[] = [
     rating: 5,
     logId: "10",
     date: "2017-07-24",
+    tripType: TripType.COMPLETED,
   },
   {
     peakIds: [179961, 204685, 179956],
@@ -164,5 +176,6 @@ export const testLogEntries: ILogEntry[] = [
     rating: 4,
     logId: "11",
     date: "2016-06-06",
+    tripType: TripType.COMPLETED,
   },
 ];
