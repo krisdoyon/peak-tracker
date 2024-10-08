@@ -9,6 +9,7 @@ import {
   SingleLogEntry,
   SinglePeakList,
   Planner,
+  Tools,
 } from "./pages";
 import { useFirstVisit } from "hooks/useFirstVisit";
 import { useClearMap } from "hooks/useClearMap";
@@ -37,6 +38,7 @@ function App() {
           <Route path="/new-entry" element={<NewEntry />} />
             <Route path="/planner" element={<Planner />} />
             <Route path="/planner/:logId" element={<SingleLogEntry />} />
+            <Route path="/tools" element={<Tools />} />
         </Route>
       </Routes>
     </>

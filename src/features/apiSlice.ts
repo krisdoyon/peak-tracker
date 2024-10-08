@@ -3,13 +3,14 @@ import { testLogEntries } from "assets/testLogEntries";
 import { ILogEntry, IPeakList, IPeak } from "models/interfaces";
 import { API_URL, SIGNUP_URL, LOGIN_URL } from "assets/config";
 import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
+import { GearListItem } from "pages/GearList/GearList";
 
 type userId = string | null;
 type token = string | null;
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  tagTypes: ["savedLists", "logEntries"],
+  tagTypes: ["savedLists", "logEntries", "gearList"],
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
   }),
@@ -27,20 +28,20 @@ export const apiSlice = createApi({
       ILogEntry[],
       { userId: userId; token: token; tripType?: TripType }
     >({
-        query: ({ userId, token }) =>
-          `/users/${userId}/logEntries.json?auth=${token}`,
+      query: ({ userId, token }) =>
+        `/users/${userId}/logEntries.json?auth=${token}`,
       transformResponse: (res: ILogEntry[], meta, arg) => {
         const { tripType } = arg;
-          if (res === null) return [];
-          return Object.keys(res)
-            .map((key) => res[+key])
+        if (res === null) return [];
+        return Object.keys(res)
+          .map((key) => res[+key])
           .filter(
             (entry) =>
               entry != null &&
               (tripType === undefined || entry.tripType === tripType)
           );
-        },
-        providesTags: ["logEntries"],
+      },
+      providesTags: ["logEntries"],
     }),
     getSavedLists: builder.query<string[], { userId: userId; token: token }>({
       query: ({ userId, token }) =>
@@ -137,6 +138,45 @@ export const apiSlice = createApi({
         }
       },
     }),
+    getGearList: builder.query<
+      GearListItem[],
+      { userId: userId; token: token }
+    >({
+      query: ({ userId, token }) =>
+        `/users/${userId}/gearList.json?auth=${token}`,
+      transformResponse: (res: GearListItem[]) => res ?? [],
+      // providesTags: ["gearList"],
+    }),
+    updateGearList: builder.mutation<
+      void,
+      { userId: userId; token: token; gearList: GearListItem[] }
+    >({
+      query: ({ userId, token, gearList }) => ({
+        url: `/users/${userId}/gearList.json?auth=${token}`,
+        method: "PUT",
+        body: gearList,
+      }),
+      // invalidatesTags: ["gearList"],
+      // async onQueryStarted(
+      //   { userId, token, gearList },
+      //   { dispatch, queryFulfilled }
+      // ) {
+      //   const patchResult = dispatch(
+      //     apiSlice.util.updateQueryData(
+      //       "getGearList",
+      //       { userId, token },
+      //       () => {
+      //         return gearList;
+      //       }
+      //     )
+      //   );
+      //   try {
+      //     await queryFulfilled;
+      //   } catch {
+      //     patchResult.undo();
+      //   }
+      // },
+    }),
     setTestLogEntries: builder.mutation<void, { userId: userId; token: token }>(
       {
         query: ({ userId, token }) => ({
@@ -192,4 +232,6 @@ export const {
   useAddLogEntryMutation,
   useSetTestLogEntriesMutation,
   useSendAuthRequestMutation,
+  useGetGearListQuery,
+  useUpdateGearListMutation,
 } = apiSlice;

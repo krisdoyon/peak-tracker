@@ -5,3 +5,5 @@ export { Stats } from "./Stats/Stats";
 export { SinglePeakList } from "./SinglePeakList/SinglePeakList";
 export { SingleLogEntry } from "./SingleLogEntry/SingleLogEntry";
 export { Planner } from "./Planner/Planner";
+export { Calculator } from "./Calculator/Calculator";
+export { Tools } from "./Tools/Tools";
