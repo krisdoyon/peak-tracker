@@ -3,12 +3,13 @@ import { ILogEntry } from "models/interfaces";
 import { ViewButton } from "components/Buttons";
 import { Fragment } from "react";
 import { getLogStats, getPeakById, getPeaksById } from "utils/peakUtils";
-import { useGetListsQuery } from "features/apiSlice";
+import { useGetListsQuery, useGetPeaksQuery } from "features/apiSlice";
 import { getLogLists } from "utils/peakUtils";
 import { usePeakList } from "hooks/usePeakList";
 import sprite from "assets/img/sprite.svg";
 import { useAppDispatch } from "hooks/reduxHooks";
 import { plotList, plotLogEntry } from "features/mapSlice";
+import { usePeakListPeaks } from "hooks/usePeakListPeaks";
 
 interface Props {
   listId: string;
@@ -16,6 +17,8 @@ interface Props {
 
 const ListMatchRow = ({ listId }: Props) => {
   const { data: list } = usePeakList(listId);
+
+  const peaks = usePeakListPeaks(listId);
   const dispatch = useAppDispatch();
 
   if (list) {
@@ -24,7 +27,7 @@ const ListMatchRow = ({ listId }: Props) => {
         <span>{list.title}</span>
         <ViewButton
           small={true}
-          onClick={() => dispatch(plotList({ listId, peaks: list.peaks }))}
+          onClick={() => dispatch(plotList({ listId, peaks }))}
         />
       </Fragment>
     );
@@ -34,43 +37,50 @@ const ListMatchRow = ({ listId }: Props) => {
 
 export const LogEntryGrid = ({ peakIds, stats, notes, rating }: ILogEntry) => {
   const { data: allPeakLists = [] } = useGetListsQuery();
+  const { data: allPeaks = [] } = useGetPeaksQuery();
+
   const dispatch = useAppDispatch();
 
   const listMatchIds = getLogLists(peakIds, allPeakLists);
-  const logPeaks = getPeaksById(peakIds, allPeakLists);
+  const logPeaks = getPeaksById(peakIds, allPeaks);
   const { time, avgElevation, avgSpeed } = getLogStats(stats);
   const { distance, elevation } = stats;
 
   return (
     <div className={styles.grid}>
-      <span className={styles.label}>Peak Lists:</span>
-      <div className={styles.lists}>
-        {listMatchIds.map((listId) => {
-          return <ListMatchRow key={listId} listId={listId} />;
-        })}
-      </div>
-      <span className={styles.label}>Peaks:</span>
-      <div
-        className={styles.peaks}
-        style={{
-          gridTemplateRows: `repeat(${peakIds.length}, max-content`,
-        }}
-      >
-        {peakIds.map((peakId) => {
-          const peak = getPeakById(peakId, allPeakLists);
-          if (peak) {
-            return (
-              <span key={peakId} className={styles.peak}>{`${
-                peak.name
-              } - ${peak.elevation.toLocaleString()} ft`}</span>
-            );
-          }
-        })}
-        <ViewButton
-          small={true}
-          onClick={() => dispatch(plotLogEntry(logPeaks))}
-        />
-      </div>
+      {peakIds?.length > 0 && (
+        <>
+          <span className={styles.label}>Peak Lists:</span>
+          <div className={styles.lists}>
+            {listMatchIds.map((listId) => {
+              return <ListMatchRow key={listId} listId={listId} />;
+            })}
+          </div>
+
+          <span className={styles.label}>Peaks:</span>
+          <div
+            className={styles.peaks}
+            style={{
+              gridTemplateRows: `repeat(${peakIds?.length}, max-content`,
+            }}
+          >
+            {peakIds?.map((peakId) => {
+              const peak = getPeakById(peakId, allPeaks);
+              if (peak) {
+                return (
+                  <span key={peakId} className={styles.peak}>{`${
+                    peak.name
+                  } - ${peak.elevation.toLocaleString()} ft`}</span>
+                );
+              }
+            })}
+            <ViewButton
+              small={true}
+              onClick={() => dispatch(plotLogEntry(logPeaks))}
+            />
+          </div>
+        </>
+      )}
       <span className={styles.label}>Distance:</span>
       <span>{distance ? distance + ` mi` : "n/a"}</span>
       <span className={styles.label}>Elevation:</span>

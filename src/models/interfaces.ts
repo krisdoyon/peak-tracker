@@ -10,7 +10,7 @@ export interface IPeak {
 export interface IPeakList {
   title: string;
   listId: string;
-  peaks: IPeak[];
+  peaks: number[];
   description: string;
 }
 

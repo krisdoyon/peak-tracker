@@ -15,7 +15,7 @@ export const useFilteredLogEntries = () => {
   let filteredEntries = [...allLogEntries];
   if (filters.listId !== "all") {
     filteredEntries = filteredEntries.filter((entry) => {
-      const listIdMatchIds = getLogLists(entry.peakIds, allPeakLists);
+      const listIdMatchIds = getLogLists(entry?.peakIds, allPeakLists);
       return listIdMatchIds.some((listId) => listId === filters.listId);
     });
   }

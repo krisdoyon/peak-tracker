@@ -11,9 +11,11 @@ export const useListCounts = () => {
     listCounts[peakList.listId] = 0;
   });
   completedPeaks.forEach((peakId) => {
-    const listMatchIds = getMatchingListIds(peakId, allPeakLists);
-    listMatchIds.forEach((listId) => {
-      listCounts[listId]++;
+    allPeakLists.forEach((list) => {
+      const { peaks, listId } = list;
+      if (peaks.includes(peakId)) {
+        listCounts[listId]++;
+      }
     });
   });
   return listCounts;

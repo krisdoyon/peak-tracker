@@ -18,8 +18,14 @@ export const apiSlice = createApi({
       transformResponse: (res: IPeakList[]) =>
         res.sort((a, b) => a.title.localeCompare(b.title)) ?? [],
     }),
-    getLogEntries: builder.query<ILogEntry[], { userId: userId; token: token }>(
-      {
+    getPeaks: builder.query<IPeak[], void>({
+      query: () => "/peaks.json",
+      transformResponse: (res: IPeak[]) => res ?? [],
+    }),
+    getLogEntries: builder.query<
+      ILogEntry[],
+      { userId: userId; token: token; tripType?: TripType }
+    >({
         query: ({ userId, token }) =>
           `/users/${userId}/logEntries.json?auth=${token}`,
         transformResponse: (res: ILogEntry[]) => {

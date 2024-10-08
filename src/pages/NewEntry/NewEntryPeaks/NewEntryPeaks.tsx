@@ -8,20 +8,21 @@ import { useGetListsQuery } from "features/apiSlice";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { closePopup, openPopup, plotList } from "features/mapSlice";
 import { toggleCheckedPeak, updateListId } from "features/newEntrySlice";
+import { usePeakListPeaks } from "hooks/usePeakListPeaks";
 
 export const NewEntryPeaks = () => {
   const dispatch = useAppDispatch();
   const { listId, checkedPeaks } = useAppSelector((state) => state.newEntry);
   const { data: allPeakLists = [] } = useGetListsQuery();
-  const { data: peakList } = usePeakList(listId);
+  const peaks = usePeakListPeaks(listId);
 
-  const sortedPeaks = sortPeaks(peakList?.peaks, SortType.NAME);
+  const sortedPeaks = sortPeaks(peaks, SortType.NAME);
 
   useEffect(() => {
-    if (listId && peakList) {
-      dispatch(plotList({ listId, peaks: peakList.peaks }));
+    if (listId && peaks) {
+      dispatch(plotList({ listId, peaks }));
     }
-  }, [listId, peakList]);
+  }, [listId, peaks]);
 
   const handleListChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(updateListId(e.target.value));

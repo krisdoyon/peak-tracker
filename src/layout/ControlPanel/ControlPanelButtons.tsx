@@ -35,8 +35,7 @@ export const LoadTestButton = () => {
 };
 
 export const PlotAllButton = () => {
-  const { data: allPeakLists = [] } = useGetListsQuery();
-  const allPeaks = getAllUniquePeaks(allPeakLists);
+  const { data: allPeaks = [] } = useGetPeaksQuery();
   const dispatch = useAppDispatch();
 
   return (
@@ -62,7 +61,8 @@ export const PlotCompletedButton = () => {
   const dispatch = useAppDispatch();
   const { isLoggedIn, token, userId } = useAppSelector((state) => state.auth);
 
-  const { data: allPeakLists = [] } = useGetListsQuery();
+  const { data: allPeaks = [] } = useGetPeaksQuery();
+
   const { data: logEntries = [] } = useGetLogEntriesQuery(
     { userId, token },
     { skip: userId === null || !isLoggedIn || token === null }
