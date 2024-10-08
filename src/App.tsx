@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Layout } from "./layout/Layout/Layout";
 import {
   PeakLists,
@@ -18,6 +17,9 @@ import { useToken } from "hooks/useToken";
 import Modals from "components/Modals/Modals";
 import { useActiveNav } from "hooks/useActiveNav";
 
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "theme/theme";
+
 function App() {
   useClearMap();
   useFirstVisit();
@@ -27,20 +29,22 @@ function App() {
 
   return (
     <>
-      <Modals />
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="/peak-lists" element={<PeakLists />} />
-          <Route path="/peak-lists/:listId" element={<SinglePeakList />} />
-          <Route path="/log" element={<Log />} />
-          <Route path="/log/:logId" element={<SingleLogEntry />} />
-          <Route path="/stats" element={<Stats />} />
-          <Route path="/new-entry" element={<NewEntry />} />
+      <ThemeProvider theme={theme}>
+        <Modals />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="/peak-lists" element={<PeakLists />} />
+            <Route path="/peak-lists/:listId" element={<SinglePeakList />} />
+            <Route path="/log" element={<Log />} />
+            <Route path="/log/:logId" element={<SingleLogEntry />} />
+            <Route path="/stats" element={<Stats />} />
+            <Route path="/new-entry" element={<NewEntry />} />
             <Route path="/planner" element={<Planner />} />
             <Route path="/planner/:logId" element={<SingleLogEntry />} />
             <Route path="/tools" element={<Tools />} />
-        </Route>
-      </Routes>
+          </Route>
+        </Routes>
+      </ThemeProvider>
     </>
   );
 }
