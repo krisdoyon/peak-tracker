@@ -178,6 +178,7 @@ export const apiSlice = createApi({
 });
 
 export const {
+  useGetPeaksQuery,
   useGetListsQuery,
   useGetLogEntriesQuery,
   useGetSavedListsQuery,
