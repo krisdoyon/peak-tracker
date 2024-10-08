@@ -1,7 +1,6 @@
 import styles from "./ControlPanel.module.scss";
 import { Button } from "components/Buttons";
 import {
-  useGetListsQuery,
   useGetLogEntriesQuery,
   useGetPeaksQuery,
   useSetTestLogEntriesMutation,
@@ -9,9 +8,10 @@ import {
 import { clearMap, plotLogEntry } from "features/mapSlice";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { useNavigate } from "react-router-dom";
-import { getAllUniquePeaks, isPeakCompleted } from "utils/peakUtils";
+import { isPeakCompleted } from "utils/peakUtils";
 import { ModalType, openModal } from "features/modalSlice";
 import { logout } from "features/authSlice";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 export const LoadTestButton = () => {
   const [setTestLogEntries] = useSetTestLogEntriesMutation();
@@ -65,7 +65,7 @@ export const PlotCompletedButton = () => {
   const { data: allPeaks = [] } = useGetPeaksQuery();
 
   const { data: logEntries = [] } = useGetLogEntriesQuery(
-    { userId, token },
+    { userId, token, tripType: TripType.COMPLETED },
     { skip: userId === null || !isLoggedIn || token === null }
   );
   const completedPeaks = allPeaks.filter((peak) =>

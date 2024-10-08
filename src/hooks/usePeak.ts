@@ -1,6 +1,7 @@
 import { useGetPeaksQuery, useGetLogEntriesQuery } from "features/apiSlice";
 import { isPeakCompleted, getCompletedDate } from "utils/peakUtils";
 import { useAppSelector } from "hooks/reduxHooks";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 export const usePeak = (peakId: number) => {
   const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
@@ -15,7 +16,7 @@ export const usePeak = (peakId: number) => {
     },
   });
   const { data: allLogEntries = [] } = useGetLogEntriesQuery(
-    { userId, token },
+    { userId, token, tripType: TripType.COMPLETED },
     { skip: userId === null || !isLoggedIn || token === null }
   );
   const isCompleted = isPeakCompleted(peakId, allLogEntries);

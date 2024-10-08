@@ -1,0 +1,7 @@
+.grid {
+  display: grid;
+  grid-template-columns: max-content auto;
+  align-items: center;
+  gap: 1.2rem;
+  column-gap: 2.4rem;
+}

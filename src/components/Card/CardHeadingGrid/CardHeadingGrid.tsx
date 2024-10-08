@@ -4,7 +4,7 @@ import styles from "./CardHeadingGrid.module.scss";
 
 interface Props {
   title: string;
-  backTo: "peak-lists" | "log";
+  backTo: "peak-lists" | "log" | "planner";
   children?: React.ReactNode;
 }
 

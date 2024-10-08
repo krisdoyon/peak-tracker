@@ -1,0 +1,16 @@
+.pagination {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 8px 12px;
+  background-color: var(--color-green-primary);
+  height: 4.2rem;
+}
+
+// .button {
+//   background-color: var(--color-green-primary);
+//   color: var(--color-grey-light-1);
+
+//   &:hover {
+//     background-color: var(--color-green-light);
+//   }
+// }

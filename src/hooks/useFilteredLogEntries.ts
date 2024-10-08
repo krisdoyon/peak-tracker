@@ -1,13 +1,18 @@
 import { useGetListsQuery, useGetLogEntriesQuery } from "features/apiSlice";
 import { getLogLists } from "utils/peakUtils";
 import { useAppSelector } from "./reduxHooks";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 export const useFilteredLogEntries = () => {
   const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
 
   const filters = useAppSelector((state) => state.filters);
   const { data: allLogEntries = [] } = useGetLogEntriesQuery(
-    { userId, token },
+    {
+      userId,
+      token,
+      tripType: TripType.COMPLETED,
+    },
     { skip: userId === null || !isLoggedIn || token === null }
   );
   const { data: allPeakLists = [] } = useGetListsQuery();

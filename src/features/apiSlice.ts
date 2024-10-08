@@ -28,15 +28,19 @@ export const apiSlice = createApi({
     >({
         query: ({ userId, token }) =>
           `/users/${userId}/logEntries.json?auth=${token}`,
-        transformResponse: (res: ILogEntry[]) => {
+      transformResponse: (res: ILogEntry[], meta, arg) => {
+        const { tripType } = arg;
           if (res === null) return [];
           return Object.keys(res)
             .map((key) => res[+key])
-            .filter((entry) => entry != null);
+          .filter(
+            (entry) =>
+              entry != null &&
+              (tripType === undefined || entry.tripType === tripType)
+          );
         },
         providesTags: ["logEntries"],
-      }
-    ),
+    }),
     getSavedLists: builder.query<string[], { userId: userId; token: token }>({
       query: ({ userId, token }) =>
         `/users/${userId}/savedLists.json?auth=${token}`,

@@ -8,6 +8,7 @@ import { useFilteredLogEntries } from "hooks/useFilteredLogEntries";
 import { useGetLogEntriesQuery } from "features/apiSlice";
 import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
 import { useAppSelector } from "hooks/reduxHooks";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 export const Stats = () => {
   const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
@@ -17,7 +18,7 @@ export const Stats = () => {
     isLoading,
     error,
   } = useGetLogEntriesQuery(
-    { userId, token },
+    { userId, token, tripType: TripType.COMPLETED },
     { skip: userId === null || !isLoggedIn || token === null }
   );
   const filteredEntries = useFilteredLogEntries();
