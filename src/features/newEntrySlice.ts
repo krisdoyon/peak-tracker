@@ -1,7 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ILogEntry } from "models/interfaces";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 interface INewEntryState {
+  tripType: TripType;
   date: string;
   listId: string;
   checkedPeaks: number[];
@@ -25,6 +27,7 @@ interface INewEntryState {
 }
 
 const initialState: INewEntryState = {
+  tripType: TripType.COMPLETED,
   date: "",
   listId: "",
   checkedPeaks: [],
@@ -51,6 +54,9 @@ const newEntrySlice = createSlice({
   name: "newEntry",
   initialState,
   reducers: {
+    updateTripType: (state, action: PayloadAction<TripType>) => {
+      state.tripType = action.payload;
+    },
     updateDate: (state, action: PayloadAction<string>) => {
       state.date = action.payload;
       state.hasUnsavedChanges = true;
@@ -109,6 +115,7 @@ const newEntrySlice = createSlice({
     },
     loadEntry: (state, action: PayloadAction<ILogEntry>) => {
       const logEntry = action.payload;
+      state.tripType = logEntry.tripType;
       state.date = logEntry.date;
       state.stats = {
         elevation: logEntry.stats.elevation,
@@ -121,7 +128,7 @@ const newEntrySlice = createSlice({
         distance: logEntry.stats.distance ? true : false,
         time: logEntry.stats.hours || logEntry.stats.minutes ? true : false,
       };
-      state.checkedPeaks = logEntry.peakIds;
+      state.checkedPeaks = logEntry?.peakIds || [];
       state.rating = logEntry.rating || 0;
       state.filledStar = logEntry.rating || 0;
       state.notes = logEntry.notes;
@@ -133,6 +140,7 @@ const newEntrySlice = createSlice({
 });
 
 export const {
+  updateTripType,
   updateDate,
   updateListId,
   toggleCheckedPeak,

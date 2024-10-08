@@ -1,7 +1,9 @@
 import { Card, CardBody, CardHeading } from "components/Card";
 import { PreviewList, PreviewControls } from "components/PreviewList";
-import { LogPreview } from "./LogPreview/LogPreview";
-import { PaginationButton } from "components/Buttons";
+// import { LogPreview } from "./LogPreview/LogPreview";
+import styles from "./Planner.module.scss";
+
+import { AddButton, PaginationButton } from "components/Buttons";
 import { FilterSelects } from "components/FilterSelects/FilterSelects";
 import { usePagination } from "hooks/usePagination";
 import { NoData } from "components/NoData/NoData";
@@ -11,40 +13,33 @@ import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
 import { useGetLogEntriesQuery } from "features/apiSlice";
 import { useAppSelector } from "hooks/reduxHooks";
 import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
+import { LogPreview } from "pages/Log/LogPreview/LogPreview";
 
-export const Log = () => {
+export const Planner = () => {
   const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
 
   const {
-    data: allLogEntries,
+    data: allPlannedTrips,
     isLoading,
     isError,
     error,
   } = useGetLogEntriesQuery(
-    { userId, token, tripType: TripType.COMPLETED },
+    { userId, token, tripType: TripType.PLANNED },
     { skip: userId === null || !isLoggedIn || token === null }
   );
 
-  const filteredEntries = useFilteredLogEntries();
+  // const filteredEntries = useFilteredLogEntries();
 
   const { page, maxPage, nextPage, prevPage, displayArr } = usePagination(
-    filteredEntries,
+    allPlannedTrips,
     6
   );
 
-  useFiltersReset();
+  // useFiltersReset();
 
   const noDataMessage = (
     <p>
-      {`You haven't added any log entries ${
-        allLogEntries?.length === 0 ? "yet" : "that match the selected filters"
-      }. ${
-        allLogEntries?.length === 0 ? "Click" : "Adjust the filters or click"
-      }
-        the button below to log ${
-          allLogEntries?.length === 0 ? "your first" : "a new"
-        } entry!
-        `}
+      {`You haven't added any planned trips yet. Use the button above to add your first trip plan!`}
     </p>
   );
 
@@ -73,21 +68,28 @@ export const Log = () => {
 
   return (
     <Card>
-      <CardHeading title={"Trip Log"} />
-      <PreviewControls variant="log">
+      <CardHeading title={"Planner"} />
+      {/* <PreviewControls variant="log"> */}
+      <div className={styles.pagination}>
         {page !== 1 && (
-          <PaginationButton variant="prev" onClick={prevPage}>{`Page ${
-            page - 1
-          }`}</PaginationButton>
+          <PaginationButton
+            variant="prev"
+            onClick={prevPage}
+            className={styles.button}
+          >{`Page ${page - 1}`}</PaginationButton>
         )}
-        <FilterSelects card="log" />
+        {/* <FilterSelects card="log" /> */}
         {page < maxPage && (
-          <PaginationButton variant="next" onClick={nextPage}>{`Page ${
-            page + 1
-          }`}</PaginationButton>
+          <PaginationButton
+            variant="next"
+            onClick={nextPage}
+            className={styles.button}
+          >{`Page ${page + 1}`}</PaginationButton>
         )}
-      </PreviewControls>
+      </div>
+      {/* </PreviewControls> */}
       <CardBody>
+        {/* <AddButton /> */}
         {displayArr.length > 0 && (
           <PreviewList>
             {displayArr.map((entry) => {
@@ -98,8 +100,8 @@ export const Log = () => {
         {displayArr.length === 0 && (
           <NoData
             message={isLoggedIn ? noDataMessage : loginMessage}
-            hasAddButton={isLoggedIn ? true : false}
-            hasLoginButton={isLoggedIn ? false : true}
+            hasAddButton={isLoggedIn}
+            hasLoginButton={!isLoggedIn}
           />
         )}
       </CardBody>

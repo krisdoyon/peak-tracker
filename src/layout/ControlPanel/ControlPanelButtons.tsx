@@ -1,16 +1,17 @@
 import styles from "./ControlPanel.module.scss";
 import { Button } from "components/Buttons";
 import {
-  useGetListsQuery,
   useGetLogEntriesQuery,
+  useGetPeaksQuery,
   useSetTestLogEntriesMutation,
 } from "features/apiSlice";
 import { clearMap, plotLogEntry } from "features/mapSlice";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { useNavigate } from "react-router-dom";
-import { getAllUniquePeaks, isPeakCompleted } from "utils/peakUtils";
+import { isPeakCompleted } from "utils/peakUtils";
 import { ModalType, openModal } from "features/modalSlice";
 import { logout } from "features/authSlice";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 export const LoadTestButton = () => {
   const [setTestLogEntries] = useSetTestLogEntriesMutation();
@@ -35,8 +36,7 @@ export const LoadTestButton = () => {
 };
 
 export const PlotAllButton = () => {
-  const { data: allPeakLists = [] } = useGetListsQuery();
-  const allPeaks = getAllUniquePeaks(allPeakLists);
+  const { data: allPeaks = [] } = useGetPeaksQuery();
   const dispatch = useAppDispatch();
 
   return (
@@ -62,12 +62,12 @@ export const PlotCompletedButton = () => {
   const dispatch = useAppDispatch();
   const { isLoggedIn, token, userId } = useAppSelector((state) => state.auth);
 
-  const { data: allPeakLists = [] } = useGetListsQuery();
+  const { data: allPeaks = [] } = useGetPeaksQuery();
+
   const { data: logEntries = [] } = useGetLogEntriesQuery(
-    { userId, token },
+    { userId, token, tripType: TripType.COMPLETED },
     { skip: userId === null || !isLoggedIn || token === null }
   );
-  const allPeaks = getAllUniquePeaks(allPeakLists);
   const completedPeaks = allPeaks.filter((peak) =>
     isPeakCompleted(peak.id, logEntries)
   );

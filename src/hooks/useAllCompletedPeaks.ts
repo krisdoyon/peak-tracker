@@ -4,6 +4,7 @@ import { useGetLogEntriesQuery } from "features/apiSlice";
 import { ILogEntry, IPeak } from "models/interfaces";
 import { useMemo } from "react";
 import { useAppSelector } from "hooks/reduxHooks";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 export const useAllCompletedPeaks = () => {
   const { userId, isLoggedIn, token } = useAppSelector((state) => state.auth);
@@ -16,7 +17,7 @@ export const useAllCompletedPeaks = () => {
     );
   }, []);
   const { data: completedPeaks = [] } = useGetLogEntriesQuery(
-    { userId, token },
+    { userId, token, tripType: TripType.COMPLETED },
     {
       skip: userId === null || !isLoggedIn || token === null,
       selectFromResult: (res) => ({

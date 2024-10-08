@@ -3,10 +3,16 @@ import formStyles from "../NewEntry.module.scss";
 import sprite from "assets/img/sprite.svg";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { updateNotes } from "features/newEntrySlice";
+import { TripType } from "../NewEntryType/NewEntryType";
 
 export const NewEntryNotes = () => {
   const dispatch = useAppDispatch();
-  const { notes } = useAppSelector((state) => state.newEntry);
+  const { tripType, notes } = useAppSelector((state) => state.newEntry);
+
+  const placeholder =
+    tripType === TripType.COMPLETED
+      ? "Record details about the weather, wildlife, trail conditions or anything else!"
+      : "Add notes for your upcoming trip plans!";
 
   return (
     <div className={formStyles.row}>
@@ -23,7 +29,7 @@ export const NewEntryNotes = () => {
         id="notes"
         name="notes"
         className={styles.notes}
-        placeholder="Record details about the weather, wildlife, trail conditions or anything else!"
+        placeholder={placeholder}
         onChange={(e) => dispatch(updateNotes(e.target.value))}
         value={notes}
       ></textarea>

@@ -10,7 +10,7 @@ export const getAllUniquePeaks = (peakLists: IPeakList[]): IPeak[] => {
 export const getMatchingListIds = (peakId: number, peakLists: IPeakList[]) => {
   const listMatchIds: string[] = [];
   peakLists.forEach((peakList) => {
-    if (peakList.peaks.some((peak) => peak.id === peakId)) {
+    if (peakList.peaks.some((id) => id === peakId)) {
       listMatchIds.push(peakList.listId);
     }
   });
@@ -20,14 +20,13 @@ export const getMatchingListIds = (peakId: number, peakLists: IPeakList[]) => {
 export const getLogLists = (peakIds: number[], peakLists: IPeakList[]) => {
   return [
     ...new Set(
-      peakIds.flatMap((peakId) => getMatchingListIds(peakId, peakLists))
+      peakIds?.flatMap((peakId) => getMatchingListIds(peakId, peakLists))
     ),
   ];
 };
 
-export const getPeakById = (peakId: number, peakLists: IPeakList[]) => {
-  const uniquePeaks = [...new Set(peakLists.flatMap((list) => list.peaks))];
-  return uniquePeaks.find((peak) => peak.id === peakId);
+export const getPeakById = (peakId: number, peakLists: IPeak[]) => {
+  return peakLists.find((peak) => peak.id === peakId);
 };
 
 export const isPeakCompleted = (
@@ -62,12 +61,11 @@ export const getCompletedDate = (peakId: number, logEntries: ILogEntry[]) => {
 };
 
 export const getPeakNames = (
-  peakIdsArr: number[],
-  peakLists: IPeakList[] = []
+  peakIdsArr: number[] = [],
+  peaks: IPeak[] = []
 ) => {
-  const allPeaks = getAllUniquePeaks(peakLists);
   const peakNamesArr = peakIdsArr.map((peakId) => {
-    const peakMatch = allPeaks.find((peak) => peak.id === peakId);
+    const peakMatch = peaks.find((peak) => peak.id === peakId);
     return peakMatch?.name;
   });
   return peakNamesArr;
@@ -109,9 +107,10 @@ export const getLogStats = ({
   return { time, avgSpeed, avgElevation };
 };
 
-export const getPeaksById = (peakIds: number[], peakLists: IPeakList[]) => {
-  const allPeaks = getAllUniquePeaks(peakLists);
-  return peakIds
-    .map((peakId) => allPeaks.find((peak) => peak.id === peakId))
-    .filter((item): item is IPeak => !!item);
+export const getPeaksById = (peakIds: number[], allPeaks: IPeak[]) => {
+  return (
+    peakIds
+      ?.map((peakId) => allPeaks.find((peak) => peak.id === peakId))
+      .filter((item): item is IPeak => !!item) || []
+  );
 };

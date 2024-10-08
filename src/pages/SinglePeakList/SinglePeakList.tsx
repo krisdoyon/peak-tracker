@@ -14,6 +14,7 @@ import { useSavedListToggle } from "hooks/useSavedListToggle";
 import { usePeakList } from "hooks/usePeakList";
 import { plotList } from "features/mapSlice";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { usePeakListPeaks } from "hooks/usePeakListPeaks";
 
 export const SinglePeakList = () => {
   const [sort, setSort] = useState<SortType>(SortType.ELEVATION);
@@ -40,12 +41,14 @@ export const SinglePeakList = () => {
 
   const listCounts = useListCounts();
 
-  const displayPeaks = sortPeaks(peakList?.peaks, sort);
+  const matchingPeaks = usePeakListPeaks(listId);
+
+  const displayPeaks = sortPeaks(matchingPeaks, sort);
   const numCompleted = listCounts[listId] || 0;
 
   useEffect(() => {
     if (peakList) {
-      dispatch(plotList({ peaks: peakList.peaks, listId }));
+      dispatch(plotList({ peaks: matchingPeaks, listId }));
     }
   }, [peakList]);
 

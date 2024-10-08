@@ -4,6 +4,7 @@ export enum NavLinksEnum {
   LOG,
   STATS,
   NEW_ENTRY,
+  PLANNER,
 }
 
 export const navLinks = [
@@ -24,6 +25,12 @@ export const navLinks = [
     text: "Trip Log",
     icon: "book",
     active: NavLinksEnum.LOG,
+  },
+  {
+    to: "/planner",
+    text: "Planner",
+    icon: "clipboard",
+    active: NavLinksEnum.PLANNER,
   },
   {
     to: "/stats",

@@ -4,10 +4,10 @@ import {
 } from "features/apiSlice";
 import { resetForm } from "features/newEntrySlice";
 import { ILogEntry } from "models/interfaces";
-import { getLogStats, setLogEntryId } from "utils/peakUtils";
+import { setLogEntryId } from "utils/peakUtils";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
-import { useAppNavigate } from "./useAppNaviage";
 import { useNavigate } from "react-router-dom";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 export const useAddLogEntry = () => {
   const { userId, isLoggedIn, token } = useAppSelector((state) => state.auth);
@@ -21,6 +21,7 @@ export const useAddLogEntry = () => {
   const [addLogEntry] = useAddLogEntryMutation();
 
   const {
+    tripType,
     date,
     checkedPeaks,
     stats: { elevation, distance, hours, minutes },
@@ -38,20 +39,18 @@ export const useAddLogEntry = () => {
       alert("You must be logged in to add a new entry.");
       return;
     }
-    if (!date) {
-      alert("Please enter a complete date in the format MM-DD-YYY");
-      return;
-    }
-    if (
-      +date.slice(0, 4) < 1900 ||
-      new Date(date).getTime() > new Date().getTime()
-    ) {
-      alert(`Please enter a date between 01-01-1900 and today`);
-      return;
-    }
-    if (checkedPeaks.length === 0) {
-      alert("Please choose at least one peak from a list");
-      return;
+    if (tripType === TripType.COMPLETED) {
+      if (!date) {
+        alert("Please enter a complete date in the format MM-DD-YYY");
+        return;
+      }
+      if (
+        +date.slice(0, 4) < 1900 ||
+        new Date(date).getTime() > new Date().getTime()
+      ) {
+        alert(`Please enter a date between 01-01-1900 and today`);
+        return;
+      }
     }
     const logId =
       isEditing && editLogId
@@ -70,10 +69,15 @@ export const useAddLogEntry = () => {
       notes: notes,
       rating: rating || "",
       date,
+      tripType,
     };
     addLogEntry({ userId, newEntry, token });
     dispatch(resetForm());
-    navigate(`/log/${logId}`);
+    if (tripType === TripType.COMPLETED) {
+      navigate(`/log/${logId}`);
+    } else if (tripType === TripType.PLANNED) {
+      navigate(`/planner/${logId}`);
+    }
   };
 
   return { handleAdd };

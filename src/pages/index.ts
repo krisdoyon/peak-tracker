@@ -4,3 +4,4 @@ export { NewEntry } from "./NewEntry/NewEntry";
 export { Stats } from "./Stats/Stats";
 export { SinglePeakList } from "./SinglePeakList/SinglePeakList";
 export { SingleLogEntry } from "./SingleLogEntry/SingleLogEntry";
+export { Planner } from "./Planner/Planner";

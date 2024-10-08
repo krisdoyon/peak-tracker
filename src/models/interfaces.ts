@@ -1,3 +1,5 @@
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
+
 export interface IPeak {
   id: number;
   name: string;
@@ -10,7 +12,7 @@ export interface IPeak {
 export interface IPeakList {
   title: string;
   listId: string;
-  peaks: IPeak[];
+  peaks: number[];
   description: string;
 }
 
@@ -26,4 +28,5 @@ export interface ILogEntry {
   rating: number | "";
   logId: string;
   date: string;
+  tripType: TripType;
 }

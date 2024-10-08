@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { testLogEntries } from "assets/testLogEntries";
-import { ILogEntry, IPeakList } from "models/interfaces";
+import { ILogEntry, IPeakList, IPeak } from "models/interfaces";
 import { API_URL, SIGNUP_URL, LOGIN_URL } from "assets/config";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 type userId = string | null;
 type token = string | null;
@@ -18,19 +19,29 @@ export const apiSlice = createApi({
       transformResponse: (res: IPeakList[]) =>
         res.sort((a, b) => a.title.localeCompare(b.title)) ?? [],
     }),
-    getLogEntries: builder.query<ILogEntry[], { userId: userId; token: token }>(
-      {
+    getPeaks: builder.query<IPeak[], void>({
+      query: () => "/peaks.json",
+      transformResponse: (res: IPeak[]) => res ?? [],
+    }),
+    getLogEntries: builder.query<
+      ILogEntry[],
+      { userId: userId; token: token; tripType?: TripType }
+    >({
         query: ({ userId, token }) =>
           `/users/${userId}/logEntries.json?auth=${token}`,
-        transformResponse: (res: ILogEntry[]) => {
+      transformResponse: (res: ILogEntry[], meta, arg) => {
+        const { tripType } = arg;
           if (res === null) return [];
           return Object.keys(res)
             .map((key) => res[+key])
-            .filter((entry) => entry != null);
+          .filter(
+            (entry) =>
+              entry != null &&
+              (tripType === undefined || entry.tripType === tripType)
+          );
         },
         providesTags: ["logEntries"],
-      }
-    ),
+    }),
     getSavedLists: builder.query<string[], { userId: userId; token: token }>({
       query: ({ userId, token }) =>
         `/users/${userId}/savedLists.json?auth=${token}`,
@@ -172,6 +183,7 @@ export const apiSlice = createApi({
 });
 
 export const {
+  useGetPeaksQuery,
   useGetListsQuery,
   useGetLogEntriesQuery,
   useGetSavedListsQuery,

@@ -6,18 +6,24 @@ import { LogEntryGrid } from "./LogEntryGrid/LogEntryGrid";
 import { getDisplayDate } from "utils/getDisplayDate";
 import { useEffect, useState } from "react";
 import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
-import { useGetListsQuery, useRemoveLogEntryMutation } from "features/apiSlice";
+import {
+  useGetListsQuery,
+  useGetPeaksQuery,
+  useRemoveLogEntryMutation,
+} from "features/apiSlice";
 import { useLogEntry } from "hooks/useLogEntry";
 import { getPeaksById } from "utils/peakUtils";
 import { plotLogEntry } from "features/mapSlice";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { loadEntry } from "features/newEntrySlice";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 export const SingleLogEntry = () => {
   const { logId } = useParams() as { logId: string };
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
+  const { userId, token } = useAppSelector((state) => state.auth);
+  const { data: allPeaks = [] } = useGetPeaksQuery();
 
   const [removeLogEntry] = useRemoveLogEntryMutation();
 
@@ -27,7 +33,7 @@ export const SingleLogEntry = () => {
 
   useEffect(() => {
     if (entry && allPeakLists) {
-      const logPeaks = getPeaksById(entry.peakIds, allPeakLists);
+      const logPeaks = getPeaksById(entry.peakIds, allPeaks);
       dispatch(plotLogEntry(logPeaks));
     }
   }, [entry, allPeakLists]);
@@ -61,14 +67,18 @@ export const SingleLogEntry = () => {
     );
   }
 
-  const displayDate = getDisplayDate(entry.date);
+  const title =
+    entry.tripType === TripType.COMPLETED
+      ? getDisplayDate(entry.date)
+      : "Planned trip";
 
+  const backTo = entry.tripType === TripType.COMPLETED ? "log" : "planner";
   return (
     <Card>
-      <CardHeadingGrid title={displayDate} backTo={"log"}>
+      <CardHeadingGrid title={title} backTo={backTo}>
         <div className={headingStyles.row}>
-          <span>{`${entry.peakIds.length} ${
-            entry.peakIds.length > 1 ? "Peaks" : "Peak"
+          <span>{`${entry.peakIds?.length || 0} ${
+            entry.peakIds?.length === 1 ? "Peak" : "Peaks"
           }`}</span>
           <span>|</span>
           <div className={headingStyles["btn-wrapper"]}>

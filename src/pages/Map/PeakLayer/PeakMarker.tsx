@@ -9,6 +9,7 @@ import { getCompletedDate, isPeakCompleted } from "utils/peakUtils";
 import { useGetLogEntriesQuery } from "features/apiSlice";
 import React, { useEffect, useRef } from "react";
 import { useAppSelector } from "hooks/reduxHooks";
+import { TripType } from "pages/NewEntry/NewEntryType/NewEntryType";
 
 interface Props extends IPeak {
   isPopupOpen: boolean;
@@ -22,7 +23,7 @@ export const PeakMarker = React.memo(
     const ref = useRef<L.Marker | null>(null);
 
     const { data: allLogEntries = [] } = useGetLogEntriesQuery(
-      { userId, token },
+      { userId, token, tripType: TripType.COMPLETED },
       { skip: userId === null || !isLoggedIn || token === null }
     );
     const isCompleted = isPeakCompleted(id, allLogEntries);
