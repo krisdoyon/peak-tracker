@@ -14,7 +14,7 @@ export const useAddLogEntry = () => {
 
   const navigate = useNavigate();
   const { data: allLogEntries = [] } = useGetLogEntriesQuery(
-    {},
+    { userId, token },
     { skip: userId === null || !isLoggedIn || token === null },
   );
 
