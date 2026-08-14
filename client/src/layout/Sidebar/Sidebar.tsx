@@ -81,7 +81,7 @@ export const Sidebar = () => {
           className={styles.copyright}
           target="_blank"
         >
-          &copy; 2022 Kris Doyon
+          &copy; {new Date().getFullYear()} Kris Doyon
         </a>
       </div>
     </div>
