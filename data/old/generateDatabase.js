@@ -4,7 +4,7 @@ import * as fs from "fs";
 
 const outputfilePath = "G:/My Drive/Documents/Peak Tracker/mountains.xlsx";
 
-const inputPath = `${process.cwd()}/src/assets/data/json`;
+const inputPath = `${process.cwd()}/data/json`;
 
 const readPeakList = async (fileName) => {
   try {
