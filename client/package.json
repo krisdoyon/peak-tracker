@@ -1,0 +1,42 @@
+{
+  "name": "vite-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest --reporter verbose --coverage",
+    "test1": "vitest --ui --coverage.enabled --coverage.all --coverage.src='./src --coverage.reporter='html'"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.1",
+    "@tanstack/react-query": "^4.22.0",
+    "axios": "^1.2.3",
+    "leaflet": "^1.9.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-leaflet": "^4.2.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.6.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/jest": "^29.5.13",
+    "@types/leaflet": "^1.9.0",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
+    "@vitejs/plugin-react": "^4.3.2",
+    "@vitest/coverage-v8": "^2.1.2",
+    "@vitest/ui": "^2.1.2",
+    "jsdom": "^25.0.1",
+    "sass": "^1.57.1",
+    "typescript": "^4.9.3",
+    "vite": "^5.4.8",
+    "vite-tsconfig-paths": "^5.0.1",
+    "vitest": "^2.1.2"
+  }
+}

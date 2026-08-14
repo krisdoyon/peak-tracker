@@ -1,0 +1,30 @@
+{
+  "configurations": [
+    {
+      "name": "Run server",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["main:app"],
+      "cwd": "${workspaceFolder}/server",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Generate databases",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/data/generateDatabases.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Upload databases",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/data/uploadDatabases.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
+}
