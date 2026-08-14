@@ -1,4 +1,3 @@
-import { TEST_IDS } from "tests/testIds";
 import styles from "./CardBody.module.scss";
 
 interface Props {
@@ -8,10 +7,7 @@ interface Props {
 
 export const CardBody = ({ children, className }: Props) => {
   return (
-    <div
-      className={`${styles.wrapper} ${className ? className : ""}`}
-      data-testid={TEST_IDS.CARD_BODY}
-    >
+    <div className={`${styles.wrapper} ${className ? className : ""}`}>
       {children}
     </div>
   );

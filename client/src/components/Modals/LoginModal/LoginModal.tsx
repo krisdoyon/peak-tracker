@@ -8,7 +8,6 @@ import { closeModal } from "features/modalSlice";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
 import { SerializedError } from "@reduxjs/toolkit";
-import { TEST_IDS } from "tests/testIds";
 
 type AuthError = {
   status: number;
@@ -43,7 +42,7 @@ export const LoginModal = () => {
   };
 
   return (
-    <Modal className={styles.modal} testId={TEST_IDS.LOGIN_MODAL}>
+    <Modal className={styles.modal}>
       {isLoading && <LoadingSpinner />}
       {/* {error && <p>{error?.data?.error.message}</p>} */}
       {!isLoading && !error && (

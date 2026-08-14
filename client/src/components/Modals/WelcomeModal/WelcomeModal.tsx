@@ -6,7 +6,6 @@ import logoIcon from "assets/img/logo-icon.png";
 import { Button, IconButton } from "components/Buttons";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { ModalType, openModal } from "features/modalSlice";
-import { TEST_IDS } from "tests/testIds";
 
 export const WelcomeModal = () => {
   const { isLoggedIn } = useAppSelector((state) => state.auth);
@@ -17,7 +16,7 @@ export const WelcomeModal = () => {
   };
 
   return (
-    <Modal className={styles.modal} testId={TEST_IDS.WELCOME_MODAL}>
+    <Modal className={styles.modal}>
       <header className={styles.header}>
         <img
           className={styles["logo-icon"]}
