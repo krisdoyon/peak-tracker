@@ -10,7 +10,7 @@ export const usePeakListPeaks = (listId: string) => {
 
   if (peakList && "peaks" in peakList) {
     matchingPeaks = allPeaks.filter((allPeak) =>
-      peakList.peaks.some((peak) => peak === allPeak.id)
+      peakList.peaks.some((peak) => peak === allPeak.id),
     );
   }
 

@@ -5,7 +5,7 @@ export const useLogEntry = (logId: string) => {
   const { userId, token, isLoggedIn } = useAppSelector((state) => state.auth);
 
   const { data, isLoading, error } = useGetLogEntriesQuery(
-    {},
+    { userId, token },
     {
       skip: userId === null || !isLoggedIn || token === null,
       selectFromResult: ({ data, error, isLoading }) => {

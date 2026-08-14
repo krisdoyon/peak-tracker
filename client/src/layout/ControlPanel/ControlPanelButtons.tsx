@@ -65,7 +65,7 @@ export const PlotCompletedButton = () => {
   const { data: allPeaks = [] } = useGetPeaksQuery();
 
   const { data: logEntries = [] } = useGetLogEntriesQuery(
-    { tripType: TripType.COMPLETED },
+    { userId, token, tripType: TripType.COMPLETED },
     { skip: userId === null || !isLoggedIn || token === null },
   );
   const completedPeaks = allPeaks.filter((peak) =>

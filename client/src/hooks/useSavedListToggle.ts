@@ -10,7 +10,7 @@ export const useSavedListToggle = (listId: string) => {
 
   const { data: savedLists = [] } = useGetSavedListsQuery(
     { userId, token },
-    { skip: userId === null || !isLoggedIn || token === null }
+    { skip: userId === null || !isLoggedIn || token === null },
   );
   const [updateSavedLists] = useUpdateSavedListsMutation();
 

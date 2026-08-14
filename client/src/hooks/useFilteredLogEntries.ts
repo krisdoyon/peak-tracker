@@ -8,7 +8,7 @@ export const useFilteredLogEntries = () => {
 
   const filters = useAppSelector((state) => state.filters);
   const { data: allLogEntries = [] } = useGetLogEntriesQuery(
-    { tripType: TripType.COMPLETED },
+    { userId, token, tripType: TripType.COMPLETED },
     { skip: userId === null || !isLoggedIn || token === null },
   );
   const { data: allPeakLists = [] } = useGetListsQuery();

@@ -7,11 +7,7 @@ import { PeakListPreview } from "./PeakListPreview/PeakListPreview";
 import { usePagination } from "hooks/usePagination";
 import { NoData } from "components/NoData/NoData";
 import { LoadingSpinner } from "components/LoadingSpinner/LoadingSpinner";
-import {
-  useGetListsQuery,
-  useGetLogEntriesQuery,
-  useGetSavedListsQuery,
-} from "features/apiSlice";
+import { useGetListsQuery, useGetSavedListsQuery } from "features/apiSlice";
 import { useListCounts } from "hooks/useListCounts";
 
 import { useAppSelector } from "hooks/reduxHooks";
@@ -51,7 +47,7 @@ export const PeakLists = () => {
     isError: isSavedListsError,
   } = useGetSavedListsQuery(
     { userId, token },
-    { skip: userId === null || !isLoggedIn }
+    { skip: userId === null || !isLoggedIn },
   );
 
   const isLoading = isListsLoading || isSavedListsLoading;

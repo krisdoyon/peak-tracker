@@ -1,4 +1,3 @@
-import { getMatchingListIds } from "utils/peakUtils";
 import { useGetListsQuery } from "features/apiSlice";
 import { useAllCompletedPeaks } from "./useAllCompletedPeaks";
 

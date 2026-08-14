@@ -25,14 +25,14 @@ export const Planner = () => {
     error,
   } = useGetLogEntriesQuery(
     { userId, token, tripType: TripType.PLANNED },
-    { skip: userId === null || !isLoggedIn || token === null }
+    { skip: userId === null || !isLoggedIn || token === null },
   );
 
   // const filteredEntries = useFilteredLogEntries();
 
   const { page, maxPage, nextPage, prevPage, displayArr } = usePagination(
     allPlannedTrips,
-    6
+    6,
   );
 
   // useFiltersReset();

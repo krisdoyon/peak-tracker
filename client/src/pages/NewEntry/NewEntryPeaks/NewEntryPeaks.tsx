@@ -3,7 +3,6 @@ import formStyles from "../NewEntry.module.scss";
 import sprite from "assets/img/sprite.svg";
 import { useEffect } from "react";
 import { sortPeaks, SortType } from "utils/sortPeaks";
-import { usePeakList } from "hooks/usePeakList";
 import { useGetListsQuery } from "features/apiSlice";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { closePopup, openPopup, plotList } from "features/mapSlice";
@@ -82,7 +81,7 @@ export const NewEntryPeaks = () => {
                         toggleCheckedPeak({
                           peakId: peak.id,
                           checked: e.target.checked,
-                        })
+                        }),
                       )
                     }
                     checked={isChecked}

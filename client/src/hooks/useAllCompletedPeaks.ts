@@ -17,7 +17,7 @@ export const useAllCompletedPeaks = () => {
     );
   }, []);
   const { data: completedPeaks = [] } = useGetLogEntriesQuery(
-    { tripType: TripType.COMPLETED },
+    { userId, token, tripType: TripType.COMPLETED },
     {
       skip: userId === null || !isLoggedIn || token === null,
       selectFromResult: (res) => ({

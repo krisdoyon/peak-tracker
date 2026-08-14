@@ -24,7 +24,7 @@ export const PeakMarker = React.memo(
 
     const { data: allLogEntries = [] } = useGetLogEntriesQuery(
       { userId, token, tripType: TripType.COMPLETED },
-      { skip: userId === null || !isLoggedIn || token === null }
+      { skip: userId === null || !isLoggedIn || token === null },
     );
     const isCompleted = isPeakCompleted(id, allLogEntries);
     const completedDate = getCompletedDate(id, allLogEntries);
@@ -72,5 +72,5 @@ export const PeakMarker = React.memo(
         </Popup>
       </Marker>
     );
-  }
+  },
 );

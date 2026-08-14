@@ -22,14 +22,14 @@ export const Log = () => {
     error,
   } = useGetLogEntriesQuery(
     { userId, token, tripType: TripType.COMPLETED },
-    { skip: userId === null || !isLoggedIn || token === null }
+    { skip: userId === null || !isLoggedIn || token === null },
   );
 
   const filteredEntries = useFilteredLogEntries();
 
   const { page, maxPage, nextPage, prevPage, displayArr } = usePagination(
     filteredEntries,
-    6
+    6,
   );
 
   useFiltersReset();

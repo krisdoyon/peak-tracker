@@ -28,7 +28,7 @@ export const SinglePeakList = () => {
     error: listsError,
   } = useGetSavedListsQuery(
     { userId, token },
-    { skip: userId === null || !isLoggedIn || token === null }
+    { skip: userId === null || !isLoggedIn || token === null },
   );
 
   const {

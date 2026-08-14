@@ -4,11 +4,7 @@ import { IconButton, ViewButton } from "components/Buttons";
 import { ILogEntry } from "models/interfaces";
 import { getDisplayDate } from "utils/getDisplayDate";
 import { getPeakNames } from "utils/peakUtils";
-import {
-  useGetListsQuery,
-  useGetPeaksQuery,
-  useRemoveLogEntryMutation,
-} from "features/apiSlice";
+import { useGetPeaksQuery, useRemoveLogEntryMutation } from "features/apiSlice";
 import { useAppSelector } from "hooks/reduxHooks";
 import { useAppNavigate } from "hooks/useAppNaviage";
 import { TripType } from "models/interfaces";
